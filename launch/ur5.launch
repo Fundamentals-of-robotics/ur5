@@ -1,0 +1,4 @@
+<launch>
+  <node name="motion_planner" pkg="ur5" type="motion_planner" output="screen"/>
+  <node name="task_planner" pkg="ur5" type="task_planner" output="screen"/>
+</launch>

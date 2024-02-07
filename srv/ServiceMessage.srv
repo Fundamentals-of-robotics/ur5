@@ -1,0 +1,13 @@
+float64 xef1
+float64 xef2
+float64 xef3
+float64 phief1
+float64 phief2
+float64 phief3
+int32 end
+float64 gripper
+int32 ack
+
+---
+
+int32 error
