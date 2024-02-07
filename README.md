@@ -57,4 +57,4 @@ Stefano Camposilvan
 
 Pier Guido
 
-Pietro  [202099] - pietro.giannini@studenti.unitn.it
+Pietro Giannini  [202099] - pietro.giannini@studenti.unitn.it
