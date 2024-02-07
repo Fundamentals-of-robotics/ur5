@@ -8,14 +8,18 @@ anthropomorphic arm, with a spherical wrist and a two-fingered gripper as end-ef
 
 The objects can belong to different classes but have a known geometry. 
 
-The objective of the project is to use the manipulator to pick the objects in sequence and to position them on a different stand according to a specified order. A calibrated 3D sensor is used to locate the different objects and to detect their position in the initial stand. 
+The objective of the project is to use the manipulator to pick the objects in sequence and to position them on a different stand according to a specified order. 
+
+A calibrated 3D sensor is used to locate the different objects and to detect their position in the initial stand. 
 
 ## List of contents
 - [Installation and Configuration](#installation)
 - [Contributions](#contributions)
+
 ## Installation and Configuration
 
 ### Install the environment
+
 There are few possible ways to install the environment
 
 [Docker](https://github.com/mfocchi/lab-docker)
@@ -26,35 +30,43 @@ There are few possible ways to install the environment
 
 ### Repository
 
-Clone the Repository:
-
+Install the Eigen library:
 ```bash
+  sudo apt install libeigen3-dev
+```
+
+Clone the repository inside the __catkin_ws/src__ folder:
+```bash
+  cd catkin_ws/src
   git clone https://github.com/Fundamentals-of-robotics/robotics-project.git
 ```
 
-Inside __ros_ws__ folder type:
+Inside __catkin_ws__ folder type:
 ```bash
-  catkin_make install
+  cd ..
+  catkin_make
 ```
 
-And finally, in the __ros_ws/src__ folder:
+And finally, in the __catkin_ws/src__ folder:
 ```bash
-  source deve/setup.bash
+  source devel/setup.bash
 ```
 To make sure that the env variables are updated.
 
 ### Start the nodes
-Inside the terminal, navigate to __row_ws__ folder and type:
+
+Inside the terminal, navigate to __catkin_ws__ folder and type:
 ```bash
   roslaunch ur5 ur5.launch
 ```
 This command will launch automatically all the nodes (vision, task and motion).
+
 ## Contributions
 
-Dorijan Di Zepp [226865] - dorijan.dizepp@studenti.unitn.it
+Pier Guido Seno [227485] pierguido.seno@studenti.unitn.it
+
+Pietro Giannini [202099] pietro.giannini@studenti.unitn.it
 
 Stefano Camposilvan
 
-Pier Guido
-
-Pietro Giannini  [202099] - pietro.giannini@studenti.unitn.it
+Dorijan Di Zepp [226865] - dorijan.dizepp@studenti.unitn.it 
