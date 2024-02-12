@@ -160,6 +160,19 @@ This command will launch automatically all the nodes (vision, task and motion).
 
 In the terminal, a series of debugging information will be printed to keep track of the actual state of the manipulator.
 
+### Intermediate point & Damping factor
+The project implements two different solutions. 
+To select a specific solution, modify the value at line **25** of **ur5_motion_linrary.h** as follow:
+```c++
+  #define INTERMEDIATE_POINT 0 //to use the dynamic damping factor
+  #define INTERMEDIATE_POINT 1 //to use the intermediate point
+```
+
+and then compile the project as always:
+```bash
+  catkin_make install
+```
+
 ## Contributions
 
 Pier Guido Seno [227485] pierguido.seno@studenti.unitn.it
