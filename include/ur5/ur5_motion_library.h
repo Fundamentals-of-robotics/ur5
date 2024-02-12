@@ -196,7 +196,7 @@ class InverseDifferential
          * @param TH0 the initial joint configuration
          * @param T vector containing the time intervals
          * @param Kp correction matrix for the velocity component
-         * @param Kphi correction mateix for the orientation component
+         * @param Kphi correction matrix for the orientation component
          * 
          * @return a list of joint configuration for each time interval
          */

@@ -412,7 +412,7 @@ VectorXd InverseDifferential::invDiffKinematicControl(VectorXd qk, Vector3d xe, 
     #else
     //dyanmic damping factor using eigenvalues
     if(determinant<1e-2){
-        if((counter++)==0   ROS_INFO("NEAR SINGULARITY");
+        if((counter++)==0   ROS_INFO("NEAR SINGULARITY"));
         
         VectorXd eigenvalues = (J * J.transpose()).eigenvalues().real();
         double dampingFactor = DAMPING_FACTOR / eigenvalues.maxCoeff();

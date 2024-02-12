@@ -104,6 +104,7 @@ Now you need to install the components to load and run the YOLOv5 model
   cd yolov5
   pip3 install -r requirements.txt
   pip install torchvision
+  pip install scikit-learn
 ```
 After that, compile as done before with: 
 ```bash
@@ -129,13 +130,10 @@ __ros_ws/src/locosim/robot_control/base_controllers/params.py__ at **line 45**, 
   'gripper_sim': True, # False: the gripper is treated as a Rigid Body
 ```                  
 
-To select a specfic **world file**, so that different blocks will spawn on the table, rewrite the **line 71** of the file **ros_ws/src/locosim/robot_control/base_controllers/ur5_generic.py** as
+Rewrite the **line 71** of the file **ros_ws/src/locosim/robot_control/base_controllers/ur5_generic.py** as
 
 ```python
-  self.world_name = <name_of_the_world_file>.world
-
-  #for example
-  self.world_name = tavolo_blocks_1.world
+  self.world_name = project_table.world
 ```
 At the end, go to the directory ros_ws and use the following commands: 
 

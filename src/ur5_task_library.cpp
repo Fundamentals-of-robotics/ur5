@@ -10,25 +10,16 @@ void stateHandler(State &state,ros::NodeHandle n){
             //ask the 3d cam for the blocks' position
             //at the moment, as there is no vision node, we manually
             //initialize the pose of each block
-        
-          
-
             ros::ServiceClient service2 = n.serviceClient<service_test::VisionService>("Vision");
             service_test::VisionService srv2;
 
             srv2.request.start=true;
             
-           
-            
-                
             while(!service2.call(srv2) && ros::ok()); 
-            
             
             for(int i=0;i<srv2.response.n_blocks;i++){            
                blockSet(srv2.response.block_position[i].x,srv2.response.block_position[i].y,srv2.response.block_position[i].z);    
             }
-            
-            
 
             //convert coordinates from world to robot frame
             for(int i=0;i<n_blocks;i++){
@@ -38,8 +29,7 @@ void stateHandler(State &state,ros::NodeHandle n){
                 cout<<"pos2 "<<class_of_block[i]<<":  "<< pos[i](0)<<" "<<  pos[i](1)<<" "<< pos[i](2)<<endl;
                 cout<<"phi2 "<<class_of_block[i]<<":  "<< phi[i](0)<<" "<<  phi[i](1)<<" "<< phi[i](2)<<endl<<endl;
             }
-            
-            
+                      
             ROS_INFO("block_request");
             state=block_request;
 
@@ -160,10 +150,7 @@ void stateHandler(State &state,ros::NodeHandle n){
             srv.request.gripper=gripper;
             srv.request.end=final_end;
             srv.request.ack=0;
-
-            
-            
-                
+              
             while(!service.call(srv));//wait until response 
             error=srv.response.error;
 
@@ -614,6 +601,4 @@ void blockSet(double x,double y,double z){
         
     }
     
-
 }
-
