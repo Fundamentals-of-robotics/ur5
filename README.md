@@ -162,7 +162,7 @@ In the terminal, a series of debugging information will be printed to keep track
 
 ### Intermediate point & Damping factor
 The project implements two different solutions. 
-To select a specific solution, modify the value at line **25** of **ur5_motion_linrary.h** as follow:
+To select a specific solution, modify the value at line **25** of **ross_ws/src/ur5/include/ur5/ur5_motion_library.h** as follow:
 ```c++
   #define INTERMEDIATE_POINT 0 //to use the dynamic damping factor
   #define INTERMEDIATE_POINT 1 //to use the intermediate point
