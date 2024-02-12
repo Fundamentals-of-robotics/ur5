@@ -99,7 +99,7 @@ After that, compile as done before with:
 ## Vision setup
 Now you need to install the components to load and run the YOLOv5 model
 ```bash
-  cd ~ros_ws/src/ur5/vision
+  cd ~/ros_ws/src/ur5/vision
   git clone https://github.com/ultralytics/yolov5.git
   cd yolov5
   pip3 install -r requirements.txt
