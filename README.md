@@ -158,6 +158,11 @@ After the homing procedure has finished (you can see it printed on the terminal)
 ```
 This command will launch automatically all the nodes (vision, task and motion).
 
+If the launch fails, try to give the executable to the **src/vision_node.py**:
+```bash
+  chmod +x src/vision_node.py
+```
+
 In the terminal, a series of debugging information will be printed to keep track of the actual state of the manipulator.
 
 ### Intermediate point & Damping factor
