@@ -1,5 +1,5 @@
 \doxysection{task\+\_\+planner.\+cpp}
-\hypertarget{task__planner_8cpp_source}{}\label{task__planner_8cpp_source}\index{src/task\_planner.cpp@{src/task\_planner.cpp}}
+\hypertarget{task__planner_8cpp_source}{}\label{task__planner_8cpp_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/src/task\_planner.cpp@{C:/Users/dorij/OneDrive/Desktop/ur5/src/task\_planner.cpp}}
 \mbox{\hyperlink{task__planner_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ur5__task__library_8h}{ur5/ur5\_task\_library.h}}"{}}}
@@ -8,18 +8,29 @@
 \DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00004}00004\ \ \ \ \ ros::init(argc,\ argv,\ \textcolor{stringliteral}{"{}task\_planner"{}});}
 \DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00005}00005\ \ \ \ \ ros::NodeHandle\ n;}
 \DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//set\ initial\ state\ and\ number\ of\ blocks\ to\ be\ moved}}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00008}00008\ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc}{start}};}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00009}00009\ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa43f798d01b3737cb995df3d06d6245c}{n\_classes}}=5;}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00010}00010\ }
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00011}00011\ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa6371382c6b4224e577e14ea610ab9a9}{iteration}}=1;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//used\ for\ synchronization\ of\ the\ service}}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00012}00012\ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a52bb2966f0988211ed5cef6ed0d16196}{actual\_iteration}}=0;}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//initialize\ convertion\ matrix}}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00008}00008\ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a746c3d4c60c58fb15b07a917b8fd72b3}{WORLD\_TO\_ROBOT}}\ <<\ 1,\ 0,\ 0,\ \mbox{\hyperlink{ur5__task__library_8h_a8579272c1629ca4ab59827303c42f2f7}{WORLD\_TO\_ROBOT\_X}},}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ -\/1,\ 0,\ \mbox{\hyperlink{ur5__task__library_8h_af7372396aaf2993e0c39b0f6350c4a9f}{WORLD\_TO\_ROBOT\_Y}},}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ 0,\ -\/1,\ \mbox{\hyperlink{ur5__task__library_8h_a31199c37d026000a5030df9198976b74}{WORLD\_TO\_ROBOT\_Z}},}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ 0,\ 0,\ 1;}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00012}00012\ }
 \DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00013}00013\ }
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00014}00014\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}!=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}}\ \&\&\ ros::ok())\{}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a27322d3e02e036a55a58ff0a38785621}{gestisciStato}}(\mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}},n);\ }
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00016}00016\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00017}00017\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00019}00019\ \}}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00014}00014\ \ \ \ \ \textcolor{comment}{//set\ initial\ state\ and\ number\ of\ blocks\ to\ be\ moved}}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00015}00015\ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc}{start}};}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00016}00016\ \ \ \ \ \textcolor{comment}{//\ n\_classes=6;///<\ set\ the\ number\ of\ blocks\ that\ are\ positioned\ on\ the\ workspace}}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00018}00018\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00020}00020\ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Starting\ task\ planner"{}});}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{while}(\mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}!=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}}\ \&\&\ ros::ok())\{}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a314d65e5c6b186779332124fa865880a}{stateHandler}}(\mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}},n);\ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00025}00025\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00026}00026\ \ \ \ \ ros::Duration(1).sleep();}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00027}00027\ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Terminating\ task\ planner"{}});}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{task__planner_8cpp_source_l00030}00030\ \}}
 
 \end{DoxyCode}

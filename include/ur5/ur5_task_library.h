@@ -11,6 +11,9 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include "ur5/ServiceMessage.h"
+#include "service_test/VisionService.h"
+#include "geometry_msgs/Point.h"
+#include "geometry_msgs/Vector3.h"
 #include <string.h>
 #include <math.h>
 #include <algorithm>
@@ -24,7 +27,7 @@ using namespace Eigen;
 /** 
  * define all the possible states in which the robot can be
 */
-enum stato{
+enum State{
     start,///< ask vision node to scan for blocks
     block_take,///< get a block
     high_block_take,///< going to take the block in elevated z
@@ -37,33 +40,33 @@ enum stato{
     no_more_blocks///< no more blocks, terminate
 };
 
-const double GRIPPER_CLOSE=-0.0639;///< value of closed gripper
-const double GRIPPER_OPEN = 0.3;///< value of open gripper
-const double GRASPING_HEIGHT=1.025;///< safe height to take the block
-const double SAFE_Z_MOTION = 0.6;///< used for the intermediate movement between initial and final position
+double GRIPPER_CLOSE;///< value of closed gripper
+double GRIPPER_OPEN;//< value of open gripper
+double GRASPING_HEIGHT;///< safe height to take the block
+const double SAFE_Z_MOTION = 0.55;///< used for the intermediate movement between initial and final position
 const double SCALAR_FACTOR = 1.0;
 
-Vector3d euler,position;       
-Vector3d pos[5];
-Vector3d phi[5];
+//Vector3d euler,position;       
+Vector3d pos[6];
+Vector3d phi[6];
+double blocks[6]={0,0,0,0,0,0};///< array used for the calibration function
 double xef[3];///< position end effector to give to the motion
 Vector3d xef_class;///< position vector used for the class
 double phief[3];///< phi end effector to give to the motion
 Vector3d phief_class;///< phi vector used for the class
 double gripper;///< actual value of the gripper
 
-int n_classes;///< number of blocks to grab
-int class_of_block[5];//6 values for 6 classes of blocks [1-6]
+int n_blocks=0;///< number of blocks to grab
+string class_of_block[6];//6 values for 6 classes of blocks [1-6]
 int k=0;//variable used in iteration
 int error;///< 0:successfull motion  -- 1:unreachable block  -- 2:error in motion
 
 const int ack=0;//variable used for service synchronization
-int actual_ack=0;//variable used for service synchronization
-int iteration;//variable used for service synchronization
-int actual_iteration;//variable used for service synchronization
 
-stato state;///< current state
-stato next_state;///< next state used if some problems arrises
+
+
+State state;///< current state
+State next_state;///< next state used if some problems arrises
 int final_end=0;
 
 /**
@@ -82,7 +85,18 @@ Matrix4d WORLD_TO_ROBOT;///< rotation matrix to convert the coordinates of the w
  * @param state the state in which the machine is at the moment
  * @param n the node handler to make request to the motion service
  */
-void gestisciStato(stato &state,ros::NodeHandle n);
+void stateHandler(State &state,ros::NodeHandle n);
+
+
+/**
+ * the function implements a calibration of the values received by the
+ * vision node. We need this function for the precision required by the motion planner 
+ * 
+ * @param x x position received by the vision node
+ * @param y y position received by the vision node
+ * @param z z position received by the vision node
+ */
+void blockSet(double x,double y,double z);
 
 /**
  * given the pose of a block in the world frame, return the pose of the same

@@ -1,0 +1,366 @@
+\doxysection{dataloaders.\+py}
+\hypertarget{segment_2dataloaders_8py_source}{}\label{segment_2dataloaders_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/dataloaders.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/dataloaders.py}}
+\mbox{\hyperlink{segment_2dataloaders_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Dataloaders."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00004}00004\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00005}00005\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00007}00007\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00008}00008\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00009}00009\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00010}00010\ \textcolor{keyword}{from}\ torch.utils.data\ \textcolor{keyword}{import}\ DataLoader,\ distributed}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00012}00012\ \textcolor{keyword}{from}\ ..augmentations\ \textcolor{keyword}{import}\ augment\_hsv,\ copy\_paste,\ letterbox}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00013}00013\ \textcolor{keyword}{from}\ ..dataloaders\ \textcolor{keyword}{import}\ InfiniteDataLoader,\ LoadImagesAndLabels,\ SmartDistributedSampler,\ seed\_worker}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00014}00014\ \textcolor{keyword}{from}\ ..general\ \textcolor{keyword}{import}\ LOGGER,\ xyn2xy,\ xywhn2xyxy,\ xyxy2xywhn}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00015}00015\ \textcolor{keyword}{from}\ ..torch\_utils\ \textcolor{keyword}{import}\ torch\_distributed\_zero\_first}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00016}00016\ \textcolor{keyword}{from}\ .augmentations\ \textcolor{keyword}{import}\ mixup,\ random\_perspective}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00018}\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_ab8bc6f344c88acf2f5e72f5562b05596}{00018}}\ RANK\ =\ int(os.getenv(\textcolor{stringliteral}{"{}RANK"{}},\ -\/1))}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00021}\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a8d1d501197357a576d2a5b371cf92161}{00021}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a8d1d501197357a576d2a5b371cf92161}{create\_dataloader}}(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00022}00022\ \ \ \ \ path,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00023}00023\ \ \ \ \ imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00024}00024\ \ \ \ \ batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00025}00025\ \ \ \ \ stride,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00026}00026\ \ \ \ \ single\_cls=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00027}00027\ \ \ \ \ hyp=None,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00028}00028\ \ \ \ \ augment=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00029}00029\ \ \ \ \ cache=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00030}00030\ \ \ \ \ pad=0.0,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00031}00031\ \ \ \ \ rect=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00032}00032\ \ \ \ \ rank=-\/1,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00033}00033\ \ \ \ \ workers=8,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00034}00034\ \ \ \ \ image\_weights=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00035}00035\ \ \ \ \ quad=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00036}00036\ \ \ \ \ prefix="{}"{},}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00037}00037\ \ \ \ \ shuffle=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00038}00038\ \ \ \ \ mask\_downsample\_ratio=1,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00039}00039\ \ \ \ \ overlap\_mask=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00040}00040\ \ \ \ \ seed=0,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00041}00041\ ):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{if}\ rect\ \textcolor{keywordflow}{and}\ shuffle:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ LOGGER.warning(\textcolor{stringliteral}{"{}WARNING\ ⚠️\ -\/-\/rect\ is\ incompatible\ with\ DataLoader\ shuffle,\ setting\ shuffle=False"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ shuffle\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{with}\ torch\_distributed\_zero\_first(rank):\ \ \textcolor{comment}{\#\ init\ dataset\ *.cache\ only\ once\ if\ DDP}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ dataset\ =\ \mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks}{LoadImagesAndLabelsAndMasks}}(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ path,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ augment=augment,\ \ \textcolor{comment}{\#\ augmentation}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ hyp=hyp,\ \ \textcolor{comment}{\#\ hyperparameters}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ rect=rect,\ \ \textcolor{comment}{\#\ rectangular\ batches}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ cache\_images=cache,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ single\_cls=single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ stride=int(stride),}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ pad=pad,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ image\_weights=image\_weights,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ prefix=prefix,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ downsample\_ratio=mask\_downsample\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ overlap=overlap\_mask,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ rank=rank,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00064}00064\ \ \ \ \ batch\_size\ =\ min(batch\_size,\ len(dataset))}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00065}00065\ \ \ \ \ nd\ =\ torch.cuda.device\_count()\ \ \textcolor{comment}{\#\ number\ of\ CUDA\ devices}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00066}00066\ \ \ \ \ nw\ =\ min([os.cpu\_count()\ //\ max(nd,\ 1),\ batch\_size\ \textcolor{keywordflow}{if}\ batch\_size\ >\ 1\ \textcolor{keywordflow}{else}\ 0,\ workers])\ \ \textcolor{comment}{\#\ number\ of\ workers}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00067}00067\ \ \ \ \ sampler\ =\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ rank\ ==\ -\/1\ \textcolor{keywordflow}{else}\ \mbox{\hyperlink{classutils_1_1dataloaders_1_1_smart_distributed_sampler}{SmartDistributedSampler}}(dataset,\ shuffle=shuffle)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00068}00068\ \ \ \ \ loader\ =\ DataLoader\ \textcolor{keywordflow}{if}\ image\_weights\ \textcolor{keywordflow}{else}\ InfiniteDataLoader\ \ \textcolor{comment}{\#\ only\ DataLoader\ allows\ for\ attribute\ updates}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00069}00069\ \ \ \ \ generator\ =\ torch.Generator()}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00070}00070\ \ \ \ \ generator.manual\_seed(6148914691236517205\ +\ seed\ +\ RANK)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{return}\ loader(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ dataset,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ batch\_size=batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ shuffle=shuffle\ \textcolor{keywordflow}{and}\ sampler\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ num\_workers=nw,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ sampler=sampler,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ pin\_memory=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ collate\_fn=LoadImagesAndLabelsAndMasks.collate\_fn4\ \textcolor{keywordflow}{if}\ quad\ \textcolor{keywordflow}{else}\ LoadImagesAndLabelsAndMasks.collate\_fn,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ worker\_init\_fn=seed\_worker,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ generator=generator,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00081}00081\ \ \ \ \ ),\ dataset}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00084}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks}{00084}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks}{LoadImagesAndLabelsAndMasks}}(\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels}{LoadImagesAndLabels}}):\ \ \textcolor{comment}{\#\ for\ training/testing}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00085}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a39f91fdf4f38f6952e883559e018a2be}{00085}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a39f91fdf4f38f6952e883559e018a2be}{\_\_init\_\_}}(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ path,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ img\_size=640,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ batch\_size=16,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ augment=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ hyp=None,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ rect=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ image\_weights=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ cache\_images=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ single\_cls=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ stride=32,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ pad=0,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ min\_items=0,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ prefix="{}"{},}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ downsample\_ratio=1,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ overlap=False,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ rank=-\/1,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ seed=0,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00104}00104\ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a39f91fdf4f38f6952e883559e018a2be}{\_\_init\_\_}}(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ path,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ img\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ augment,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ hyp,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ rect,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ image\_weights,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ cache\_images,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ stride,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ pad,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ min\_items,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ prefix,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ rank,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ seed,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00122}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{00122}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\_ratio}}\ =\ downsample\_ratio}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00123}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}{00123}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}{overlap}}\ =\ overlap}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00125}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a47da079cbeeecf41ecd48763b7749584}{00125}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a47da079cbeeecf41ecd48763b7749584}{\_\_getitem\_\_}}(self,\ index):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ index\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a47a24fb55010b45e7e863834344ff809}{indices}}[index]\ \ \textcolor{comment}{\#\ linear,\ shuffled,\ or\ image\_weights}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ hyp\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ mosaic\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aecad2b4b731326aa073b5cdaaaa42c87}{mosaic}}\ \textcolor{keywordflow}{and}\ random.random()\ <\ hyp[\textcolor{stringliteral}{"{}mosaic"{}}]}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ masks\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ mosaic:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ mosaic}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ img,\ labels,\ segments\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a6610f7b878a6088e3c476b9dde13c85d}{load\_mosaic}}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642}{load\_mosaic}}(index)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ shapes\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ MixUp\ augmentation}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ random.random()\ <\ hyp[\textcolor{stringliteral}{"{}mixup"{}}]:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img,\ labels,\ segments\ =\ mixup(img,\ labels,\ segments,\ *self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a6610f7b878a6088e3c476b9dde13c85d}{load\_mosaic}}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642}{load\_mosaic}}(random.randint(0,\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a18d2380cd9dbbfb97b9144fa61f0257f}{n}}\ -\/\ 1)))}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ image}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ img,\ (h0,\ w0),\ (h,\ w)\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ad7355c09718eacd1e94296447e55ea8a}{load\_image}}(index)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Letterbox}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ shape\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a63a772948a9add3d46a2a15d087b3c3d}{batch\_shapes}}[self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ac094011a6d5fbbd57684856d17ba8fa3}{batch}}[index]]\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8ee5d25bf251c3f9876adb21db5c04d0}{rect}}\ \textcolor{keywordflow}{else}\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aaf2b9425db6c2fd723025393e181d3e3}{img\_size}}\ \ \textcolor{comment}{\#\ final\ letterboxed\ shape}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ img,\ ratio,\ pad\ =\ letterbox(img,\ shape,\ auto=\textcolor{keyword}{False},\ scaleup=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_afe3013a59e9113d4007d92d3927c8235}{augment}})}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ shapes\ =\ (h0,\ w0),\ ((h\ /\ h0,\ w\ /\ w0),\ pad)\ \ \textcolor{comment}{\#\ for\ COCO\ mAP\ rescaling}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a843c4c56e009b9d10da92c54324d5888}{labels}}[index].copy()}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ [array,\ array,\ ....],\ array.shape=(num\_points,\ 2),\ xyxyxyxy}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ segments\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a26a6a58e1558930199cd96b5dc4adfb8}{segments}}[index].copy()}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(segments):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\_s\ \textcolor{keywordflow}{in}\ range(len(segments)):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segments[i\_s]\ =\ xyn2xy(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segments[i\_s],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ratio[0]\ *\ w,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ratio[1]\ *\ h,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ padw=pad[0],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ padh=pad[1],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels.size:\ \ \textcolor{comment}{\#\ normalized\ xywh\ to\ pixel\ xyxy\ format}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels[:,\ 1:]\ =\ xywhn2xyxy(labels[:,\ 1:],\ ratio[0]\ *\ w,\ ratio[1]\ *\ h,\ padw=pad[0],\ padh=pad[1])}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_afe3013a59e9113d4007d92d3927c8235}{augment}}:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img,\ labels,\ segments\ =\ random\_perspective(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segments=segments,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ degrees=hyp[\textcolor{stringliteral}{"{}degrees"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ translate=hyp[\textcolor{stringliteral}{"{}translate"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scale=hyp[\textcolor{stringliteral}{"{}scale"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ shear=hyp[\textcolor{stringliteral}{"{}shear"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ perspective=hyp[\textcolor{stringliteral}{"{}perspective"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ nl\ =\ len(labels)\ \ \textcolor{comment}{\#\ number\ of\ labels}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nl:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ labels[:,\ 1:5]\ =\ xyxy2xywhn(labels[:,\ 1:5],\ w=img.shape[1],\ h=img.shape[0],\ clip=\textcolor{keyword}{True},\ eps=1e-\/3)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}{overlap}}:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masks,\ sorted\_idx\ =\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_ab312b88ccebc965e85a17ab92a9573c1}{polygons2masks\_overlap}}(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img.shape[:2],\ segments,\ downsample\_ratio=self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\_ratio}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masks\ =\ masks[\textcolor{keywordtype}{None}]\ \ \textcolor{comment}{\#\ (640,\ 640)\ -\/>\ (1,\ 640,\ 640)}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ labels[sorted\_idx]}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masks\ =\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_af7dd8ba0f2f2a8cd62d444ebdfcdd7da}{polygons2masks}}(img.shape[:2],\ segments,\ color=1,\ downsample\_ratio=self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\_ratio}})}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ masks\ =\ (}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ torch.from\_numpy(masks)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(masks)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ torch.zeros(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}{overlap}}\ \textcolor{keywordflow}{else}\ nl,\ img.shape[0]\ //\ self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\_ratio}},\ img.shape[1]\ //\ self.\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\_ratio}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TODO:\ albumentations\ support}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_afe3013a59e9113d4007d92d3927c8235}{augment}}:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Albumentations}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ there\ are\ some\ augmentation\ that\ won't\ change\ boxes\ and\ masks,}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ so\ just\ be\ it\ for\ now.}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ img,\ labels\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a14b38a3ab35f3ae18690d1e26c8019a6}{albumentations}}(img,\ labels)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ nl\ =\ len(labels)\ \ \textcolor{comment}{\#\ update\ after\ albumentations}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ HSV\ color-\/space}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ augment\_hsv(img,\ hgain=hyp[\textcolor{stringliteral}{"{}hsv\_h"{}}],\ sgain=hyp[\textcolor{stringliteral}{"{}hsv\_s"{}}],\ vgain=hyp[\textcolor{stringliteral}{"{}hsv\_v"{}}])}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Flip\ up-\/down}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ random.random()\ <\ hyp[\textcolor{stringliteral}{"{}flipud"{}}]:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img\ =\ np.flipud(img)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nl:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels[:,\ 2]\ =\ 1\ -\/\ labels[:,\ 2]}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masks\ =\ torch.flip(masks,\ dims=[1])}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Flip\ left-\/right}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ random.random()\ <\ hyp[\textcolor{stringliteral}{"{}fliplr"{}}]:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img\ =\ np.fliplr(img)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nl:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels[:,\ 1]\ =\ 1\ -\/\ labels[:,\ 1]}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masks\ =\ torch.flip(masks,\ dims=[2])}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Cutouts\ \ \#\ labels\ =\ cutout(img,\ labels,\ p=0.5)}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ labels\_out\ =\ torch.zeros((nl,\ 6))}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nl:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ labels\_out[:,\ 1:]\ =\ torch.from\_numpy(labels)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ img\ =\ img.transpose((2,\ 0,\ 1))[::-\/1]\ \ \textcolor{comment}{\#\ HWC\ to\ CHW,\ BGR\ to\ RGB}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ img\ =\ np.ascontiguousarray(img)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (torch.from\_numpy(img),\ labels\_out,\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_adac320e6aa8d3e54823489f6826433d3}{im\_files}}[index],\ shapes,\ masks)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00232}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642}{00232}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642}{load\_mosaic}}(self,\ index):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ 4-\/mosaic\ loader.\ Loads\ 1\ image\ +\ 3\ random\ images\ into\ a\ 4-\/image\ mosaic}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ labels4,\ segments4\ =\ [],\ []}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ s\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aaf2b9425db6c2fd723025393e181d3e3}{img\_size}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ yc,\ xc\ =\ (int(random.uniform(-\/x,\ 2\ *\ s\ +\ x))\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a2ae5dfa3541d182ab5a3b5d559ec2f5b}{mosaic\_border}})\ \ \textcolor{comment}{\#\ mosaic\ center\ x,\ y}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ 3\ additional\ image\ indices}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ indices\ =\ [index]\ +\ random.choices(self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a47a24fb55010b45e7e863834344ff809}{indices}},\ k=3)\ \ \textcolor{comment}{\#\ 3\ additional\ image\ indices}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ index\ \textcolor{keywordflow}{in}\ enumerate(indices):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ image}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ img,\ \_,\ (h,\ w)\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ad7355c09718eacd1e94296447e55ea8a}{load\_image}}(index)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ place\ img\ in\ img4}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ ==\ 0:\ \ \textcolor{comment}{\#\ top\ left}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img4\ =\ np.full((s\ *\ 2,\ s\ *\ 2,\ img.shape[2]),\ 114,\ dtype=np.uint8)\ \ \textcolor{comment}{\#\ base\ image\ with\ 4\ tiles}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1a,\ y1a,\ x2a,\ y2a\ =\ max(xc\ -\/\ w,\ 0),\ max(yc\ -\/\ h,\ 0),\ xc,\ yc\ \ \textcolor{comment}{\#\ xmin,\ ymin,\ xmax,\ ymax\ (large\ image)}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1b,\ y1b,\ x2b,\ y2b\ =\ w\ -\/\ (x2a\ -\/\ x1a),\ h\ -\/\ (y2a\ -\/\ y1a),\ w,\ h\ \ \textcolor{comment}{\#\ xmin,\ ymin,\ xmax,\ ymax\ (small\ image)}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ i\ ==\ 1:\ \ \textcolor{comment}{\#\ top\ right}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1a,\ y1a,\ x2a,\ y2a\ =\ xc,\ max(yc\ -\/\ h,\ 0),\ min(xc\ +\ w,\ s\ *\ 2),\ yc}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1b,\ y1b,\ x2b,\ y2b\ =\ 0,\ h\ -\/\ (y2a\ -\/\ y1a),\ min(w,\ x2a\ -\/\ x1a),\ h}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ i\ ==\ 2:\ \ \textcolor{comment}{\#\ bottom\ left}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1a,\ y1a,\ x2a,\ y2a\ =\ max(xc\ -\/\ w,\ 0),\ yc,\ xc,\ min(s\ *\ 2,\ yc\ +\ h)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1b,\ y1b,\ x2b,\ y2b\ =\ w\ -\/\ (x2a\ -\/\ x1a),\ 0,\ w,\ min(y2a\ -\/\ y1a,\ h)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ i\ ==\ 3:\ \ \textcolor{comment}{\#\ bottom\ right}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1a,\ y1a,\ x2a,\ y2a\ =\ xc,\ yc,\ min(xc\ +\ w,\ s\ *\ 2),\ min(s\ *\ 2,\ yc\ +\ h)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x1b,\ y1b,\ x2b,\ y2b\ =\ 0,\ 0,\ min(w,\ x2a\ -\/\ x1a),\ min(y2a\ -\/\ y1a,\ h)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ img4[y1a:y2a,\ x1a:x2a]\ =\ img[y1b:y2b,\ x1b:x2b]\ \ \textcolor{comment}{\#\ img4[ymin:ymax,\ xmin:xmax]}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ padw\ =\ x1a\ -\/\ x1b}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ padh\ =\ y1a\ -\/\ y1b}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ labels,\ segments\ =\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a843c4c56e009b9d10da92c54324d5888}{labels}}[index].copy(),\ self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a26a6a58e1558930199cd96b5dc4adfb8}{segments}}[index].copy()}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels.size:}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels[:,\ 1:]\ =\ xywhn2xyxy(labels[:,\ 1:],\ w,\ h,\ padw,\ padh)\ \ \textcolor{comment}{\#\ normalized\ xywh\ to\ pixel\ xyxy\ format}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segments\ =\ [xyn2xy(x,\ w,\ h,\ padw,\ padh)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ segments]}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ labels4.append(labels)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ segments4.extend(segments)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Concat/clip\ labels}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ labels4\ =\ np.concatenate(labels4,\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (labels4[:,\ 1:],\ *segments4):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ np.clip(x,\ 0,\ 2\ *\ s,\ out=x)\ \ \textcolor{comment}{\#\ clip\ when\ using\ random\_perspective()}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ img4,\ labels4\ =\ replicate(img4,\ labels4)\ \ \#\ replicate}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Augment}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ img4,\ labels4,\ segments4\ =\ copy\_paste(img4,\ labels4,\ segments4,\ p=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}[\textcolor{stringliteral}{"{}copy\_paste"{}}])}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ img4,\ labels4,\ segments4\ =\ random\_perspective(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ img4,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ labels4,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ segments4,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ degrees=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}[\textcolor{stringliteral}{"{}degrees"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ translate=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}[\textcolor{stringliteral}{"{}translate"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ scale=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}[\textcolor{stringliteral}{"{}scale"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ shear=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}[\textcolor{stringliteral}{"{}shear"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ perspective=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}[\textcolor{stringliteral}{"{}perspective"{}}],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ border=self.\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a2ae5dfa3541d182ab5a3b5d559ec2f5b}{mosaic\_border}},}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ border\ to\ remove}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ img4,\ labels4,\ segments4}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00292}00292\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00293}\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a27849f73b79c9ff1c03bdb0dfb21daa1}{00293}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a27849f73b79c9ff1c03bdb0dfb21daa1}{collate\_fn}}(batch):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ img,\ label,\ path,\ shapes,\ masks\ =\ zip(*batch)\ \ \textcolor{comment}{\#\ transposed}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ batched\_masks\ =\ torch.cat(masks,\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ l\ \textcolor{keywordflow}{in}\ enumerate(label):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ l[:,\ 0]\ =\ i\ \ \textcolor{comment}{\#\ add\ target\ image\ index\ for\ build\_targets()}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ torch.stack(img,\ 0),\ torch.cat(label,\ 0),\ path,\ shapes,\ batched\_masks}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00301}\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851}{00301}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851}{polygon2mask}}(img\_size,\ polygons,\ color=1,\ downsample\_ratio=1):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00302}00302\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00303}00303\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00304}00304\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ img\_size\ (tuple):\ The\ image\ size.}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00305}00305\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ polygons\ (np.ndarray):\ [N,\ M],\ N\ is\ the\ number\ of\ polygons,}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00306}00306\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ M\ is\ the\ number\ of\ points(Be\ divided\ by\ 2).}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00307}00307\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00308}00308\ \ \ \ \ mask\ =\ np.zeros(img\_size,\ dtype=np.uint8)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00309}00309\ \ \ \ \ polygons\ =\ np.asarray(polygons)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00310}00310\ \ \ \ \ polygons\ =\ polygons.astype(np.int32)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00311}00311\ \ \ \ \ shape\ =\ polygons.shape}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00312}00312\ \ \ \ \ polygons\ =\ polygons.reshape(shape[0],\ -\/1,\ 2)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00313}00313\ \ \ \ \ cv2.fillPoly(mask,\ polygons,\ color=color)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00314}00314\ \ \ \ \ nh,\ nw\ =\ (img\_size[0]\ //\ downsample\_ratio,\ img\_size[1]\ //\ downsample\_ratio)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00315}00315\ \ \ \ \ \textcolor{comment}{\#\ NOTE:\ fillPoly\ firstly\ then\ resize\ is\ trying\ the\ keep\ the\ same\ way}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00316}00316\ \ \ \ \ \textcolor{comment}{\#\ of\ loss\ calculation\ when\ mask-\/ratio=1.}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00317}00317\ \ \ \ \ mask\ =\ cv2.resize(mask,\ (nw,\ nh))}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00318}00318\ \ \ \ \ \textcolor{keywordflow}{return}\ mask}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00321}\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_af7dd8ba0f2f2a8cd62d444ebdfcdd7da}{00321}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_af7dd8ba0f2f2a8cd62d444ebdfcdd7da}{polygons2masks}}(img\_size,\ polygons,\ color,\ downsample\_ratio=1):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00322}00322\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00323}00323\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00324}00324\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ img\_size\ (tuple):\ The\ image\ size.}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00325}00325\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ polygons\ (list[np.ndarray]):\ each\ polygon\ is\ [N,\ M],}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00326}00326\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ N\ is\ the\ number\ of\ polygons,}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00327}00327\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ M\ is\ the\ number\ of\ points(Be\ divided\ by\ 2).}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00328}00328\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00329}00329\ \ \ \ \ masks\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00330}00330\ \ \ \ \ \textcolor{keywordflow}{for}\ si\ \textcolor{keywordflow}{in}\ range(len(polygons)):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ mask\ =\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851}{polygon2mask}}(img\_size,\ [polygons[si].reshape(-\/1)],\ color,\ downsample\_ratio)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ masks.append(mask)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{return}\ np.array(masks)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00336}\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_ab312b88ccebc965e85a17ab92a9573c1}{00336}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_ab312b88ccebc965e85a17ab92a9573c1}{polygons2masks\_overlap}}(img\_size,\ segments,\ downsample\_ratio=1):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00337}00337\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Return\ a\ (640,\ 640)\ overlap\ mask."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00338}00338\ \ \ \ \ masks\ =\ np.zeros(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ (img\_size[0]\ //\ downsample\_ratio,\ img\_size[1]\ //\ downsample\_ratio),}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ dtype=np.int32\ \textcolor{keywordflow}{if}\ len(segments)\ >\ 255\ \textcolor{keywordflow}{else}\ np.uint8,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00341}00341\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00342}00342\ \ \ \ \ areas\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00343}00343\ \ \ \ \ ms\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00344}00344\ \ \ \ \ \textcolor{keywordflow}{for}\ si\ \textcolor{keywordflow}{in}\ range(len(segments)):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ mask\ =\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851}{polygon2mask}}(}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ img\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ [segments[si].reshape(-\/1)],}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ downsample\_ratio=downsample\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ color=1,}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ ms.append(mask)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ areas.append(mask.sum())}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00353}00353\ \ \ \ \ areas\ =\ np.asarray(areas)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00354}00354\ \ \ \ \ index\ =\ np.argsort(-\/areas)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00355}00355\ \ \ \ \ ms\ =\ np.array(ms)[index]}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00356}00356\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(segments)):}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ mask\ =\ ms[i]\ *\ (i\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ masks\ =\ masks\ +\ mask}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ masks\ =\ np.clip(masks,\ a\_min=0,\ a\_max=i\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{segment_2dataloaders_8py_source_l00360}00360\ \ \ \ \ \textcolor{keywordflow}{return}\ masks,\ index}
+
+\end{DoxyCode}

@@ -19,23 +19,21 @@ int \mbox{\hyperlink{class_inverse_differential_aa33c717b13ca516b9c8468b6e7870f2
 \item 
 bool \mbox{\hyperlink{class_inverse_differential_ad153653dc080fc172d2c2ce6068d3f1e}{inv\+Diff}} ()
 \item 
-Eigen\+::\+Matrix3d \mbox{\hyperlink{class_inverse_differential_ab5efe5a6e5f615e1c95924e9a072811d}{euler\+Angles\+To\+Rotation\+Matrix}} (const Eigen\+::\+Vector3d \&\mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}})
+Eigen\+::\+Matrix3d \mbox{\hyperlink{class_inverse_differential_ab5efe5a6e5f615e1c95924e9a072811d}{euler\+Angles\+To\+Rotation\+Matrix}} (const Eigen\+::\+Vector3d \&euler)
 \item 
 Eigen\+::\+Vector3d \mbox{\hyperlink{class_inverse_differential_a58f3cfe96b6b5f6cba41668446bcbe16}{rotation\+Matrix\+To\+Euler\+Angles}} (const Eigen\+::\+Matrix3d \&rotation\+Matrix)
 \item 
-Eigen\+::\+Quaterniond \mbox{\hyperlink{class_inverse_differential_af43d4eb4919d4e723b5da2336f6f5458}{euler\+Angles\+To\+Quaternion}} (const Eigen\+::\+Vector3d \&\mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}})
+Eigen\+::\+Quaterniond \mbox{\hyperlink{class_inverse_differential_af43d4eb4919d4e723b5da2336f6f5458}{euler\+Angles\+To\+Quaternion}} (const Eigen\+::\+Vector3d \&euler)
 \item 
 Eigen\+::\+Quaterniond \mbox{\hyperlink{class_inverse_differential_a5ba13246ca8c9f3ebcd8e1a7d9ca836c}{rotation\+Matrix\+To\+Quaternion}} (const Eigen\+::\+Matrix3d \&rotation\+Matrix)
-\item 
-void \mbox{\hyperlink{class_inverse_differential_a7531bfd8ea80634111d35ed51e54416e}{world\+To\+Robot\+Frame}} (Eigen\+::\+Vector3d \&coords, Eigen\+::\+Vector3d \&\mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}})
 \item 
 void \mbox{\hyperlink{class_inverse_differential_aa22074a716b2eb75b0c215feb94ba856}{ur5\+Direct}} (Eigen\+::\+Vector3d \&xe, Eigen\+::\+Matrix3d \&Re, const Eigen\+::\+Vector\+Xd q\+\_\+des)
 \item 
 Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{class_inverse_differential_acf950624c6fb514c2a444c857fdac632}{ur5\+Jac}} (Eigen\+::\+Vector\+Xd v)
 \item 
-list$<$ Eigen\+::\+Vector\+Xd $>$ \mbox{\hyperlink{class_inverse_differential_a32083436e32012e392ddc1d9286e409a}{inv\+Diff\+Kinematic\+Control\+Sim\+Complete\+Quaternion}} (Eigen\+::\+Vector\+Xd TH0, Eigen\+::\+Vector\+Xd T, Eigen\+::\+Matrix3d Kp, Eigen\+::\+Matrix3d Kphi)
+list$<$ Eigen\+::\+Vector\+Xd $>$ \mbox{\hyperlink{class_inverse_differential_a84b7a182e074703a75ac273c67d4e3c8}{inv\+Diff\+Kinematic}} (Eigen\+::\+Vector\+Xd TH0, Eigen\+::\+Vector\+Xd T, Eigen\+::\+Matrix3d Kp, Eigen\+::\+Matrix3d Kphi)
 \item 
-Eigen\+::\+Vector\+Xd \mbox{\hyperlink{class_inverse_differential_ae3f7f21de2aef187ebb68eefb6250a16}{inv\+Diff\+Kinematic\+Control\+Complete\+Quaternion}} (Eigen\+::\+Vector\+Xd qk, Eigen\+::\+Vector3d xe, Eigen\+::\+Vector3d \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}}, Eigen\+::\+Vector3d vd, Eigen\+::\+Vector3d omegad, Eigen\+::\+Quaterniond qe, Eigen\+::\+Quaterniond \mbox{\hyperlink{class_inverse_differential_a7634212e1417ba684130c575d9433808}{qd}}, Eigen\+::\+Matrix3d Kp, Eigen\+::\+Matrix3d Kphi)
+Eigen\+::\+Vector\+Xd \mbox{\hyperlink{class_inverse_differential_a29bbefec4031d634cfedf95bd4f0873f}{inv\+Diff\+Kinematic\+Control}} (Eigen\+::\+Vector\+Xd qk, Eigen\+::\+Vector3d xe, Eigen\+::\+Vector3d \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}}, Eigen\+::\+Vector3d vd, Eigen\+::\+Vector3d omegad, Eigen\+::\+Quaterniond qe, Eigen\+::\+Quaterniond \mbox{\hyperlink{class_inverse_differential_a7634212e1417ba684130c575d9433808}{qd}}, Eigen\+::\+Matrix3d Kp, Eigen\+::\+Matrix3d Kphi)
 \item 
 Eigen\+::\+Vector3d \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}} (double ti)
 \item 
@@ -47,11 +45,9 @@ Eigen\+::\+Matrix4d \mbox{\hyperlink{class_inverse_differential_ad6abd5dfc09b9cb
 \item 
 Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{class_inverse_differential_aa640d318bae523fe5c58630bb8601f82}{purge\+Nan\+Column}} (Eigen\+::\+Matrix\+Xd matrix)
 \item 
-bool \mbox{\hyperlink{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}{check\+Work\+Area}} (const Eigen\+::\+Vector3d \&\mbox{\hyperlink{ur5__task__library_8h_a55e78da50a013252924928eaa2720258}{position}})
+bool \mbox{\hyperlink{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}{check\+Work\+Area}} (const Eigen\+::\+Vector3d \&position)
 \item 
 bool \mbox{\hyperlink{class_inverse_differential_a298083be41bb82377e2a62458f4167ba}{check\+Work\+Area}} (const Eigen\+::\+Vector\+Xd \&joints)
-\item 
-void \mbox{\hyperlink{class_inverse_differential_abf7528f33f238e5684332080d8b4584d}{print\+Vector}} (Eigen\+::\+Vector\+Xd v)
 \item 
 bool \mbox{\hyperlink{class_inverse_differential_abcd806150e519b6df7f1c4f86f6ba646}{almost\+Zero}} (double value)
 \item 
@@ -64,7 +60,7 @@ void \mbox{\hyperlink{class_inverse_differential_a06d4b12c200f5be7b2ad98ac9fd8ee
 \doxysubsection{Detailed Description}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8h_source_l00029}{29}} of file \mbox{\hyperlink{ur5__motion__library_8h_source}{ur5\+\_\+motion\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8h_source_l00030}{30}} of file \mbox{\hyperlink{ur5__motion__library_8h_source}{ur5\+\_\+motion\+\_\+library.\+h}}.
 
 
 
@@ -87,8 +83,6 @@ the file contains the implementation of all functions defined in the ur5\+\_\+in
 \texorpdfstring{$<$}{<} the D-\/H parameter
 
 \texorpdfstring{$<$}{<} the D-\/H parameter
-
-\texorpdfstring{$<$}{<} rotation matrix to convert the coordinates of the world frame into robot frame
 
 Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00008}{8}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
@@ -113,7 +107,7 @@ true if the values is close to zero, false otherwise
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00774}{774}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00769}{769}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a74bfa9fd20aa08b67528eefcf48558bf}\label{class_inverse_differential_a74bfa9fd20aa08b67528eefcf48558bf} 
 \index{InverseDifferential@{InverseDifferential}!angleCorrection@{angleCorrection}}
@@ -130,7 +124,7 @@ function that checks if the angle is close to zero. if so, set the value to zero
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00778}{778}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00773}{773}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}\label{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c} 
 \index{InverseDifferential@{InverseDifferential}!checkWorkArea@{checkWorkArea}}
@@ -182,7 +176,7 @@ the corresponding quaternion
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00208}{208}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00217}{217}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_ab5efe5a6e5f615e1c95924e9a072811d}\label{class_inverse_differential_ab5efe5a6e5f615e1c95924e9a072811d} 
 \index{InverseDifferential@{InverseDifferential}!eulerAnglesToRotationMatrix@{eulerAnglesToRotationMatrix}}
@@ -202,7 +196,7 @@ the corresponding rotation matrix
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00227}{227}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00236}{236}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a06d4b12c200f5be7b2ad98ac9fd8eef4}\label{class_inverse_differential_a06d4b12c200f5be7b2ad98ac9fd8eef4} 
 \index{InverseDifferential@{InverseDifferential}!fixWirstJointLimits@{fixWirstJointLimits}}
@@ -219,7 +213,7 @@ the wirst\textquotesingle{}s joints can reach its limits, given the desired conf
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00784}{784}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00779}{779}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_ad6abd5dfc09b9cb6dea39b42e26ed8a6}\label{class_inverse_differential_ad6abd5dfc09b9cb6dea39b42e26ed8a6} 
 \index{InverseDifferential@{InverseDifferential}!getRotationMatrix@{getRotationMatrix}}
@@ -245,7 +239,7 @@ the homogeneous matrix
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00705}{705}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00707}{707}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_ad153653dc080fc172d2c2ce6068d3f1e}\label{class_inverse_differential_ad153653dc080fc172d2c2ce6068d3f1e} 
 \index{InverseDifferential@{InverseDifferential}!invDiff@{invDiff}}
@@ -260,13 +254,39 @@ true if no problems occured, false otherwise
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00111}{111}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00108}{108}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
-\Hypertarget{class_inverse_differential_ae3f7f21de2aef187ebb68eefb6250a16}\label{class_inverse_differential_ae3f7f21de2aef187ebb68eefb6250a16} 
-\index{InverseDifferential@{InverseDifferential}!invDiffKinematicControlCompleteQuaternion@{invDiffKinematicControlCompleteQuaternion}}
-\index{invDiffKinematicControlCompleteQuaternion@{invDiffKinematicControlCompleteQuaternion}!InverseDifferential@{InverseDifferential}}
-\doxysubsubsection{\texorpdfstring{invDiffKinematicControlCompleteQuaternion()}{invDiffKinematicControlCompleteQuaternion()}}
-{\footnotesize\ttfamily Vector\+Xd Inverse\+Differential\+::inv\+Diff\+Kinematic\+Control\+Complete\+Quaternion (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector\+Xd}]{qk,  }\item[{Eigen\+::\+Vector3d}]{xe,  }\item[{Eigen\+::\+Vector3d}]{xd,  }\item[{Eigen\+::\+Vector3d}]{vd,  }\item[{Eigen\+::\+Vector3d}]{omegad,  }\item[{Eigen\+::\+Quaterniond}]{qe,  }\item[{Eigen\+::\+Quaterniond}]{qd,  }\item[{Eigen\+::\+Matrix3d}]{Kp,  }\item[{Eigen\+::\+Matrix3d}]{Kphi }\end{DoxyParamCaption})}
+\Hypertarget{class_inverse_differential_a84b7a182e074703a75ac273c67d4e3c8}\label{class_inverse_differential_a84b7a182e074703a75ac273c67d4e3c8} 
+\index{InverseDifferential@{InverseDifferential}!invDiffKinematic@{invDiffKinematic}}
+\index{invDiffKinematic@{invDiffKinematic}!InverseDifferential@{InverseDifferential}}
+\doxysubsubsection{\texorpdfstring{invDiffKinematic()}{invDiffKinematic()}}
+{\footnotesize\ttfamily list$<$ Vector\+Xd $>$ Inverse\+Differential\+::inv\+Diff\+Kinematic (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector\+Xd}]{TH0,  }\item[{Eigen\+::\+Vector\+Xd}]{T,  }\item[{Eigen\+::\+Matrix3d}]{Kp,  }\item[{Eigen\+::\+Matrix3d}]{Kphi }\end{DoxyParamCaption})}
+
+first of the two functions that generates the trajectory for the robot
+
+
+\begin{DoxyParams}{Parameters}
+{\em TH0} & the initial joint configuration \\
+\hline
+{\em T} & vector containing the time intervals \\
+\hline
+{\em Kp} & correction matrix for the velocity component \\
+\hline
+{\em Kphi} & correction mateix for the orientation component\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of joint configuration for each time interval 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00343}{343}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+
+\Hypertarget{class_inverse_differential_a29bbefec4031d634cfedf95bd4f0873f}\label{class_inverse_differential_a29bbefec4031d634cfedf95bd4f0873f} 
+\index{InverseDifferential@{InverseDifferential}!invDiffKinematicControl@{invDiffKinematicControl}}
+\index{invDiffKinematicControl@{invDiffKinematicControl}!InverseDifferential@{InverseDifferential}}
+\doxysubsubsection{\texorpdfstring{invDiffKinematicControl()}{invDiffKinematicControl()}}
+{\footnotesize\ttfamily Vector\+Xd Inverse\+Differential\+::inv\+Diff\+Kinematic\+Control (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector\+Xd}]{qk,  }\item[{Eigen\+::\+Vector3d}]{xe,  }\item[{Eigen\+::\+Vector3d}]{xd,  }\item[{Eigen\+::\+Vector3d}]{vd,  }\item[{Eigen\+::\+Vector3d}]{omegad,  }\item[{Eigen\+::\+Quaterniond}]{qe,  }\item[{Eigen\+::\+Quaterniond}]{qd,  }\item[{Eigen\+::\+Matrix3d}]{Kp,  }\item[{Eigen\+::\+Matrix3d}]{Kphi }\end{DoxyParamCaption})}
 
 second of the two functions that generates the trajectory for the robot implements the control for possible singularity using the damped pseudo inverse matrix
 
@@ -298,32 +318,6 @@ the joint velocities
 
 Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00385}{385}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
-\Hypertarget{class_inverse_differential_a32083436e32012e392ddc1d9286e409a}\label{class_inverse_differential_a32083436e32012e392ddc1d9286e409a} 
-\index{InverseDifferential@{InverseDifferential}!invDiffKinematicControlSimCompleteQuaternion@{invDiffKinematicControlSimCompleteQuaternion}}
-\index{invDiffKinematicControlSimCompleteQuaternion@{invDiffKinematicControlSimCompleteQuaternion}!InverseDifferential@{InverseDifferential}}
-\doxysubsubsection{\texorpdfstring{invDiffKinematicControlSimCompleteQuaternion()}{invDiffKinematicControlSimCompleteQuaternion()}}
-{\footnotesize\ttfamily list$<$ Vector\+Xd $>$ Inverse\+Differential\+::inv\+Diff\+Kinematic\+Control\+Sim\+Complete\+Quaternion (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector\+Xd}]{TH0,  }\item[{Eigen\+::\+Vector\+Xd}]{T,  }\item[{Eigen\+::\+Matrix3d}]{Kp,  }\item[{Eigen\+::\+Matrix3d}]{Kphi }\end{DoxyParamCaption})}
-
-first of the two functions that generates the trajectory for the robot
-
-
-\begin{DoxyParams}{Parameters}
-{\em TH0} & the initial joint configuration \\
-\hline
-{\em T} & vector containing the time intervals \\
-\hline
-{\em Kp} & correction matrix for the velocity component \\
-\hline
-{\em Kphi} & correction mateix for the orientation component\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-a list of joint configuration for each time interval 
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00349}{349}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
-
 \Hypertarget{class_inverse_differential_a0a1560543f7ee702fe14bafa769e290d}\label{class_inverse_differential_a0a1560543f7ee702fe14bafa769e290d} 
 \index{InverseDifferential@{InverseDifferential}!motionPlannerToTaskPlannerServiceResponse@{motionPlannerToTaskPlannerServiceResponse}}
 \index{motionPlannerToTaskPlannerServiceResponse@{motionPlannerToTaskPlannerServiceResponse}!InverseDifferential@{InverseDifferential}}
@@ -344,24 +338,7 @@ true if the motion has been done without problems, false otherwise
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00046}{46}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
-
-\Hypertarget{class_inverse_differential_abf7528f33f238e5684332080d8b4584d}\label{class_inverse_differential_abf7528f33f238e5684332080d8b4584d} 
-\index{InverseDifferential@{InverseDifferential}!printVector@{printVector}}
-\index{printVector@{printVector}!InverseDifferential@{InverseDifferential}}
-\doxysubsubsection{\texorpdfstring{printVector()}{printVector()}}
-{\footnotesize\ttfamily void Inverse\+Differential\+::print\+Vector (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector\+Xd}]{v }\end{DoxyParamCaption})}
-
-print the values of a generic vector
-
-
-\begin{DoxyParams}{Parameters}
-{\em v} & vector of doubles \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00767}{767}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_aa640d318bae523fe5c58630bb8601f82}\label{class_inverse_differential_aa640d318bae523fe5c58630bb8601f82} 
 \index{InverseDifferential@{InverseDifferential}!purgeNanColumn@{purgeNanColumn}}
@@ -381,7 +358,7 @@ a possible resized matrix which doesn\textquotesingle{}t contain non valid solut
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00721}{721}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00723}{723}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a7634212e1417ba684130c575d9433808}\label{class_inverse_differential_a7634212e1417ba684130c575d9433808} 
 \index{InverseDifferential@{InverseDifferential}!qd@{qd}}
@@ -401,7 +378,7 @@ quaternion corresponding to a rotation
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00439}{439}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00442}{442}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a9a268808314f3240803c82b044248e02}\label{class_inverse_differential_a9a268808314f3240803c82b044248e02} 
 \index{InverseDifferential@{InverseDifferential}!receive\_jstate@{receive\_jstate}}
@@ -418,7 +395,7 @@ read the joints values from the topic
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00087}{87}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00084}{84}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a58f3cfe96b6b5f6cba41668446bcbe16}\label{class_inverse_differential_a58f3cfe96b6b5f6cba41668446bcbe16} 
 \index{InverseDifferential@{InverseDifferential}!rotationMatrixToEulerAngles@{rotationMatrixToEulerAngles}}
@@ -438,7 +415,7 @@ the vector containing the euler angles in XYZ order
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00216}{216}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00225}{225}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a5ba13246ca8c9f3ebcd8e1a7d9ca836c}\label{class_inverse_differential_a5ba13246ca8c9f3ebcd8e1a7d9ca836c} 
 \index{InverseDifferential@{InverseDifferential}!rotationMatrixToQuaternion@{rotationMatrixToQuaternion}}
@@ -458,7 +435,7 @@ the corresponding quaternion
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00265}{265}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00274}{274}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a31f22bfe451d12429ebf8485fa2312b1}\label{class_inverse_differential_a31f22bfe451d12429ebf8485fa2312b1} 
 \index{InverseDifferential@{InverseDifferential}!send\_des\_jstate@{send\_des\_jstate}}
@@ -477,7 +454,7 @@ function that given the joint\textquotesingle{}s configuration, sends it through
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00074}{74}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00071}{71}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_aa33c717b13ca516b9c8468b6e7870f2d}\label{class_inverse_differential_aa33c717b13ca516b9c8468b6e7870f2d} 
 \index{InverseDifferential@{InverseDifferential}!talker@{talker}}
@@ -487,7 +464,7 @@ Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00074}{74}
 
 main function, initialize nodes, reading and sending the new joint states 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00097}{97}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00094}{94}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_aa22074a716b2eb75b0c215feb94ba856}\label{class_inverse_differential_aa22074a716b2eb75b0c215feb94ba856} 
 \index{InverseDifferential@{InverseDifferential}!ur5Direct@{ur5Direct}}
@@ -508,7 +485,7 @@ given the joints values, return the end effector position and the rotation matri
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00288}{288}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00282}{282}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a577d0f75335d43dd3685e08f58ad8de8}\label{class_inverse_differential_a577d0f75335d43dd3685e08f58ad8de8} 
 \index{InverseDifferential@{InverseDifferential}!ur5Inverse@{ur5Inverse}}
@@ -530,7 +507,7 @@ a matrix containing the solutions, saving them in columns order
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00451}{451}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00454}{454}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_acf950624c6fb514c2a444c857fdac632}\label{class_inverse_differential_acf950624c6fb514c2a444c857fdac632} 
 \index{InverseDifferential@{InverseDifferential}!ur5Jac@{ur5Jac}}
@@ -547,30 +524,7 @@ given the joints values, returns the computed jacobian for the ur5
 \end{DoxyParams}
 \texorpdfstring{$<$}{<} the jacobian matrix of the ur5 manipulator
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00303}{303}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
-
-\Hypertarget{class_inverse_differential_a7531bfd8ea80634111d35ed51e54416e}\label{class_inverse_differential_a7531bfd8ea80634111d35ed51e54416e} 
-\index{InverseDifferential@{InverseDifferential}!worldToRobotFrame@{worldToRobotFrame}}
-\index{worldToRobotFrame@{worldToRobotFrame}!InverseDifferential@{InverseDifferential}}
-\doxysubsubsection{\texorpdfstring{worldToRobotFrame()}{worldToRobotFrame()}}
-{\footnotesize\ttfamily void Inverse\+Differential\+::world\+To\+Robot\+Frame (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d \&}]{coords,  }\item[{Eigen\+::\+Vector3d \&}]{euler }\end{DoxyParamCaption})}
-
-given the pose of a block in the world frame, return the pose of the same block in the robot frame.
-
-The coordinates and orientation has the same unit of gazebo (in meters and radiants)
-
-Useful when specifing the block pose w.\+r.\+t world frame
-
-
-\begin{DoxyParams}{Parameters}
-{\em coords} & vector containing the xyz coordinates \\
-\hline
-{\em euler} & vector containing the xyz orientation values \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00271}{271}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00297}{297}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 \Hypertarget{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}\label{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75} 
 \index{InverseDifferential@{InverseDifferential}!xd@{xd}}
@@ -590,11 +544,11 @@ xyz position in a vector
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00427}{427}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
+Definition at line \mbox{\hyperlink{ur5__motion__library_8cpp_source_l00429}{429}} of file \mbox{\hyperlink{ur5__motion__library_8cpp_source}{ur5\+\_\+motion\+\_\+library.\+cpp}}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-include/ur5/\mbox{\hyperlink{ur5__motion__library_8h}{ur5\+\_\+motion\+\_\+library.\+h}}\item 
-src/\mbox{\hyperlink{ur5__motion__library_8cpp}{ur5\+\_\+motion\+\_\+library.\+cpp}}\end{DoxyCompactItemize}
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/include/ur5/\mbox{\hyperlink{ur5__motion__library_8h}{ur5\+\_\+motion\+\_\+library.\+h}}\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/src/\mbox{\hyperlink{ur5__motion__library_8cpp}{ur5\+\_\+motion\+\_\+library.\+cpp}}\end{DoxyCompactItemize}

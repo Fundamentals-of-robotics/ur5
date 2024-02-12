@@ -1,4 +1,5 @@
 <launch>
   <node name="motion_planner" pkg="ur5" type="motion_planner" output="screen"/>
   <node name="task_planner" pkg="ur5" type="task_planner" output="screen"/>
+  <node name="vision_node" pkg="ur5" type="vision_node.py" output="screen"/>
 </launch>

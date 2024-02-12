@@ -1,0 +1,140 @@
+\doxysection{utils.\+aws.\+resume Namespace Reference}
+\hypertarget{namespaceutils_1_1aws_1_1resume}{}\label{namespaceutils_1_1aws_1_1resume}\index{utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a93843c2d7133dc4d61320ddfd9d69b66}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_aaa7200240514de7fcd261e28f4ce14f6}{ROOT}} = FILE.\+parents\mbox{[}2\mbox{]}
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a09a6f1909eca0838b7c466a1f9db00d8}{port}} = 0
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a8625192782100dfb6ce85dc6600f05cf}{path}} = Path("{}"{}).resolve()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_aa61fc4375c57933b4b92a83f02f485b9}{ckpt}} = torch.\+load(last)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a4c50e16182da53a1c946a42c9b133a6e}{errors}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a9a6d1890c7140cc47d2180f21ed8d164}{opt}} = yaml.\+safe\+\_\+load(f)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_afc173aae6aa494c45768d2efb49591ac}{d}} = \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a9a6d1890c7140cc47d2180f21ed8d164}{opt}}\mbox{[}"{}device"{}\mbox{]}.split("{},"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}} = len(\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_afc173aae6aa494c45768d2efb49591ac}{d}})
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a5d8381d92d3d3c4b878b8346ae7fcb14}{ddp}} = \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}} $>$ 1 or (\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}} == 0 and torch.\+cuda.\+device\+\_\+count() $>$ 1)
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_aa488bc05bc36ae35d916f4a8c26d43fc}{cmd}} = f"{}python -\/m torch.\+distributed.\+run -\/-\/nproc\+\_\+per\+\_\+node \{\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}}\} -\/-\/master\+\_\+port \{\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a09a6f1909eca0838b7c466a1f9db00d8}{port}}\} train.\+py -\/-\/resume \{last\}"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1aws_1_1resume_aa61fc4375c57933b4b92a83f02f485b9}\label{namespaceutils_1_1aws_1_1resume_aa61fc4375c57933b4b92a83f02f485b9} 
+\index{utils.aws.resume@{utils.aws.resume}!ckpt@{ckpt}}
+\index{ckpt@{ckpt}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{ckpt}{ckpt}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+ckpt = torch.\+load(last)}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00019}{19}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_aa488bc05bc36ae35d916f4a8c26d43fc}\label{namespaceutils_1_1aws_1_1resume_aa488bc05bc36ae35d916f4a8c26d43fc} 
+\index{utils.aws.resume@{utils.aws.resume}!cmd@{cmd}}
+\index{cmd@{cmd}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{cmd}{cmd}}
+{\footnotesize\ttfamily str utils.\+aws.\+resume.\+cmd = f"{}python -\/m torch.\+distributed.\+run -\/-\/nproc\+\_\+per\+\_\+node \{\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}}\} -\/-\/master\+\_\+port \{\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a09a6f1909eca0838b7c466a1f9db00d8}{port}}\} train.\+py -\/-\/resume \{last\}"{}}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00034}{34}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_afc173aae6aa494c45768d2efb49591ac}\label{namespaceutils_1_1aws_1_1resume_afc173aae6aa494c45768d2efb49591ac} 
+\index{utils.aws.resume@{utils.aws.resume}!d@{d}}
+\index{d@{d}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{d}{d}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+d = \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a9a6d1890c7140cc47d2180f21ed8d164}{opt}}\mbox{[}"{}device"{}\mbox{]}.split("{},"{})}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00028}{28}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a5d8381d92d3d3c4b878b8346ae7fcb14}\label{namespaceutils_1_1aws_1_1resume_a5d8381d92d3d3c4b878b8346ae7fcb14} 
+\index{utils.aws.resume@{utils.aws.resume}!ddp@{ddp}}
+\index{ddp@{ddp}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{ddp}{ddp}}
+{\footnotesize\ttfamily int utils.\+aws.\+resume.\+ddp = \mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}} $>$ 1 or (\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{nd}} == 0 and torch.\+cuda.\+device\+\_\+count() $>$ 1)}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00030}{30}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a4c50e16182da53a1c946a42c9b133a6e}\label{namespaceutils_1_1aws_1_1resume_a4c50e16182da53a1c946a42c9b133a6e} 
+\index{utils.aws.resume@{utils.aws.resume}!errors@{errors}}
+\index{errors@{errors}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{errors}{errors}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+errors}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00024}{24}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a93843c2d7133dc4d61320ddfd9d69b66}\label{namespaceutils_1_1aws_1_1resume_a93843c2d7133dc4d61320ddfd9d69b66} 
+\index{utils.aws.resume@{utils.aws.resume}!FILE@{FILE}}
+\index{FILE@{FILE}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00011}{11}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}\label{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380} 
+\index{utils.aws.resume@{utils.aws.resume}!nd@{nd}}
+\index{nd@{nd}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{nd}{nd}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+nd = len(\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_afc173aae6aa494c45768d2efb49591ac}{d}})}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00029}{29}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a9a6d1890c7140cc47d2180f21ed8d164}\label{namespaceutils_1_1aws_1_1resume_a9a6d1890c7140cc47d2180f21ed8d164} 
+\index{utils.aws.resume@{utils.aws.resume}!opt@{opt}}
+\index{opt@{opt}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+opt = yaml.\+safe\+\_\+load(f)}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00025}{25}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a8625192782100dfb6ce85dc6600f05cf}\label{namespaceutils_1_1aws_1_1resume_a8625192782100dfb6ce85dc6600f05cf} 
+\index{utils.aws.resume@{utils.aws.resume}!path@{path}}
+\index{path@{path}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{path}{path}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+path = Path("{}"{}).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00017}{17}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_a09a6f1909eca0838b7c466a1f9db00d8}\label{namespaceutils_1_1aws_1_1resume_a09a6f1909eca0838b7c466a1f9db00d8} 
+\index{utils.aws.resume@{utils.aws.resume}!port@{port}}
+\index{port@{port}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily int utils.\+aws.\+resume.\+port = 0}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00016}{16}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+
+\Hypertarget{namespaceutils_1_1aws_1_1resume_aaa7200240514de7fcd261e28f4ce14f6}\label{namespaceutils_1_1aws_1_1resume_aaa7200240514de7fcd261e28f4ce14f6} 
+\index{utils.aws.resume@{utils.aws.resume}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!utils.aws.resume@{utils.aws.resume}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily utils.\+aws.\+resume.\+ROOT = FILE.\+parents\mbox{[}2\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{resume_8py_source_l00012}{12}} of file \mbox{\hyperlink{resume_8py_source}{resume.\+py}}.
+

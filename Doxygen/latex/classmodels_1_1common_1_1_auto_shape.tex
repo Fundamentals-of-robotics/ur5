@@ -1,0 +1,259 @@
+\doxysection{models.\+common.\+Auto\+Shape Class Reference}
+\hypertarget{classmodels_1_1common_1_1_auto_shape}{}\label{classmodels_1_1common_1_1_auto_shape}\index{models.common.AutoShape@{models.common.AutoShape}}
+
+
+Inheritance diagram for models.\+common.\+Auto\+Shape\+:
+% FIG 0
+
+
+Collaboration diagram for models.\+common.\+Auto\+Shape\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a6bcc33fc1179b2a64293aa809457d423}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_af65251fa5221a675627f5e802ae1e0c5}{model}}, verbose=True)
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ad5719a5c55164358f369554c1602962a}{forward}} (self, ims, size=640, augment=False, profile=False)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_aacc1ad2da4954afe209d99ad3a0bef00}{dmb}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a2cdae8dac721200768573321f10c21c6}{pt}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_af65251fa5221a675627f5e802ae1e0c5}{model}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_adaca55eda4b18916a84ed3b4368af027}{conf}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a81f5ae5b8267330aa090a48917a14b27}{iou}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ae1f3063653b4b7f8f510fb03d476c83b}{agnostic}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ae3f1c2257d8a6a2fbe2f7e844c800f42}{multi\+\_\+label}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a0b6bb47329f4536a3924e7947581cda1}{names}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ad77f8b49c05d445e7b827fa283900d60}{conf}} = 0.\+25
+\item 
+float \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a901040b0c6da95891d41be3722e18967}{iou}} = 0.\+45
+\item 
+bool \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a6538c62ab5e5fd43548af5f5aa81142e}{agnostic}} = False
+\item 
+bool \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ad4dc47d550cd2762c9b2952bc8d2a2e7}{multi\+\_\+label}} = False
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a4bba68d47a222da55c835ba5453ea069}{classes}} = None
+\item 
+int \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ad157e741a7a421dfe79b1ff631104673}{max\+\_\+det}} = 1000
+\item 
+bool \mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_a7f83548813da5763b8d6c24bfb946a99}{amp}} = False
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_auto_shape_ad5b1b039a23653ec607511868ef0bfb2}{\+\_\+apply}} (self, fn)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00660}{660}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a6bcc33fc1179b2a64293aa809457d423}\label{classmodels_1_1common_1_1_auto_shape_a6bcc33fc1179b2a64293aa809457d423} 
+\index{models.common.AutoShape@{models.common.AutoShape}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{verbose = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00670}{670}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ad5b1b039a23653ec607511868ef0bfb2}\label{classmodels_1_1common_1_1_auto_shape_ad5b1b039a23653ec607511868ef0bfb2} 
+\index{models.common.AutoShape@{models.common.AutoShape}!\_apply@{\_apply}}
+\index{\_apply@{\_apply}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{\_apply()}{\_apply()}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+\_\+apply (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{fn }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00683}{683}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ad5719a5c55164358f369554c1602962a}\label{classmodels_1_1common_1_1_auto_shape_ad5719a5c55164358f369554c1602962a} 
+\index{models.common.AutoShape@{models.common.AutoShape}!forward@{forward}}
+\index{forward@{forward}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+forward (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{ims,  }\item[{}]{size = {\ttfamily 640},  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{profile = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00695}{695}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a6538c62ab5e5fd43548af5f5aa81142e}\label{classmodels_1_1common_1_1_auto_shape_a6538c62ab5e5fd43548af5f5aa81142e} 
+\index{models.common.AutoShape@{models.common.AutoShape}!agnostic@{agnostic}}
+\index{agnostic@{agnostic}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{agnostic}{agnostic}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool models.\+common.\+Auto\+Shape.\+agnostic = False\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00664}{664}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ae1f3063653b4b7f8f510fb03d476c83b}\label{classmodels_1_1common_1_1_auto_shape_ae1f3063653b4b7f8f510fb03d476c83b} 
+\index{models.common.AutoShape@{models.common.AutoShape}!agnostic@{agnostic}}
+\index{agnostic@{agnostic}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{agnostic}{agnostic}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+agnostic}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00751}{751}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a7f83548813da5763b8d6c24bfb946a99}\label{classmodels_1_1common_1_1_auto_shape_a7f83548813da5763b8d6c24bfb946a99} 
+\index{models.common.AutoShape@{models.common.AutoShape}!amp@{amp}}
+\index{amp@{amp}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{amp}{amp}}
+{\footnotesize\ttfamily bool models.\+common.\+Auto\+Shape.\+amp = False\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00668}{668}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a4bba68d47a222da55c835ba5453ea069}\label{classmodels_1_1common_1_1_auto_shape_a4bba68d47a222da55c835ba5453ea069} 
+\index{models.common.AutoShape@{models.common.AutoShape}!classes@{classes}}
+\index{classes@{classes}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{classes}{classes}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+classes = None\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00666}{666}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ad77f8b49c05d445e7b827fa283900d60}\label{classmodels_1_1common_1_1_auto_shape_ad77f8b49c05d445e7b827fa283900d60} 
+\index{models.common.AutoShape@{models.common.AutoShape}!conf@{conf}}
+\index{conf@{conf}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{conf}{conf}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily float models.\+common.\+Auto\+Shape.\+conf = 0.\+25\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00662}{662}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_adaca55eda4b18916a84ed3b4368af027}\label{classmodels_1_1common_1_1_auto_shape_adaca55eda4b18916a84ed3b4368af027} 
+\index{models.common.AutoShape@{models.common.AutoShape}!conf@{conf}}
+\index{conf@{conf}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{conf}{conf}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+conf}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00748}{748}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_aacc1ad2da4954afe209d99ad3a0bef00}\label{classmodels_1_1common_1_1_auto_shape_aacc1ad2da4954afe209d99ad3a0bef00} 
+\index{models.common.AutoShape@{models.common.AutoShape}!dmb@{dmb}}
+\index{dmb@{dmb}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{dmb}{dmb}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+dmb}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00675}{675}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a901040b0c6da95891d41be3722e18967}\label{classmodels_1_1common_1_1_auto_shape_a901040b0c6da95891d41be3722e18967} 
+\index{models.common.AutoShape@{models.common.AutoShape}!iou@{iou}}
+\index{iou@{iou}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{iou}{iou}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily float models.\+common.\+Auto\+Shape.\+iou = 0.\+45\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00663}{663}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a81f5ae5b8267330aa090a48917a14b27}\label{classmodels_1_1common_1_1_auto_shape_a81f5ae5b8267330aa090a48917a14b27} 
+\index{models.common.AutoShape@{models.common.AutoShape}!iou@{iou}}
+\index{iou@{iou}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{iou}{iou}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+iou}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00749}{749}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ad157e741a7a421dfe79b1ff631104673}\label{classmodels_1_1common_1_1_auto_shape_ad157e741a7a421dfe79b1ff631104673} 
+\index{models.common.AutoShape@{models.common.AutoShape}!max\_det@{max\_det}}
+\index{max\_det@{max\_det}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{max\_det}{max\_det}}
+{\footnotesize\ttfamily int models.\+common.\+Auto\+Shape.\+max\+\_\+det = 1000\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00667}{667}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_af65251fa5221a675627f5e802ae1e0c5}\label{classmodels_1_1common_1_1_auto_shape_af65251fa5221a675627f5e802ae1e0c5} 
+\index{models.common.AutoShape@{models.common.AutoShape}!model@{model}}
+\index{model@{model}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+model}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00677}{677}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ad4dc47d550cd2762c9b2952bc8d2a2e7}\label{classmodels_1_1common_1_1_auto_shape_ad4dc47d550cd2762c9b2952bc8d2a2e7} 
+\index{models.common.AutoShape@{models.common.AutoShape}!multi\_label@{multi\_label}}
+\index{multi\_label@{multi\_label}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{multi\_label}{multi\_label}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool models.\+common.\+Auto\+Shape.\+multi\+\_\+label = False\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00665}{665}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_ae3f1c2257d8a6a2fbe2f7e844c800f42}\label{classmodels_1_1common_1_1_auto_shape_ae3f1c2257d8a6a2fbe2f7e844c800f42} 
+\index{models.common.AutoShape@{models.common.AutoShape}!multi\_label@{multi\_label}}
+\index{multi\_label@{multi\_label}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{multi\_label}{multi\_label}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+multi\+\_\+label}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00752}{752}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a0b6bb47329f4536a3924e7947581cda1}\label{classmodels_1_1common_1_1_auto_shape_a0b6bb47329f4536a3924e7947581cda1} 
+\index{models.common.AutoShape@{models.common.AutoShape}!names@{names}}
+\index{names@{names}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{names}{names}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+names}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00758}{758}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_auto_shape_a2cdae8dac721200768573321f10c21c6}\label{classmodels_1_1common_1_1_auto_shape_a2cdae8dac721200768573321f10c21c6} 
+\index{models.common.AutoShape@{models.common.AutoShape}!pt@{pt}}
+\index{pt@{pt}!models.common.AutoShape@{models.common.AutoShape}}
+\doxysubsubsection{\texorpdfstring{pt}{pt}}
+{\footnotesize\ttfamily models.\+common.\+Auto\+Shape.\+pt}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00676}{676}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/models/\mbox{\hyperlink{common_8py}{common.\+py}}\end{DoxyCompactItemize}

@@ -1,0 +1,300 @@
+\doxysection{vision\+\_\+node.\+py}
+\hypertarget{vision__node_8py_source}{}\label{vision__node_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/src/vision\_node.py@{C:/Users/dorij/OneDrive/Desktop/ur5/src/vision\_node.py}}
+\mbox{\hyperlink{vision__node_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00001}\mbox{\hyperlink{namespacevision__node}{00001}}\ \textcolor{comment}{\#!\ /usr/bin/env\ python3}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00003}00003\ \textcolor{keyword}{import}\ rospy}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00004}00004\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00005}00005\ \textcolor{keyword}{import}\ cv2\ \textcolor{keyword}{as}\ cv}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00006}00006\ \textcolor{keyword}{from}\ cv\_bridge\ \textcolor{keyword}{import}\ CvBridge}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00007}00007\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00008}00008\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00009}00009\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00010}00010\ \textcolor{keyword}{from}\ sklearn.cluster\ \textcolor{keyword}{import}\ KMeans}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00011}00011\ \textcolor{keyword}{import}\ warnings}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00012}00012\ warnings.filterwarnings(\textcolor{stringliteral}{"{}ignore"{}})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00014}00014\ \textcolor{keyword}{from}\ sensor\_msgs.msg\ \textcolor{keyword}{import}\ Image,\ PointCloud2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00015}00015\ \textcolor{keyword}{from}\ sensor\_msgs\ \textcolor{keyword}{import}\ point\_cloud2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00016}00016\ \textcolor{keyword}{from}\ geometry\_msgs.msg\ \textcolor{keyword}{import}\ Point,\ Vector3}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00017}00017\ \textcolor{keyword}{from}\ service\_test.srv\ \textcolor{keyword}{import}\ VisionService,\ VisionServiceResponse}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00019}00019\ \textcolor{comment}{\#\ Record\ for\ blocks\ data}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00020}\mbox{\hyperlink{namespacevision__node_a4b69f78e85e2fae1da638ad13cbdff90}{00020}}\ blocks\_data\ =\ []}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00022}\mbox{\hyperlink{namespacevision__node_a8957192d38e03a80cbc0f8c71ea751de}{00022}}\ start\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00024}00024\ \textcolor{comment}{\#\ Constants}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00025}\mbox{\hyperlink{namespacevision__node_a493523e0470ec5889bbf946a37ca314a}{00025}}\ table\_height\ =\ 0.88}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00026}\mbox{\hyperlink{namespacevision__node_a1d183c0332572a9fd5f5ca581f5babf1}{00026}}\ tolerance\_error\ =\ 0.001}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00027}\mbox{\hyperlink{namespacevision__node_a2415130221427f6c7b2fe1b96c0937f5}{00027}}\ block\_error\ =\ 0.001}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00028}\mbox{\hyperlink{namespacevision__node_a2d465472e457ac6e6989208240fe1755}{00028}}\ value\_error\ =\ 0.001}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00029}\mbox{\hyperlink{namespacevision__node_a08184610e854712aa57975fbd3f709c1}{00029}}\ distance\_error\ =\ 0.005}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00031}00031\ \textcolor{comment}{\#\ "{}block\_short\_side"{},\ "{}block\_long\_side"{},\ "{}block\_height"{},\ values\ for\ each\ block\ class\ of\ the\ dataset}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00032}\mbox{\hyperlink{namespacevision__node_a4ba011c1f1e58442602adc37699abc98}{00032}}\ blocks\_values\ =\ \{}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00033}00033\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y1-\/Z2'}:\ [0.031,\ 0.031,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00034}00034\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z1'}:\ [0.031,\ 0.062,\ 0.038],\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00035}00035\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z2-\/CHAMFER'}:\ [0.031,\ 0.062,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00036}00036\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z2-\/TWINFILLET'}:\ [0.031,\ 0.062,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00037}00037\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z2'}:\ [0.031,\ 0.062,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00038}00038\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y3-\/Z2-\/FILLET'}:\ [0.031,\ 0.095,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00039}00039\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y3-\/Z2'}:\ [0.031,\ 0.095,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00040}00040\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y4-\/Z1'}:\ [0.031,\ 0.127,\ 0.038],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00041}00041\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y4-\/Z2'}:\ [0.031,\ 0.127,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00042}00042\ \ \ \ \ \textcolor{stringliteral}{'X2-\/Y2-\/Z2-\/FILLET'}:\ [0.063,\ 0.063,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00043}00043\ \ \ \ \ \textcolor{stringliteral}{'X2-\/Y2-\/Z2'}:\ [0.062,\ 0.063,\ 0.057],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00046}00046\ \textcolor{comment}{\#\ Color\ ranges\ used\ for\ masking\ the\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00047}\mbox{\hyperlink{namespacevision__node_a4028e6c368113544966ce88ac3a60d20}{00047}}\ color\_ranges\ =\ \{}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'red'}:\ [(0,\ 50,\ 50),\ (10,\ 255,\ 255)],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'green'}:\ [(36,\ 50,\ 50),\ (70,\ 255,\ 255)],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'blue'}:\ [(90,\ 50,\ 50),\ (130,\ 255,\ 255)],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'yellow'}:\ [(20,\ 50,\ 50),\ (35,\ 255,\ 255)],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fuchsia'}:\ [(145,\ 50,\ 50),\ (175,\ 255,\ 255)],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'orange'}:\ [(11,\ 50,\ 50),\ (25,\ 255,\ 255)]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00056}00056\ \textcolor{comment}{\#\ Function\ that\ returns\ given\ block\ values\ (block\_short\_side,\ block\_long\_side,\ block\_height)}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00057}\mbox{\hyperlink{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3}{00057}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3}{get\_block\_values}}(name):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00058}00058\ \ \ \ \ value\ =\ np.array(blocks\_values[name])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{return}\ value[0],\ value[1],\ value[2]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00061}00061\ \textcolor{comment}{\#\ Function\ that\ applies\ color\ filtering\ on\ the\ image\ to\ return\ 2D\ points\ within\ the\ given\ block's\ bounding\ box}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00062}\mbox{\hyperlink{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94}{00062}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94}{get\_block\_points}}(image,\ block):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00063}00063\ \ \ \ \ \textcolor{comment}{\#\ Create\ a\ mask\ to\ filter\ out\ colors\ in\ the\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00064}00064\ \ \ \ \ mask\ =\ np.zeros(image.shape[:2],dtype=np.uint8)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00065}00065\ \ \ \ \ image\_hsv\ =\ cv.cvtColor(image,\ cv.COLOR\_BGR2HSV)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00066}00066\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00067}00067\ \ \ \ \ \textcolor{comment}{\#\ Apply\ the\ mask\ to\ the\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{for}\ color\_range\ \textcolor{keywordflow}{in}\ color\_ranges.values():}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ lower\_color\ =\ np.array(color\_range[0])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ upper\_color\ =\ np.array(color\_range[1])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ color\_mask\ =\ cv.inRange(image\_hsv,\ lower\_color,\ upper\_color)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ mask\ =\ cv.bitwise\_or(mask,\ color\_mask)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00074}00074\ \ \ \ \ \textcolor{comment}{\#\ Apply\ the\ mask\ to\ the\ original\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00075}00075\ \ \ \ \ result\ =\ cv.bitwise\_and(image,\ image,\ mask=mask)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00076}00076\ \ \ \ \ gray\_image\ =\ cv.cvtColor(result,\ cv.COLOR\_BGR2GRAY)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00077}00077\ \ \ \ \ mask\ =\ cv.inRange(gray\_image,\ 1,\ 255)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00079}00079\ \ \ \ \ \textcolor{comment}{\#\ Find\ non-\/black\ points\ in\ the\ mask}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00080}00080\ \ \ \ \ non\_black\_points\ =\ cv.findNonZero(mask)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00082}00082\ \ \ \ \ block\_points\_2D\ =\ []}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00084}00084\ \ \ \ \ \textcolor{comment}{\#\ If\ non-\/black\ points\ are\ found}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{if}\ non\_black\_points\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Iterate\ through\ each\ non-\/black\ point}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ point\ \textcolor{keywordflow}{in}\ non\_black\_points:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ x,\ y\ =\ point[0]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Adjust\ the\ coordinates\ to\ be\ relative\ to\ the\ block's\ position}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ block\_points\_2D.append([x\ +\ int(block[2]),\ y\ +\ int(block[3])])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{return}\ block\_points\_2D}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00094}\mbox{\hyperlink{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c}{00094}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c}{convert\_2D\_to\_3D}}(point\_cloud2\_msg,\ zed\_points):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00095}00095\ \ \ \ \ \textcolor{comment}{\#\ Transforming\ 2D\ points\ in\ 3D\ points\ (of\ the\ boundary\ box)}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00096}00096\ \ \ \ \ points\_3d\ =\ point\_cloud2.read\_points(point\_cloud2\_msg,\ field\_names=[\textcolor{stringliteral}{'x'},\textcolor{stringliteral}{'y'},\textcolor{stringliteral}{'z'}],\ skip\_nans=\textcolor{keyword}{False},\ uvs=zed\_points)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00098}00098\ \ \ \ \ \textcolor{comment}{\#\ selection\ of\ informations\ from\ point\ cloud}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00099}00099\ \ \ \ \ points\_from\_zed\ =\ []}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{for}\ point\ \textcolor{keywordflow}{in}\ points\_3d:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ points\_from\_zed.append(point[:3])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{return}\ points\_from\_zed}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00104}00104\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00105}00105\ \textcolor{comment}{\#\ Function\ that\ gets\ the\ coordinates\ of\ 3\ vertices\ of\ the\ block's\ lowest\ surface}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00106}\mbox{\hyperlink{namespacevision__node_a507cee100077bf84ad28fee5103ab116}{00106}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a507cee100077bf84ad28fee5103ab116}{get\_vertices}}(wf\_points):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00107}00107\ \ \ \ \ points=np.array(wf\_points)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00109}00109\ \ \ \ \ \textcolor{comment}{\#\ Get\ only\ the\ block's\ lower\ surface\ points\ -\/>\ block's\ points\ close\ to\ the\ table's\ surface}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00110}00110\ \ \ \ \ z\_value\ =\ table\_height\ +\ tolerance\_error}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00111}00111\ \ \ \ \ l\_surface\_points\ =\ points[abs(points[:,2]\ -\/\ z\_value)\ <=\ block\_error]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00113}00113\ \ \ \ \ \textcolor{comment}{\#\ Get\ the\ indexes\ of\ the\ points\ with\ the\ desired\ values\ (min\ y,\ max\ y,\ min\ x)}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00114}00114\ \ \ \ \ miny\_index\ =\ np.argmin(l\_surface\_points[:,1])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00115}00115\ \ \ \ \ maxy\_index\ =\ np.argmax(l\_surface\_points[:,1])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00116}00116\ \ \ \ \ minx\_index\ =\ np.argmin(l\_surface\_points[:,0])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00118}00118\ \ \ \ \ \textcolor{comment}{\#\ Get\ the\ values\ of\ min\ y,\ max\ y\ and\ min\ x}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00119}00119\ \ \ \ \ miny\_value\ =\ l\_surface\_points[miny\_index,\ 1]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00120}00120\ \ \ \ \ maxy\_value\ =\ l\_surface\_points[maxy\_index,\ 1]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00121}00121\ \ \ \ \ minx\_value\ =\ l\_surface\_points[minx\_index,\ 0]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00123}00123\ \ \ \ \ \textcolor{comment}{\#\ Get\ only\ the\ points\ of\ the\ lower\ surface\ whose\ values\ are\ close\ to\ the\ one\ found\ above}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00124}00124\ \ \ \ \ miny\_points\ =\ l\_surface\_points[abs(l\_surface\_points[:,1]\ -\/\ miny\_value)\ <=\ value\_error]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00125}00125\ \ \ \ \ maxy\_points\ =\ l\_surface\_points[abs(l\_surface\_points[:,1]\ -\/\ maxy\_value)\ <=\ value\_error]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00126}00126\ \ \ \ \ minx\_points\ =\ l\_surface\_points[abs(l\_surface\_points[:,0]\ -\/\ minx\_value)\ <=\ value\_error]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00128}00128\ \ \ \ \ \textcolor{comment}{\#\ Get\ the\ indexes\ of\ the\ points}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00129}00129\ \ \ \ \ miny\_index\_f\ =\ np.argmin(miny\_points[:,0])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00130}00130\ \ \ \ \ maxy\_index\_f\ =\ np.argmin(maxy\_points[:,0])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00131}00131\ \ \ \ \ minx\_index\_f\ =\ np.argmin(minx\_points[:,1])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00133}00133\ \ \ \ \ \textcolor{comment}{\#\ Get\ the\ coordinates\ of\ the\ three\ points}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00134}00134\ \ \ \ \ miny\_minx\ =\ miny\_points[miny\_index\_f]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00135}00135\ \ \ \ \ maxy\_minx\ =\ maxy\_points[maxy\_index\_f]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00136}00136\ \ \ \ \ minx\ =\ minx\_points[minx\_index\_f]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{return}\ miny\_minx,\ maxy\_minx,\ minx}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00140}00140\ \textcolor{comment}{\#\ Function\ that\ calculates\ the\ angular\ value\ phi}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00141}\mbox{\hyperlink{namespacevision__node_a64f85026e26d634c747447b1cd9c1484}{00141}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a64f85026e26d634c747447b1cd9c1484}{get\_block\_pose}}(miny\_minx,\ maxy\_minx,\ minx):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00142}00142\ \ \ \ \ \textcolor{comment}{\#\ Coordinates\ of\ three\ vertices\ of\ the\ lower\ surface\ of\ the\ block}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00143}00143\ \ \ \ \ miny\_minx\ =\ np.array(miny\_minx)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00144}00144\ \ \ \ \ maxy\_minx\ =\ np.array(maxy\_minx)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00145}00145\ \ \ \ \ minx\ =\ np.array(minx)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00147}00147\ \ \ \ \ miny\_minx\_dist\ =\ math.dist(miny\_minx,\ minx)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00149}00149\ \ \ \ \ \textcolor{keywordflow}{if}\ miny\_minx\_dist\ <=\ distance\_error:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ configuration\ =\ 1}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ maxy\_minx[0]\ <=\ miny\_minx[0]:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ configuration\ =\ 2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ configuration\ =\ 3}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00156}00156\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{if}\ configuration\ ==\ 2:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ phi\ =\ abs(math.atan2(minx[1]-\/miny\_minx[1],miny\_minx[0]-\/minx[0]))}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ phi}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00160}00160\ \ \ \ \ \textcolor{keywordflow}{elif}\ configuration\ ==\ 3:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ phi\ =\ abs(math.atan2(minx[1]-\/miny\_minx[1],miny\_minx[0]-\/minx[0]))}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ phi\ -\/\ np.pi/2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00163}00163\ \ \ \ \ \textcolor{keywordflow}{elif}\ configuration\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00166}00166\ \textcolor{comment}{\#\ Function\ that\ gets\ the\ coordinates\ of\ the\ central\ point\ of\ the\ block}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00167}\mbox{\hyperlink{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33}{00167}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33}{get\_block\_center\_point}}(min\_x,\ phi,\ block\_short\_side,\ block\_long\_side,\ block\_height):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00168}00168\ \ \ \ \ x\ =\ min\_x[0]\ +\ (block\_long\_side\ *\ math.cos(phi)\ +\ block\_short\_side\ *\ math.sin(abs(phi)))/2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00169}00169\ \ \ \ \ y\ =\ min\_x[1]\ -\/\ np.sign(phi)\ *\ (block\_short\_side\ *\ math.cos(phi)\ -\/\ block\_long\_side*math.sin(abs(phi)))/2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00170}00170\ \ \ \ \ z\ =\ table\_height\ +\ block\_height/2}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00172}00172\ \ \ \ \ \textcolor{keywordflow}{return}\ x,\ y,\ z}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00174}00174\ \textcolor{comment}{\#\ Function\ that\ stores\ block's\ data}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00175}\mbox{\hyperlink{namespacevision__node_a6638683337d1b6ed979be52d0c546f29}{00175}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a6638683337d1b6ed979be52d0c546f29}{store\_block\_data}}(name,\ x,\ y,\ z,\ phi):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00176}00176\ \ \ \ \ blocks\_data.append([name,\ x,\ y,\ z,\ phi])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00178}\mbox{\hyperlink{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d}{00178}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d}{object\_detection}}(image\_msg:\ Image,\ point\_cloud2\_msg:\ PointCloud2,\ model)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00179}00179\ \ \ \ \ \textcolor{comment}{\#\ convert\ received\ image\ (bgr8\ format)\ to\ a\ cv2\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00180}00180\ \ \ \ \ img\ =\ CvBridge().imgmsg\_to\_cv2(image\_msg,\ \textcolor{stringliteral}{"{}bgr8"{}})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00182}00182\ \ \ \ \ \textcolor{comment}{\#\ Apply\ model\ to\ the\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00183}00183\ \ \ \ \ results\ =\ \mbox{\hyperlink{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}{model}}(img)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00185}00185\ \ \ \ \ \textcolor{comment}{\#\ Get\ bounding\ box\ information\ of\ each\ block\ in\ the\ image}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00186}00186\ \ \ \ \ blocks\ =\ []}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00187}00187\ \ \ \ \ bboxes\ =\ results.pandas().xyxy[0].to\_dict(orient=\textcolor{stringliteral}{"{}records"{}})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{for}\ bbox\ \textcolor{keywordflow}{in}\ bboxes:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ name\ =\ bbox[\textcolor{stringliteral}{'name'}]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ block\_short\_side,\ block\_long\_side,\ block\_height\ =\ \mbox{\hyperlink{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3}{get\_block\_values}}(name)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ conf\ =\ bbox[\textcolor{stringliteral}{'confidence'}]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ x1\ =\ int(bbox[\textcolor{stringliteral}{'xmin'}])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ y1\ =\ int(bbox[\textcolor{stringliteral}{'ymin'}])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ x2\ =\ int(bbox[\textcolor{stringliteral}{'xmax'}])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ y2\ =\ int(bbox[\textcolor{stringliteral}{'ymax'}])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ blocks.append((name,\ conf,\ x1,\ y1,\ x2,\ y2,\ block\_short\_side,\ block\_long\_side,\ block\_height))}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00200}00200\ \ \ \ \ \textcolor{comment}{\#\ Localize\ each\ detected\ block\ and\ get\ its\ pose\ with\ respect\ to\ the\ world\ frame}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00201}00201\ \ \ \ \ \textcolor{keywordflow}{for}\ block\ \textcolor{keywordflow}{in}\ blocks:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Crop\ image\ -\/>\ take\ only\ the\ points\ inside\ block's\ bounding\ box}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ image\ =\ img[block[3]:block[5],\ block[2]:block[4]]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ 2D\ points\ of\ the\ block\ by\ filtering\ the\ image\ through\ a\ mask}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ block\_points\_2D\ =\ \mbox{\hyperlink{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94}{get\_block\_points}}(image,\ block)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ from\ a\ list\ of\ tuples\ to\ a\ list\ of\ lists}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ zed\_points\ =\ []}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ point\ \textcolor{keywordflow}{in}\ list(block\_points\_2D):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ zed\_points.append([int(coordinate)\ \textcolor{keywordflow}{for}\ coordinate\ \textcolor{keywordflow}{in}\ point])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ 2D\ points\ to\ 3D\ points\ using\ point\ cloud\ data}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ block\_points\_3D\ =\ \mbox{\hyperlink{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c}{convert\_2D\_to\_3D}}(point\_cloud2\_msg,\ zed\_points)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Rotational\ matrix\ to\ go\ from\ the\ zed\ frame\ to\ the\ world\ frame}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ rot\_matrix\ =\ np.array([[0.,\ -\/0.49948,\ 0.86632],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [-\/1.,\ 0.,\ 0.],}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [0.,\ -\/0.86632,\ -\/0.49948]])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Zed\ camera's\ position\ from\ the\ world\ frame}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ zed\_pose\ =\ np.array([-\/0.4,\ 0.59,\ 1.4])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ each\ block's\ point\ from\ camera\ frame\ to\ world\ frame}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ wf\_block\_points\ =\ []}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ point\ \textcolor{keywordflow}{in}\ block\_points\_3D:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ point\ =\ rot\_matrix.dot(point)\ +\ zed\_pose}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ point\ =\ np.array(point)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ wf\_block\_points.append(point)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ block's\ data\ and\ store\ it}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ vertices\_result\ =\ \mbox{\hyperlink{namespacevision__node_a507cee100077bf84ad28fee5103ab116}{get\_vertices}}(wf\_block\_points)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ miny\_minx,\ maxy\_minx,\ minx\ =\ vertices\_result}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ phi\ =\ \mbox{\hyperlink{namespacevision__node_a64f85026e26d634c747447b1cd9c1484}{get\_block\_pose}}(miny\_minx,\ maxy\_minx,\ minx)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ x,\ y,\ z\ =\ \mbox{\hyperlink{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33}{get\_block\_center\_point}}(minx,\ phi,\ block[6],\ block[7],\ block[8])\ \textcolor{comment}{\#\ block[6]\ =\ block\_short\_side,\ block[7]\ =\ block\_long\_side,\ block[8]\ =\ block\_height}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacevision__node_a6638683337d1b6ed979be52d0c546f29}{store\_block\_data}}(block[0],\ x,\ y,\ z,\ phi)\ \textcolor{comment}{\#\ block[0]\ =\ block's\ class\ name}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00239}00239\ \textcolor{comment}{\#\ Function\ that\ prepares\ blocks's\ information\ as\ a\ response\ to\ the\ request\ sent\ by\ the\ task\ planner\ node}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00240}\mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{00240}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{send\_blocks\_info}}(req):}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00241}00241\ \ \ \ \ \textcolor{keyword}{global}\ start,\ blocks\_data}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00242}00242\ \ \ \ \ start\ =\ req.start}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00244}00244\ \ \ \ \ i\ =\ 0}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00246}00246\ \ \ \ \ res\ =\ VisionServiceResponse()}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{for}\ block\ \textcolor{keywordflow}{in}\ blocks\_data:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ i\ =\ i+1}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ vector\ =\ Vector3()}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ vector.x\ =\ 0}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ vector.y\ =\ 0}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ vector.z\ =\ block[4]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ res.block\_orientation.append(vector)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ position\ =\ Point()}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ position.x\ =\ block[1]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ position.y\ =\ block[2]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ position.z\ =\ block[3]}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ res.block\_position.append(position)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ res.class\_of\_block.append(block[0])}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00262}00262\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00263}00263\ \ \ \ \ res.n\_blocks\ =\ i}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00265}00265\ \ \ \ \ \textcolor{keywordflow}{return}\ res}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00267}00267\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \ \textcolor{stringliteral}{'\_\_main\_\_'}:}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00268}00268\ \ \ \ \ \textcolor{comment}{\#\ Vision\ node\ initialization}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00269}00269\ \ \ \ \ rospy.init\_node(\textcolor{stringliteral}{'vision\_node'})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00271}00271\ \ \ \ \ \textcolor{comment}{\#\ Path\ creation}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00272}\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{00272}}\ \ \ \ \ home\_path\ =\ os.path.expanduser(\textcolor{stringliteral}{'\string~'})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00273}\mbox{\hyperlink{namespacevision__node_ab346d0b407e46f95551d3908df945675}{00273}}\ \ \ \ \ path\_yolo\ =\ os.path.join(home\_path,\ \textcolor{stringliteral}{"{}ros\_ws/src/ur5/vision/yolo"{}})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00274}\mbox{\hyperlink{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}{00274}}\ \ \ \ \ path\_vision\ =\ os.path.join(home\_path,\ \textcolor{stringliteral}{"{}ros\_ws/src/ur5/vision"{}})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00275}\mbox{\hyperlink{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}{00275}}\ \ \ \ \ path\_weigths\ =\ os.path.join(path\_vision,\ \textcolor{stringliteral}{'best.pt'})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00277}00277\ \ \ \ \ \textcolor{comment}{\#\ Model\ loading}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00278}\mbox{\hyperlink{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}{00278}}\ \ \ \ \ model\ =\ torch.hub.load(path\_yolo,\ \textcolor{stringliteral}{"{}custom"{}},\ path\_weigths,\ source=\textcolor{stringliteral}{'local'})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00280}00280\ \ \ \ \ \textcolor{comment}{\#\ Vision\ node\ gets\ the\ raw\ image\ from\ the\ zed\ node}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00281}\mbox{\hyperlink{namespacevision__node_a1281bdc997309bb53f56defe414e474c}{00281}}\ \ \ \ \ image\ =\ rospy.wait\_for\_message(\textcolor{stringliteral}{"{}/ur5/zed\_node/left\_raw/image\_raw\_color"{}},\ Image)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00282}00282\ \ \ \ \ \textcolor{comment}{\#\ Vision\ node\ gets\ the\ pointcloud\ from\ the\ zed\ node}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00283}\mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{00283}}\ \ \ \ \ point\_cloud2\_msg\ =\ rospy.wait\_for\_message(\textcolor{stringliteral}{"{}/ur5/zed\_node/point\_cloud/cloud\_registered"{}},\ PointCloud2)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00285}00285\ \ \ \ \ \textcolor{comment}{\#\ Detect\ and\ estimate\ the\ pose\ of\ the\ objects\ in\ the\ image\ sent\ by\ the\ zed\ node}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00286}00286\ \ \ \ \ \mbox{\hyperlink{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d}{object\_detection}}(image,\ point\_cloud2\_msg,\ model)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00288}00288\ \ \ \ \ \textcolor{comment}{\#\ Send\ data\ to\ task\ planner\ node}}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00289}\mbox{\hyperlink{namespacevision__node_a367c375401edcf5ba18fee25a889a3d2}{00289}}\ \ \ \ \ s\ =\ rospy.Service(\textcolor{stringliteral}{'Vision'},\ VisionService,\ send\_blocks\_info)}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00291}00291\ \ \ \ \ print(\textcolor{stringliteral}{"{}VISION\ NODE\ SHUTDOWN"{}})}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00292}00292\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00293}00293\ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ start\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ rospy.is\_shutdown():}
+\DoxyCodeLine{\Hypertarget{vision__node_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{pass}}
+
+\end{DoxyCode}

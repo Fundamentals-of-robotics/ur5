@@ -1,0 +1,304 @@
+\doxysection{hubconf Namespace Reference}
+\hypertarget{namespacehubconf}{}\label{namespacehubconf}\index{hubconf@{hubconf}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\+\_\+create}} (name, pretrained=True, channels=3, classes=80, autoshape=True, verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a16d39dd15d18ab44069aa4c5c4c4cc05}{custom}} (path="{}path/to/model.\+pt"{}, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_aa3bd4bd5dc3e644f595bb2b667e579a5}{yolov5n}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_ac78e21ec08a9246e87624b2958fff424}{yolov5s}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a517002f3c2b9ad1b591f7d54324f13f3}{yolov5m}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a6c5ee0f926496e6d2246afd884f0d7aa}{yolov5l}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a7e55f8421f72caed04d54e7219402d35}{yolov5x}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a59338090e7436955f82d1d7389c6f4dd}{yolov5n6}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a74b6664af8902452d73286f55088007c}{yolov5s6}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_adc72000311015a96777c679b2fae9937}{yolov5m6}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_a24fc6cb7c5358f589d7626fc6254c085}{yolov5l6}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\item 
+\mbox{\hyperlink{namespacehubconf_ab7cea48afe0bf842f7069e16dbfcfb05}{yolov5x6}} (pretrained=True, channels=3, classes=80, autoshape=True, \+\_\+verbose=True, device=None)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacehubconf_a4bc49af68a6600ac86b67f7d69ec5282}{parser}} = argparse.\+Argument\+Parser()
+\item 
+\mbox{\hyperlink{namespacehubconf_a424169d5596a42c1eab4ae1d7139a51d}{type}}
+\item 
+\mbox{\hyperlink{namespacehubconf_a26f9fdf1c00ab7424de305fd1fb7a5c0}{str}}
+\item 
+\mbox{\hyperlink{namespacehubconf_a695f0a9ddf0d81caf5cc07310bb3c0e5}{default}}
+\item 
+\mbox{\hyperlink{namespacehubconf_adfcf708de8d493e0f20a49bc5b81784d}{help}}
+\item 
+\mbox{\hyperlink{namespacehubconf_ad5b15592f4ba74cdc435e06c1785d0a1}{opt}} = parser.\+parse\+\_\+args()
+\item 
+\mbox{\hyperlink{namespacehubconf_a121754ebff6ebf330a6c0113afe25550}{model}} = \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\+\_\+create}}(name=opt.\+model, pretrained=True, channels=3, classes=80, autoshape=True, verbose=True)
+\item 
+list \mbox{\hyperlink{namespacehubconf_af4d150499d1d02ae1ad95234cdc82a29}{imgs}}
+\item 
+\mbox{\hyperlink{namespacehubconf_a42799aa2cc6319465e4d8653c1d67474}{results}} = \mbox{\hyperlink{namespacehubconf_a121754ebff6ebf330a6c0113afe25550}{model}}(\mbox{\hyperlink{namespacehubconf_af4d150499d1d02ae1ad95234cdc82a29}{imgs}}, size=320)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}PyTorch Hub models https://pytorch.org/hub/ultralytics_yolov5
+
+Usage:
+    import torch
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # official model
+    model = torch.hub.load('ultralytics/yolov5:master', 'yolov5s')  # from branch
+    model = torch.hub.load('ultralytics/yolov5', 'custom', 'yolov5s.pt')  # custom/local model
+    model = torch.hub.load('.', 'custom', 'yolov5s.pt', source='local')  # local repo
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}\label{namespacehubconf_ad1d70c80a477c02404f5d552f251714b} 
+\index{hubconf@{hubconf}!\_create@{\_create}}
+\index{\_create@{\_create}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{\_create()}{\_create()}}
+{\footnotesize\ttfamily hubconf.\+\_\+create (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Creates or loads a YOLOv5 model.
+
+Arguments:
+    name (str): model name 'yolov5s' or path 'path/to/best.pt'
+    pretrained (bool): load pretrained weights into the model
+    channels (int): number of input channels
+    classes (int): number of model classes
+    autoshape (bool): apply YOLOv5 .autoshape() wrapper to model
+    verbose (bool): print all information to screen
+    device (str, torch.device, None): device to use for model parameters
+
+Returns:
+    YOLOv5 model
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00016}{16}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a16d39dd15d18ab44069aa4c5c4c4cc05}\label{namespacehubconf_a16d39dd15d18ab44069aa4c5c4c4cc05} 
+\index{hubconf@{hubconf}!custom@{custom}}
+\index{custom@{custom}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{custom()}{custom()}}
+{\footnotesize\ttfamily hubconf.\+custom (\begin{DoxyParamCaption}\item[{}]{path = {\ttfamily "{}path/to/model.pt"{}},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00086}{86}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a6c5ee0f926496e6d2246afd884f0d7aa}\label{namespacehubconf_a6c5ee0f926496e6d2246afd884f0d7aa} 
+\index{hubconf@{hubconf}!yolov5l@{yolov5l}}
+\index{yolov5l@{yolov5l}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5l()}{yolov5l()}}
+{\footnotesize\ttfamily hubconf.\+yolov5l (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00106}{106}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a24fc6cb7c5358f589d7626fc6254c085}\label{namespacehubconf_a24fc6cb7c5358f589d7626fc6254c085} 
+\index{hubconf@{hubconf}!yolov5l6@{yolov5l6}}
+\index{yolov5l6@{yolov5l6}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5l6()}{yolov5l6()}}
+{\footnotesize\ttfamily hubconf.\+yolov5l6 (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00131}{131}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a517002f3c2b9ad1b591f7d54324f13f3}\label{namespacehubconf_a517002f3c2b9ad1b591f7d54324f13f3} 
+\index{hubconf@{hubconf}!yolov5m@{yolov5m}}
+\index{yolov5m@{yolov5m}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5m()}{yolov5m()}}
+{\footnotesize\ttfamily hubconf.\+yolov5m (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00101}{101}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_adc72000311015a96777c679b2fae9937}\label{namespacehubconf_adc72000311015a96777c679b2fae9937} 
+\index{hubconf@{hubconf}!yolov5m6@{yolov5m6}}
+\index{yolov5m6@{yolov5m6}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5m6()}{yolov5m6()}}
+{\footnotesize\ttfamily hubconf.\+yolov5m6 (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00126}{126}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_aa3bd4bd5dc3e644f595bb2b667e579a5}\label{namespacehubconf_aa3bd4bd5dc3e644f595bb2b667e579a5} 
+\index{hubconf@{hubconf}!yolov5n@{yolov5n}}
+\index{yolov5n@{yolov5n}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5n()}{yolov5n()}}
+{\footnotesize\ttfamily hubconf.\+yolov5n (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00091}{91}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a59338090e7436955f82d1d7389c6f4dd}\label{namespacehubconf_a59338090e7436955f82d1d7389c6f4dd} 
+\index{hubconf@{hubconf}!yolov5n6@{yolov5n6}}
+\index{yolov5n6@{yolov5n6}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5n6()}{yolov5n6()}}
+{\footnotesize\ttfamily hubconf.\+yolov5n6 (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00116}{116}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_ac78e21ec08a9246e87624b2958fff424}\label{namespacehubconf_ac78e21ec08a9246e87624b2958fff424} 
+\index{hubconf@{hubconf}!yolov5s@{yolov5s}}
+\index{yolov5s@{yolov5s}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5s()}{yolov5s()}}
+{\footnotesize\ttfamily hubconf.\+yolov5s (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00096}{96}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a74b6664af8902452d73286f55088007c}\label{namespacehubconf_a74b6664af8902452d73286f55088007c} 
+\index{hubconf@{hubconf}!yolov5s6@{yolov5s6}}
+\index{yolov5s6@{yolov5s6}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5s6()}{yolov5s6()}}
+{\footnotesize\ttfamily hubconf.\+yolov5s6 (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00121}{121}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a7e55f8421f72caed04d54e7219402d35}\label{namespacehubconf_a7e55f8421f72caed04d54e7219402d35} 
+\index{hubconf@{hubconf}!yolov5x@{yolov5x}}
+\index{yolov5x@{yolov5x}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5x()}{yolov5x()}}
+{\footnotesize\ttfamily hubconf.\+yolov5x (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00111}{111}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_ab7cea48afe0bf842f7069e16dbfcfb05}\label{namespacehubconf_ab7cea48afe0bf842f7069e16dbfcfb05} 
+\index{hubconf@{hubconf}!yolov5x6@{yolov5x6}}
+\index{yolov5x6@{yolov5x6}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{yolov5x6()}{yolov5x6()}}
+{\footnotesize\ttfamily hubconf.\+yolov5x6 (\begin{DoxyParamCaption}\item[{}]{pretrained = {\ttfamily True},  }\item[{}]{channels = {\ttfamily 3},  }\item[{}]{classes = {\ttfamily 80},  }\item[{}]{autoshape = {\ttfamily True},  }\item[{}]{\+\_\+verbose = {\ttfamily True},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00136}{136}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacehubconf_a695f0a9ddf0d81caf5cc07310bb3c0e5}\label{namespacehubconf_a695f0a9ddf0d81caf5cc07310bb3c0e5} 
+\index{hubconf@{hubconf}!default@{default}}
+\index{default@{default}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{default}{default}}
+{\footnotesize\ttfamily hubconf.\+default}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00152}{152}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_adfcf708de8d493e0f20a49bc5b81784d}\label{namespacehubconf_adfcf708de8d493e0f20a49bc5b81784d} 
+\index{hubconf@{hubconf}!help@{help}}
+\index{help@{help}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{help}{help}}
+{\footnotesize\ttfamily hubconf.\+help}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00152}{152}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_af4d150499d1d02ae1ad95234cdc82a29}\label{namespacehubconf_af4d150499d1d02ae1ad95234cdc82a29} 
+\index{hubconf@{hubconf}!imgs@{imgs}}
+\index{imgs@{imgs}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{imgs}{imgs}}
+{\footnotesize\ttfamily list hubconf.\+imgs}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ [}
+\DoxyCodeLine{00002\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data/images/zidane.jpg"{}},\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{00003\ \ \ \ \ \ \ \ \ Path(\textcolor{stringliteral}{"{}data/images/zidane.jpg"{}}),\ \ \textcolor{comment}{\#\ Path}}
+\DoxyCodeLine{00004\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}https://ultralytics.com/images/zidane.jpg"{}},\ \ \textcolor{comment}{\#\ URI}}
+\DoxyCodeLine{00005\ \ \ \ \ \ \ \ \ cv2.imread(\textcolor{stringliteral}{"{}data/images/bus.jpg"{}})[:,\ :,\ ::-\/1],\ \ \textcolor{comment}{\#\ OpenCV}}
+\DoxyCodeLine{00006\ \ \ \ \ \ \ \ \ Image.open(\textcolor{stringliteral}{"{}data/images/bus.jpg"{}}),\ \ \textcolor{comment}{\#\ PIL}}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ np.zeros((320,\ 640,\ 3)),}
+\DoxyCodeLine{00008\ \ \ \ \ ]}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00161}{161}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a121754ebff6ebf330a6c0113afe25550}\label{namespacehubconf_a121754ebff6ebf330a6c0113afe25550} 
+\index{hubconf@{hubconf}!model@{model}}
+\index{model@{model}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily hubconf.\+model = \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\+\_\+create}}(name=opt.\+model, pretrained=True, channels=3, classes=80, autoshape=True, verbose=True)}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00157}{157}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_ad5b15592f4ba74cdc435e06c1785d0a1}\label{namespacehubconf_ad5b15592f4ba74cdc435e06c1785d0a1} 
+\index{hubconf@{hubconf}!opt@{opt}}
+\index{opt@{opt}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily hubconf.\+opt = parser.\+parse\+\_\+args()}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00153}{153}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a4bc49af68a6600ac86b67f7d69ec5282}\label{namespacehubconf_a4bc49af68a6600ac86b67f7d69ec5282} 
+\index{hubconf@{hubconf}!parser@{parser}}
+\index{parser@{parser}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{parser}{parser}}
+{\footnotesize\ttfamily hubconf.\+parser = argparse.\+Argument\+Parser()}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00151}{151}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a42799aa2cc6319465e4d8653c1d67474}\label{namespacehubconf_a42799aa2cc6319465e4d8653c1d67474} 
+\index{hubconf@{hubconf}!results@{results}}
+\index{results@{results}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{results}{results}}
+{\footnotesize\ttfamily hubconf.\+results = \mbox{\hyperlink{namespacehubconf_a121754ebff6ebf330a6c0113afe25550}{model}}(\mbox{\hyperlink{namespacehubconf_af4d150499d1d02ae1ad95234cdc82a29}{imgs}}, size=320)}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00171}{171}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a26f9fdf1c00ab7424de305fd1fb7a5c0}\label{namespacehubconf_a26f9fdf1c00ab7424de305fd1fb7a5c0} 
+\index{hubconf@{hubconf}!str@{str}}
+\index{str@{str}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{str}{str}}
+{\footnotesize\ttfamily hubconf.\+str}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00152}{152}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+
+\Hypertarget{namespacehubconf_a424169d5596a42c1eab4ae1d7139a51d}\label{namespacehubconf_a424169d5596a42c1eab4ae1d7139a51d} 
+\index{hubconf@{hubconf}!type@{type}}
+\index{type@{type}!hubconf@{hubconf}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily hubconf.\+type}
+
+
+
+Definition at line \mbox{\hyperlink{hubconf_8py_source_l00152}{152}} of file \mbox{\hyperlink{hubconf_8py_source}{hubconf.\+py}}.
+

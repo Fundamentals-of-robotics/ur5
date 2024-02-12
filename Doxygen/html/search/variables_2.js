@@ -1,5 +1,20 @@
 var searchData=
 [
-  ['error_0',['error',['../ur5__task__library_8h.html#a11614f44ef4d939bdd984953346a7572',1,'ur5_task_library.h']]],
-  ['euler_1',['euler',['../ur5__task__library_8h.html#a902ea9d67d166f593a8b3631fc1d4b8f',1,'ur5_task_library.h']]]
+  ['balance_0',['balance',['../classutils_1_1loss_1_1_compute_loss.html#a30a16dfd7ac1245ec36afed277fa8744',1,'utils.loss.ComputeLoss.balance'],['../classutils_1_1segment_1_1loss_1_1_compute_loss.html#abd323fd956e090288f3da96473d3ea36',1,'utils.segment.loss.ComputeLoss.balance']]],
+  ['batch_1',['batch',['../classutils_1_1dataloaders_1_1_load_images_and_labels.html#ac094011a6d5fbbd57684856d17ba8fa3',1,'utils::dataloaders::LoadImagesAndLabels']]],
+  ['batch_5fsampler_2',['batch_sampler',['../classutils_1_1dataloaders_1_1_infinite_data_loader.html#a2a0b4a60de66bb7ac384a8a4e3347d49',1,'utils::dataloaders::InfiniteDataLoader']]],
+  ['batch_5fshapes_3',['batch_shapes',['../classutils_1_1dataloaders_1_1_load_images_and_labels.html#a63a772948a9add3d46a2a15d087b3c3d',1,'utils::dataloaders::LoadImagesAndLabels']]],
+  ['bbox_5finterval_4',['bbox_interval',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#a4c24ab925c18c89502d5a44d9be44159',1,'utils.loggers.clearml.clearml_utils.ClearmlLogger.bbox_interval'],['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#aad2114127ac19690e68239360f7600b0',1,'utils.loggers.wandb.wandb_utils.WandbLogger.bbox_interval']]],
+  ['bcecls_5',['BCEcls',['../classutils_1_1loss_1_1_compute_loss.html#a4a1068c79cbb09a043b2e0fbce4e0652',1,'utils.loss.ComputeLoss.BCEcls'],['../classutils_1_1segment_1_1loss_1_1_compute_loss.html#a9368f61042ab8a7ad754d6eb036c9cc3',1,'utils.segment.loss.ComputeLoss.BCEcls']]],
+  ['bceobj_6',['BCEobj',['../classutils_1_1loss_1_1_compute_loss.html#a1684b5face58b852bcf259c31a77f0d3',1,'utils.loss.ComputeLoss.BCEobj'],['../classutils_1_1segment_1_1loss_1_1_compute_loss.html#a25365af5248fab5a0dd2c11073b4ee2b',1,'utils.segment.loss.ComputeLoss.BCEobj']]],
+  ['best_5fepoch_7',['best_epoch',['../classutils_1_1torch__utils_1_1_early_stopping.html#af8408c51db72979e7cc24923f67fc5d8',1,'utils::torch_utils::EarlyStopping']]],
+  ['best_5ffitness_8',['best_fitness',['../classutils_1_1torch__utils_1_1_early_stopping.html#a8a6fb2278e098811011785435440342d',1,'utils::torch_utils::EarlyStopping']]],
+  ['best_5fkeys_9',['best_keys',['../classutils_1_1loggers_1_1_loggers.html#a57a731b2de169c5acf7329a44d3df7a8',1,'utils::loggers::Loggers']]],
+  ['best_5fkeys_10',['BEST_KEYS',['../namespaceutils_1_1segment_1_1metrics.html#ab0995b3bec89c17be93c758a22a88067',1,'utils::segment::metrics']]],
+  ['beta_11',['beta',['../classutils_1_1activations_1_1_acon_c.html#ac19cf98f6f113e6c5be46ab694be8a18',1,'utils::activations::AconC']]],
+  ['block_5ferror_12',['block_error',['../namespacevision__node.html#a2415130221427f6c7b2fe1b96c0937f5',1,'vision_node']]],
+  ['blocks_13',['blocks',['../ur5__task__library_8h.html#af65a0b3650763093124953b0f9b70cfc',1,'ur5_task_library.h']]],
+  ['blocks_5fdata_14',['blocks_data',['../namespacevision__node.html#a4b69f78e85e2fae1da638ad13cbdff90',1,'vision_node']]],
+  ['blocks_5fvalues_15',['blocks_values',['../namespacevision__node.html#a4ba011c1f1e58442602adc37699abc98',1,'vision_node']]],
+  ['bn_16',['bn',['../classmodels_1_1common_1_1_conv.html#a47a40e914352711d6480f80824ae88ea',1,'models.common.Conv.bn'],['../classmodels_1_1common_1_1_bottleneck_c_s_p.html#a121b4f54705284c6813b750b60535bb8',1,'models.common.BottleneckCSP.bn'],['../classmodels_1_1experimental_1_1_mix_conv2d.html#a775e4c51a7ee7ea5c575799a8a4b3ab6',1,'models.experimental.MixConv2d.bn'],['../classmodels_1_1tf_1_1_t_f_b_n.html#aeaf04762847bcae0940ffcc19d0b9601',1,'models.tf.TFBN.bn'],['../classmodels_1_1tf_1_1_t_f_conv.html#a66100543b1cc5166bdca0f36b670e6ef',1,'models.tf.TFConv.bn'],['../classmodels_1_1tf_1_1_t_f_d_w_conv.html#a49c2f8de5e4a9b769aa7af25a10f9457',1,'models.tf.TFDWConv.bn'],['../classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p.html#a6c12ceb0c40947c20745e8568968189c',1,'models.tf.TFBottleneckCSP.bn'],['../classutils_1_1activations_1_1_f_re_l_u.html#ac489e2d8300e7aa75bc3942d1f114d90',1,'utils.activations.FReLU.bn']]]
 ];

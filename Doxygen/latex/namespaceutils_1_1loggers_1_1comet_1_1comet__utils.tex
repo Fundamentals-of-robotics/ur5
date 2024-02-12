@@ -1,0 +1,148 @@
+\doxysection{utils.\+loggers.\+comet.\+comet\+\_\+utils Namespace Reference}
+\hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils}{}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils}\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0}{download\+\_\+model\+\_\+checkpoint}} (opt, experiment)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a134631426eb725b543d93ad178c0cf39}{set\+\_\+opt\+\_\+parameters}} (opt, experiment)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_aed1d6d4faa42e83366382d3d5da8ab92}{check\+\_\+comet\+\_\+weights}} (opt)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a4b42f1e5d16870a9a6fff0f6bfe6ed4c}{check\+\_\+comet\+\_\+resume}} (opt)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_ac1de94161fd78ba8a446dd3df12c7091}{comet\+\_\+ml}} = None
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af685ff9ff5520cae991983f07b5b4152}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a05d6f149e8c4374bf4d69210d14f63db}{COMET\+\_\+\+PREFIX}} = "{}comet\+://"{}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af254ea060c1f3d902046cfac783cd193}{COMET\+\_\+\+MODEL\+\_\+\+NAME}} = os.\+getenv("{}COMET\+\_\+\+MODEL\+\_\+\+NAME"{}, "{}yolov5"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a1c8563deafe5cfab1a576152c816c968}{COMET\+\_\+\+DEFAULT\+\_\+\+CHECKPOINT\+\_\+\+FILENAME}} = os.\+getenv("{}COMET\+\_\+\+DEFAULT\+\_\+\+CHECKPOINT\+\_\+\+FILENAME"{}, "{}last.\+pt"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a4b42f1e5d16870a9a6fff0f6bfe6ed4c}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a4b42f1e5d16870a9a6fff0f6bfe6ed4c} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!check\_comet\_resume@{check\_comet\_resume}}
+\index{check\_comet\_resume@{check\_comet\_resume}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{check\_comet\_resume()}{check\_comet\_resume()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+check\+\_\+comet\+\_\+resume (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Restores run parameters to its original state based on the model checkpoint and logged Experiment parameters.
+
+Args:
+    opt (argparse.Namespace): Command Line arguments passed
+        to YOLOv5 training script
+
+Returns:
+    None/bool: Return True if the run is restored successfully
+        else return None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00123}{123}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_aed1d6d4faa42e83366382d3d5da8ab92}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_aed1d6d4faa42e83366382d3d5da8ab92} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!check\_comet\_weights@{check\_comet\_weights}}
+\index{check\_comet\_weights@{check\_comet\_weights}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{check\_comet\_weights()}{check\_comet\_weights()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+check\+\_\+comet\+\_\+weights (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Downloads model weights from Comet and updates the weights path to point to saved weights location.
+
+Args:
+    opt (argparse.Namespace): Command Line arguments passed
+        to YOLOv5 training script
+
+Returns:
+    None/bool: Return True if weights are successfully downloaded
+        else return None
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00097}{97}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!download\_model\_checkpoint@{download\_model\_checkpoint}}
+\index{download\_model\_checkpoint@{download\_model\_checkpoint}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{download\_model\_checkpoint()}{download\_model\_checkpoint()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+download\+\_\+model\+\_\+checkpoint (\begin{DoxyParamCaption}\item[{}]{opt,  }\item[{}]{experiment }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00019}{19}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a134631426eb725b543d93ad178c0cf39}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a134631426eb725b543d93ad178c0cf39} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!set\_opt\_parameters@{set\_opt\_parameters}}
+\index{set\_opt\_parameters@{set\_opt\_parameters}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{set\_opt\_parameters()}{set\_opt\_parameters()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+set\+\_\+opt\+\_\+parameters (\begin{DoxyParamCaption}\item[{}]{opt,  }\item[{}]{experiment }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Update the opts Namespace with parameters from Comet's ExistingExperiment when resuming a run.
+
+Args:
+    opt (argparse.Namespace): Namespace of command line options
+    experiment (comet_ml.APIExperiment): Comet API Experiment object
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00066}{66}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a1c8563deafe5cfab1a576152c816c968}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a1c8563deafe5cfab1a576152c816c968} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!COMET\_DEFAULT\_CHECKPOINT\_FILENAME@{COMET\_DEFAULT\_CHECKPOINT\_FILENAME}}
+\index{COMET\_DEFAULT\_CHECKPOINT\_FILENAME@{COMET\_DEFAULT\_CHECKPOINT\_FILENAME}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{COMET\_DEFAULT\_CHECKPOINT\_FILENAME}{COMET\_DEFAULT\_CHECKPOINT\_FILENAME}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+COMET\+\_\+\+DEFAULT\+\_\+\+CHECKPOINT\+\_\+\+FILENAME = os.\+getenv("{}COMET\+\_\+\+DEFAULT\+\_\+\+CHECKPOINT\+\_\+\+FILENAME"{}, "{}last.\+pt"{})}
+
+
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00016}{16}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_ac1de94161fd78ba8a446dd3df12c7091}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_ac1de94161fd78ba8a446dd3df12c7091} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!comet\_ml@{comet\_ml}}
+\index{comet\_ml@{comet\_ml}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{comet\_ml}{comet\_ml}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+comet\+\_\+ml = None}
+
+
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00008}{8}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af254ea060c1f3d902046cfac783cd193}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af254ea060c1f3d902046cfac783cd193} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!COMET\_MODEL\_NAME@{COMET\_MODEL\_NAME}}
+\index{COMET\_MODEL\_NAME@{COMET\_MODEL\_NAME}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{COMET\_MODEL\_NAME}{COMET\_MODEL\_NAME}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+COMET\+\_\+\+MODEL\+\_\+\+NAME = os.\+getenv("{}COMET\+\_\+\+MODEL\+\_\+\+NAME"{}, "{}yolov5"{})}
+
+
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00015}{15}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a05d6f149e8c4374bf4d69210d14f63db}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a05d6f149e8c4374bf4d69210d14f63db} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!COMET\_PREFIX@{COMET\_PREFIX}}
+\index{COMET\_PREFIX@{COMET\_PREFIX}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{COMET\_PREFIX}{COMET\_PREFIX}}
+{\footnotesize\ttfamily str utils.\+loggers.\+comet.\+comet\+\_\+utils.\+COMET\+\_\+\+PREFIX = "{}comet\+://"{}}
+
+
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00014}{14}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af685ff9ff5520cae991983f07b5b4152}\label{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af685ff9ff5520cae991983f07b5b4152} 
+\index{utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}!logger@{logger}}
+\index{logger@{logger}!utils.loggers.comet.comet\_utils@{utils.loggers.comet.comet\_utils}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+comet\+\_\+utils.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{comet__utils_8py_source_l00012}{12}} of file \mbox{\hyperlink{comet__utils_8py_source}{comet\+\_\+utils.\+py}}.
+

@@ -1,0 +1,82 @@
+\doxysection{utils.\+autoanchor Namespace Reference}
+\hypertarget{namespaceutils_1_1autoanchor}{}\label{namespaceutils_1_1autoanchor}\index{utils.autoanchor@{utils.autoanchor}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1autoanchor_adc3c6faa5e2066ac87ec1088b86967cd}{check\+\_\+anchor\+\_\+order}} (m)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1autoanchor_a3c7e1fb16c9813b90f0ccad9f3bf4dac}{check\+\_\+anchors}} (dataset, model, thr=4.\+0, imgsz=640)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1autoanchor_a227f6f66f6ac0a3b824f0dfe944456c7}{kmean\+\_\+anchors}} (dataset="{}./data/coco128.\+yaml"{}, n=9, img\+\_\+size=640, thr=4.\+0, gen=1000, verbose=True)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1autoanchor_af4513d531cc030ada9324d8fe83c7b14}{PREFIX}} = colorstr("{}Auto\+Anchor\+: "{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}AutoAnchor utils.\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1autoanchor_adc3c6faa5e2066ac87ec1088b86967cd}\label{namespaceutils_1_1autoanchor_adc3c6faa5e2066ac87ec1088b86967cd} 
+\index{utils.autoanchor@{utils.autoanchor}!check\_anchor\_order@{check\_anchor\_order}}
+\index{check\_anchor\_order@{check\_anchor\_order}!utils.autoanchor@{utils.autoanchor}}
+\doxysubsubsection{\texorpdfstring{check\_anchor\_order()}{check\_anchor\_order()}}
+{\footnotesize\ttfamily utils.\+autoanchor.\+check\+\_\+anchor\+\_\+order (\begin{DoxyParamCaption}\item[{}]{m }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{autoanchor_8py_source_l00017}{17}} of file \mbox{\hyperlink{autoanchor_8py_source}{autoanchor.\+py}}.
+
+\Hypertarget{namespaceutils_1_1autoanchor_a3c7e1fb16c9813b90f0ccad9f3bf4dac}\label{namespaceutils_1_1autoanchor_a3c7e1fb16c9813b90f0ccad9f3bf4dac} 
+\index{utils.autoanchor@{utils.autoanchor}!check\_anchors@{check\_anchors}}
+\index{check\_anchors@{check\_anchors}!utils.autoanchor@{utils.autoanchor}}
+\doxysubsubsection{\texorpdfstring{check\_anchors()}{check\_anchors()}}
+{\footnotesize\ttfamily utils.\+autoanchor.\+check\+\_\+anchors (\begin{DoxyParamCaption}\item[{}]{dataset,  }\item[{}]{model,  }\item[{}]{thr = {\ttfamily 4.0},  }\item[{}]{imgsz = {\ttfamily 640} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{autoanchor_8py_source_l00028}{28}} of file \mbox{\hyperlink{autoanchor_8py_source}{autoanchor.\+py}}.
+
+\Hypertarget{namespaceutils_1_1autoanchor_a227f6f66f6ac0a3b824f0dfe944456c7}\label{namespaceutils_1_1autoanchor_a227f6f66f6ac0a3b824f0dfe944456c7} 
+\index{utils.autoanchor@{utils.autoanchor}!kmean\_anchors@{kmean\_anchors}}
+\index{kmean\_anchors@{kmean\_anchors}!utils.autoanchor@{utils.autoanchor}}
+\doxysubsubsection{\texorpdfstring{kmean\_anchors()}{kmean\_anchors()}}
+{\footnotesize\ttfamily utils.\+autoanchor.\+kmean\+\_\+anchors (\begin{DoxyParamCaption}\item[{}]{dataset = {\ttfamily "{}./data/coco128.yaml"{}},  }\item[{}]{n = {\ttfamily 9},  }\item[{}]{img\+\_\+size = {\ttfamily 640},  }\item[{}]{thr = {\ttfamily 4.0},  }\item[{}]{gen = {\ttfamily 1000},  }\item[{}]{verbose = {\ttfamily True} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Creates kmeans-evolved anchors from training dataset.
+
+Arguments:
+    dataset: path to data.yaml, or a loaded dataset
+    n: number of anchors
+    img_size: image size used for training
+    thr: anchor-label wh ratio threshold hyperparameter hyp['anchor_t'] used for training, default=4.0
+    gen: generations to evolve anchors using genetic algorithm
+    verbose: print all results
+
+Return:
+    k: kmeans evolved anchors
+
+Usage:
+    from utils.autoanchor import *; _ = kmean_anchors()
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{autoanchor_8py_source_l00065}{65}} of file \mbox{\hyperlink{autoanchor_8py_source}{autoanchor.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1autoanchor_af4513d531cc030ada9324d8fe83c7b14}\label{namespaceutils_1_1autoanchor_af4513d531cc030ada9324d8fe83c7b14} 
+\index{utils.autoanchor@{utils.autoanchor}!PREFIX@{PREFIX}}
+\index{PREFIX@{PREFIX}!utils.autoanchor@{utils.autoanchor}}
+\doxysubsubsection{\texorpdfstring{PREFIX}{PREFIX}}
+{\footnotesize\ttfamily utils.\+autoanchor.\+PREFIX = colorstr("{}Auto\+Anchor\+: "{})}
+
+
+
+Definition at line \mbox{\hyperlink{autoanchor_8py_source_l00014}{14}} of file \mbox{\hyperlink{autoanchor_8py_source}{autoanchor.\+py}}.
+

@@ -1,0 +1,514 @@
+\doxysection{val.\+py}
+\hypertarget{segment_2val_8py_source}{}\label{segment_2val_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/segment/val.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/segment/val.py}}
+\mbox{\hyperlink{segment_2val_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00001}00001\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00003}00003\ \textcolor{stringliteral}{Validate\ a\ trained\ YOLOv5\ segment\ model\ on\ a\ segment\ dataset.}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00005}00005\ \textcolor{stringliteral}{Usage:}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00006}00006\ \textcolor{stringliteral}{\ \ \ \ \$\ bash\ data/scripts/get\_coco.sh\ -\/-\/val\ -\/-\/segments\ \ \#\ download\ COCO-\/segments\ val\ split\ (1G,\ 5000\ images)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ segment/val.py\ -\/-\/weights\ yolov5s-\/seg.pt\ -\/-\/data\ coco.yaml\ -\/-\/img\ 640\ \ \#\ validate\ COCO-\/segments}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00008}00008\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00009}00009\ \textcolor{stringliteral}{Usage\ -\/\ formats:}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ segment/val.py\ -\/-\/weights\ yolov5s-\/seg.pt\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ PyTorch}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg.torchscript\ \ \ \ \ \ \ \ \#\ TorchScript}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg.onnx\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ ONNX\ Runtime\ or\ OpenCV\ DNN\ with\ -\/-\/dnn}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg\_openvino\_label\ \ \ \ \ \#\ OpenVINO}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg.engine\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorRT}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg.mlmodel\ \ \ \ \ \ \ \ \ \ \ \ \#\ CoreML\ (macOS-\/only)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00016}00016\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg\_saved\_model\ \ \ \ \ \ \ \ \#\ TensorFlow\ SavedModel}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg.pb\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ GraphDef}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg.tflite\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ Lite}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg\_edgetpu.tflite\ \ \ \ \ \#\ TensorFlow\ Edge\ TPU}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/seg\_paddle\_model\ \ \ \ \ \ \ \#\ PaddlePaddle}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00021}00021\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00023}00023\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00024}00024\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00025}00025\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00026}00026\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00027}00027\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00028}00028\ \textcolor{keyword}{from}\ multiprocessing.pool\ \textcolor{keyword}{import}\ ThreadPool}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00029}00029\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00031}00031\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00032}00032\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00033}00033\ \textcolor{keyword}{from}\ tqdm\ \textcolor{keyword}{import}\ tqdm}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00035}00035\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00036}00036\ ROOT\ =\ FILE.parents[1]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00037}00037\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00038}00038\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00039}00039\ ROOT\ =\ Path(os.path.relpath(ROOT,\ Path.cwd()))\ \ \textcolor{comment}{\#\ relative}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00041}00041\ \textcolor{keyword}{import}\ torch.nn.functional\ \textcolor{keyword}{as}\ F}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00043}00043\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1common}{models.common}}\ \textcolor{keyword}{import}\ DetectMultiBackend}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00044}00044\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1yolo}{models.yolo}}\ \textcolor{keyword}{import}\ SegmentationModel}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00045}00045\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1callbacks}{utils.callbacks}}\ \textcolor{keyword}{import}\ Callbacks}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00046}00046\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00047}00047\ \ \ \ \ LOGGER,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00048}00048\ \ \ \ \ NUM\_THREADS,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00049}00049\ \ \ \ \ TQDM\_BAR\_FORMAT,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00050}00050\ \ \ \ \ Profile,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00051}00051\ \ \ \ \ check\_dataset,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00052}00052\ \ \ \ \ check\_img\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00053}00053\ \ \ \ \ check\_requirements,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00054}00054\ \ \ \ \ check\_yaml,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00055}00055\ \ \ \ \ coco80\_to\_coco91\_class,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00056}00056\ \ \ \ \ colorstr,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00057}00057\ \ \ \ \ increment\_path,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00058}00058\ \ \ \ \ non\_max\_suppression,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00059}00059\ \ \ \ \ print\_args,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00060}00060\ \ \ \ \ scale\_boxes,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00061}00061\ \ \ \ \ xywh2xyxy,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00062}00062\ \ \ \ \ xyxy2xywh,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00063}00063\ )}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00064}00064\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1metrics}{utils.metrics}}\ \textcolor{keyword}{import}\ ConfusionMatrix,\ box\_iou}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00065}00065\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1plots}{utils.plots}}\ \textcolor{keyword}{import}\ output\_to\_target,\ plot\_val\_study}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00066}00066\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders}{utils.segment.dataloaders}}\ \textcolor{keyword}{import}\ create\_dataloader}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00067}00067\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1general}{utils.segment.general}}\ \textcolor{keyword}{import}\ mask\_iou,\ process\_mask,\ process\_mask\_native,\ scale\_image}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00068}00068\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics}{utils.segment.metrics}}\ \textcolor{keyword}{import}\ Metrics,\ ap\_per\_class\_box\_and\_mask}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00069}00069\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1plots}{utils.segment.plots}}\ \textcolor{keyword}{import}\ plot\_images\_and\_masks}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00070}00070\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ de\_parallel,\ select\_device,\ smart\_inference\_mode}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00073}\mbox{\hyperlink{namespaceval_a6caa1705f339843632037dab90799a9f}{00073}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_a6caa1705f339843632037dab90799a9f}{save\_one\_txt}}(predn,\ save\_conf,\ shape,\ file):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00074}00074\ \ \ \ \ \textcolor{comment}{\#\ Save\ one\ txt\ result}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00075}00075\ \ \ \ \ gn\ =\ torch.tensor(shape)[[1,\ 0,\ 1,\ 0]]\ \ \textcolor{comment}{\#\ normalization\ gain\ whwh}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{for}\ *xyxy,\ conf,\ cls\ \textcolor{keywordflow}{in}\ predn.tolist():}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ xywh\ =\ (xyxy2xywh(torch.tensor(xyxy).view(1,\ 4))\ /\ gn).view(-\/1).tolist()\ \ \textcolor{comment}{\#\ normalized\ xywh}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ line\ =\ (cls,\ *xywh,\ conf)\ \textcolor{keywordflow}{if}\ save\_conf\ \textcolor{keywordflow}{else}\ (cls,\ *xywh)\ \ \textcolor{comment}{\#\ label\ format}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(file,\ \textcolor{stringliteral}{"{}a"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ f.write((\textcolor{stringliteral}{"{}\%g\ "{}}\ *\ len(line)).rstrip()\ \%\ line\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00083}\mbox{\hyperlink{namespaceval_aa80c545ea2b3b16066f43c12b40ea2c8}{00083}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_aa80c545ea2b3b16066f43c12b40ea2c8}{save\_one\_json}}(predn,\ jdict,\ path,\ class\_map,\ pred\_masks):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00084}00084\ \ \ \ \ \textcolor{comment}{\#\ Save\ one\ JSON\ result\ \{"{}image\_id"{}:\ 42,\ "{}category\_id"{}:\ 18,\ "{}bbox"{}:\ [258.15,\ 41.29,\ 348.26,\ 243.78],\ "{}score"{}:\ 0.236\}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00085}00085\ \ \ \ \ \textcolor{keyword}{from}\ pycocotools.mask\ \textcolor{keyword}{import}\ encode}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00087}00087\ \ \ \ \ \textcolor{keyword}{def\ }single\_encode(x):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ rle\ =\ encode(np.asarray(x[:,\ :,\ \textcolor{keywordtype}{None}],\ order=\textcolor{stringliteral}{"{}F"{}},\ dtype=\textcolor{stringliteral}{"{}uint8"{}}))[0]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ rle[\textcolor{stringliteral}{"{}counts"{}}]\ =\ rle[\textcolor{stringliteral}{"{}counts"{}}].decode(\textcolor{stringliteral}{"{}utf-\/8"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rle}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00092}00092\ \ \ \ \ image\_id\ =\ int(path.stem)\ \textcolor{keywordflow}{if}\ path.stem.isnumeric()\ \textcolor{keywordflow}{else}\ path.stem}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00093}00093\ \ \ \ \ box\ =\ xyxy2xywh(predn[:,\ :4])\ \ \textcolor{comment}{\#\ xywh}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00094}00094\ \ \ \ \ box[:,\ :2]\ -\/=\ box[:,\ 2:]\ /\ 2\ \ \textcolor{comment}{\#\ xy\ center\ to\ top-\/left\ corner}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00095}00095\ \ \ \ \ pred\_masks\ =\ np.transpose(pred\_masks,\ (2,\ 0,\ 1))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00096}00096\ \ \ \ \ \textcolor{keyword}{with}\ ThreadPool(NUM\_THREADS)\ \textcolor{keyword}{as}\ pool:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ rles\ =\ pool.map(single\_encode,\ pred\_masks)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00098}00098\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ (p,\ b)\ \textcolor{keywordflow}{in}\ enumerate(zip(predn.tolist(),\ box.tolist())):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ jdict.append(}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}image\_id"{}}:\ image\_id,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}category\_id"{}}:\ class\_map[int(p[5])],}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bbox"{}}:\ [round(x,\ 3)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ b],}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}score"{}}:\ round(p[4],\ 5),}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}segmentation"{}}:\ rles[i],}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00110}\mbox{\hyperlink{namespaceval_a9047efe14a41ff80f40c5d7243797305}{00110}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_a9047efe14a41ff80f40c5d7243797305}{process\_batch}}(detections,\ labels,\ iouv,\ pred\_masks=None,\ gt\_masks=None,\ overlap=False,\ masks=False):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00111}00111\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00112}00112\ \textcolor{stringliteral}{\ \ \ \ Return\ correct\ prediction\ matrix}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00113}00113\ \textcolor{stringliteral}{\ \ \ \ Arguments:}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00114}00114\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ detections\ (array[N,\ 6]),\ x1,\ y1,\ x2,\ y2,\ conf,\ class}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00115}00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ labels\ (array[M,\ 5]),\ class,\ x1,\ y1,\ x2,\ y2}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00116}00116\ \textcolor{stringliteral}{\ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00117}00117\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ correct\ (array[N,\ 10]),\ for\ 10\ IoU\ levels}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00118}00118\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00119}00119\ \ \ \ \ \textcolor{keywordflow}{if}\ masks:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ overlap:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ nl\ =\ len(labels)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ torch.arange(nl,\ device=gt\_masks.device).view(nl,\ 1,\ 1)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ gt\_masks\ =\ gt\_masks.repeat(nl,\ 1,\ 1)\ \ \textcolor{comment}{\#\ shape(1,640,640)\ -\/>\ (n,640,640)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ gt\_masks\ =\ torch.where(gt\_masks\ ==\ index,\ 1.0,\ 0.0)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ gt\_masks.shape[1:]\ !=\ pred\_masks.shape[1:]:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ gt\_masks\ =\ F.interpolate(gt\_masks[\textcolor{keywordtype}{None}],\ pred\_masks.shape[1:],\ mode=\textcolor{stringliteral}{"{}bilinear"{}},\ align\_corners=\textcolor{keyword}{False})[0]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ gt\_masks\ =\ gt\_masks.gt\_(0.5)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ iou\ =\ mask\_iou(gt\_masks.view(gt\_masks.shape[0],\ -\/1),\ pred\_masks.view(pred\_masks.shape[0],\ -\/1))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ boxes}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ iou\ =\ box\_iou(labels[:,\ 1:],\ detections[:,\ :4])}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00132}00132\ \ \ \ \ correct\ =\ np.zeros((detections.shape[0],\ iouv.shape[0])).astype(bool)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00133}00133\ \ \ \ \ correct\_class\ =\ labels[:,\ 0:1]\ ==\ detections[:,\ 5]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(iouv)):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ x\ =\ torch.where((iou\ >=\ iouv[i])\ \&\ correct\_class)\ \ \textcolor{comment}{\#\ IoU\ >\ threshold\ and\ classes\ match}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ x[0].shape[0]:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ matches\ =\ torch.cat((torch.stack(x,\ 1),\ iou[x[0],\ x[1]][:,\ \textcolor{keywordtype}{None}]),\ 1).cpu().numpy()\ \ \textcolor{comment}{\#\ [label,\ detect,\ iou]}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ x[0].shape[0]\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ matches\ =\ matches[matches[:,\ 2].argsort()[::-\/1]]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ matches\ =\ matches[np.unique(matches[:,\ 1],\ return\_index=\textcolor{keyword}{True})[1]]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ matches\ =\ matches[matches[:,\ 2].argsort()[::-\/1]]}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ matches\ =\ matches[np.unique(matches[:,\ 0],\ return\_index=\textcolor{keyword}{True})[1]]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ correct[matches[:,\ 1].astype(int),\ i]\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00144}00144\ \ \ \ \ \textcolor{keywordflow}{return}\ torch.tensor(correct,\ dtype=torch.bool,\ device=iouv.device)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00147}00147\ \textcolor{preprocessor}{@smart\_inference\_mode()}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00148}\mbox{\hyperlink{namespaceval_a7bfb6be114374682907ab8c05af56395}{00148}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_a68d1b6a8c7f3f4c30afe14a7f2492a8e}{run}}(}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00149}00149\ \ \ \ \ data,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00150}00150\ \ \ \ \ weights=None,\ \ \textcolor{comment}{\#\ model.pt\ path(s)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00151}00151\ \ \ \ \ batch\_size=32,\ \ \textcolor{comment}{\#\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00152}00152\ \ \ \ \ imgsz=640,\ \ \textcolor{comment}{\#\ inference\ size\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00153}00153\ \ \ \ \ conf\_thres=0.001,\ \ \textcolor{comment}{\#\ confidence\ threshold}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00154}00154\ \ \ \ \ iou\_thres=0.6,\ \ \textcolor{comment}{\#\ NMS\ IoU\ threshold}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00155}00155\ \ \ \ \ max\_det=300,\ \ \textcolor{comment}{\#\ maximum\ detections\ per\ image}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00156}00156\ \ \ \ \ task="{}val"{},\ \ \textcolor{comment}{\#\ train,\ val,\ test,\ speed\ or\ study}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00157}00157\ \ \ \ \ device="{}"{},\ \ \textcolor{comment}{\#\ cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00158}00158\ \ \ \ \ workers=8,\ \ \textcolor{comment}{\#\ max\ dataloader\ workers\ (per\ RANK\ in\ DDP\ mode)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00159}00159\ \ \ \ \ single\_cls=False,\ \ \textcolor{comment}{\#\ treat\ as\ single-\/class\ dataset}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00160}00160\ \ \ \ \ augment=False,\ \ \textcolor{comment}{\#\ augmented\ inference}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00161}00161\ \ \ \ \ verbose=False,\ \ \textcolor{comment}{\#\ verbose\ output}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00162}00162\ \ \ \ \ save\_txt=False,\ \ \textcolor{comment}{\#\ save\ results\ to\ *.txt}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00163}00163\ \ \ \ \ save\_hybrid=False,\ \ \textcolor{comment}{\#\ save\ label+prediction\ hybrid\ results\ to\ *.txt}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00164}00164\ \ \ \ \ save\_conf=False,\ \ \textcolor{comment}{\#\ save\ confidences\ in\ -\/-\/save-\/txt\ labels}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00165}00165\ \ \ \ \ save\_json=False,\ \ \textcolor{comment}{\#\ save\ a\ COCO-\/JSON\ results\ file}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00166}00166\ \ \ \ \ project=ROOT\ /\ "{}runs/val-\/seg"{},\ \ \textcolor{comment}{\#\ save\ to\ project/name}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00167}00167\ \ \ \ \ name="{}exp"{},\ \ \textcolor{comment}{\#\ save\ to\ project/name}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00168}00168\ \ \ \ \ exist\_ok=False,\ \ \textcolor{comment}{\#\ existing\ project/name\ ok,\ do\ not\ increment}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00169}00169\ \ \ \ \ half=True,\ \ \textcolor{comment}{\#\ use\ FP16\ half-\/precision\ inference}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00170}00170\ \ \ \ \ dnn=False,\ \ \textcolor{comment}{\#\ use\ OpenCV\ DNN\ for\ ONNX\ inference}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00171}00171\ \ \ \ \ model=None,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00172}00172\ \ \ \ \ dataloader=None,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00173}00173\ \ \ \ \ save\_dir=Path(\textcolor{stringliteral}{"{}"{}}),}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00174}00174\ \ \ \ \ plots=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00175}00175\ \ \ \ \ overlap=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00176}00176\ \ \ \ \ mask\_downsample\_ratio=1,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00177}00177\ \ \ \ \ compute\_loss=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00178}00178\ \ \ \ \ callbacks=\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}(),}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00179}00179\ ):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{if}\ save\_json:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}pycocotools>=2.0.6"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ process\ =\ process\_mask\_native\ \ \textcolor{comment}{\#\ more\ accurate}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00183}00183\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ process\ =\ process\_mask\ \ \textcolor{comment}{\#\ faster}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00186}00186\ \ \ \ \ \textcolor{comment}{\#\ Initialize/load\ model\ and\ set\ device}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00187}00187\ \ \ \ \ training\ =\ model\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{if}\ training:\ \ \textcolor{comment}{\#\ called\ by\ train.py}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ device,\ pt,\ jit,\ engine\ =\ next(model.parameters()).device,\ \textcolor{keyword}{True},\ \textcolor{keyword}{False},\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ get\ model\ device,\ PyTorch\ model}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ half\ \&=\ device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}}\ \ \textcolor{comment}{\#\ half\ precision\ only\ supported\ on\ CUDA}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ model.half()\ \textcolor{keywordflow}{if}\ half\ \textcolor{keywordflow}{else}\ model.float()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ nm\ =\ de\_parallel(model).model[-\/1].nm\ \ \textcolor{comment}{\#\ number\ of\ masks}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00193}00193\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ called\ directly}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ device\ =\ select\_device(device,\ batch\_size=batch\_size)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Directories}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ save\_dir\ =\ increment\_path(Path(project)\ /\ name,\ exist\_ok=exist\_ok)\ \ \textcolor{comment}{\#\ increment\ run}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ (save\_dir\ /\ \textcolor{stringliteral}{"{}labels"{}}\ \textcolor{keywordflow}{if}\ save\_txt\ \textcolor{keywordflow}{else}\ save\_dir).mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ dir}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ model}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ model\ =\ \mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend}{DetectMultiBackend}}(weights,\ device=device,\ dnn=dnn,\ data=data,\ fp16=half)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ stride,\ pt,\ jit,\ engine\ =\ model.stride,\ model.pt,\ model.jit,\ model.engine}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ imgsz\ =\ check\_img\_size(imgsz,\ s=stride)\ \ \textcolor{comment}{\#\ check\ image\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ half\ =\ model.fp16\ \ \textcolor{comment}{\#\ FP16\ supported\ on\ limited\ backends\ with\ CUDA}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ nm\ =\ de\_parallel(model).model.model[-\/1].nm\ \textcolor{keywordflow}{if}\ isinstance(model,\ SegmentationModel)\ \textcolor{keywordflow}{else}\ 32\ \ \textcolor{comment}{\#\ number\ of\ masks}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ engine:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ =\ model.batch\_size}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ device\ =\ model.device}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (pt\ \textcolor{keywordflow}{or}\ jit):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ =\ 1\ \ \textcolor{comment}{\#\ export.py\ models\ default\ to\ batch-\/size\ 1}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Forcing\ -\/-\/batch-\/size\ 1\ square\ inference\ (1,3,\{imgsz\},\{imgsz\})\ for\ non-\/PyTorch\ models"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Data}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ data\ =\ check\_dataset(data)\ \ \textcolor{comment}{\#\ check}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00217}00217\ \ \ \ \ \textcolor{comment}{\#\ Configure}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00218}00218\ \ \ \ \ model.eval()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00219}00219\ \ \ \ \ cuda\ =\ device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00220}00220\ \ \ \ \ is\_coco\ =\ isinstance(data.get(\textcolor{stringliteral}{"{}val"{}}),\ str)\ \textcolor{keywordflow}{and}\ data[\textcolor{stringliteral}{"{}val"{}}].endswith(f\textcolor{stringliteral}{"{}coco\{os.sep\}val2017.txt"{}})\ \ \textcolor{comment}{\#\ COCO\ dataset}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00221}00221\ \ \ \ \ nc\ =\ 1\ \textcolor{keywordflow}{if}\ single\_cls\ \textcolor{keywordflow}{else}\ int(data[\textcolor{stringliteral}{"{}nc"{}}])\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00222}00222\ \ \ \ \ iouv\ =\ torch.linspace(0.5,\ 0.95,\ 10,\ device=device)\ \ \textcolor{comment}{\#\ iou\ vector\ for\ mAP@0.5:0.95}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00223}00223\ \ \ \ \ niou\ =\ iouv.numel()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00225}00225\ \ \ \ \ \textcolor{comment}{\#\ Dataloader}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00226}00226\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ training:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pt\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ single\_cls:\ \ \textcolor{comment}{\#\ check\ -\/-\/weights\ are\ trained\ on\ -\/-\/data}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ ncm\ =\ model.model.nc}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ ncm\ ==\ nc,\ (}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{weights\}\ (\{ncm\}\ classes)\ trained\ on\ different\ -\/-\/data\ than\ what\ you\ passed\ (\{nc\}\ "{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}classes).\ Pass\ correct\ combination\ of\ -\/-\/weights\ and\ -\/-\/data\ that\ are\ trained\ together."{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ model.warmup(imgsz=(1\ \textcolor{keywordflow}{if}\ pt\ \textcolor{keywordflow}{else}\ batch\_size,\ 3,\ imgsz,\ imgsz))\ \ \textcolor{comment}{\#\ warmup}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ pad,\ rect\ =\ (0.0,\ \textcolor{keyword}{False})\ \textcolor{keywordflow}{if}\ task\ ==\ \textcolor{stringliteral}{"{}speed"{}}\ \textcolor{keywordflow}{else}\ (0.5,\ pt)\ \ \textcolor{comment}{\#\ square\ inference\ for\ benchmarks}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ task\ =\ task\ \textcolor{keywordflow}{if}\ task\ \textcolor{keywordflow}{in}\ (\textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}val"{}},\ \textcolor{stringliteral}{"{}test"{}})\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}val"{}}\ \ \textcolor{comment}{\#\ path\ to\ train/val/test\ images}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ dataloader\ =\ create\_dataloader(}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ data[task],}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ stride,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ pad=pad,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ rect=rect,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ workers=workers,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ prefix=colorstr(f\textcolor{stringliteral}{"{}\{task\}:\ "{}}),}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ overlap\_mask=overlap,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ mask\_downsample\_ratio=mask\_downsample\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ )[0]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00250}00250\ \ \ \ \ seen\ =\ 0}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00251}00251\ \ \ \ \ confusion\_matrix\ =\ \mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix}{ConfusionMatrix}}(nc=nc)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00252}00252\ \ \ \ \ names\ =\ model.names\ \textcolor{keywordflow}{if}\ hasattr(model,\ \textcolor{stringliteral}{"{}names"{}})\ \textcolor{keywordflow}{else}\ model.module.names\ \ \textcolor{comment}{\#\ get\ class\ names}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00253}00253\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(names,\ (list,\ tuple)):\ \ \textcolor{comment}{\#\ old\ format}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ names\ =\ dict(enumerate(names))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00255}00255\ \ \ \ \ class\_map\ =\ coco80\_to\_coco91\_class()\ \textcolor{keywordflow}{if}\ is\_coco\ \textcolor{keywordflow}{else}\ list(range(1000))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00256}00256\ \ \ \ \ s\ =\ (\textcolor{stringliteral}{"{}\%22s"{}}\ +\ \textcolor{stringliteral}{"{}\%11s"{}}\ *\ 10)\ \%\ (}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Class"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Images"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Instances"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Box(P"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}R"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mAP50"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mAP50-\/95)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Mask(P"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}R"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mAP50"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mAP50-\/95)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00268}00268\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00269}00269\ \ \ \ \ dt\ =\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device),\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device),\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00270}00270\ \ \ \ \ metrics\ =\ \mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics}{Metrics}}()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00271}00271\ \ \ \ \ loss\ =\ torch.zeros(4,\ device=device)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00272}00272\ \ \ \ \ jdict,\ stats\ =\ [],\ []}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00273}00273\ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_val\_start')}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00274}00274\ \ \ \ \ pbar\ =\ tqdm(dataloader,\ desc=s,\ bar\_format=TQDM\_BAR\_FORMAT)\ \ \textcolor{comment}{\#\ progress\ bar}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00275}00275\ \ \ \ \ \textcolor{keywordflow}{for}\ batch\_i,\ (im,\ targets,\ paths,\ shapes,\ masks)\ \textcolor{keywordflow}{in}\ enumerate(pbar):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_val\_batch\_start')}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[0]:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ cuda:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ im.to(device,\ non\_blocking=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targets\ =\ targets.to(device)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masks\ =\ masks.to(device)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ masks\ =\ masks.float()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ im.half()\ \textcolor{keywordflow}{if}\ half\ \textcolor{keywordflow}{else}\ im.float()\ \ \textcolor{comment}{\#\ uint8\ to\ fp16/32}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ im\ /=\ 255\ \ \textcolor{comment}{\#\ 0\ -\/\ 255\ to\ 0.0\ -\/\ 1.0}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ nb,\ \_,\ height,\ width\ =\ im.shape\ \ \textcolor{comment}{\#\ batch\ size,\ channels,\ height,\ width}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Inference}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[1]:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ preds,\ protos,\ train\_out\ =\ model(im)\ \textcolor{keywordflow}{if}\ compute\_loss\ \textcolor{keywordflow}{else}\ (*model(im,\ augment=augment)[:2],\ \textcolor{keywordtype}{None})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Loss}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ compute\_loss:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ loss\ +=\ compute\_loss((train\_out,\ protos),\ targets,\ masks)[1]\ \ \textcolor{comment}{\#\ box,\ obj,\ cls}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NMS}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ targets[:,\ 2:]\ *=\ torch.tensor((width,\ height,\ width,\ height),\ device=device)\ \ \textcolor{comment}{\#\ to\ pixels}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ lb\ =\ [targets[targets[:,\ 0]\ ==\ i,\ 1:]\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(nb)]\ \textcolor{keywordflow}{if}\ save\_hybrid\ \textcolor{keywordflow}{else}\ []\ \ \textcolor{comment}{\#\ for\ autolabelling}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[2]:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ preds\ =\ non\_max\_suppression(}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ preds,\ conf\_thres,\ iou\_thres,\ labels=lb,\ multi\_label=\textcolor{keyword}{True},\ agnostic=single\_cls,\ max\_det=max\_det,\ nm=nm}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Metrics}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ plot\_masks\ =\ []\ \ \textcolor{comment}{\#\ masks\ for\ plotting}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ si,\ (pred,\ proto)\ \textcolor{keywordflow}{in}\ enumerate(zip(preds,\ protos)):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ targets[targets[:,\ 0]\ ==\ si,\ 1:]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ nl,\ npr\ =\ labels.shape[0],\ pred.shape[0]\ \ \textcolor{comment}{\#\ number\ of\ labels,\ predictions}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ path,\ shape\ =\ Path(paths[si]),\ shapes[si][0]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ correct\_masks\ =\ torch.zeros(npr,\ niou,\ dtype=torch.bool,\ device=device)\ \ \textcolor{comment}{\#\ init}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ correct\_bboxes\ =\ torch.zeros(npr,\ niou,\ dtype=torch.bool,\ device=device)\ \ \textcolor{comment}{\#\ init}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ seen\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ npr\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nl:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stats.append((correct\_masks,\ correct\_bboxes,\ *torch.zeros((2,\ 0),\ device=device),\ labels[:,\ 0]))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ confusion\_matrix.process\_batch(detections=\textcolor{keywordtype}{None},\ labels=labels[:,\ 0])}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Masks}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ midx\ =\ [si]\ \textcolor{keywordflow}{if}\ overlap\ \textcolor{keywordflow}{else}\ targets[:,\ 0]\ ==\ si}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ gt\_masks\ =\ masks[midx]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ pred\_masks\ =\ process(proto,\ pred[:,\ 6:],\ pred[:,\ :4],\ shape=im[si].shape[1:])}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Predictions}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ single\_cls:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred[:,\ 5]\ =\ 0}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ predn\ =\ pred.clone()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ scale\_boxes(im[si].shape[1:],\ predn[:,\ :4],\ shape,\ shapes[si][1])\ \ \textcolor{comment}{\#\ native-\/space\ pred}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Evaluate}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nl:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tbox\ =\ xywh2xyxy(labels[:,\ 1:5])\ \ \textcolor{comment}{\#\ target\ boxes}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scale\_boxes(im[si].shape[1:],\ tbox,\ shape,\ shapes[si][1])\ \ \textcolor{comment}{\#\ native-\/space\ labels}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labelsn\ =\ torch.cat((labels[:,\ 0:1],\ tbox),\ 1)\ \ \textcolor{comment}{\#\ native-\/space\ labels}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ correct\_bboxes\ =\ \mbox{\hyperlink{namespaceval_a9047efe14a41ff80f40c5d7243797305}{process\_batch}}(predn,\ labelsn,\ iouv)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ correct\_masks\ =\ \mbox{\hyperlink{namespaceval_a9047efe14a41ff80f40c5d7243797305}{process\_batch}}(predn,\ labelsn,\ iouv,\ pred\_masks,\ gt\_masks,\ overlap=overlap,\ masks=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ confusion\_matrix.process\_batch(predn,\ labelsn)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ stats.append((correct\_masks,\ correct\_bboxes,\ pred[:,\ 4],\ pred[:,\ 5],\ labels[:,\ 0]))\ \ \textcolor{comment}{\#\ (conf,\ pcls,\ tcls)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ pred\_masks\ =\ torch.as\_tensor(pred\_masks,\ dtype=torch.uint8)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots\ \textcolor{keywordflow}{and}\ batch\_i\ <\ 3:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plot\_masks.append(pred\_masks[:15])\ \ \textcolor{comment}{\#\ filter\ top\ 15\ to\ plot}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save/log}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_txt:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceval_a6caa1705f339843632037dab90799a9f}{save\_one\_txt}}(predn,\ save\_conf,\ shape,\ file=save\_dir\ /\ \textcolor{stringliteral}{"{}labels"{}}\ /\ f\textcolor{stringliteral}{"{}\{path.stem\}.txt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_json:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\_masks\ =\ scale\_image(}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im[si].shape[1:],\ pred\_masks.permute(1,\ 2,\ 0).contiguous().cpu().numpy(),\ shape,\ shapes[si][1]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceval_aa80c545ea2b3b16066f43c12b40ea2c8}{save\_one\_json}}(predn,\ jdict,\ path,\ class\_map,\ pred\_masks)\ \ \textcolor{comment}{\#\ append\ to\ COCO-\/JSON\ dictionary}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_val\_image\_end',\ pred,\ predn,\ path,\ names,\ im[si])}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Plot\ images}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots\ \textcolor{keywordflow}{and}\ batch\_i\ <\ 3:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(plot\_masks):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plot\_masks\ =\ torch.cat(plot\_masks,\ dim=0)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ plot\_images\_and\_masks(im,\ targets,\ masks,\ paths,\ save\_dir\ /\ f\textcolor{stringliteral}{"{}val\_batch\{batch\_i\}\_labels.jpg"{}},\ names)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ plot\_images\_and\_masks(}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output\_to\_target(preds,\ max\_det=15),}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plot\_masks,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ paths,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ save\_dir\ /\ f\textcolor{stringliteral}{"{}val\_batch\{batch\_i\}\_pred.jpg"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ names,}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ pred}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00369}00369\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_val\_batch\_end')}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00372}00372\ \ \ \ \ \textcolor{comment}{\#\ Compute\ metrics}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00373}00373\ \ \ \ \ stats\ =\ [torch.cat(x,\ 0).cpu().numpy()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ zip(*stats)]\ \ \textcolor{comment}{\#\ to\ numpy}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00374}00374\ \ \ \ \ \textcolor{keywordflow}{if}\ len(stats)\ \textcolor{keywordflow}{and}\ stats[0].any():}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ results\ =\ ap\_per\_class\_box\_and\_mask(*stats,\ plot=plots,\ save\_dir=save\_dir,\ names=names)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ metrics.update(results)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00377}00377\ \ \ \ \ nt\ =\ np.bincount(stats[4].astype(int),\ minlength=nc)\ \ \textcolor{comment}{\#\ number\ of\ targets\ per\ class}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00379}00379\ \ \ \ \ \textcolor{comment}{\#\ Print\ results}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00380}00380\ \ \ \ \ pf\ =\ \textcolor{stringliteral}{"{}\%22s"{}}\ +\ \textcolor{stringliteral}{"{}\%11i"{}}\ *\ 2\ +\ \textcolor{stringliteral}{"{}\%11.3g"{}}\ *\ 8\ \ \textcolor{comment}{\#\ print\ format}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00381}00381\ \ \ \ \ LOGGER.info(pf\ \%\ (\textcolor{stringliteral}{"{}all"{}},\ seen,\ nt.sum(),\ *metrics.mean\_results()))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00382}00382\ \ \ \ \ \textcolor{keywordflow}{if}\ nt.sum()\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ no\ labels\ found\ in\ \{task\}\ set,\ can\ not\ compute\ metrics\ without\ labels"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00384}00384\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00385}00385\ \ \ \ \ \textcolor{comment}{\#\ Print\ results\ per\ class}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00386}00386\ \ \ \ \ \textcolor{keywordflow}{if}\ (verbose\ \textcolor{keywordflow}{or}\ (nc\ <\ 50\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ training))\ \textcolor{keywordflow}{and}\ nc\ >\ 1\ \textcolor{keywordflow}{and}\ len(stats):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ c\ \textcolor{keywordflow}{in}\ enumerate(metrics.ap\_class\_index):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(pf\ \%\ (names[c],\ seen,\ nt[c],\ *metrics.class\_result(i)))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00389}00389\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00390}00390\ \ \ \ \ \textcolor{comment}{\#\ Print\ speeds}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00391}00391\ \ \ \ \ t\ =\ tuple(x.t\ /\ seen\ *\ 1e3\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ dt)\ \ \textcolor{comment}{\#\ speeds\ per\ image}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00392}00392\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ training:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ shape\ =\ (batch\_size,\ 3,\ imgsz,\ imgsz)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Speed:\ \%.1fms\ pre-\/process,\ \%.1fms\ inference,\ \%.1fms\ NMS\ per\ image\ at\ shape\ \{shape\}"{}}\ \%\ t)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00396}00396\ \ \ \ \ \textcolor{comment}{\#\ Plots}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00397}00397\ \ \ \ \ \textcolor{keywordflow}{if}\ plots:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ confusion\_matrix.plot(save\_dir=save\_dir,\ names=list(names.values()))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00399}00399\ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_val\_end')}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00401}00401\ \ \ \ \ mp\_bbox,\ mr\_bbox,\ map50\_bbox,\ map\_bbox,\ mp\_mask,\ mr\_mask,\ map50\_mask,\ map\_mask\ =\ metrics.mean\_results()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00403}00403\ \ \ \ \ \textcolor{comment}{\#\ Save\ JSON}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00404}00404\ \ \ \ \ \textcolor{keywordflow}{if}\ save\_json\ \textcolor{keywordflow}{and}\ len(jdict):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ w\ =\ Path(weights[0]\ \textcolor{keywordflow}{if}\ isinstance(weights,\ list)\ \textcolor{keywordflow}{else}\ weights).stem\ \textcolor{keywordflow}{if}\ weights\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}\ \ \textcolor{comment}{\#\ weights}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ anno\_json\ =\ str(Path(\textcolor{stringliteral}{"{}../datasets/coco/annotations/instances\_val2017.json"{}}))\ \ \textcolor{comment}{\#\ annotations}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ pred\_json\ =\ str(save\_dir\ /\ f\textcolor{stringliteral}{"{}\{w\}\_predictions.json"{}})\ \ \textcolor{comment}{\#\ predictions}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)nEvaluating\ pycocotools\ mAP...\ saving\ \{pred\_json\}..."{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(pred\_json,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(jdict,\ f)}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00411}00411\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:\ \ \textcolor{comment}{\#\ https://github.com/cocodataset/cocoapi/blob/master/PythonAPI/pycocoEvalDemo.ipynb}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ pycocotools.coco\ \textcolor{keyword}{import}\ COCO}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ pycocotools.cocoeval\ \textcolor{keyword}{import}\ COCOeval}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00415}00415\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ anno\ =\ COCO(anno\_json)\ \ \textcolor{comment}{\#\ init\ annotations\ api}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ anno.loadRes(pred\_json)\ \ \textcolor{comment}{\#\ init\ predictions\ api}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ eval\ \textcolor{keywordflow}{in}\ COCOeval(anno,\ pred,\ \textcolor{stringliteral}{"{}bbox"{}}),\ COCOeval(anno,\ pred,\ \textcolor{stringliteral}{"{}segm"{}}):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ is\_coco:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ eval.params.imgIds\ =\ [int(Path(x).stem)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ dataloader.dataset.im\_files]\ \ \textcolor{comment}{\#\ img\ ID\ to\ evaluate}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ eval.evaluate()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ eval.accumulate()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ eval.summarize()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ results.extend(eval.stats[:2])\ \ \textcolor{comment}{\#\ update\ results\ (mAP@0.5:0.95,\ mAP@0.5)}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ map\_bbox,\ map50\_bbox,\ map\_mask,\ map50\_mask\ =\ results}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}pycocotools\ unable\ to\ run:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00430}00430\ \ \ \ \ \textcolor{comment}{\#\ Return\ results}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00431}00431\ \ \ \ \ model.float()\ \ \textcolor{comment}{\#\ for\ training}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00432}00432\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ training:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}\(\backslash\)n\{len(list(save\_dir.glob('labels/*.txt')))\}\ labels\ saved\ to\ \{save\_dir\ /\ 'labels'\}"{}}\ \textcolor{keywordflow}{if}\ save\_txt\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Results\ saved\ to\ \{colorstr('bold',\ save\_dir)\}\{s\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00435}00435\ \ \ \ \ final\_metric\ =\ mp\_bbox,\ mr\_bbox,\ map50\_bbox,\ map\_bbox,\ mp\_mask,\ mr\_mask,\ map50\_mask,\ map\_mask}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00436}00436\ \ \ \ \ \textcolor{keywordflow}{return}\ (*final\_metric,\ *(loss.cpu()\ /\ len(dataloader)).tolist()),\ metrics.get\_maps(nc),\ t}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00437}00437\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00439}00439\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\_opt}}():}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00440}00440\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00441}00441\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/data"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/coco128-\/seg.yaml"{}},\ help=\textcolor{stringliteral}{"{}dataset.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00442}00442\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s-\/seg.pt"{}},\ help=\textcolor{stringliteral}{"{}model\ path(s)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00443}00443\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/batch-\/size"{}},\ type=int,\ default=32,\ help=\textcolor{stringliteral}{"{}batch\ size"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00444}00444\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ type=int,\ default=640,\ help=\textcolor{stringliteral}{"{}inference\ size\ (pixels)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00445}00445\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/conf-\/thres"{}},\ type=float,\ default=0.001,\ help=\textcolor{stringliteral}{"{}confidence\ threshold"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00446}00446\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/iou-\/thres"{}},\ type=float,\ default=0.6,\ help=\textcolor{stringliteral}{"{}NMS\ IoU\ threshold"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00447}00447\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/max-\/det"{}},\ type=int,\ default=300,\ help=\textcolor{stringliteral}{"{}maximum\ detections\ per\ image"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00448}00448\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/task"{}},\ default=\textcolor{stringliteral}{"{}val"{}},\ help=\textcolor{stringliteral}{"{}train,\ val,\ test,\ speed\ or\ study"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00449}00449\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/device"{}},\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00450}00450\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/workers"{}},\ type=int,\ default=8,\ help=\textcolor{stringliteral}{"{}max\ dataloader\ workers\ (per\ RANK\ in\ DDP\ mode)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00451}00451\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/single-\/cls"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}treat\ as\ single-\/class\ dataset"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00452}00452\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/augment"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}augmented\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00453}00453\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/verbose"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}report\ mAP\ by\ class"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00454}00454\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/txt"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ results\ to\ *.txt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00455}00455\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/hybrid"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ label+prediction\ hybrid\ results\ to\ *.txt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00456}00456\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/conf"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ confidences\ in\ -\/-\/save-\/txt\ labels"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00457}00457\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/json"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ a\ COCO-\/JSON\ results\ file"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00458}00458\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/project"{}},\ default=ROOT\ /\ \textcolor{stringliteral}{"{}runs/val-\/seg"{}},\ help=\textcolor{stringliteral}{"{}save\ results\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00459}00459\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/name"{}},\ default=\textcolor{stringliteral}{"{}exp"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00460}00460\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/exist-\/ok"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}existing\ project/name\ ok,\ do\ not\ increment"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00461}00461\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/half"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ FP16\ half-\/precision\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00462}00462\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/dnn"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ OpenCV\ DNN\ for\ ONNX\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00463}00463\ \ \ \ \ opt\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00464}00464\ \ \ \ \ opt.data\ =\ check\_yaml(opt.data)\ \ \textcolor{comment}{\#\ check\ YAML}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00465}00465\ \ \ \ \ \textcolor{comment}{\#\ opt.save\_json\ |=\ opt.data.endswith('coco.yaml')}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00466}00466\ \ \ \ \ opt.save\_txt\ |=\ opt.save\_hybrid}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00467}00467\ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00468}00468\ \ \ \ \ \textcolor{keywordflow}{return}\ opt}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00469}00469\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00471}00471\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_aa85e72f2be85829c1d458402a4ad3196}{main}}(opt):}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00472}00472\ \ \ \ \ check\_requirements(ROOT\ /\ \textcolor{stringliteral}{"{}requirements.txt"{}},\ exclude=(\textcolor{stringliteral}{"{}tensorboard"{}},\ \textcolor{stringliteral}{"{}thop"{}}))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00473}00473\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00474}00474\ \ \ \ \ \textcolor{keywordflow}{if}\ opt.task\ \textcolor{keywordflow}{in}\ (\textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}val"{}},\ \textcolor{stringliteral}{"{}test"{}}):\ \ \textcolor{comment}{\#\ run\ normally}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.conf\_thres\ >\ 0.001:\ \ \textcolor{comment}{\#\ https://github.com/ultralytics/yolov5/issues/1466}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ confidence\ threshold\ \{opt.conf\_thres\}\ >\ 0.001\ produces\ invalid\ results"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.save\_hybrid:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(\textcolor{stringliteral}{"{}WARNING\ ⚠️\ -\/-\/save-\/hybrid\ returns\ high\ mAP\ from\ hybrid\ labels,\ not\ from\ predictions\ alone"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ run(**vars(opt))}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00481}00481\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ weights\ =\ opt.weights\ \textcolor{keywordflow}{if}\ isinstance(opt.weights,\ list)\ \textcolor{keywordflow}{else}\ [opt.weights]}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ opt.half\ =\ torch.cuda.is\_available()\ \textcolor{keywordflow}{and}\ opt.device\ !=\ \textcolor{stringliteral}{"{}cpu"{}}\ \ \textcolor{comment}{\#\ FP16\ for\ fastest\ results}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.task\ ==\ \textcolor{stringliteral}{"{}speed"{}}:\ \ \textcolor{comment}{\#\ speed\ benchmarks}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ python\ val.py\ -\/-\/task\ speed\ -\/-\/data\ coco.yaml\ -\/-\/batch\ 1\ -\/-\/weights\ yolov5n.pt\ yolov5s.pt...}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ opt.conf\_thres,\ opt.iou\_thres,\ opt.save\_json\ =\ 0.25,\ 0.45,\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ opt.weights\ \textcolor{keywordflow}{in}\ weights:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ run(**vars(opt),\ plots=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00489}00489\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00490}00490\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ opt.task\ ==\ \textcolor{stringliteral}{"{}study"{}}:\ \ \textcolor{comment}{\#\ speed\ vs\ mAP\ benchmarks}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ python\ val.py\ -\/-\/task\ study\ -\/-\/data\ coco.yaml\ -\/-\/iou\ 0.7\ -\/-\/weights\ yolov5n.pt\ yolov5s.pt...}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ opt.weights\ \textcolor{keywordflow}{in}\ weights:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\ =\ f\textcolor{stringliteral}{"{}study\_\{Path(opt.data).stem\}\_\{Path(opt.weights).stem\}.txt"{}}\ \ \textcolor{comment}{\#\ filename\ to\ save\ to}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x,\ y\ =\ list(range(256,\ 1536\ +\ 128,\ 128)),\ []\ \ \textcolor{comment}{\#\ x\ axis\ (image\ sizes),\ y\ axis}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ opt.imgsz\ \textcolor{keywordflow}{in}\ x:\ \ \textcolor{comment}{\#\ img-\/size}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)nRunning\ \{f\}\ -\/-\/imgsz\ \{opt.imgsz\}..."{}})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ r,\ \_,\ t\ =\ run(**vars(opt),\ plots=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y.append(r\ +\ t)\ \ \textcolor{comment}{\#\ results\ and\ times}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ np.savetxt(f,\ y,\ fmt=\textcolor{stringliteral}{"{}\%10.4g"{}})\ \ \textcolor{comment}{\#\ save}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run([\textcolor{stringliteral}{"{}zip"{}},\ \textcolor{stringliteral}{"{}-\/r"{}},\ \textcolor{stringliteral}{"{}study.zip"{}},\ \textcolor{stringliteral}{"{}study\_*.txt"{}}])}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ plot\_val\_study(x=x)\ \ \textcolor{comment}{\#\ plot}}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ NotImplementedError(f\textcolor{stringliteral}{'-\/-\/task\ \{opt.task\}\ not\ in\ ("{}train"{},\ "{}val"{},\ "{}test"{},\ "{}speed"{},\ "{}study"{})'})}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00504}00504\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00505}00505\ }
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00506}00506\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00507}00507\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\_opt}}()}
+\DoxyCodeLine{\Hypertarget{segment_2val_8py_source_l00508}00508\ \ \ \ \ \mbox{\hyperlink{namespaceval_aa85e72f2be85829c1d458402a4ad3196}{main}}(opt)}
+
+\end{DoxyCode}

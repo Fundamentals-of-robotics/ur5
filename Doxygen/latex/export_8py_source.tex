@@ -1,0 +1,919 @@
+\doxysection{export.\+py}
+\hypertarget{export_8py_source}{}\label{export_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/export.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/export.py}}
+\mbox{\hyperlink{export_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00001}\mbox{\hyperlink{namespaceexport}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00003}00003\ \textcolor{stringliteral}{Export\ a\ YOLOv5\ PyTorch\ model\ to\ other\ formats.\ TensorFlow\ exports\ authored\ by\ https://github.com/zldrobit}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00005}00005\ \textcolor{stringliteral}{Format\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}export.py\ -\/-\/include\`{}\ \ \ \ \ \ \ \ \ |\ Model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00006}00006\ \textcolor{stringliteral}{-\/-\/-\/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ -\/-\/-\/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ -\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00007}00007\ \textcolor{stringliteral}{PyTorch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ -\/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.pt}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00008}00008\ \textcolor{stringliteral}{TorchScript\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}torchscript\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.torchscript}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00009}00009\ \textcolor{stringliteral}{ONNX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}onnx\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.onnx}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00010}00010\ \textcolor{stringliteral}{OpenVINO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}openvino\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s\_openvino\_model/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00011}00011\ \textcolor{stringliteral}{TensorRT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}engine\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.engine}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00012}00012\ \textcolor{stringliteral}{CoreML\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}coreml\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.mlmodel}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00013}00013\ \textcolor{stringliteral}{TensorFlow\ SavedModel\ \ \ \ \ \ \ |\ \`{}saved\_model\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s\_saved\_model/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00014}00014\ \textcolor{stringliteral}{TensorFlow\ GraphDef\ \ \ \ \ \ \ \ \ |\ \`{}pb\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.pb}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00015}00015\ \textcolor{stringliteral}{TensorFlow\ Lite\ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}tflite\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s.tflite}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00016}00016\ \textcolor{stringliteral}{TensorFlow\ Edge\ TPU\ \ \ \ \ \ \ \ \ |\ \`{}edgetpu\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s\_edgetpu.tflite}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00017}00017\ \textcolor{stringliteral}{TensorFlow.js\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}tfjs\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s\_web\_model/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00018}00018\ \textcolor{stringliteral}{PaddlePaddle\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ \`{}paddle\`{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ |\ yolov5s\_paddle\_model/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00019}00019\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00020}00020\ \textcolor{stringliteral}{Requirements:}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ \$\ pip\ install\ -\/r\ requirements.txt\ coremltools\ onnx\ onnx-\/simplifier\ onnxruntime\ openvino-\/dev\ tensorflow-\/cpu\ \ \#\ CPU}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ \$\ pip\ install\ -\/r\ requirements.txt\ coremltools\ onnx\ onnx-\/simplifier\ onnxruntime-\/gpu\ openvino-\/dev\ tensorflow\ \ \#\ GPU}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00023}00023\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00024}00024\ \textcolor{stringliteral}{Usage:}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ export.py\ -\/-\/weights\ yolov5s.pt\ -\/-\/include\ torchscript\ onnx\ openvino\ engine\ coreml\ tflite\ ...}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00026}00026\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00027}00027\ \textcolor{stringliteral}{Inference:}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ detect.py\ -\/-\/weights\ yolov5s.pt\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ PyTorch}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.torchscript\ \ \ \ \ \ \ \ \#\ TorchScript}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.onnx\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ ONNX\ Runtime\ or\ OpenCV\ DNN\ with\ -\/-\/dnn}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_openvino\_model\ \ \ \ \ \#\ OpenVINO}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.engine\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorRT}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.mlmodel\ \ \ \ \ \ \ \ \ \ \ \ \#\ CoreML\ (macOS-\/only)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_saved\_model\ \ \ \ \ \ \ \ \#\ TensorFlow\ SavedModel}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.pb\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ GraphDef}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.tflite\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ Lite}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_edgetpu.tflite\ \ \ \ \ \#\ TensorFlow\ Edge\ TPU}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_paddle\_model\ \ \ \ \ \ \ \#\ PaddlePaddle}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00039}00039\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00040}00040\ \textcolor{stringliteral}{TensorFlow.js:}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ \$\ cd\ ..\ \&\&\ git\ clone\ https://github.com/zldrobit/tfjs-\/yolov5-\/example.git\ \&\&\ cd\ tfjs-\/yolov5-\/example}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ \$\ npm\ install}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00043}00043\ \textcolor{stringliteral}{\ \ \ \ \$\ ln\ -\/s\ ../../yolov5/yolov5s\_web\_model\ public/yolov5s\_web\_model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00044}00044\ \textcolor{stringliteral}{\ \ \ \ \$\ npm\ start}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00045}00045\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00047}00047\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00048}00048\ \textcolor{keyword}{import}\ contextlib}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00049}00049\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00050}00050\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00051}00051\ \textcolor{keyword}{import}\ platform}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00052}00052\ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00053}00053\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00054}00054\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00055}00055\ \textcolor{keyword}{import}\ time}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00056}00056\ \textcolor{keyword}{import}\ warnings}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00057}00057\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00059}00059\ \textcolor{keyword}{import}\ pandas\ \textcolor{keyword}{as}\ pd}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00060}00060\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00061}00061\ \textcolor{keyword}{from}\ torch.utils.mobile\_optimizer\ \textcolor{keyword}{import}\ optimize\_for\_mobile}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00063}\mbox{\hyperlink{namespaceexport_a9bfae37ca15b3f687b2907c4b6fa38c5}{00063}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00064}\mbox{\hyperlink{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}{00064}}\ ROOT\ =\ FILE.parents[0]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00065}00065\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00066}00066\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00067}00067\ \textcolor{keywordflow}{if}\ platform.system()\ !=\ \textcolor{stringliteral}{"{}Windows"{}}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00068}00068\ \ \ \ \ ROOT\ =\ Path(os.path.relpath(ROOT,\ Path.cwd()))\ \ \textcolor{comment}{\#\ relative}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00070}00070\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1experimental}{models.experimental}}\ \textcolor{keyword}{import}\ attempt\_load}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00071}00071\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1yolo}{models.yolo}}\ \textcolor{keyword}{import}\ ClassificationModel,\ Detect,\ DetectionModel,\ SegmentationModel}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00072}00072\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1dataloaders}{utils.dataloaders}}\ \textcolor{keyword}{import}\ LoadImages}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00073}00073\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00074}00074\ \ \ \ \ LOGGER,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00075}00075\ \ \ \ \ Profile,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00076}00076\ \ \ \ \ check\_dataset,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00077}00077\ \ \ \ \ check\_img\_size,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00078}00078\ \ \ \ \ check\_requirements,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00079}00079\ \ \ \ \ check\_version,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00080}00080\ \ \ \ \ check\_yaml,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00081}00081\ \ \ \ \ colorstr,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00082}00082\ \ \ \ \ file\_size,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00083}00083\ \ \ \ \ get\_default\_args,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00084}00084\ \ \ \ \ print\_args,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00085}00085\ \ \ \ \ url2file,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00086}00086\ \ \ \ \ yaml\_save,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00087}00087\ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00088}00088\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ select\_device,\ smart\_inference\_mode}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00090}\mbox{\hyperlink{namespaceexport_a29e5fa5781007b2f0a95df7c46cd4979}{00090}}\ MACOS\ =\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Darwin"{}}\ \ \textcolor{comment}{\#\ macOS\ environment}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00093}\mbox{\hyperlink{classexport_1_1i_o_s_model}{00093}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classexport_1_1i_o_s_model}{iOSModel}}(torch.nn.Module):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00094}\mbox{\hyperlink{classexport_1_1i_o_s_model_a799eb2f71bb398ebb7141390e1c8270d}{00094}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classexport_1_1i_o_s_model_a799eb2f71bb398ebb7141390e1c8270d}{\_\_init\_\_}}(self,\ model,\ im):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classexport_1_1i_o_s_model_a799eb2f71bb398ebb7141390e1c8270d}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ b,\ c,\ h,\ w\ =\ im.shape\ \ \textcolor{comment}{\#\ batch,\ channel,\ height,\ width}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00097}\mbox{\hyperlink{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675}{00097}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675}{model}}\ =\ model}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00098}\mbox{\hyperlink{classexport_1_1i_o_s_model_a184866e5a8bd01739fdf697264226772}{00098}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a184866e5a8bd01739fdf697264226772}{nc}}\ =\ model.nc\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ w\ ==\ h:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00100}\mbox{\hyperlink{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d}{00100}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d}{normalize}}\ =\ 1.0\ /\ w}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d}{normalize}}\ =\ torch.tensor([1.0\ /\ w,\ 1.0\ /\ h,\ 1.0\ /\ w,\ 1.0\ /\ h])\ \ \textcolor{comment}{\#\ broadcast\ (slower,\ smaller)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ np\ =\ model(im)[0].shape[1]\ \ \#\ number\ of\ points}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.normalize\ =\ torch.tensor([1.\ /\ w,\ 1.\ /\ h,\ 1.\ /\ w,\ 1.\ /\ h]).expand(np,\ 4)\ \ \#\ explicit\ (faster,\ larger)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00106}\mbox{\hyperlink{classexport_1_1i_o_s_model_a7f57fa8c08eba0afd487f173bbe23bb1}{00106}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classexport_1_1i_o_s_model_a7f57fa8c08eba0afd487f173bbe23bb1}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ xywh,\ conf,\ cls\ =\ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675}{model}}(x)[0].squeeze().split((4,\ 1,\ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a184866e5a8bd01739fdf697264226772}{nc}}),\ 1)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cls\ *\ conf,\ xywh\ *\ self.\mbox{\hyperlink{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d}{normalize}}\ \ \textcolor{comment}{\#\ confidence\ (3780,\ 80),\ coordinates\ (3780,\ 4)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00111}\mbox{\hyperlink{namespaceexport_a7b6acfbbcfc1f6745013f12b2b35d076}{00111}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a7b6acfbbcfc1f6745013f12b2b35d076}{export\_formats}}():}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00112}00112\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ export\ formats}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00113}00113\ \ \ \ \ x\ =\ [}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}PyTorch"{}},\ \textcolor{stringliteral}{"{}-\/"{}},\ \textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TorchScript"{}},\ \textcolor{stringliteral}{"{}torchscript"{}},\ \textcolor{stringliteral}{"{}.torchscript"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}ONNX"{}},\ \textcolor{stringliteral}{"{}onnx"{}},\ \textcolor{stringliteral}{"{}.onnx"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}OpenVINO"{}},\ \textcolor{stringliteral}{"{}openvino"{}},\ \textcolor{stringliteral}{"{}\_openvino\_model"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{False}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TensorRT"{}},\ \textcolor{stringliteral}{"{}engine"{}},\ \textcolor{stringliteral}{"{}.engine"{}},\ \textcolor{keyword}{False},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}CoreML"{}},\ \textcolor{stringliteral}{"{}coreml"{}},\ \textcolor{stringliteral}{"{}.mlmodel"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{False}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TensorFlow\ SavedModel"{}},\ \textcolor{stringliteral}{"{}saved\_model"{}},\ \textcolor{stringliteral}{"{}\_saved\_model"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TensorFlow\ GraphDef"{}},\ \textcolor{stringliteral}{"{}pb"{}},\ \textcolor{stringliteral}{"{}.pb"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TensorFlow\ Lite"{}},\ \textcolor{stringliteral}{"{}tflite"{}},\ \textcolor{stringliteral}{"{}.tflite"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{False}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TensorFlow\ Edge\ TPU"{}},\ \textcolor{stringliteral}{"{}edgetpu"{}},\ \textcolor{stringliteral}{"{}\_edgetpu.tflite"{}},\ \textcolor{keyword}{False},\ \textcolor{keyword}{False}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}TensorFlow.js"{}},\ \textcolor{stringliteral}{"{}tfjs"{}},\ \textcolor{stringliteral}{"{}\_web\_model"{}},\ \textcolor{keyword}{False},\ \textcolor{keyword}{False}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}PaddlePaddle"{}},\ \textcolor{stringliteral}{"{}paddle"{}},\ \textcolor{stringliteral}{"{}\_paddle\_model"{}},\ \textcolor{keyword}{True},\ \textcolor{keyword}{True}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00126}00126\ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00127}00127\ \ \ \ \ \textcolor{keywordflow}{return}\ pd.DataFrame(x,\ columns=[\textcolor{stringliteral}{"{}Format"{}},\ \textcolor{stringliteral}{"{}Argument"{}},\ \textcolor{stringliteral}{"{}Suffix"{}},\ \textcolor{stringliteral}{"{}CPU"{}},\ \textcolor{stringliteral}{"{}GPU"{}}])}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00130}\mbox{\hyperlink{namespaceexport_a9bb3a1917c1d3e4ec85b29d77d97d79d}{00130}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a9bb3a1917c1d3e4ec85b29d77d97d79d}{try\_export}}(inner\_func):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00131}00131\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ export\ decorator,\ i..e\ @try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00132}00132\ \ \ \ \ inner\_args\ =\ get\_default\_args(inner\_func)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00134}00134\ \ \ \ \ \textcolor{keyword}{def\ }outer\_func(*args,\ **kwargs):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ prefix\ =\ inner\_args[\textcolor{stringliteral}{"{}prefix"{}}]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}()\ \textcolor{keyword}{as}\ dt:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f,\ model\ =\ inner\_func(*args,\ **kwargs)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\ export\ success\ ✅\ \{dt.t:.1f\}s,\ saved\ as\ \{f\}\ (\{file\_size(f):.1f\}\ MB)"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ model}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\ export\ failure\ ❌\ \{dt.t:.1f\}s:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None},\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00145}00145\ \ \ \ \ \textcolor{keywordflow}{return}\ outer\_func}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00148}00148\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00149}\mbox{\hyperlink{namespaceexport_adadb7c311af985b4f06ecf589d8adb49}{00149}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_adadb7c311af985b4f06ecf589d8adb49}{export\_torchscript}}(model,\ im,\ file,\ optimize,\ prefix=colorstr(\textcolor{stringliteral}{"{}TorchScript:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00150}00150\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TorchScript\ model\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00151}00151\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ torch\ \{torch.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00152}00152\ \ \ \ \ f\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.torchscript"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00154}00154\ \ \ \ \ ts\ =\ torch.jit.trace(model,\ im,\ strict=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00155}00155\ \ \ \ \ d\ =\ \{\textcolor{stringliteral}{"{}shape"{}}:\ im.shape,\ \textcolor{stringliteral}{"{}stride"{}}:\ int(max(model.stride)),\ \textcolor{stringliteral}{"{}names"{}}:\ model.names\}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00156}00156\ \ \ \ \ extra\_files\ =\ \{\textcolor{stringliteral}{"{}config.txt"{}}:\ json.dumps(d)\}\ \ \textcolor{comment}{\#\ torch.\_C.ExtraFilesMap()}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{if}\ optimize:\ \ \textcolor{comment}{\#\ https://pytorch.org/tutorials/recipes/mobile\_interpreter.html}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ optimize\_for\_mobile(ts).\_save\_for\_lite\_interpreter(str(f),\ \_extra\_files=extra\_files)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00159}00159\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ ts.save(str(f),\ \_extra\_files=extra\_files)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00164}00164\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00165}\mbox{\hyperlink{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}{00165}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}{export\_onnx}}(model,\ im,\ file,\ opset,\ dynamic,\ simplify,\ prefix=colorstr(\textcolor{stringliteral}{"{}ONNX:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00166}00166\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ ONNX\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00167}00167\ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}onnx>=1.12.0"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00168}00168\ \ \ \ \ \textcolor{keyword}{import}\ onnx}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00170}00170\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ onnx\ \{onnx.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00171}00171\ \ \ \ \ f\ =\ str(file.with\_suffix(\textcolor{stringliteral}{"{}.onnx"{}}))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00173}00173\ \ \ \ \ output\_names\ =\ [\textcolor{stringliteral}{"{}output0"{}},\ \textcolor{stringliteral}{"{}output1"{}}]\ \textcolor{keywordflow}{if}\ isinstance(model,\ SegmentationModel)\ \textcolor{keywordflow}{else}\ [\textcolor{stringliteral}{"{}output0"{}}]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00174}00174\ \ \ \ \ \textcolor{keywordflow}{if}\ dynamic:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ dynamic\ =\ \{\textcolor{stringliteral}{"{}images"{}}:\ \{0:\ \textcolor{stringliteral}{"{}batch"{}},\ 2:\ \textcolor{stringliteral}{"{}height"{}},\ 3:\ \textcolor{stringliteral}{"{}width"{}}\}\}\ \ \textcolor{comment}{\#\ shape(1,3,640,640)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(model,\ SegmentationModel):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ dynamic[\textcolor{stringliteral}{"{}output0"{}}]\ =\ \{0:\ \textcolor{stringliteral}{"{}batch"{}},\ 1:\ \textcolor{stringliteral}{"{}anchors"{}}\}\ \ \textcolor{comment}{\#\ shape(1,25200,85)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ dynamic[\textcolor{stringliteral}{"{}output1"{}}]\ =\ \{0:\ \textcolor{stringliteral}{"{}batch"{}},\ 2:\ \textcolor{stringliteral}{"{}mask\_height"{}},\ 3:\ \textcolor{stringliteral}{"{}mask\_width"{}}\}\ \ \textcolor{comment}{\#\ shape(1,32,160,160)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ isinstance(model,\ DetectionModel):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ dynamic[\textcolor{stringliteral}{"{}output0"{}}]\ =\ \{0:\ \textcolor{stringliteral}{"{}batch"{}},\ 1:\ \textcolor{stringliteral}{"{}anchors"{}}\}\ \ \textcolor{comment}{\#\ shape(1,25200,85)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00182}00182\ \ \ \ \ torch.onnx.export(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ model.cpu()\ \textcolor{keywordflow}{if}\ dynamic\ \textcolor{keywordflow}{else}\ model,\ \ \textcolor{comment}{\#\ -\/-\/dynamic\ only\ compatible\ with\ cpu}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ im.cpu()\ \textcolor{keywordflow}{if}\ dynamic\ \textcolor{keywordflow}{else}\ im,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ f,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ verbose=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ opset\_version=opset,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ do\_constant\_folding=\textcolor{keyword}{True},\ \ \textcolor{comment}{\#\ WARNING:\ DNN\ inference\ with\ torch>=1.12\ may\ require\ do\_constant\_folding=False}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ input\_names=[\textcolor{stringliteral}{"{}images"{}}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ output\_names=output\_names,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ dynamic\_axes=dynamic\ \textcolor{keywordflow}{or}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00192}00192\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00194}00194\ \ \ \ \ \textcolor{comment}{\#\ Checks}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00195}00195\ \ \ \ \ model\_onnx\ =\ onnx.load(f)\ \ \textcolor{comment}{\#\ load\ onnx\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00196}00196\ \ \ \ \ onnx.checker.check\_model(model\_onnx)\ \ \textcolor{comment}{\#\ check\ onnx\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00198}00198\ \ \ \ \ \textcolor{comment}{\#\ Metadata}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00199}00199\ \ \ \ \ d\ =\ \{\textcolor{stringliteral}{"{}stride"{}}:\ int(max(model.stride)),\ \textcolor{stringliteral}{"{}names"{}}:\ model.names\}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00200}00200\ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ d.items():}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ meta\ =\ model\_onnx.metadata\_props.add()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ meta.key,\ meta.value\ =\ k,\ str(v)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00203}00203\ \ \ \ \ onnx.save(model\_onnx,\ f)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00205}00205\ \ \ \ \ \textcolor{comment}{\#\ Simplify}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{if}\ simplify:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ cuda\ =\ torch.cuda.is\_available()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ check\_requirements((\textcolor{stringliteral}{"{}onnxruntime-\/gpu"{}}\ \textcolor{keywordflow}{if}\ cuda\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}onnxruntime"{}},\ \textcolor{stringliteral}{"{}onnx-\/simplifier>=0.4.1"{}}))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ onnxsim}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\ simplifying\ with\ onnx-\/simplifier\ \{onnxsim.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ model\_onnx,\ check\ =\ onnxsim.simplify(model\_onnx)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ check,\ \textcolor{stringliteral}{"{}assert\ check\ failed"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ onnx.save(model\_onnx,\ f)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\ simplifier\ failure:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00218}00218\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ model\_onnx}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00221}00221\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00222}\mbox{\hyperlink{namespaceexport_a963a08d07b85e362e555c050c3437c38}{00222}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a963a08d07b85e362e555c050c3437c38}{export\_openvino}}(file,\ metadata,\ half,\ int8,\ data,\ prefix=colorstr(\textcolor{stringliteral}{"{}OpenVINO:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00223}00223\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ OpenVINO\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00224}00224\ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}openvino-\/dev>=2023.0"{}})\ \ \textcolor{comment}{\#\ requires\ openvino-\/dev:\ https://pypi.org/project/openvino-\/dev/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00225}00225\ \ \ \ \ \textcolor{keyword}{import}\ openvino.runtime\ \textcolor{keyword}{as}\ ov\ \ \textcolor{comment}{\#\ noqa}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00226}00226\ \ \ \ \ \textcolor{keyword}{from}\ openvino.tools\ \textcolor{keyword}{import}\ mo\ \ \textcolor{comment}{\#\ noqa}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00228}00228\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ openvino\ \{ov.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00229}00229\ \ \ \ \ f\ =\ str(file).replace(file.suffix,\ f\textcolor{stringliteral}{"{}\_\{'int8\_'\ if\ int8\ else\ ''\}openvino\_model\{os.sep\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00230}00230\ \ \ \ \ f\_onnx\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.onnx"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00231}00231\ \ \ \ \ f\_ov\ =\ str(Path(f)\ /\ file.with\_suffix(\textcolor{stringliteral}{"{}.xml"{}}).name)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00233}00233\ \ \ \ \ ov\_model\ =\ mo.convert\_model(f\_onnx,\ model\_name=file.stem,\ framework=\textcolor{stringliteral}{"{}onnx"{}},\ compress\_to\_fp16=half)\ \ \textcolor{comment}{\#\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00235}00235\ \ \ \ \ \textcolor{keywordflow}{if}\ int8:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}nncf>=2.5.0"{}})\ \ \textcolor{comment}{\#\ requires\ at\ least\ version\ 2.5.0\ to\ use\ the\ post-\/training\ quantization}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ nncf}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1dataloaders}{utils.dataloaders}}\ \textcolor{keyword}{import}\ create\_dataloader}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }gen\_dataloader(yaml\_path,\ task="{}train"{},\ imgsz=640,\ workers=4):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ data\_yaml\ =\ check\_yaml(yaml\_path)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ data\ =\ check\_dataset(data\_yaml)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ dataloader\ =\ create\_dataloader(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data[task],\ imgsz=imgsz,\ batch\_size=1,\ stride=32,\ pad=0.5,\ single\_cls=\textcolor{keyword}{False},\ rect=\textcolor{keyword}{False},\ workers=workers}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ )[0]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ dataloader}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ noqa:\ F811}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }transform\_fn(data\_item):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00254}00254\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Quantization\ transform\ function.}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00255}00255\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00256}00256\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Extracts\ and\ preprocess\ input\ data\ from\ dataloader\ item\ for\ quantization.}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00257}00257\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Parameters:}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00258}00258\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data\_item:\ Tuple\ with\ data\ item\ produced\ by\ DataLoader\ during\ iteration}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00259}00259\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00260}00260\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ input\_tensor:\ Input\ data\ for\ quantization}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00261}00261\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ data\_item[0].dtype\ ==\ torch.uint8,\ \textcolor{stringliteral}{"{}input\ image\ must\ be\ uint8\ for\ the\ quantization\ preprocessing"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ img\ =\ data\_item[0].numpy().astype(np.float32)\ \ \textcolor{comment}{\#\ uint8\ to\ fp16/32}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ img\ /=\ 255.0\ \ \textcolor{comment}{\#\ 0\ -\/\ 255\ to\ 0.0\ -\/\ 1.0}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ np.expand\_dims(img,\ 0)\ \textcolor{keywordflow}{if}\ img.ndim\ ==\ 3\ \textcolor{keywordflow}{else}\ img}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ ds\ =\ gen\_dataloader(data)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ quantization\_dataset\ =\ nncf.Dataset(ds,\ transform\_fn)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ ov\_model\ =\ nncf.quantize(ov\_model,\ quantization\_dataset,\ preset=nncf.QuantizationPreset.MIXED)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00272}00272\ \ \ \ \ ov.serialize(ov\_model,\ f\_ov)\ \ \textcolor{comment}{\#\ save}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00273}00273\ \ \ \ \ yaml\_save(Path(f)\ /\ file.with\_suffix(\textcolor{stringliteral}{"{}.yaml"{}}).name,\ metadata)\ \ \textcolor{comment}{\#\ add\ metadata.yaml}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00274}00274\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00277}00277\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00278}\mbox{\hyperlink{namespaceexport_aba065557194a9291e9758f9101597e0c}{00278}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_aba065557194a9291e9758f9101597e0c}{export\_paddle}}(model,\ im,\ file,\ metadata,\ prefix=colorstr(\textcolor{stringliteral}{"{}PaddlePaddle:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00279}00279\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Paddle\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00280}00280\ \ \ \ \ check\_requirements((\textcolor{stringliteral}{"{}paddlepaddle"{}},\ \textcolor{stringliteral}{"{}x2paddle"{}}))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00281}00281\ \ \ \ \ \textcolor{keyword}{import}\ x2paddle}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00282}00282\ \ \ \ \ \textcolor{keyword}{from}\ x2paddle.convert\ \textcolor{keyword}{import}\ pytorch2paddle}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00284}00284\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ X2Paddle\ \{x2paddle.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00285}00285\ \ \ \ \ f\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ f\textcolor{stringliteral}{"{}\_paddle\_model\{os.sep\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00287}00287\ \ \ \ \ pytorch2paddle(module=model,\ save\_dir=f,\ jit\_type=\textcolor{stringliteral}{"{}trace"{}},\ input\_examples=[im])\ \ \textcolor{comment}{\#\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00288}00288\ \ \ \ \ yaml\_save(Path(f)\ /\ file.with\_suffix(\textcolor{stringliteral}{"{}.yaml"{}}).name,\ metadata)\ \ \textcolor{comment}{\#\ add\ metadata.yaml}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00292}00292\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00293}\mbox{\hyperlink{namespaceexport_a87956dca79b0ae766b7acb187161652e}{00293}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a87956dca79b0ae766b7acb187161652e}{export\_coreml}}(model,\ im,\ file,\ int8,\ half,\ nms,\ prefix=colorstr(\textcolor{stringliteral}{"{}CoreML:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00294}00294\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ CoreML\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00295}00295\ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}coremltools"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00296}00296\ \ \ \ \ \textcolor{keyword}{import}\ coremltools\ \textcolor{keyword}{as}\ ct}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00298}00298\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ coremltools\ \{ct.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00299}00299\ \ \ \ \ f\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.mlmodel"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00301}00301\ \ \ \ \ \textcolor{keywordflow}{if}\ nms:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ model\ =\ \mbox{\hyperlink{classexport_1_1i_o_s_model}{iOSModel}}(model,\ im)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00303}00303\ \ \ \ \ ts\ =\ torch.jit.trace(model,\ im,\ strict=\textcolor{keyword}{False})\ \ \textcolor{comment}{\#\ TorchScript\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00304}00304\ \ \ \ \ ct\_model\ =\ ct.convert(ts,\ inputs=[ct.ImageType(\textcolor{stringliteral}{"{}image"{}},\ shape=im.shape,\ scale=1\ /\ 255,\ bias=[0,\ 0,\ 0])])}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00305}00305\ \ \ \ \ bits,\ mode\ =\ (8,\ \textcolor{stringliteral}{"{}kmeans\_lut"{}})\ \textcolor{keywordflow}{if}\ int8\ \textcolor{keywordflow}{else}\ (16,\ \textcolor{stringliteral}{"{}linear"{}})\ \textcolor{keywordflow}{if}\ half\ \textcolor{keywordflow}{else}\ (32,\ \textcolor{keywordtype}{None})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00306}00306\ \ \ \ \ \textcolor{keywordflow}{if}\ bits\ <\ 32:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ MACOS:\ \ \textcolor{comment}{\#\ quantization\ only\ supported\ on\ macOS}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ warnings.catch\_warnings():}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ warnings.filterwarnings(\textcolor{stringliteral}{"{}ignore"{}},\ category=DeprecationWarning)\ \ \textcolor{comment}{\#\ suppress\ numpy==1.20\ float\ warning}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ct\_model\ =\ ct.models.neural\_network.quantization\_utils.quantize\_weights(ct\_model,\ bits,\ mode)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{prefix\}\ quantization\ only\ supported\ on\ macOS,\ skipping..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00313}00313\ \ \ \ \ ct\_model.save(f)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00314}00314\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ ct\_model}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00317}00317\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00318}\mbox{\hyperlink{namespaceexport_a1e48671dbb1af40fedc62f99339a1b4e}{00318}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a1e48671dbb1af40fedc62f99339a1b4e}{export\_engine}}(model,\ im,\ file,\ half,\ dynamic,\ simplify,\ workspace=4,\ verbose=False,\ prefix=colorstr(\textcolor{stringliteral}{"{}TensorRT:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00319}00319\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TensorRT\ export\ https://developer.nvidia.com/tensorrt}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00320}00320\ \ \ \ \ \textcolor{keyword}{assert}\ im.device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}},\ \textcolor{stringliteral}{"{}export\ running\ on\ CPU\ but\ must\ be\ on\ GPU,\ i.e.\ \`{}python\ export.py\ -\/-\/device\ 0`"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ tensorrt\ \textcolor{keyword}{as}\ trt}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00323}00323\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Linux"{}}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}nvidia-\/tensorrt"{}},\ cmds=\textcolor{stringliteral}{"{}-\/U\ -\/-\/index-\/url\ https://pypi.ngc.nvidia.com"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ tensorrt\ \textcolor{keyword}{as}\ trt}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00328}00328\ \ \ \ \ \textcolor{keywordflow}{if}\ trt.\_\_version\_\_[0]\ ==\ \textcolor{stringliteral}{"{}7"{}}:\ \ \textcolor{comment}{\#\ TensorRT\ 7\ handling\ https://github.com/ultralytics/yolov5/issues/6012}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ grid\ =\ model.model[-\/1].anchor\_grid}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ model.model[-\/1].anchor\_grid\ =\ [a[...,\ :1,\ :1,\ :]\ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ grid]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}{export\_onnx}}(model,\ im,\ file,\ 12,\ dynamic,\ simplify)\ \ \textcolor{comment}{\#\ opset\ 12}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ model.model[-\/1].anchor\_grid\ =\ grid}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ TensorRT\ >=\ 8}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ check\_version(trt.\_\_version\_\_,\ \textcolor{stringliteral}{"{}8.0.0"{}},\ hard=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ require\ tensorrt>=8.0.0}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}{export\_onnx}}(model,\ im,\ file,\ 12,\ dynamic,\ simplify)\ \ \textcolor{comment}{\#\ opset\ 12}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00336}00336\ \ \ \ \ onnx\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.onnx"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00338}00338\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ TensorRT\ \{trt.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00339}00339\ \ \ \ \ \textcolor{keyword}{assert}\ onnx.exists(),\ f\textcolor{stringliteral}{"{}failed\ to\ export\ ONNX\ file:\ \{onnx\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00340}00340\ \ \ \ \ f\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.engine"{}})\ \ \textcolor{comment}{\#\ TensorRT\ engine\ file}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00341}00341\ \ \ \ \ logger\ =\ trt.Logger(trt.Logger.INFO)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00342}00342\ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ logger.min\_severity\ =\ trt.Logger.Severity.VERBOSE}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00345}00345\ \ \ \ \ builder\ =\ trt.Builder(logger)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00346}00346\ \ \ \ \ config\ =\ builder.create\_builder\_config()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00347}00347\ \ \ \ \ config.max\_workspace\_size\ =\ workspace\ *\ 1\ <<\ 30}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00348}00348\ \ \ \ \ \textcolor{comment}{\#\ config.set\_memory\_pool\_limit(trt.MemoryPoolType.WORKSPACE,\ workspace\ <<\ 30)\ \ \#\ fix\ TRT\ 8.4\ deprecation\ notice}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00350}00350\ \ \ \ \ flag\ =\ 1\ <<\ int(trt.NetworkDefinitionCreationFlag.EXPLICIT\_BATCH)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00351}00351\ \ \ \ \ network\ =\ builder.create\_network(flag)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00352}00352\ \ \ \ \ parser\ =\ trt.OnnxParser(network,\ logger)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00353}00353\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ parser.parse\_from\_file(str(onnx)):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(f\textcolor{stringliteral}{"{}failed\ to\ load\ ONNX\ file:\ \{onnx\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00356}00356\ \ \ \ \ inputs\ =\ [network.get\_input(i)\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(network.num\_inputs)]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00357}00357\ \ \ \ \ outputs\ =\ [network.get\_output(i)\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(network.num\_outputs)]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00358}00358\ \ \ \ \ \textcolor{keywordflow}{for}\ inp\ \textcolor{keywordflow}{in}\ inputs:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{'\{prefix\}\ input\ "{}\{inp.name\}"{}\ with\ shape\{inp.shape\}\ \{inp.dtype\}'})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00360}00360\ \ \ \ \ \textcolor{keywordflow}{for}\ out\ \textcolor{keywordflow}{in}\ outputs:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{'\{prefix\}\ output\ "{}\{out.name\}"{}\ with\ shape\{out.shape\}\ \{out.dtype\}'})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00362}00362\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00363}00363\ \ \ \ \ \textcolor{keywordflow}{if}\ dynamic:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ im.shape[0]\ <=\ 1:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}\{prefix\}\ WARNING\ ⚠️\ -\/-\/dynamic\ model\ requires\ maximum\ -\/-\/batch-\/size\ argument"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ profile\ =\ builder.create\_optimization\_profile()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ inp\ \textcolor{keywordflow}{in}\ inputs:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ profile.set\_shape(inp.name,\ (1,\ *im.shape[1:]),\ (max(1,\ im.shape[0]\ //\ 2),\ *im.shape[1:]),\ im.shape)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ config.add\_optimization\_profile(profile)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00371}00371\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\ building\ FP\{16\ if\ builder.platform\_has\_fast\_fp16\ and\ half\ else\ 32\}\ engine\ as\ \{f\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00372}00372\ \ \ \ \ \textcolor{keywordflow}{if}\ builder.platform\_has\_fast\_fp16\ \textcolor{keywordflow}{and}\ half:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ config.set\_flag(trt.BuilderFlag.FP16)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00374}00374\ \ \ \ \ \textcolor{keyword}{with}\ builder.build\_engine(network,\ config)\ \textcolor{keyword}{as}\ engine,\ open(f,\ \textcolor{stringliteral}{"{}wb"{}})\ \textcolor{keyword}{as}\ t:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ t.write(engine.serialize())}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00376}00376\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00379}00379\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00380}\mbox{\hyperlink{namespaceexport_afabd6fdeff977572cf9529502a92657b}{00380}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_afabd6fdeff977572cf9529502a92657b}{export\_saved\_model}}(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00381}00381\ \ \ \ \ model,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00382}00382\ \ \ \ \ im,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00383}00383\ \ \ \ \ file,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00384}00384\ \ \ \ \ dynamic,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00385}00385\ \ \ \ \ tf\_nms=False,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00386}00386\ \ \ \ \ agnostic\_nms=False,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00387}00387\ \ \ \ \ topk\_per\_class=100,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00388}00388\ \ \ \ \ topk\_all=100,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00389}00389\ \ \ \ \ iou\_thres=0.45,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00390}00390\ \ \ \ \ conf\_thres=0.25,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00391}00391\ \ \ \ \ keras=False,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00392}00392\ \ \ \ \ prefix=colorstr(\textcolor{stringliteral}{"{}TensorFlow\ SavedModel:"{}}),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00393}00393\ ):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00394}00394\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TensorFlow\ SavedModel\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00395}00395\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ tensorflow\ \textcolor{keyword}{as}\ tf}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00397}00397\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ check\_requirements(f\textcolor{stringliteral}{"{}tensorflow\{''\ if\ torch.cuda.is\_available()\ else\ '-\/macos'\ if\ MACOS\ else\ '-\/cpu'\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ tensorflow\ \textcolor{keyword}{as}\ tf}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00400}00400\ \ \ \ \ \textcolor{keyword}{from}\ tensorflow.python.framework.convert\_to\_constants\ \textcolor{keyword}{import}\ convert\_variables\_to\_constants\_v2}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00402}00402\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1tf}{models.tf}}\ \textcolor{keyword}{import}\ TFModel}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00404}00404\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ tensorflow\ \{tf.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00405}00405\ \ \ \ \ \textcolor{keywordflow}{if}\ tf.\_\_version\_\_\ >\ \textcolor{stringliteral}{"{}2.13.1"{}}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ helper\_url\ =\ \textcolor{stringliteral}{"{}https://github.com/ultralytics/yolov5/issues/12489"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ using\ Tensorflow\ \{tf.\_\_version\_\_\}\ >\ 2.13.1\ might\ cause\ issue\ when\ exporting\ the\ model\ to\ tflite\ \{helper\_url\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ handling\ issue\ https://github.com/ultralytics/yolov5/issues/12489}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00410}00410\ \ \ \ \ f\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{stringliteral}{"{}\_saved\_model"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00411}00411\ \ \ \ \ batch\_size,\ ch,\ *imgsz\ =\ list(im.shape)\ \ \textcolor{comment}{\#\ BCHW}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00413}00413\ \ \ \ \ tf\_model\ =\ TFModel(cfg=model.yaml,\ model=model,\ nc=model.nc,\ imgsz=imgsz)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00414}00414\ \ \ \ \ im\ =\ tf.zeros((batch\_size,\ *imgsz,\ ch))\ \ \textcolor{comment}{\#\ BHWC\ order\ for\ TensorFlow}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00415}00415\ \ \ \ \ \_\ =\ tf\_model.predict(im,\ tf\_nms,\ agnostic\_nms,\ topk\_per\_class,\ topk\_all,\ iou\_thres,\ conf\_thres)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00416}00416\ \ \ \ \ inputs\ =\ tf.keras.Input(shape=(*imgsz,\ ch),\ batch\_size=\textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ dynamic\ \textcolor{keywordflow}{else}\ batch\_size)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00417}00417\ \ \ \ \ outputs\ =\ tf\_model.predict(inputs,\ tf\_nms,\ agnostic\_nms,\ topk\_per\_class,\ topk\_all,\ iou\_thres,\ conf\_thres)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00418}00418\ \ \ \ \ keras\_model\ =\ tf.keras.Model(inputs=inputs,\ outputs=outputs)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00419}00419\ \ \ \ \ keras\_model.trainable\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00420}00420\ \ \ \ \ keras\_model.summary()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00421}00421\ \ \ \ \ \textcolor{keywordflow}{if}\ keras:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ keras\_model.save(f,\ save\_format=\textcolor{stringliteral}{"{}tf"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00423}00423\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ spec\ =\ tf.TensorSpec(keras\_model.inputs[0].shape,\ keras\_model.inputs[0].dtype)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ m\ =\ tf.function(\textcolor{keyword}{lambda}\ x:\ keras\_model(x))\ \ \textcolor{comment}{\#\ full\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ m\ =\ m.get\_concrete\_function(spec)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ frozen\_func\ =\ convert\_variables\_to\_constants\_v2(m)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ tfm\ =\ tf.Module()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ tfm.\_\_call\_\_\ =\ tf.function(\textcolor{keyword}{lambda}\ x:\ frozen\_func(x)[:4]\ \textcolor{keywordflow}{if}\ tf\_nms\ \textcolor{keywordflow}{else}\ frozen\_func(x),\ [spec])}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ tfm.\_\_call\_\_(im)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ tf.saved\_model.save(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ tfm,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ f,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ options=tf.saved\_model.SaveOptions(experimental\_custom\_gradients=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ check\_version(tf.\_\_version\_\_,\ \textcolor{stringliteral}{"{}2.6"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ tf.saved\_model.SaveOptions(),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00438}00438\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ keras\_model}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00441}00441\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00442}\mbox{\hyperlink{namespaceexport_af52a530cf55ac3e6084d5a0270be3161}{00442}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_af52a530cf55ac3e6084d5a0270be3161}{export\_pb}}(keras\_model,\ file,\ prefix=colorstr(\textcolor{stringliteral}{"{}TensorFlow\ GraphDef:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00443}00443\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TensorFlow\ GraphDef\ *.pb\ export\ https://github.com/leimao/Frozen\_Graph\_TensorFlow}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00444}00444\ \ \ \ \ \textcolor{keyword}{import}\ tensorflow\ \textcolor{keyword}{as}\ tf}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00445}00445\ \ \ \ \ \textcolor{keyword}{from}\ tensorflow.python.framework.convert\_to\_constants\ \textcolor{keyword}{import}\ convert\_variables\_to\_constants\_v2}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00446}00446\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00447}00447\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ tensorflow\ \{tf.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00448}00448\ \ \ \ \ f\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.pb"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00450}00450\ \ \ \ \ m\ =\ tf.function(\textcolor{keyword}{lambda}\ x:\ keras\_model(x))\ \ \textcolor{comment}{\#\ full\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00451}00451\ \ \ \ \ m\ =\ m.get\_concrete\_function(tf.TensorSpec(keras\_model.inputs[0].shape,\ keras\_model.inputs[0].dtype))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00452}00452\ \ \ \ \ frozen\_func\ =\ convert\_variables\_to\_constants\_v2(m)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00453}00453\ \ \ \ \ frozen\_func.graph.as\_graph\_def()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00454}00454\ \ \ \ \ tf.io.write\_graph(graph\_or\_graph\_def=frozen\_func.graph,\ logdir=str(f.parent),\ name=f.name,\ as\_text=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00455}00455\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00457}00457\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00458}00458\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00459}\mbox{\hyperlink{namespaceexport_ac70636b57505b3f0568cb72e2d04540e}{00459}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_ac70636b57505b3f0568cb72e2d04540e}{export\_tflite}}(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00460}00460\ \ \ \ \ keras\_model,\ im,\ file,\ int8,\ per\_tensor,\ data,\ nms,\ agnostic\_nms,\ prefix=colorstr(\textcolor{stringliteral}{"{}TensorFlow\ Lite:"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00461}00461\ ):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00462}00462\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TensorFlow\ Lite\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00463}00463\ \ \ \ \ \textcolor{keyword}{import}\ tensorflow\ \textcolor{keyword}{as}\ tf}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00464}00464\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00465}00465\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ tensorflow\ \{tf.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00466}00466\ \ \ \ \ batch\_size,\ ch,\ *imgsz\ =\ list(im.shape)\ \ \textcolor{comment}{\#\ BCHW}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00467}00467\ \ \ \ \ f\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{stringliteral}{"{}-\/fp16.tflite"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00469}00469\ \ \ \ \ converter\ =\ tf.lite.TFLiteConverter.from\_keras\_model(keras\_model)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00470}00470\ \ \ \ \ converter.target\_spec.supported\_ops\ =\ [tf.lite.OpsSet.TFLITE\_BUILTINS]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00471}00471\ \ \ \ \ converter.target\_spec.supported\_types\ =\ [tf.float16]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00472}00472\ \ \ \ \ converter.optimizations\ =\ [tf.lite.Optimize.DEFAULT]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00473}00473\ \ \ \ \ \textcolor{keywordflow}{if}\ int8:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1tf}{models.tf}}\ \textcolor{keyword}{import}\ representative\_dataset\_gen}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ dataset\ =\ \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images}{LoadImages}}(check\_dataset(check\_yaml(data))[\textcolor{stringliteral}{"{}train"{}}],\ img\_size=imgsz,\ auto=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ converter.representative\_dataset\ =\ \textcolor{keyword}{lambda}:\ representative\_dataset\_gen(dataset,\ ncalib=100)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ converter.target\_spec.supported\_ops\ =\ [tf.lite.OpsSet.TFLITE\_BUILTINS\_INT8]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ converter.target\_spec.supported\_types\ =\ []}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00480}00480\ \ \ \ \ \ \ \ \ converter.inference\_input\_type\ =\ tf.uint8\ \ \textcolor{comment}{\#\ or\ tf.int8}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00481}00481\ \ \ \ \ \ \ \ \ converter.inference\_output\_type\ =\ tf.uint8\ \ \textcolor{comment}{\#\ or\ tf.int8}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ converter.experimental\_new\_quantizer\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ per\_tensor:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ converter.\_experimental\_disable\_per\_channel\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ f\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{stringliteral}{"{}-\/int8.tflite"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00486}00486\ \ \ \ \ \textcolor{keywordflow}{if}\ nms\ \textcolor{keywordflow}{or}\ agnostic\_nms:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ converter.target\_spec.supported\_ops.append(tf.lite.OpsSet.SELECT\_TF\_OPS)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00489}00489\ \ \ \ \ tflite\_model\ =\ converter.convert()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00490}00490\ \ \ \ \ open(f,\ \textcolor{stringliteral}{"{}wb"{}}).write(tflite\_model)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00491}00491\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00492}00492\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00494}00494\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00495}\mbox{\hyperlink{namespaceexport_aef30ff998891380cf03de8792b674f45}{00495}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_aef30ff998891380cf03de8792b674f45}{export\_edgetpu}}(file,\ prefix=colorstr(\textcolor{stringliteral}{"{}Edge\ TPU:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00496}00496\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Edge\ TPU\ export\ https://coral.ai/docs/edgetpu/models-\/intro/}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00497}00497\ \ \ \ \ cmd\ =\ \textcolor{stringliteral}{"{}edgetpu\_compiler\ -\/-\/version"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00498}00498\ \ \ \ \ help\_url\ =\ \textcolor{stringliteral}{"{}https://coral.ai/docs/edgetpu/compiler/"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00499}00499\ \ \ \ \ \textcolor{keyword}{assert}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Linux"{}},\ f\textcolor{stringliteral}{"{}export\ only\ supported\ on\ Linux.\ See\ \{help\_url\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00500}00500\ \ \ \ \ \textcolor{keywordflow}{if}\ subprocess.run(f\textcolor{stringliteral}{"{}\{cmd\}\ >\ /dev/null\ 2>\&1"{}},\ shell=\textcolor{keyword}{True}).returncode\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ export\ requires\ Edge\ TPU\ compiler.\ Attempting\ install\ from\ \{help\_url\}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ sudo\ =\ subprocess.run(\textcolor{stringliteral}{"{}sudo\ -\/-\/version\ >/dev/null"{}},\ shell=\textcolor{keyword}{True}).returncode\ ==\ 0\ \ \textcolor{comment}{\#\ sudo\ installed\ on\ system}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ (}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}curl\ https://packages.cloud.google.com/apt/doc/apt-\/key.gpg\ |\ sudo\ apt-\/key\ add\ -\/"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'echo\ "{}deb\ https://packages.cloud.google.com/apt\ coral-\/edgetpu-\/stable\ main"{}\ |\ sudo\ tee\ /etc/apt/sources.list.d/coral-\/edgetpu.list'},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sudo\ apt-\/get\ update"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sudo\ apt-\/get\ install\ edgetpu-\/compiler"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run(c\ \textcolor{keywordflow}{if}\ sudo\ \textcolor{keywordflow}{else}\ c.replace(\textcolor{stringliteral}{"{}sudo\ "{}},\ \textcolor{stringliteral}{"{}"{}}),\ shell=\textcolor{keyword}{True},\ check=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00510}00510\ \ \ \ \ ver\ =\ subprocess.run(cmd,\ shell=\textcolor{keyword}{True},\ capture\_output=\textcolor{keyword}{True},\ check=\textcolor{keyword}{True}).stdout.decode().split()[-\/1]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00511}00511\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00512}00512\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ Edge\ TPU\ compiler\ \{ver\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00513}00513\ \ \ \ \ f\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{stringliteral}{"{}-\/int8\_edgetpu.tflite"{}})\ \ \textcolor{comment}{\#\ Edge\ TPU\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00514}00514\ \ \ \ \ f\_tfl\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{stringliteral}{"{}-\/int8.tflite"{}})\ \ \textcolor{comment}{\#\ TFLite\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00516}00516\ \ \ \ \ subprocess.run(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}edgetpu\_compiler"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/s"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/d"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/k"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}10"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/out\_dir"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ str(file.parent),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ f\_tfl,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ check=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00528}00528\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00529}00529\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00531}00531\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00532}00532\ \textcolor{preprocessor}{@try\_export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00533}\mbox{\hyperlink{namespaceexport_aa89001f2be84d4ee53ca792f740ccfa6}{00533}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_aa89001f2be84d4ee53ca792f740ccfa6}{export\_tfjs}}(file,\ int8,\ prefix=colorstr(\textcolor{stringliteral}{"{}TensorFlow.js:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00534}00534\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TensorFlow.js\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00535}00535\ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}tensorflowjs"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00536}00536\ \ \ \ \ \textcolor{keyword}{import}\ tensorflowjs\ \textcolor{keyword}{as}\ tfjs}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00538}00538\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{prefix\}\ starting\ export\ with\ tensorflowjs\ \{tfjs.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00539}00539\ \ \ \ \ f\ =\ str(file).replace(\textcolor{stringliteral}{"{}.pt"{}},\ \textcolor{stringliteral}{"{}\_web\_model"{}})\ \ \textcolor{comment}{\#\ js\ dir}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00540}00540\ \ \ \ \ f\_pb\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.pb"{}})\ \ \textcolor{comment}{\#\ *.pb\ path}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00541}00541\ \ \ \ \ f\_json\ =\ f\textcolor{stringliteral}{"{}\{f\}/model.json"{}}\ \ \textcolor{comment}{\#\ *.json\ path}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00543}00543\ \ \ \ \ args\ =\ [}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}tensorflowjs\_converter"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/input\_format=tf\_frozen\_model"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/quantize\_uint8"{}}\ \textcolor{keywordflow}{if}\ int8\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/output\_node\_names=Identity,Identity\_1,Identity\_2,Identity\_3"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00548}00548\ \ \ \ \ \ \ \ \ str(f\_pb),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ f,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00550}00550\ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00551}00551\ \ \ \ \ subprocess.run([arg\ \textcolor{keywordflow}{for}\ arg\ \textcolor{keywordflow}{in}\ args\ \textcolor{keywordflow}{if}\ arg],\ check=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00552}00552\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00553}00553\ \ \ \ \ json\ =\ Path(f\_json).read\_text()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00554}00554\ \ \ \ \ \textcolor{keyword}{with}\ open(f\_json,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ j:\ \ \textcolor{comment}{\#\ sort\ JSON\ Identity\_*\ in\ ascending\ order}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ subst\ =\ re.sub(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00556}00556\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'\{"{}outputs"{}:\ \{"{}Identity.?.?"{}:\ \{"{}name"{}:\ "{}Identity.?.?"{}\},\ '}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'"{}Identity.?.?"{}:\ \{"{}name"{}:\ "{}Identity.?.?"{}\},\ '}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'"{}Identity.?.?"{}:\ \{"{}name"{}:\ "{}Identity.?.?"{}\},\ '}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'"{}Identity.?.?"{}:\ \{"{}name"{}:\ "{}Identity.?.?"{}\}\}\}'},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'\{"{}outputs"{}:\ \{"{}Identity"{}:\ \{"{}name"{}:\ "{}Identity"{}\},\ '}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'"{}Identity\_1"{}:\ \{"{}name"{}:\ "{}Identity\_1"{}\},\ '}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'"{}Identity\_2"{}:\ \{"{}name"{}:\ "{}Identity\_2"{}\},\ '}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r'"{}Identity\_3"{}:\ \{"{}name"{}:\ "{}Identity\_3"{}\}\}\}'},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ json,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ j.write(subst)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00567}00567\ \ \ \ \ \textcolor{keywordflow}{return}\ f,\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00568}00568\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00569}00569\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00570}\mbox{\hyperlink{namespaceexport_aaed22892b03c0d8f3982c80fed3f540c}{00570}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_aaed22892b03c0d8f3982c80fed3f540c}{add\_tflite\_metadata}}(file,\ metadata,\ num\_outputs):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00571}00571\ \ \ \ \ \textcolor{comment}{\#\ Add\ metadata\ to\ *.tflite\ models\ per\ https://www.tensorflow.org/lite/models/convert/metadata}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00572}00572\ \ \ \ \ \textcolor{keyword}{with}\ contextlib.suppress(ImportError):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\_requirements('tflite\_support')}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ tflite\_support\ \textcolor{keyword}{import}\ flatbuffers}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ tflite\_support\ \textcolor{keyword}{import}\ metadata\ \textcolor{keyword}{as}\ \_metadata}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ tflite\_support\ \textcolor{keyword}{import}\ metadata\_schema\_py\_generated\ \textcolor{keyword}{as}\ \_metadata\_fb}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00577}00577\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ tmp\_file\ =\ Path(\textcolor{stringliteral}{"{}/tmp/meta.txt"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(tmp\_file,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ meta\_f:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ meta\_f.write(str(metadata))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00581}00581\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ model\_meta\ =\ \_metadata\_fb.ModelMetadataT()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ label\_file\ =\ \_metadata\_fb.AssociatedFileT()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ label\_file.name\ =\ tmp\_file.name}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ model\_meta.associatedFiles\ =\ [label\_file]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00586}00586\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ subgraph\ =\ \_metadata\_fb.SubGraphMetadataT()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ subgraph.inputTensorMetadata\ =\ [\_metadata\_fb.TensorMetadataT()]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ subgraph.outputTensorMetadata\ =\ [\_metadata\_fb.TensorMetadataT()]\ *\ num\_outputs}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00590}00590\ \ \ \ \ \ \ \ \ model\_meta.subgraphMetadata\ =\ [subgraph]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00591}00591\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ b\ =\ flatbuffers.Builder(0)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00593}00593\ \ \ \ \ \ \ \ \ b.Finish(model\_meta.Pack(b),\ \_metadata.MetadataPopulator.METADATA\_FILE\_IDENTIFIER)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ metadata\_buf\ =\ b.Output()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ populator\ =\ \_metadata.MetadataPopulator.with\_model\_file(file)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ populator.load\_metadata\_buffer(metadata\_buf)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00598}00598\ \ \ \ \ \ \ \ \ populator.load\_associated\_files([str(tmp\_file)])}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ populator.populate()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ tmp\_file.unlink()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00601}00601\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00603}\mbox{\hyperlink{namespaceexport_abc1058a9e07f268c95274b6d436e4d57}{00603}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_abc1058a9e07f268c95274b6d436e4d57}{pipeline\_coreml}}(model,\ im,\ file,\ names,\ y,\ prefix=colorstr(\textcolor{stringliteral}{"{}CoreML\ Pipeline:"{}})):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00604}00604\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ CoreML\ pipeline}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00605}00605\ \ \ \ \ \textcolor{keyword}{import}\ coremltools\ \textcolor{keyword}{as}\ ct}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00606}00606\ \ \ \ \ \textcolor{keyword}{from}\ PIL\ \textcolor{keyword}{import}\ Image}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00607}00607\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00608}00608\ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{prefix\}\ starting\ pipeline\ with\ coremltools\ \{ct.\_\_version\_\_\}..."{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00609}00609\ \ \ \ \ batch\_size,\ ch,\ h,\ w\ =\ list(im.shape)\ \ \textcolor{comment}{\#\ BCHW}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00610}00610\ \ \ \ \ t\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00612}00612\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Output\ shapes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00613}00613\ \ \ \ \ spec\ =\ model.get\_spec()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00614}00614\ \ \ \ \ out0,\ out1\ =\ iter(spec.description.output)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00615}00615\ \ \ \ \ \textcolor{keywordflow}{if}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Darwin"{}}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00616}00616\ \ \ \ \ \ \ \ \ img\ =\ Image.new(\textcolor{stringliteral}{"{}RGB"{}},\ (w,\ h))\ \ \textcolor{comment}{\#\ img(192\ width,\ 320\ height)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00617}00617\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ img\ =\ torch.zeros((*opt.img\_size,\ 3)).numpy()\ \ \#\ img\ size(320,192,3)\ iDetection}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00618}00618\ \ \ \ \ \ \ \ \ out\ =\ model.predict(\{\textcolor{stringliteral}{"{}image"{}}:\ img\})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ out0\_shape,\ out1\_shape\ =\ out[out0.name].shape,\ out[out1.name].shape}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00620}00620\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ linux\ and\ windows\ can\ not\ run\ model.predict(),\ get\ sizes\ from\ pytorch\ output\ y}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ s\ =\ tuple(y[0].shape)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ out0\_shape,\ out1\_shape\ =\ (s[1],\ s[2]\ -\/\ 5),\ (s[1],\ 4)\ \ \textcolor{comment}{\#\ (3780,\ 80),\ (3780,\ 4)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00623}00623\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00624}00624\ \ \ \ \ \textcolor{comment}{\#\ Checks}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00625}00625\ \ \ \ \ nx,\ ny\ =\ spec.description.input[0].type.imageType.width,\ spec.description.input[0].type.imageType.height}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00626}00626\ \ \ \ \ na,\ nc\ =\ out0\_shape}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00627}00627\ \ \ \ \ \textcolor{comment}{\#\ na,\ nc\ =\ out0.type.multiArrayType.shape\ \ \#\ number\ anchors,\ classes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00628}00628\ \ \ \ \ \textcolor{keyword}{assert}\ len(names)\ ==\ nc,\ f\textcolor{stringliteral}{"{}\{len(names)\}\ names\ found\ for\ nc=\{nc\}"{}}\ \ \textcolor{comment}{\#\ check}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00629}00629\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00630}00630\ \ \ \ \ \textcolor{comment}{\#\ Define\ output\ shapes\ (missing)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00631}00631\ \ \ \ \ out0.type.multiArrayType.shape[:]\ =\ out0\_shape\ \ \textcolor{comment}{\#\ (3780,\ 80)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00632}00632\ \ \ \ \ out1.type.multiArrayType.shape[:]\ =\ out1\_shape\ \ \textcolor{comment}{\#\ (3780,\ 4)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00633}00633\ \ \ \ \ \textcolor{comment}{\#\ spec.neuralNetwork.preprocessing[0].featureName\ =\ '0'}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00634}00634\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00635}00635\ \ \ \ \ \textcolor{comment}{\#\ Flexible\ input\ shapes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00636}00636\ \ \ \ \ \textcolor{comment}{\#\ from\ coremltools.models.neural\_network\ import\ flexible\_shape\_utils}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00637}00637\ \ \ \ \ \textcolor{comment}{\#\ s\ =\ []\ \#\ shapes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00638}00638\ \ \ \ \ \textcolor{comment}{\#\ s.append(flexible\_shape\_utils.NeuralNetworkImageSize(320,\ 192))}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00639}00639\ \ \ \ \ \textcolor{comment}{\#\ s.append(flexible\_shape\_utils.NeuralNetworkImageSize(640,\ 384))\ \ \#\ (height,\ width)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00640}00640\ \ \ \ \ \textcolor{comment}{\#\ flexible\_shape\_utils.add\_enumerated\_image\_sizes(spec,\ feature\_name='image',\ sizes=s)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00641}00641\ \ \ \ \ \textcolor{comment}{\#\ r\ =\ flexible\_shape\_utils.NeuralNetworkImageSizeRange()\ \ \#\ shape\ ranges}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00642}00642\ \ \ \ \ \textcolor{comment}{\#\ r.add\_height\_range((192,\ 640))}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00643}00643\ \ \ \ \ \textcolor{comment}{\#\ r.add\_width\_range((192,\ 640))}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00644}00644\ \ \ \ \ \textcolor{comment}{\#\ flexible\_shape\_utils.update\_image\_size\_range(spec,\ feature\_name='image',\ size\_range=r)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00645}00645\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00646}00646\ \ \ \ \ \textcolor{comment}{\#\ Print}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00647}00647\ \ \ \ \ print(spec.description)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00648}00648\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00649}00649\ \ \ \ \ \textcolor{comment}{\#\ Model\ from\ spec}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00650}00650\ \ \ \ \ model\ =\ ct.models.MLModel(spec)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00651}00651\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00652}00652\ \ \ \ \ \textcolor{comment}{\#\ 3.\ Create\ NMS\ protobuf}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00653}00653\ \ \ \ \ nms\_spec\ =\ ct.proto.Model\_pb2.Model()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00654}00654\ \ \ \ \ nms\_spec.specificationVersion\ =\ 5}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00655}00655\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(2):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00656}00656\ \ \ \ \ \ \ \ \ decoder\_output\ =\ model.\_spec.description.output[i].SerializeToString()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00657}00657\ \ \ \ \ \ \ \ \ nms\_spec.description.input.add()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00658}00658\ \ \ \ \ \ \ \ \ nms\_spec.description.input[i].ParseFromString(decoder\_output)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00659}00659\ \ \ \ \ \ \ \ \ nms\_spec.description.output.add()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00660}00660\ \ \ \ \ \ \ \ \ nms\_spec.description.output[i].ParseFromString(decoder\_output)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00661}00661\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00662}00662\ \ \ \ \ nms\_spec.description.output[0].name\ =\ \textcolor{stringliteral}{"{}confidence"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00663}00663\ \ \ \ \ nms\_spec.description.output[1].name\ =\ \textcolor{stringliteral}{"{}coordinates"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00664}00664\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00665}00665\ \ \ \ \ output\_sizes\ =\ [nc,\ 4]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00666}00666\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(2):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00667}00667\ \ \ \ \ \ \ \ \ ma\_type\ =\ nms\_spec.description.output[i].type.multiArrayType}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00668}00668\ \ \ \ \ \ \ \ \ ma\_type.shapeRange.sizeRanges.add()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00669}00669\ \ \ \ \ \ \ \ \ ma\_type.shapeRange.sizeRanges[0].lowerBound\ =\ 0}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00670}00670\ \ \ \ \ \ \ \ \ ma\_type.shapeRange.sizeRanges[0].upperBound\ =\ -\/1}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00671}00671\ \ \ \ \ \ \ \ \ ma\_type.shapeRange.sizeRanges.add()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ ma\_type.shapeRange.sizeRanges[1].lowerBound\ =\ output\_sizes[i]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00673}00673\ \ \ \ \ \ \ \ \ ma\_type.shapeRange.sizeRanges[1].upperBound\ =\ output\_sizes[i]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00674}00674\ \ \ \ \ \ \ \ \ del\ ma\_type.shape[:]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00675}00675\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00676}00676\ \ \ \ \ nms\ =\ nms\_spec.nonMaximumSuppression}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00677}00677\ \ \ \ \ nms.confidenceInputFeatureName\ =\ out0.name\ \ \textcolor{comment}{\#\ 1x507x80}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00678}00678\ \ \ \ \ nms.coordinatesInputFeatureName\ =\ out1.name\ \ \textcolor{comment}{\#\ 1x507x4}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00679}00679\ \ \ \ \ nms.confidenceOutputFeatureName\ =\ \textcolor{stringliteral}{"{}confidence"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00680}00680\ \ \ \ \ nms.coordinatesOutputFeatureName\ =\ \textcolor{stringliteral}{"{}coordinates"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00681}00681\ \ \ \ \ nms.iouThresholdInputFeatureName\ =\ \textcolor{stringliteral}{"{}iouThreshold"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00682}00682\ \ \ \ \ nms.confidenceThresholdInputFeatureName\ =\ \textcolor{stringliteral}{"{}confidenceThreshold"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00683}00683\ \ \ \ \ nms.iouThreshold\ =\ 0.45}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00684}00684\ \ \ \ \ nms.confidenceThreshold\ =\ 0.25}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00685}00685\ \ \ \ \ nms.pickTop.perClass\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00686}00686\ \ \ \ \ nms.stringClassLabels.vector.extend(names.values())}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00687}00687\ \ \ \ \ nms\_model\ =\ ct.models.MLModel(nms\_spec)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00688}00688\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00689}00689\ \ \ \ \ \textcolor{comment}{\#\ 4.\ Pipeline\ models\ together}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00690}00690\ \ \ \ \ pipeline\ =\ ct.models.pipeline.Pipeline(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00691}00691\ \ \ \ \ \ \ \ \ input\_features=[}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}image"{}},\ ct.models.datatypes.Array(3,\ ny,\ nx)),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}iouThreshold"{}},\ ct.models.datatypes.Double()),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00694}00694\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}confidenceThreshold"{}},\ ct.models.datatypes.Double()),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00695}00695\ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00696}00696\ \ \ \ \ \ \ \ \ output\_features=[\textcolor{stringliteral}{"{}confidence"{}},\ \textcolor{stringliteral}{"{}coordinates"{}}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00697}00697\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00698}00698\ \ \ \ \ pipeline.add\_model(model)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00699}00699\ \ \ \ \ pipeline.add\_model(nms\_model)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00700}00700\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00701}00701\ \ \ \ \ \textcolor{comment}{\#\ Correct\ datatypes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00702}00702\ \ \ \ \ pipeline.spec.description.input[0].ParseFromString(model.\_spec.description.input[0].SerializeToString())}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00703}00703\ \ \ \ \ pipeline.spec.description.output[0].ParseFromString(nms\_model.\_spec.description.output[0].SerializeToString())}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00704}00704\ \ \ \ \ pipeline.spec.description.output[1].ParseFromString(nms\_model.\_spec.description.output[1].SerializeToString())}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00705}00705\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00706}00706\ \ \ \ \ \textcolor{comment}{\#\ Update\ metadata}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00707}00707\ \ \ \ \ pipeline.spec.specificationVersion\ =\ 5}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00708}00708\ \ \ \ \ pipeline.spec.description.metadata.versionString\ =\ \textcolor{stringliteral}{"{}https://github.com/ultralytics/yolov5"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00709}00709\ \ \ \ \ pipeline.spec.description.metadata.shortDescription\ =\ \textcolor{stringliteral}{"{}https://github.com/ultralytics/yolov5"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00710}00710\ \ \ \ \ pipeline.spec.description.metadata.author\ =\ \textcolor{stringliteral}{"{}glenn.jocher@ultralytics.com"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00711}00711\ \ \ \ \ pipeline.spec.description.metadata.license\ =\ \textcolor{stringliteral}{"{}https://github.com/ultralytics/yolov5/blob/master/LICENSE"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00712}00712\ \ \ \ \ pipeline.spec.description.metadata.userDefined.update(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00713}00713\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00714}00714\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}classes"{}}:\ \textcolor{stringliteral}{"{},"{}}.join(names.values()),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00715}00715\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}iou\_threshold"{}}:\ str(nms.iouThreshold),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00716}00716\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}confidence\_threshold"{}}:\ str(nms.confidenceThreshold),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00717}00717\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00718}00718\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00719}00719\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00720}00720\ \ \ \ \ \textcolor{comment}{\#\ Save\ the\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00721}00721\ \ \ \ \ f\ =\ file.with\_suffix(\textcolor{stringliteral}{"{}.mlmodel"{}})\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00722}00722\ \ \ \ \ model\ =\ ct.models.MLModel(pipeline.spec)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00723}00723\ \ \ \ \ model.input\_description[\textcolor{stringliteral}{"{}image"{}}]\ =\ \textcolor{stringliteral}{"{}Input\ image"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00724}00724\ \ \ \ \ model.input\_description[\textcolor{stringliteral}{"{}iouThreshold"{}}]\ =\ f\textcolor{stringliteral}{"{}(optional)\ IOU\ Threshold\ override\ (default:\ \{nms.iouThreshold\})"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00725}00725\ \ \ \ \ model.input\_description[}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00726}00726\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}confidenceThreshold"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00727}00727\ \ \ \ \ ]\ =\ f\textcolor{stringliteral}{"{}(optional)\ Confidence\ Threshold\ override\ (default:\ \{nms.confidenceThreshold\})"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00728}00728\ \ \ \ \ model.output\_description[\textcolor{stringliteral}{"{}confidence"{}}]\ =\ \textcolor{stringliteral}{'Boxes\ ×\ Class\ confidence\ (see\ user-\/defined\ metadata\ "{}classes"{})'}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00729}00729\ \ \ \ \ model.output\_description[\textcolor{stringliteral}{"{}coordinates"{}}]\ =\ \textcolor{stringliteral}{"{}Boxes\ ×\ [x,\ y,\ width,\ height]\ (relative\ to\ image\ size)"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00730}00730\ \ \ \ \ model.save(f)\ \ \textcolor{comment}{\#\ pipelined}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00731}00731\ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{prefix\}\ pipeline\ success\ (\{time.time()\ -\/\ t:.2f\}s),\ saved\ as\ \{f\}\ (\{file\_size(f):.1f\}\ MB)"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00732}00732\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00733}00733\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00734}00734\ \textcolor{preprocessor}{@smart\_inference\_mode()}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00735}\mbox{\hyperlink{namespaceexport_a2198bfcdd3f9c6bd185a38ea5f0d9495}{00735}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a2198bfcdd3f9c6bd185a38ea5f0d9495}{run}}(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00736}00736\ \ \ \ \ data=ROOT\ /\ "{}data/coco128.yaml"{},\ \ \textcolor{comment}{\#\ 'dataset.yaml\ path'}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00737}00737\ \ \ \ \ weights=ROOT\ /\ "{}yolov5s.pt"{},\ \ \textcolor{comment}{\#\ weights\ path}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00738}00738\ \ \ \ \ imgsz=(640,\ 640),\ \ \textcolor{comment}{\#\ image\ (height,\ width)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00739}00739\ \ \ \ \ batch\_size=1,\ \ \textcolor{comment}{\#\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00740}00740\ \ \ \ \ device=\textcolor{stringliteral}{"{}cpu"{}},\ \ \textcolor{comment}{\#\ cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00741}00741\ \ \ \ \ include=(\textcolor{stringliteral}{"{}torchscript"{}},\ \textcolor{stringliteral}{"{}onnx"{}}),\ \ \textcolor{comment}{\#\ include\ formats}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00742}00742\ \ \ \ \ half=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ FP16\ half-\/precision\ export}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00743}00743\ \ \ \ \ inplace=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ set\ YOLOv5\ Detect()\ inplace=True}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00744}00744\ \ \ \ \ keras=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ use\ Keras}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00745}00745\ \ \ \ \ optimize=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ TorchScript:\ optimize\ for\ mobile}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00746}00746\ \ \ \ \ int8=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ CoreML/TF\ INT8\ quantization}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00747}00747\ \ \ \ \ per\_tensor=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ TF\ per\ tensor\ quantization}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00748}00748\ \ \ \ \ dynamic=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ ONNX/TF/TensorRT:\ dynamic\ axes}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00749}00749\ \ \ \ \ simplify=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ ONNX:\ simplify\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00750}00750\ \ \ \ \ opset=12,\ \ \textcolor{comment}{\#\ ONNX:\ opset\ version}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00751}00751\ \ \ \ \ verbose=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ TensorRT:\ verbose\ log}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00752}00752\ \ \ \ \ workspace=4,\ \ \textcolor{comment}{\#\ TensorRT:\ workspace\ size\ (GB)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00753}00753\ \ \ \ \ nms=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ TF:\ add\ NMS\ to\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00754}00754\ \ \ \ \ agnostic\_nms=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ TF:\ add\ agnostic\ NMS\ to\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00755}00755\ \ \ \ \ topk\_per\_class=100,\ \ \textcolor{comment}{\#\ TF.js\ NMS:\ topk\ per\ class\ to\ keep}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00756}00756\ \ \ \ \ topk\_all=100,\ \ \textcolor{comment}{\#\ TF.js\ NMS:\ topk\ for\ all\ classes\ to\ keep}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00757}00757\ \ \ \ \ iou\_thres=0.45,\ \ \textcolor{comment}{\#\ TF.js\ NMS:\ IoU\ threshold}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00758}00758\ \ \ \ \ conf\_thres=0.25,\ \ \textcolor{comment}{\#\ TF.js\ NMS:\ confidence\ threshold}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00759}00759\ ):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00760}00760\ \ \ \ \ t\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00761}00761\ \ \ \ \ include\ =\ [x.lower()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ include]\ \ \textcolor{comment}{\#\ to\ lowercase}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00762}00762\ \ \ \ \ fmts\ =\ tuple(\mbox{\hyperlink{namespaceexport_a7b6acfbbcfc1f6745013f12b2b35d076}{export\_formats}}()[\textcolor{stringliteral}{"{}Argument"{}}][1:])\ \ \textcolor{comment}{\#\ -\/-\/include\ arguments}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00763}00763\ \ \ \ \ flags\ =\ [x\ \textcolor{keywordflow}{in}\ include\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ fmts]}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00764}00764\ \ \ \ \ \textcolor{keyword}{assert}\ sum(flags)\ ==\ len(include),\ f\textcolor{stringliteral}{"{}ERROR:\ Invalid\ -\/-\/include\ \{include\},\ valid\ -\/-\/include\ arguments\ are\ \{fmts\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00765}00765\ \ \ \ \ jit,\ onnx,\ xml,\ engine,\ coreml,\ saved\_model,\ pb,\ tflite,\ edgetpu,\ tfjs,\ paddle\ =\ flags\ \ \textcolor{comment}{\#\ export\ booleans}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00766}00766\ \ \ \ \ file\ =\ Path(url2file(weights)\ \textcolor{keywordflow}{if}\ str(weights).startswith((\textcolor{stringliteral}{"{}http:/"{}},\ \textcolor{stringliteral}{"{}https:/"{}}))\ \textcolor{keywordflow}{else}\ weights)\ \ \textcolor{comment}{\#\ PyTorch\ weights}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00767}00767\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00768}00768\ \ \ \ \ \textcolor{comment}{\#\ Load\ PyTorch\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00769}00769\ \ \ \ \ device\ =\ select\_device(device)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00770}00770\ \ \ \ \ \textcolor{keywordflow}{if}\ half:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00771}00771\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}}\ \textcolor{keywordflow}{or}\ coreml,\ \textcolor{stringliteral}{"{}-\/-\/half\ only\ compatible\ with\ GPU\ export,\ i.e.\ use\ -\/-\/device\ 0"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00772}00772\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ dynamic,\ \textcolor{stringliteral}{"{}-\/-\/half\ not\ compatible\ with\ -\/-\/dynamic,\ i.e.\ use\ either\ -\/-\/half\ or\ -\/-\/dynamic\ but\ not\ both"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00773}00773\ \ \ \ \ model\ =\ attempt\_load(weights,\ device=device,\ inplace=\textcolor{keyword}{True},\ fuse=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ load\ FP32\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00774}00774\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00775}00775\ \ \ \ \ \textcolor{comment}{\#\ Checks}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00776}00776\ \ \ \ \ imgsz\ *=\ 2\ \textcolor{keywordflow}{if}\ len(imgsz)\ ==\ 1\ \textcolor{keywordflow}{else}\ 1\ \ \textcolor{comment}{\#\ expand}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00777}00777\ \ \ \ \ \textcolor{keywordflow}{if}\ optimize:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00778}00778\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ device.type\ ==\ \textcolor{stringliteral}{"{}cpu"{}},\ \textcolor{stringliteral}{"{}-\/-\/optimize\ not\ compatible\ with\ cuda\ devices,\ i.e.\ use\ -\/-\/device\ cpu"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00779}00779\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00780}00780\ \ \ \ \ \textcolor{comment}{\#\ Input}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00781}00781\ \ \ \ \ gs\ =\ int(max(model.stride))\ \ \textcolor{comment}{\#\ grid\ size\ (max\ stride)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00782}00782\ \ \ \ \ imgsz\ =\ [check\_img\_size(x,\ gs)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ imgsz]\ \ \textcolor{comment}{\#\ verify\ img\_size\ are\ gs-\/multiples}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00783}00783\ \ \ \ \ im\ =\ torch.zeros(batch\_size,\ 3,\ *imgsz).to(device)\ \ \textcolor{comment}{\#\ image\ size(1,3,320,192)\ BCHW\ iDetection}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00784}00784\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00785}00785\ \ \ \ \ \textcolor{comment}{\#\ Update\ model}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00786}00786\ \ \ \ \ model.eval()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00787}00787\ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ m\ \textcolor{keywordflow}{in}\ model.named\_modules():}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00788}00788\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(m,\ Detect):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00789}00789\ \ \ \ \ \ \ \ \ \ \ \ \ m.inplace\ =\ inplace}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00790}00790\ \ \ \ \ \ \ \ \ \ \ \ \ m.dynamic\ =\ dynamic}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00791}00791\ \ \ \ \ \ \ \ \ \ \ \ \ m.export\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00792}00792\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00793}00793\ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(2):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00794}00794\ \ \ \ \ \ \ \ \ y\ =\ model(im)\ \ \textcolor{comment}{\#\ dry\ runs}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00795}00795\ \ \ \ \ \textcolor{keywordflow}{if}\ half\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ coreml:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00796}00796\ \ \ \ \ \ \ \ \ im,\ model\ =\ im.half(),\ model.half()\ \ \textcolor{comment}{\#\ to\ FP16}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00797}00797\ \ \ \ \ shape\ =\ tuple((y[0]\ \textcolor{keywordflow}{if}\ isinstance(y,\ tuple)\ \textcolor{keywordflow}{else}\ y).shape)\ \ \textcolor{comment}{\#\ model\ output\ shape}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00798}00798\ \ \ \ \ metadata\ =\ \{\textcolor{stringliteral}{"{}stride"{}}:\ int(max(model.stride)),\ \textcolor{stringliteral}{"{}names"{}}:\ model.names\}\ \ \textcolor{comment}{\#\ model\ metadata}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00799}00799\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{colorstr('PyTorch:')\}\ starting\ from\ \{file\}\ with\ output\ shape\ \{shape\}\ (\{file\_size(file):.1f\}\ MB)"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00800}00800\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00801}00801\ \ \ \ \ \textcolor{comment}{\#\ Exports}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00802}00802\ \ \ \ \ f\ =\ [\textcolor{stringliteral}{"{}"{}}]\ *\ len(fmts)\ \ \textcolor{comment}{\#\ exported\ filenames}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00803}00803\ \ \ \ \ warnings.filterwarnings(action=\textcolor{stringliteral}{"{}ignore"{}},\ category=torch.jit.TracerWarning)\ \ \textcolor{comment}{\#\ suppress\ TracerWarning}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00804}00804\ \ \ \ \ \textcolor{keywordflow}{if}\ jit:\ \ \textcolor{comment}{\#\ TorchScript}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00805}00805\ \ \ \ \ \ \ \ \ f[0],\ \_\ =\ \mbox{\hyperlink{namespaceexport_adadb7c311af985b4f06ecf589d8adb49}{export\_torchscript}}(model,\ im,\ file,\ optimize)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00806}00806\ \ \ \ \ \textcolor{keywordflow}{if}\ engine:\ \ \textcolor{comment}{\#\ TensorRT\ required\ before\ ONNX}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00807}00807\ \ \ \ \ \ \ \ \ f[1],\ \_\ =\ \mbox{\hyperlink{namespaceexport_a1e48671dbb1af40fedc62f99339a1b4e}{export\_engine}}(model,\ im,\ file,\ half,\ dynamic,\ simplify,\ workspace,\ verbose)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00808}00808\ \ \ \ \ \textcolor{keywordflow}{if}\ onnx\ \textcolor{keywordflow}{or}\ xml:\ \ \textcolor{comment}{\#\ OpenVINO\ requires\ ONNX}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00809}00809\ \ \ \ \ \ \ \ \ f[2],\ \_\ =\ \mbox{\hyperlink{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}{export\_onnx}}(model,\ im,\ file,\ opset,\ dynamic,\ simplify)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00810}00810\ \ \ \ \ \textcolor{keywordflow}{if}\ xml:\ \ \textcolor{comment}{\#\ OpenVINO}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00811}00811\ \ \ \ \ \ \ \ \ f[3],\ \_\ =\ \mbox{\hyperlink{namespaceexport_a963a08d07b85e362e555c050c3437c38}{export\_openvino}}(file,\ metadata,\ half,\ int8,\ data)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00812}00812\ \ \ \ \ \textcolor{keywordflow}{if}\ coreml:\ \ \textcolor{comment}{\#\ CoreML}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00813}00813\ \ \ \ \ \ \ \ \ f[4],\ ct\_model\ =\ \mbox{\hyperlink{namespaceexport_a87956dca79b0ae766b7acb187161652e}{export\_coreml}}(model,\ im,\ file,\ int8,\ half,\ nms)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00814}00814\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nms:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00815}00815\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceexport_abc1058a9e07f268c95274b6d436e4d57}{pipeline\_coreml}}(ct\_model,\ im,\ file,\ model.names,\ y)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00816}00816\ \ \ \ \ \textcolor{keywordflow}{if}\ any((saved\_model,\ pb,\ tflite,\ edgetpu,\ tfjs)):\ \ \textcolor{comment}{\#\ TensorFlow\ formats}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00817}00817\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ tflite\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ tfjs,\ \textcolor{stringliteral}{"{}TFLite\ and\ TF.js\ models\ must\ be\ exported\ separately,\ please\ pass\ only\ one\ type."{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00818}00818\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ isinstance(model,\ ClassificationModel),\ \textcolor{stringliteral}{"{}ClassificationModel\ export\ to\ TF\ formats\ not\ yet\ supported."{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00819}00819\ \ \ \ \ \ \ \ \ f[5],\ s\_model\ =\ \mbox{\hyperlink{namespaceexport_afabd6fdeff977572cf9529502a92657b}{export\_saved\_model}}(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00820}00820\ \ \ \ \ \ \ \ \ \ \ \ \ model.cpu(),}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00821}00821\ \ \ \ \ \ \ \ \ \ \ \ \ im,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00822}00822\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00823}00823\ \ \ \ \ \ \ \ \ \ \ \ \ dynamic,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00824}00824\ \ \ \ \ \ \ \ \ \ \ \ \ tf\_nms=nms\ \textcolor{keywordflow}{or}\ agnostic\_nms\ \textcolor{keywordflow}{or}\ tfjs,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00825}00825\ \ \ \ \ \ \ \ \ \ \ \ \ agnostic\_nms=agnostic\_nms\ \textcolor{keywordflow}{or}\ tfjs,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00826}00826\ \ \ \ \ \ \ \ \ \ \ \ \ topk\_per\_class=topk\_per\_class,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00827}00827\ \ \ \ \ \ \ \ \ \ \ \ \ topk\_all=topk\_all,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00828}00828\ \ \ \ \ \ \ \ \ \ \ \ \ iou\_thres=iou\_thres,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00829}00829\ \ \ \ \ \ \ \ \ \ \ \ \ conf\_thres=conf\_thres,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00830}00830\ \ \ \ \ \ \ \ \ \ \ \ \ keras=keras,}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00831}00831\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00832}00832\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pb\ \textcolor{keywordflow}{or}\ tfjs:\ \ \textcolor{comment}{\#\ pb\ prerequisite\ to\ tfjs}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00833}00833\ \ \ \ \ \ \ \ \ \ \ \ \ f[6],\ \_\ =\ \mbox{\hyperlink{namespaceexport_af52a530cf55ac3e6084d5a0270be3161}{export\_pb}}(s\_model,\ file)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00834}00834\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ tflite\ \textcolor{keywordflow}{or}\ edgetpu:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00835}00835\ \ \ \ \ \ \ \ \ \ \ \ \ f[7],\ \_\ =\ \mbox{\hyperlink{namespaceexport_ac70636b57505b3f0568cb72e2d04540e}{export\_tflite}}(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00836}00836\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\_model,\ im,\ file,\ int8\ \textcolor{keywordflow}{or}\ edgetpu,\ per\_tensor,\ data=data,\ nms=nms,\ agnostic\_nms=agnostic\_nms}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00837}00837\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00838}00838\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ edgetpu:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00839}00839\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f[8],\ \_\ =\ \mbox{\hyperlink{namespaceexport_aef30ff998891380cf03de8792b674f45}{export\_edgetpu}}(file)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00840}00840\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceexport_aaed22892b03c0d8f3982c80fed3f540c}{add\_tflite\_metadata}}(f[8]\ \textcolor{keywordflow}{or}\ f[7],\ metadata,\ num\_outputs=len(s\_model.outputs))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00841}00841\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ tfjs:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00842}00842\ \ \ \ \ \ \ \ \ \ \ \ \ f[9],\ \_\ =\ \mbox{\hyperlink{namespaceexport_aa89001f2be84d4ee53ca792f740ccfa6}{export\_tfjs}}(file,\ int8)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00843}00843\ \ \ \ \ \textcolor{keywordflow}{if}\ paddle:\ \ \textcolor{comment}{\#\ PaddlePaddle}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00844}00844\ \ \ \ \ \ \ \ \ f[10],\ \_\ =\ \mbox{\hyperlink{namespaceexport_aba065557194a9291e9758f9101597e0c}{export\_paddle}}(model,\ im,\ file,\ metadata)}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00845}00845\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00846}00846\ \ \ \ \ \textcolor{comment}{\#\ Finish}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00847}00847\ \ \ \ \ f\ =\ [str(x)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ f\ \textcolor{keywordflow}{if}\ x]\ \ \textcolor{comment}{\#\ filter\ out\ ''\ and\ None}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00848}00848\ \ \ \ \ \textcolor{keywordflow}{if}\ any(f):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00849}00849\ \ \ \ \ \ \ \ \ cls,\ det,\ seg\ =\ (isinstance(model,\ x)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (ClassificationModel,\ DetectionModel,\ SegmentationModel))\ \ \textcolor{comment}{\#\ type}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00850}00850\ \ \ \ \ \ \ \ \ det\ \&=\ \textcolor{keywordflow}{not}\ seg\ \ \textcolor{comment}{\#\ segmentation\ models\ inherit\ from\ SegmentationModel(DetectionModel)}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00851}00851\ \ \ \ \ \ \ \ \ dir\ =\ Path(\textcolor{stringliteral}{"{}segment"{}}\ \textcolor{keywordflow}{if}\ seg\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}classify"{}}\ \textcolor{keywordflow}{if}\ cls\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00852}00852\ \ \ \ \ \ \ \ \ h\ =\ \textcolor{stringliteral}{"{}-\/-\/half"{}}\ \textcolor{keywordflow}{if}\ half\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}\ \ \textcolor{comment}{\#\ -\/-\/half\ FP16\ inference\ arg}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00853}00853\ \ \ \ \ \ \ \ \ s\ =\ (}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00854}00854\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\#\ WARNING\ ⚠️\ ClassificationModel\ not\ yet\ supported\ for\ PyTorch\ Hub\ AutoShape\ inference"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00855}00855\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ cls}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00856}00856\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}\#\ WARNING\ ⚠️\ SegmentationModel\ not\ yet\ supported\ for\ PyTorch\ Hub\ AutoShape\ inference"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00857}00857\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ seg}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00858}00858\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00859}00859\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00860}00860\ \ \ \ \ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00861}00861\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'\(\backslash\)nExport\ complete\ (\{time.time()\ -\/\ t:.1f\}s)'}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00862}00862\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\(\backslash\)nResults\ saved\ to\ \{colorstr('bold',\ file.parent.resolve())\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00863}00863\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\(\backslash\)nDetect:\ \ \ \ \ \ \ \ \ \ python\ \{dir\ /\ ('detect.py'\ if\ det\ else\ 'predict.py')\}\ -\/-\/weights\ \{f[-\/1]\}\ \{h\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00864}00864\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\(\backslash\)nValidate:\ \ \ \ \ \ \ \ python\ \{dir\ /\ 'val.py'\}\ -\/-\/weights\ \{f[-\/1]\}\ \{h\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00865}00865\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\(\backslash\)nPyTorch\ Hub:\ \ \ \ \ model\ =\ torch.hub.load('ultralytics/yolov5',\ 'custom',\ '\{f[-\/1]\}')\ \ \{s\}"{}}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00866}00866\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'\(\backslash\)nVisualize:\ \ \ \ \ \ \ https://netron.app'}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00867}00867\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00868}00868\ \ \ \ \ \textcolor{keywordflow}{return}\ f\ \ \textcolor{comment}{\#\ return\ list\ of\ exported\ files/dirs}}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00869}00869\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00870}00870\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00871}\mbox{\hyperlink{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}{00871}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}{parse\_opt}}(known=False):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00872}00872\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00873}00873\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/data"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/coco128.yaml"{}},\ help=\textcolor{stringliteral}{"{}dataset.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00874}00874\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s.pt"{}},\ help=\textcolor{stringliteral}{"{}model.pt\ path(s)"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00875}00875\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=int,\ default=[640,\ 640],\ help=\textcolor{stringliteral}{"{}image\ (h,\ w)"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00876}00876\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/batch-\/size"{}},\ type=int,\ default=1,\ help=\textcolor{stringliteral}{"{}batch\ size"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00877}00877\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/device"{}},\ default=\textcolor{stringliteral}{"{}cpu"{}},\ help=\textcolor{stringliteral}{"{}cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00878}00878\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/half"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}FP16\ half-\/precision\ export"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00879}00879\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/inplace"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}set\ YOLOv5\ Detect()\ inplace=True"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00880}00880\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/keras"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}TF:\ use\ Keras"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00881}00881\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/optimize"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}TorchScript:\ optimize\ for\ mobile"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00882}00882\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/int8"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}CoreML/TF/OpenVINO\ INT8\ quantization"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00883}00883\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/per-\/tensor"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}TF\ per-\/tensor\ quantization"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00884}00884\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/dynamic"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}ONNX/TF/TensorRT:\ dynamic\ axes"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00885}00885\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/simplify"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}ONNX:\ simplify\ model"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00886}00886\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/opset"{}},\ type=int,\ default=17,\ help=\textcolor{stringliteral}{"{}ONNX:\ opset\ version"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00887}00887\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/verbose"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}TensorRT:\ verbose\ log"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00888}00888\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/workspace"{}},\ type=int,\ default=4,\ help=\textcolor{stringliteral}{"{}TensorRT:\ workspace\ size\ (GB)"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00889}00889\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/nms"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}TF:\ add\ NMS\ to\ model"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00890}00890\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/agnostic-\/nms"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}TF:\ add\ agnostic\ NMS\ to\ model"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00891}00891\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/topk-\/per-\/class"{}},\ type=int,\ default=100,\ help=\textcolor{stringliteral}{"{}TF.js\ NMS:\ topk\ per\ class\ to\ keep"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00892}00892\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/topk-\/all"{}},\ type=int,\ default=100,\ help=\textcolor{stringliteral}{"{}TF.js\ NMS:\ topk\ for\ all\ classes\ to\ keep"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00893}00893\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/iou-\/thres"{}},\ type=float,\ default=0.45,\ help=\textcolor{stringliteral}{"{}TF.js\ NMS:\ IoU\ threshold"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00894}00894\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/conf-\/thres"{}},\ type=float,\ default=0.25,\ help=\textcolor{stringliteral}{"{}TF.js\ NMS:\ confidence\ threshold"{}})}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00895}00895\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00896}00896\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/include"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00897}00897\ \ \ \ \ \ \ \ \ nargs=\textcolor{stringliteral}{"{}+"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00898}00898\ \ \ \ \ \ \ \ \ default=[\textcolor{stringliteral}{"{}torchscript"{}}],}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00899}00899\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}torchscript,\ onnx,\ openvino,\ engine,\ coreml,\ saved\_model,\ pb,\ tflite,\ edgetpu,\ tfjs,\ paddle"{}},}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00900}00900\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00901}00901\ \ \ \ \ opt\ =\ parser.parse\_known\_args()[0]\ \textcolor{keywordflow}{if}\ known\ \textcolor{keywordflow}{else}\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00902}00902\ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00903}00903\ \ \ \ \ \textcolor{keywordflow}{return}\ opt}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00904}00904\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00905}00905\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00906}\mbox{\hyperlink{namespaceexport_a01b624c9227a1cbe0e73b11ed4654267}{00906}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceexport_a01b624c9227a1cbe0e73b11ed4654267}{main}}(opt):}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00907}00907\ \ \ \ \ \textcolor{keywordflow}{for}\ opt.weights\ \textcolor{keywordflow}{in}\ opt.weights\ \textcolor{keywordflow}{if}\ isinstance(opt.weights,\ list)\ \textcolor{keywordflow}{else}\ [opt.weights]:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00908}00908\ \ \ \ \ \ \ \ \ run(**vars(opt))}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00909}00909\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00910}00910\ }
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00911}00911\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00912}\mbox{\hyperlink{namespaceexport_a0d9efe06403dd5221657e8ff6c0230ca}{00912}}\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}{parse\_opt}}()}
+\DoxyCodeLine{\Hypertarget{export_8py_source_l00913}00913\ \ \ \ \ \mbox{\hyperlink{namespaceexport_a01b624c9227a1cbe0e73b11ed4654267}{main}}(opt)}
+
+\end{DoxyCode}

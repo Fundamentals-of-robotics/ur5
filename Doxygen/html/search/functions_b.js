@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['talker_0',['talker',['../class_inverse_differential.html#aa33c717b13ca516b9c8468b6e7870f2d',1,'InverseDifferential']]]
+  ['kmean_5fanchors_0',['kmean_anchors',['../namespaceutils_1_1autoanchor.html#a227f6f66f6ac0a3b824f0dfe944456c7',1,'utils::autoanchor']]]
 ];

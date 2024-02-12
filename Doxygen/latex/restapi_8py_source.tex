@@ -1,0 +1,52 @@
+\doxysection{restapi.\+py}
+\hypertarget{restapi_8py_source}{}\label{restapi_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/flask\_rest\_api/restapi.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/flask\_rest\_api/restapi.py}}
+\mbox{\hyperlink{restapi_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00001}\mbox{\hyperlink{namespacerestapi}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Run\ a\ Flask\ REST\ API\ exposing\ one\ or\ more\ YOLOv5s\ models."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00004}00004\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00005}00005\ \textcolor{keyword}{import}\ io}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00007}00007\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00008}00008\ \textcolor{keyword}{from}\ flask\ \textcolor{keyword}{import}\ Flask,\ request}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00009}00009\ \textcolor{keyword}{from}\ PIL\ \textcolor{keyword}{import}\ Image}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00011}\mbox{\hyperlink{namespacerestapi_ab67e91eafeedfce76d273d228bfcc61f}{00011}}\ app\ =\ Flask(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00012}\mbox{\hyperlink{namespacerestapi_ac0561d6bd3e61c18f7372bcbcb2215d3}{00012}}\ models\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00014}\mbox{\hyperlink{namespacerestapi_ac731cfb6b52686ce829f4b250c24e8cf}{00014}}\ DETECTION\_URL\ =\ \textcolor{stringliteral}{"{}/v1/object-\/detection/<model>"{}}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00017}00017\ \textcolor{preprocessor}{@app.route(DETECTION\_URL,\ methods=["{}POST"{}])}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00018}\mbox{\hyperlink{namespacerestapi_ab44e64eec77404117680dbd8f64af1c5}{00018}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacepredict}{predict}}(model):}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00019}00019\ \ \ \ \ \textcolor{keywordflow}{if}\ request.method\ !=\ \textcolor{stringliteral}{"{}POST"{}}:}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{if}\ request.files.get(\textcolor{stringliteral}{"{}image"{}}):}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Method\ 1}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ with\ request.files["{}image"{}]\ as\ f:}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ im\ =\ Image.open(io.BytesIO(f.read()))}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Method\ 2}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ im\_file\ =\ request.files[\textcolor{stringliteral}{"{}image"{}}]}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ im\_bytes\ =\ im\_file.read()}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ im\ =\ Image.open(io.BytesIO(im\_bytes))}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\ \textcolor{keywordflow}{in}\ models:}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ models[model](im,\ size=640)\ \ \textcolor{comment}{\#\ reduce\ size=320\ for\ faster\ inference}}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ results.pandas().xyxy[0].to\_json(orient=\textcolor{stringliteral}{"{}records"{}})}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00037}00037\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00038}\mbox{\hyperlink{namespacerestapi_ac09a9470500f718df112000df104b8e9}{00038}}\ \ \ \ \ parser\ =\ argparse.ArgumentParser(description=\textcolor{stringliteral}{"{}Flask\ API\ exposing\ YOLOv5\ model"{}})}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00039}\mbox{\hyperlink{namespacerestapi_a4c0e625ca8c34606cb87b26cd4a4f990}{00039}}\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/port"{}},\ default=5000,\ type=int,\ help=\textcolor{stringliteral}{"{}port\ number"{}})}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00040}\mbox{\hyperlink{namespacerestapi_a56f7c035458cca7c2fba5d65842a1adb}{00040}}\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/model"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ default=[\textcolor{stringliteral}{"{}yolov5s"{}}],\ help=\textcolor{stringliteral}{"{}model(s)\ to\ run,\ i.e.\ -\/-\/model\ yolov5n\ yolov5s"{}})}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00041}\mbox{\hyperlink{namespacerestapi_ab7471cdf9817b51f9dd2f85d823ef128}{00041}}\ \ \ \ \ opt\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00043}00043\ \ \ \ \ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ opt.model:}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00044}\mbox{\hyperlink{namespacerestapi_a8acfd45dc7ebf611fc048552c581b00f}{00044}}\ \ \ \ \ \ \ \ \ models[m]\ =\ torch.hub.load(\textcolor{stringliteral}{"{}ultralytics/yolov5"{}},\ m,\ force\_reload=\textcolor{keyword}{True},\ skip\_validation=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{restapi_8py_source_l00046}\mbox{\hyperlink{namespacerestapi_ac999ff2b63c7ab76d82e8d674b739ed4}{00046}}\ \ \ \ \ app.run(host=\textcolor{stringliteral}{"{}0.0.0.0"{}},\ port=opt.port)\ \ \textcolor{comment}{\#\ debug=True\ causes\ Restarting\ with\ stat}}
+
+\end{DoxyCode}

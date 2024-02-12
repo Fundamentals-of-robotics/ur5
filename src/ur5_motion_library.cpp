@@ -28,10 +28,7 @@ joint_names{"shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1
     A *= SCALAR_FACTOR;
     D *= SCALAR_FACTOR;
     
-    iteration=1;
-    intermediate_point_trajectory=1;
-    xe_intermediate<<0.1,-0.3,0.6;//in case of error use this point as a safe homing!
-    xe_intermediate*=SCALAR_FACTOR;
+    
 
     talker();    
 }
@@ -41,14 +38,14 @@ joint_names{"shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1
 bool InverseDifferential::motionPlannerToTaskPlannerServiceResponse(ur5::ServiceMessage::Request &req, ur5::ServiceMessage::Response &res){
     error=0;
     final_end=req.end;
-    ack2=req.ack;
+    ack=req.ack;
 
     xef << req.xef1, req.xef2, req.xef3;
     phief << req.phief1, req.phief2, req.phief3;
     gripper << req.gripper, req.gripper;
 
     ROS_INFO("Request received");
-    //cout << "request received\n" << xef.transpose() << endl << phief.transpose() << endl;
+
 
     if(!checkWorkArea(xef)){
         ROS_INFO("The request is not inside the working area"); 
@@ -62,9 +59,12 @@ bool InverseDifferential::motionPlannerToTaskPlannerServiceResponse(ur5::Service
     res.error= result ? 0 : 2;//0 - ok; 2 - error in motion
 
     if(result) ROS_INFO("Motion completed");
-    else ROS_INFO("Error in motion");
+    else ROS_INFO("Error in motion/Near singularity");
 
-    if(final_end != 0) {ROS_INFO("Terminating motion planner"); ros::shutdown();}
+    if(final_end != 0) {
+        ROS_INFO("Terminating motion planner");
+        ros::shutdown();
+    }
     return true;
 }
 
@@ -96,7 +96,9 @@ int InverseDifferential::talker(){
     ros::NodeHandle n;
     
     while(final_end == 0 && ros::ok()){
+        
         ros::ServiceServer service4 = n.advertiseService("tp_mp_communication", &InverseDifferential::motionPlannerToTaskPlannerServiceResponse, this);
+        
         ros::spin();
     }
 
@@ -151,16 +153,17 @@ bool InverseDifferential::invDiff(){
     Matrix3d Kp = 10*MatrixXd::Identity(3,3);
     Matrix3d Kq = 10*MatrixXd::Identity(3,3);
     
-    list <VectorXd> l;
+     list <VectorXd> l;
 
-    l = invDiffKinematicControlSimCompleteQuaternion(qstart, T, Kp, Kq); 
+    l = invDiffKinematic(qstart, T, Kp, Kq); 
 
-    #if INTERMEDIATE_POINT == 1
+    //#if INTERMEDIATE_POINT == 1
     if(error == 2){
         //during the computation, we reached a singularity
         return false;
     }
-    #endif
+    //#endif
+    
 
     MatrixXd v1;
     v1.resize(JOINT_NAMES, (Tf - Tb) / deltaT);
@@ -173,6 +176,9 @@ bool InverseDifferential::invDiff(){
         k++;
     }
 
+    //check if the final position is valid    
+    if(!checkWorkArea(q))return false;
+
     //send values to joints
     ROS_INFO("Starting motion");
     int i=0;
@@ -181,6 +187,8 @@ bool InverseDifferential::invDiff(){
     VectorXd firstConfiguration = v1.col(0);
     send_des_jstate(joint_pub, firstConfiguration);
     ros::Duration(1).sleep();
+
+    
 
     //send all the calculated configurations
     while(ros::ok()){
@@ -332,7 +340,8 @@ MatrixXd InverseDifferential::ur5Jac(VectorXd v){
     return J;  
 }
 
-list<VectorXd> InverseDifferential::invDiffKinematicControlSimCompleteQuaternion(VectorXd TH0, VectorXd T, Matrix3d Kp, Matrix3d Kphi){
+list<VectorXd> InverseDifferential::invDiffKinematic(VectorXd TH0, VectorXd T, Matrix3d Kp, Matrix3d Kphi){
+    counter=0;
     Vector3d xe;
     Matrix3d Re;
     VectorXd qk(6);
@@ -345,6 +354,7 @@ list<VectorXd> InverseDifferential::invDiffKinematicControlSimCompleteQuaternion
     for(int l=1;l<T.size()-1 && error != 2;l++){
         t=T(l);
         ur5Direct(xe,Re,qk);
+
         
         Quaterniond qe=rotationMatrixToQuaternion(Re);
 
@@ -359,10 +369,12 @@ list<VectorXd> InverseDifferential::invDiffKinematicControlSimCompleteQuaternion
         Quaterniond qd_t=qd(t);
         VectorXd dotqk(6);
         
-        dotqk = invDiffKinematicControlCompleteQuaternion(qk, xe, xd_t, vd, omegad, qe, qd_t, Kp, Kphi); 
+        dotqk = invDiffKinematicControl(qk, xe, xd_t, vd, omegad, qe, qd_t, Kp, Kphi); 
            
         VectorXd qk1(6);
         qk1= qk + dotqk*deltaT;
+
+        if(!checkWorkArea(qk1))error=2;
 
         q.push_back(qk1);
         qk=qk1;    
@@ -370,19 +382,19 @@ list<VectorXd> InverseDifferential::invDiffKinematicControlSimCompleteQuaternion
     return q;
 }
 
-VectorXd InverseDifferential::invDiffKinematicControlCompleteQuaternion(VectorXd qk, Vector3d xe, Vector3d xd, Vector3d vd, Vector3d omegad, Quaterniond qe, Quaterniond qd, Matrix3d Kp, Matrix3d Kphi){
+VectorXd InverseDifferential::invDiffKinematicControl(VectorXd qk, Vector3d xe, Vector3d xd, Vector3d vd, Vector3d omegad, Quaterniond qe, Quaterniond qd, Matrix3d Kp, Matrix3d Kphi){
     MatrixXd J=ur5Jac(qk);     
     
     Quaterniond qp = qd*qe.conjugate();
     
     Vector3d eo=qp.vec();
                                                 
-    Vector3d part1= vd+Kp*(xd-xe);
-    Vector3d part2= omegad+Kphi*eo;
-    VectorXd idk(6);
+    Vector3d corrected_vd= vd+Kp*(xd-xe);
+    Vector3d corrected_omegad= omegad+Kphi*eo;
+    VectorXd vd_wd(6);
     for(int i=0; i<3;i++){
-        idk(i)=part1(i);
-        idk(i+3)=part2(i);
+        vd_wd(i)=corrected_vd(i);
+        vd_wd(i+3)=corrected_omegad(i);
     }
       
 
@@ -392,20 +404,22 @@ VectorXd InverseDifferential::invDiffKinematicControlCompleteQuaternion(VectorXd
     double determinant = abs(J.determinant());
     
     #if INTERMEDIATE_POINT == 1
-    if(determinant<=1e-3){ 
+    if(determinant<=1e-2){ 
         //cout<<"NEAR SINGULARITY"<<endl;                                                    
         error = 2;//using intermediate point
     }
-    dotQ = J.partialPivLu().solve(idk);
+    dotQ = J.partialPivLu().solve(vd_wd);
     #else
     //dyanmic damping factor using eigenvalues
     if(determinant<1e-2){
+        if((counter++)==0   ROS_INFO("NEAR SINGULARITY");
+        
         VectorXd eigenvalues = (J * J.transpose()).eigenvalues().real();
         double dampingFactor = DAMPING_FACTOR / eigenvalues.maxCoeff();
         J = J.transpose() * ((J * J.transpose() + pow(dampingFactor, 2) * identity).inverse());
-        dotQ = J * idk;
+        dotQ = J * vd_wd;
     }else {
-        dotQ = J.partialPivLu().solve(idk);
+        dotQ = J.partialPivLu().solve(vd_wd);
     }
     #endif
 
@@ -413,7 +427,7 @@ VectorXd InverseDifferential::invDiffKinematicControlCompleteQuaternion(VectorXd
 }
 
 Vector3d InverseDifferential::xd(double ti){
-    Vector3d xd;
+     Vector3d xd;
     double t = ti/Tf;
     if (t >= 1){
         xd = xef;
@@ -422,6 +436,7 @@ Vector3d InverseDifferential::xd(double ti){
         xd = t*xef + (1-t)*xe0;
     }
     return xd;
+    
 }
 
 Quaterniond InverseDifferential::qd(double ti){

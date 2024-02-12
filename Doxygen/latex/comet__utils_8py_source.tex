@@ -1,0 +1,154 @@
+\doxysection{comet\+\_\+utils.\+py}
+\hypertarget{comet__utils_8py_source}{}\label{comet__utils_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/comet/comet\_utils.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/comet/comet\_utils.py}}
+\mbox{\hyperlink{comet__utils_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils}{00001}}\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00002}00002\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00003}00003\ \textcolor{keyword}{from}\ urllib.parse\ \textcolor{keyword}{import}\ urlparse}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00005}00005\ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{import}\ comet\_ml}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00007}00007\ \textcolor{keywordflow}{except}\ ImportError:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00008}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_ac1de94161fd78ba8a446dd3df12c7091}{00008}}\ \ \ \ \ comet\_ml\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00010}00010\ \textcolor{keyword}{import}\ yaml}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00012}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af685ff9ff5520cae991983f07b5b4152}{00012}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00014}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a05d6f149e8c4374bf4d69210d14f63db}{00014}}\ COMET\_PREFIX\ =\ \textcolor{stringliteral}{"{}comet://"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00015}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_af254ea060c1f3d902046cfac783cd193}{00015}}\ COMET\_MODEL\_NAME\ =\ os.getenv(\textcolor{stringliteral}{"{}COMET\_MODEL\_NAME"{}},\ \textcolor{stringliteral}{"{}yolov5"{}})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00016}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a1c8563deafe5cfab1a576152c816c968}{00016}}\ COMET\_DEFAULT\_CHECKPOINT\_FILENAME\ =\ os.getenv(\textcolor{stringliteral}{"{}COMET\_DEFAULT\_CHECKPOINT\_FILENAME"{}},\ \textcolor{stringliteral}{"{}last.pt"{}})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00019}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0}{00019}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0}{download\_model\_checkpoint}}(opt,\ experiment):}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00020}00020\ \ \ \ \ model\_dir\ =\ f\textcolor{stringliteral}{"{}\{opt.project\}/\{experiment.name\}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00021}00021\ \ \ \ \ os.makedirs(model\_dir,\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00023}00023\ \ \ \ \ model\_name\ =\ COMET\_MODEL\_NAME}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00024}00024\ \ \ \ \ model\_asset\_list\ =\ experiment.get\_model\_asset\_list(model\_name)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00026}00026\ \ \ \ \ \textcolor{keywordflow}{if}\ len(model\_asset\_list)\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}COMET\ ERROR:\ No\ checkpoints\ found\ for\ model\ name\ :\ \{model\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00030}00030\ \ \ \ \ model\_asset\_list\ =\ sorted(}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ model\_asset\_list,}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ key=\textcolor{keyword}{lambda}\ x:\ x[\textcolor{stringliteral}{"{}step"{}}],}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ reverse=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00034}00034\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00035}00035\ \ \ \ \ logged\_checkpoint\_map\ =\ \{asset[\textcolor{stringliteral}{"{}fileName"{}}]:\ asset[\textcolor{stringliteral}{"{}assetId"{}}]\ \textcolor{keywordflow}{for}\ asset\ \textcolor{keywordflow}{in}\ model\_asset\_list\}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00037}00037\ \ \ \ \ resource\_url\ =\ urlparse(opt.weights)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00038}00038\ \ \ \ \ checkpoint\_filename\ =\ resource\_url.query}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{if}\ checkpoint\_filename:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ asset\_id\ =\ logged\_checkpoint\_map.get(checkpoint\_filename)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ asset\_id\ =\ logged\_checkpoint\_map.get(COMET\_DEFAULT\_CHECKPOINT\_FILENAME)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ checkpoint\_filename\ =\ COMET\_DEFAULT\_CHECKPOINT\_FILENAME}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00046}00046\ \ \ \ \ \textcolor{keywordflow}{if}\ asset\_id\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}COMET\ ERROR:\ Checkpoint\ \{checkpoint\_filename\}\ not\ found\ in\ the\ given\ Experiment"{}})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00050}00050\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}COMET\ INFO:\ Downloading\ checkpoint\ \{checkpoint\_filename\}"{}})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ asset\_filename\ =\ checkpoint\_filename}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ model\_binary\ =\ experiment.get\_asset(asset\_id,\ return\_type=\textcolor{stringliteral}{"{}binary"{}},\ stream=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ model\_download\_path\ =\ f\textcolor{stringliteral}{"{}\{model\_dir\}/\{asset\_filename\}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(model\_download\_path,\ \textcolor{stringliteral}{"{}wb"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(model\_binary)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ opt.weights\ =\ model\_download\_path}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00061}00061\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ logger.warning(\textcolor{stringliteral}{"{}COMET\ WARNING:\ Unable\ to\ download\ checkpoint\ from\ Comet"{}})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ logger.exception(e)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00066}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a134631426eb725b543d93ad178c0cf39}{00066}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a134631426eb725b543d93ad178c0cf39}{set\_opt\_parameters}}(opt,\ experiment):}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00067}00067\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00068}00068\ \textcolor{stringliteral}{\ \ \ \ Update\ the\ opts\ Namespace\ with\ parameters\ from\ Comet's\ ExistingExperiment\ when\ resuming\ a\ run.}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00069}00069\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (argparse.Namespace):\ Namespace\ of\ command\ line\ options}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00072}00072\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ experiment\ (comet\_ml.APIExperiment):\ Comet\ API\ Experiment\ object}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00074}00074\ \ \ \ \ asset\_list\ =\ experiment.get\_asset\_list()}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00075}00075\ \ \ \ \ resume\_string\ =\ opt.resume}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{for}\ asset\ \textcolor{keywordflow}{in}\ asset\_list:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ asset[\textcolor{stringliteral}{"{}fileName"{}}]\ ==\ \textcolor{stringliteral}{"{}opt.yaml"{}}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ asset\_id\ =\ asset[\textcolor{stringliteral}{"{}assetId"{}}]}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ asset\_binary\ =\ experiment.get\_asset(asset\_id,\ return\_type=\textcolor{stringliteral}{"{}binary"{}},\ stream=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ opt\_dict\ =\ yaml.safe\_load(asset\_binary)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key,\ value\ \textcolor{keywordflow}{in}\ opt\_dict.items():}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setattr(opt,\ key,\ value)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ opt.resume\ =\ resume\_string}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00086}00086\ \ \ \ \ \textcolor{comment}{\#\ Save\ hyperparameters\ to\ YAML\ file}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00087}00087\ \ \ \ \ \textcolor{comment}{\#\ Necessary\ to\ pass\ checks\ in\ training\ script}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00088}00088\ \ \ \ \ save\_dir\ =\ f\textcolor{stringliteral}{"{}\{opt.project\}/\{experiment.name\}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00089}00089\ \ \ \ \ os.makedirs(save\_dir,\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00091}00091\ \ \ \ \ hyp\_yaml\_path\ =\ f\textcolor{stringliteral}{"{}\{save\_dir\}/hyp.yaml"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00092}00092\ \ \ \ \ \textcolor{keyword}{with}\ open(hyp\_yaml\_path,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ yaml.dump(opt.hyp,\ f)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00094}00094\ \ \ \ \ opt.hyp\ =\ hyp\_yaml\_path}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00097}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_aed1d6d4faa42e83366382d3d5da8ab92}{00097}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_aed1d6d4faa42e83366382d3d5da8ab92}{check\_comet\_weights}}(opt):}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00098}00098\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00099}00099\ \textcolor{stringliteral}{\ \ \ \ Downloads\ model\ weights\ from\ Comet\ and\ updates\ the\ weights\ path\ to\ point\ to\ saved\ weights\ location.}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00100}00100\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00101}00101\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00102}00102\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (argparse.Namespace):\ Command\ Line\ arguments\ passed}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00103}00103\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ to\ YOLOv5\ training\ script}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00104}00104\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ None/bool:\ Return\ True\ if\ weights\ are\ successfully\ downloaded}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ else\ return\ None}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{if}\ comet\_ml\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00112}00112\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(opt.weights,\ str)\ \textcolor{keywordflow}{and}\ opt.weights.startswith(COMET\_PREFIX):}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ api\ =\ comet\_ml.API()}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ resource\ =\ urlparse(opt.weights)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ experiment\_path\ =\ f\textcolor{stringliteral}{"{}\{resource.netloc\}\{resource.path\}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ experiment\ =\ api.get(experiment\_path)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0}{download\_model\_checkpoint}}(opt,\ experiment)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00123}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a4b42f1e5d16870a9a6fff0f6bfe6ed4c}{00123}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a4b42f1e5d16870a9a6fff0f6bfe6ed4c}{check\_comet\_resume}}(opt):}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00124}00124\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00125}00125\ \textcolor{stringliteral}{\ \ \ \ Restores\ run\ parameters\ to\ its\ original\ state\ based\ on\ the\ model\ checkpoint\ and\ logged\ Experiment\ parameters.}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00126}00126\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00128}00128\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (argparse.Namespace):\ Command\ Line\ arguments\ passed}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00129}00129\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ to\ YOLOv5\ training\ script}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00130}00130\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00131}00131\ \textcolor{stringliteral}{\ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00132}00132\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ None/bool:\ Return\ True\ if\ the\ run\ is\ restored\ successfully}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00133}00133\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ else\ return\ None}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00134}00134\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00135}00135\ \ \ \ \ \textcolor{keywordflow}{if}\ comet\_ml\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(opt.resume,\ str)\ \textcolor{keywordflow}{and}\ opt.resume.startswith(COMET\_PREFIX):}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ api\ =\ comet\_ml.API()}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ resource\ =\ urlparse(opt.resume)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ experiment\_path\ =\ f\textcolor{stringliteral}{"{}\{resource.netloc\}\{resource.path\}"{}}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ experiment\ =\ api.get(experiment\_path)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a134631426eb725b543d93ad178c0cf39}{set\_opt\_parameters}}(opt,\ experiment)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1comet__utils_a863f3e8c31fc899ae4ae901ad635c9b0}{download\_model\_checkpoint}}(opt,\ experiment)}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{comet__utils_8py_source_l00148}00148\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+
+\end{DoxyCode}

@@ -1,0 +1,329 @@
+\doxysection{export Namespace Reference}
+\hypertarget{namespaceexport}{}\label{namespaceexport}\index{export@{export}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classexport_1_1i_o_s_model}{i\+OSModel}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceexport_a7b6acfbbcfc1f6745013f12b2b35d076}{export\+\_\+formats}} ()
+\item 
+\mbox{\hyperlink{namespaceexport_a9bb3a1917c1d3e4ec85b29d77d97d79d}{try\+\_\+export}} (inner\+\_\+func)
+\item 
+\mbox{\hyperlink{namespaceexport_adadb7c311af985b4f06ecf589d8adb49}{export\+\_\+torchscript}} (model, im, file, optimize, prefix=colorstr("{}Torch\+Script\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}{export\+\_\+onnx}} (model, im, file, opset, dynamic, simplify, prefix=colorstr("{}ONNX\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_a963a08d07b85e362e555c050c3437c38}{export\+\_\+openvino}} (file, metadata, half, int8, data, prefix=colorstr("{}Open\+VINO\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_aba065557194a9291e9758f9101597e0c}{export\+\_\+paddle}} (model, im, file, metadata, prefix=colorstr("{}Paddle\+Paddle\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_a87956dca79b0ae766b7acb187161652e}{export\+\_\+coreml}} (model, im, file, int8, half, nms, prefix=colorstr("{}Core\+ML\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_a1e48671dbb1af40fedc62f99339a1b4e}{export\+\_\+engine}} (model, im, file, half, dynamic, simplify, workspace=4, verbose=False, prefix=colorstr("{}Tensor\+RT\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_afabd6fdeff977572cf9529502a92657b}{export\+\_\+saved\+\_\+model}} (model, im, file, dynamic, tf\+\_\+nms=False, agnostic\+\_\+nms=False, topk\+\_\+per\+\_\+class=100, topk\+\_\+all=100, iou\+\_\+thres=0.\+45, conf\+\_\+thres=0.\+25, keras=False, prefix=colorstr("{}Tensor\+Flow Saved\+Model\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_af52a530cf55ac3e6084d5a0270be3161}{export\+\_\+pb}} (keras\+\_\+model, file, prefix=colorstr("{}Tensor\+Flow Graph\+Def\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_ac70636b57505b3f0568cb72e2d04540e}{export\+\_\+tflite}} (keras\+\_\+model, im, file, int8, per\+\_\+tensor, data, nms, agnostic\+\_\+nms, prefix=colorstr("{}Tensor\+Flow Lite\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_aef30ff998891380cf03de8792b674f45}{export\+\_\+edgetpu}} (file, prefix=colorstr("{}Edge TPU\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_aa89001f2be84d4ee53ca792f740ccfa6}{export\+\_\+tfjs}} (file, int8, prefix=colorstr("{}Tensor\+Flow.\+js\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_aaed22892b03c0d8f3982c80fed3f540c}{add\+\_\+tflite\+\_\+metadata}} (file, metadata, num\+\_\+outputs)
+\item 
+\mbox{\hyperlink{namespaceexport_abc1058a9e07f268c95274b6d436e4d57}{pipeline\+\_\+coreml}} (model, im, file, names, y, prefix=colorstr("{}Core\+ML Pipeline\+:"{}))
+\item 
+\mbox{\hyperlink{namespaceexport_a2198bfcdd3f9c6bd185a38ea5f0d9495}{run}} (data=\mbox{\hyperlink{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}{ROOT}}/"{}data/coco128.\+yaml"{}, weights=\mbox{\hyperlink{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}{ROOT}}/"{}yolov5s.\+pt"{}, imgsz=(640, 640), batch\+\_\+size=1, device="{}cpu"{}, include=("{}torchscript"{}, "{}onnx"{}), half=False, inplace=False, keras=False, optimize=False, int8=False, per\+\_\+tensor=False, dynamic=False, simplify=False, opset=12, verbose=False, workspace=4, nms=False, agnostic\+\_\+nms=False, topk\+\_\+per\+\_\+class=100, topk\+\_\+all=100, iou\+\_\+thres=0.\+45, conf\+\_\+thres=0.\+25)
+\item 
+\mbox{\hyperlink{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}{parse\+\_\+opt}} (known=False)
+\item 
+\mbox{\hyperlink{namespaceexport_a01b624c9227a1cbe0e73b11ed4654267}{main}} (\mbox{\hyperlink{namespaceexport_a0d9efe06403dd5221657e8ff6c0230ca}{opt}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceexport_a9bfae37ca15b3f687b2907c4b6fa38c5}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}{ROOT}} = FILE.\+parents\mbox{[}0\mbox{]}
+\item 
+str \mbox{\hyperlink{namespaceexport_a29e5fa5781007b2f0a95df7c46cd4979}{MACOS}} = "{}Darwin"{}
+\item 
+\mbox{\hyperlink{namespaceexport_a0d9efe06403dd5221657e8ff6c0230ca}{opt}} = \mbox{\hyperlink{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}{parse\+\_\+opt}}()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Export a YOLOv5 PyTorch model to other formats. TensorFlow exports authored by https://github.com/zldrobit
+
+Format                      | `export.py --include`         | Model
+---                         | ---                           | ---
+PyTorch                     | -                             | yolov5s.pt
+TorchScript                 | `torchscript`                 | yolov5s.torchscript
+ONNX                        | `onnx`                        | yolov5s.onnx
+OpenVINO                    | `openvino`                    | yolov5s_openvino_model/
+TensorRT                    | `engine`                      | yolov5s.engine
+CoreML                      | `coreml`                      | yolov5s.mlmodel
+TensorFlow SavedModel       | `saved_model`                 | yolov5s_saved_model/
+TensorFlow GraphDef         | `pb`                          | yolov5s.pb
+TensorFlow Lite             | `tflite`                      | yolov5s.tflite
+TensorFlow Edge TPU         | `edgetpu`                     | yolov5s_edgetpu.tflite
+TensorFlow.js               | `tfjs`                        | yolov5s_web_model/
+PaddlePaddle                | `paddle`                      | yolov5s_paddle_model/
+
+Requirements:
+    $ pip install -r requirements.txt coremltools onnx onnx-simplifier onnxruntime openvino-dev tensorflow-cpu  # CPU
+    $ pip install -r requirements.txt coremltools onnx onnx-simplifier onnxruntime-gpu openvino-dev tensorflow  # GPU
+
+Usage:
+    $ python export.py --weights yolov5s.pt --include torchscript onnx openvino engine coreml tflite ...
+
+Inference:
+    $ python detect.py --weights yolov5s.pt                 # PyTorch
+                                 yolov5s.torchscript        # TorchScript
+                                 yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
+                                 yolov5s_openvino_model     # OpenVINO
+                                 yolov5s.engine             # TensorRT
+                                 yolov5s.mlmodel            # CoreML (macOS-only)
+                                 yolov5s_saved_model        # TensorFlow SavedModel
+                                 yolov5s.pb                 # TensorFlow GraphDef
+                                 yolov5s.tflite             # TensorFlow Lite
+                                 yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
+                                 yolov5s_paddle_model       # PaddlePaddle
+
+TensorFlow.js:
+    $ cd .. && git clone https://github.com/zldrobit/tfjs-yolov5-example.git && cd tfjs-yolov5-example
+    $ npm install
+    $ ln -s ../../yolov5/yolov5s_web_model public/yolov5s_web_model
+    $ npm start
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceexport_aaed22892b03c0d8f3982c80fed3f540c}\label{namespaceexport_aaed22892b03c0d8f3982c80fed3f540c} 
+\index{export@{export}!add\_tflite\_metadata@{add\_tflite\_metadata}}
+\index{add\_tflite\_metadata@{add\_tflite\_metadata}!export@{export}}
+\doxysubsubsection{\texorpdfstring{add\_tflite\_metadata()}{add\_tflite\_metadata()}}
+{\footnotesize\ttfamily export.\+add\+\_\+tflite\+\_\+metadata (\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{metadata,  }\item[{}]{num\+\_\+outputs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00570}{570}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a87956dca79b0ae766b7acb187161652e}\label{namespaceexport_a87956dca79b0ae766b7acb187161652e} 
+\index{export@{export}!export\_coreml@{export\_coreml}}
+\index{export\_coreml@{export\_coreml}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_coreml()}{export\_coreml()}}
+{\footnotesize\ttfamily export.\+export\+\_\+coreml (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{int8,  }\item[{}]{half,  }\item[{}]{nms,  }\item[{}]{prefix = {\ttfamily colorstr("{}CoreML\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00293}{293}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_aef30ff998891380cf03de8792b674f45}\label{namespaceexport_aef30ff998891380cf03de8792b674f45} 
+\index{export@{export}!export\_edgetpu@{export\_edgetpu}}
+\index{export\_edgetpu@{export\_edgetpu}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_edgetpu()}{export\_edgetpu()}}
+{\footnotesize\ttfamily export.\+export\+\_\+edgetpu (\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{prefix = {\ttfamily colorstr("{}Edge~TPU\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00495}{495}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a1e48671dbb1af40fedc62f99339a1b4e}\label{namespaceexport_a1e48671dbb1af40fedc62f99339a1b4e} 
+\index{export@{export}!export\_engine@{export\_engine}}
+\index{export\_engine@{export\_engine}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_engine()}{export\_engine()}}
+{\footnotesize\ttfamily export.\+export\+\_\+engine (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{half,  }\item[{}]{dynamic,  }\item[{}]{simplify,  }\item[{}]{workspace = {\ttfamily 4},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{prefix = {\ttfamily colorstr("{}TensorRT\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00318}{318}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a7b6acfbbcfc1f6745013f12b2b35d076}\label{namespaceexport_a7b6acfbbcfc1f6745013f12b2b35d076} 
+\index{export@{export}!export\_formats@{export\_formats}}
+\index{export\_formats@{export\_formats}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_formats()}{export\_formats()}}
+{\footnotesize\ttfamily export.\+export\+\_\+formats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00111}{111}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede}\label{namespaceexport_abb3dc2a3d12fd1101ba10b1a47c70ede} 
+\index{export@{export}!export\_onnx@{export\_onnx}}
+\index{export\_onnx@{export\_onnx}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_onnx()}{export\_onnx()}}
+{\footnotesize\ttfamily export.\+export\+\_\+onnx (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{opset,  }\item[{}]{dynamic,  }\item[{}]{simplify,  }\item[{}]{prefix = {\ttfamily colorstr("{}ONNX\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00165}{165}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a963a08d07b85e362e555c050c3437c38}\label{namespaceexport_a963a08d07b85e362e555c050c3437c38} 
+\index{export@{export}!export\_openvino@{export\_openvino}}
+\index{export\_openvino@{export\_openvino}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_openvino()}{export\_openvino()}}
+{\footnotesize\ttfamily export.\+export\+\_\+openvino (\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{metadata,  }\item[{}]{half,  }\item[{}]{int8,  }\item[{}]{data,  }\item[{}]{prefix = {\ttfamily colorstr("{}OpenVINO\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00222}{222}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_aba065557194a9291e9758f9101597e0c}\label{namespaceexport_aba065557194a9291e9758f9101597e0c} 
+\index{export@{export}!export\_paddle@{export\_paddle}}
+\index{export\_paddle@{export\_paddle}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_paddle()}{export\_paddle()}}
+{\footnotesize\ttfamily export.\+export\+\_\+paddle (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{metadata,  }\item[{}]{prefix = {\ttfamily colorstr("{}PaddlePaddle\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00278}{278}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_af52a530cf55ac3e6084d5a0270be3161}\label{namespaceexport_af52a530cf55ac3e6084d5a0270be3161} 
+\index{export@{export}!export\_pb@{export\_pb}}
+\index{export\_pb@{export\_pb}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_pb()}{export\_pb()}}
+{\footnotesize\ttfamily export.\+export\+\_\+pb (\begin{DoxyParamCaption}\item[{}]{keras\+\_\+model,  }\item[{}]{file,  }\item[{}]{prefix = {\ttfamily colorstr("{}TensorFlow~GraphDef\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00442}{442}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_afabd6fdeff977572cf9529502a92657b}\label{namespaceexport_afabd6fdeff977572cf9529502a92657b} 
+\index{export@{export}!export\_saved\_model@{export\_saved\_model}}
+\index{export\_saved\_model@{export\_saved\_model}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_saved\_model()}{export\_saved\_model()}}
+{\footnotesize\ttfamily export.\+export\+\_\+saved\+\_\+model (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{dynamic,  }\item[{}]{tf\+\_\+nms = {\ttfamily False},  }\item[{}]{agnostic\+\_\+nms = {\ttfamily False},  }\item[{}]{topk\+\_\+per\+\_\+class = {\ttfamily 100},  }\item[{}]{topk\+\_\+all = {\ttfamily 100},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.45},  }\item[{}]{conf\+\_\+thres = {\ttfamily 0.25},  }\item[{}]{keras = {\ttfamily False},  }\item[{}]{prefix = {\ttfamily colorstr("{}TensorFlow~SavedModel\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00380}{380}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_aa89001f2be84d4ee53ca792f740ccfa6}\label{namespaceexport_aa89001f2be84d4ee53ca792f740ccfa6} 
+\index{export@{export}!export\_tfjs@{export\_tfjs}}
+\index{export\_tfjs@{export\_tfjs}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_tfjs()}{export\_tfjs()}}
+{\footnotesize\ttfamily export.\+export\+\_\+tfjs (\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{int8,  }\item[{}]{prefix = {\ttfamily colorstr("{}TensorFlow.js\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00533}{533}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_ac70636b57505b3f0568cb72e2d04540e}\label{namespaceexport_ac70636b57505b3f0568cb72e2d04540e} 
+\index{export@{export}!export\_tflite@{export\_tflite}}
+\index{export\_tflite@{export\_tflite}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_tflite()}{export\_tflite()}}
+{\footnotesize\ttfamily export.\+export\+\_\+tflite (\begin{DoxyParamCaption}\item[{}]{keras\+\_\+model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{int8,  }\item[{}]{per\+\_\+tensor,  }\item[{}]{data,  }\item[{}]{nms,  }\item[{}]{agnostic\+\_\+nms,  }\item[{}]{prefix = {\ttfamily colorstr("{}TensorFlow~Lite\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00459}{459}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_adadb7c311af985b4f06ecf589d8adb49}\label{namespaceexport_adadb7c311af985b4f06ecf589d8adb49} 
+\index{export@{export}!export\_torchscript@{export\_torchscript}}
+\index{export\_torchscript@{export\_torchscript}!export@{export}}
+\doxysubsubsection{\texorpdfstring{export\_torchscript()}{export\_torchscript()}}
+{\footnotesize\ttfamily export.\+export\+\_\+torchscript (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{optimize,  }\item[{}]{prefix = {\ttfamily colorstr("{}TorchScript\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00149}{149}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a01b624c9227a1cbe0e73b11ed4654267}\label{namespaceexport_a01b624c9227a1cbe0e73b11ed4654267} 
+\index{export@{export}!main@{main}}
+\index{main@{main}!export@{export}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily export.\+main (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00906}{906}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}\label{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b} 
+\index{export@{export}!parse\_opt@{parse\_opt}}
+\index{parse\_opt@{parse\_opt}!export@{export}}
+\doxysubsubsection{\texorpdfstring{parse\_opt()}{parse\_opt()}}
+{\footnotesize\ttfamily export.\+parse\+\_\+opt (\begin{DoxyParamCaption}\item[{}]{known = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00871}{871}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_abc1058a9e07f268c95274b6d436e4d57}\label{namespaceexport_abc1058a9e07f268c95274b6d436e4d57} 
+\index{export@{export}!pipeline\_coreml@{pipeline\_coreml}}
+\index{pipeline\_coreml@{pipeline\_coreml}!export@{export}}
+\doxysubsubsection{\texorpdfstring{pipeline\_coreml()}{pipeline\_coreml()}}
+{\footnotesize\ttfamily export.\+pipeline\+\_\+coreml (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{im,  }\item[{}]{file,  }\item[{}]{names,  }\item[{}]{y,  }\item[{}]{prefix = {\ttfamily colorstr("{}CoreML~Pipeline\+:"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00603}{603}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a2198bfcdd3f9c6bd185a38ea5f0d9495}\label{namespaceexport_a2198bfcdd3f9c6bd185a38ea5f0d9495} 
+\index{export@{export}!run@{run}}
+\index{run@{run}!export@{export}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily export.\+run (\begin{DoxyParamCaption}\item[{}]{data = {\ttfamily \mbox{\hyperlink{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}{ROOT}}~/~"{}data/coco128.yaml"{}},  }\item[{}]{weights = {\ttfamily \mbox{\hyperlink{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}{ROOT}}~/~"{}yolov5s.pt"{}},  }\item[{}]{imgsz = {\ttfamily (640,~640)},  }\item[{}]{batch\+\_\+size = {\ttfamily 1},  }\item[{}]{device = {\ttfamily "{}cpu"{}},  }\item[{}]{include = {\ttfamily ("{}torchscript"{},~"{}onnx"{})},  }\item[{}]{half = {\ttfamily False},  }\item[{}]{inplace = {\ttfamily False},  }\item[{}]{keras = {\ttfamily False},  }\item[{}]{optimize = {\ttfamily False},  }\item[{}]{int8 = {\ttfamily False},  }\item[{}]{per\+\_\+tensor = {\ttfamily False},  }\item[{}]{dynamic = {\ttfamily False},  }\item[{}]{simplify = {\ttfamily False},  }\item[{}]{opset = {\ttfamily 12},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{workspace = {\ttfamily 4},  }\item[{}]{nms = {\ttfamily False},  }\item[{}]{agnostic\+\_\+nms = {\ttfamily False},  }\item[{}]{topk\+\_\+per\+\_\+class = {\ttfamily 100},  }\item[{}]{topk\+\_\+all = {\ttfamily 100},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.45},  }\item[{}]{conf\+\_\+thres = {\ttfamily 0.25} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00735}{735}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a9bb3a1917c1d3e4ec85b29d77d97d79d}\label{namespaceexport_a9bb3a1917c1d3e4ec85b29d77d97d79d} 
+\index{export@{export}!try\_export@{try\_export}}
+\index{try\_export@{try\_export}!export@{export}}
+\doxysubsubsection{\texorpdfstring{try\_export()}{try\_export()}}
+{\footnotesize\ttfamily export.\+try\+\_\+export (\begin{DoxyParamCaption}\item[{}]{inner\+\_\+func }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00130}{130}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceexport_a9bfae37ca15b3f687b2907c4b6fa38c5}\label{namespaceexport_a9bfae37ca15b3f687b2907c4b6fa38c5} 
+\index{export@{export}!FILE@{FILE}}
+\index{FILE@{FILE}!export@{export}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily export.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00063}{63}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a29e5fa5781007b2f0a95df7c46cd4979}\label{namespaceexport_a29e5fa5781007b2f0a95df7c46cd4979} 
+\index{export@{export}!MACOS@{MACOS}}
+\index{MACOS@{MACOS}!export@{export}}
+\doxysubsubsection{\texorpdfstring{MACOS}{MACOS}}
+{\footnotesize\ttfamily str export.\+MACOS = "{}Darwin"{}}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00090}{90}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_a0d9efe06403dd5221657e8ff6c0230ca}\label{namespaceexport_a0d9efe06403dd5221657e8ff6c0230ca} 
+\index{export@{export}!opt@{opt}}
+\index{opt@{opt}!export@{export}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily export.\+opt = \mbox{\hyperlink{namespaceexport_a7b4d8d1164f643274a56d56ad458f35b}{parse\+\_\+opt}}()}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00912}{912}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5}\label{namespaceexport_aa2a435b13a4c49dde8c5c3f389bdd2d5} 
+\index{export@{export}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!export@{export}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily export.\+ROOT = FILE.\+parents\mbox{[}0\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00064}{64}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+

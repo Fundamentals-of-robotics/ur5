@@ -1,0 +1,85 @@
+\doxysection{utils.\+downloads Namespace Reference}
+\hypertarget{namespaceutils_1_1downloads}{}\label{namespaceutils_1_1downloads}\index{utils.downloads@{utils.downloads}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1downloads_a9cbc5e95cdb36fbdb88fa514b8f1ea2d}{is\+\_\+url}} (url, check=True)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1downloads_abe75d4aa6e65a6a7841723dee875ce10}{gsutil\+\_\+getsize}} (url="{}"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1downloads_af1c700702c8a64768c07f6908b097183}{url\+\_\+getsize}} (url="{}https\+://ultralytics.\+com/images/bus.\+jpg"{})
+\item 
+bool \mbox{\hyperlink{namespaceutils_1_1downloads_ac759d007fe80cf3e30f4dc5aa4b32897}{curl\+\_\+download}} (url, filename, \texorpdfstring{$\ast$}{*}bool silent=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96}{safe\+\_\+download}} (file, url, url2=None, min\+\_\+bytes=1e0, error\+\_\+msg="{}"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1downloads_a93bd4a24688a2b87c2dff41eed45d2dc}{attempt\+\_\+download}} (file, repo="{}ultralytics/yolov5"{}, release="{}v7.\+0"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Download utils.\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1downloads_a93bd4a24688a2b87c2dff41eed45d2dc}\label{namespaceutils_1_1downloads_a93bd4a24688a2b87c2dff41eed45d2dc} 
+\index{utils.downloads@{utils.downloads}!attempt\_download@{attempt\_download}}
+\index{attempt\_download@{attempt\_download}!utils.downloads@{utils.downloads}}
+\doxysubsubsection{\texorpdfstring{attempt\_download()}{attempt\_download()}}
+{\footnotesize\ttfamily utils.\+downloads.\+attempt\+\_\+download (\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{repo = {\ttfamily "{}ultralytics/yolov5"{}},  }\item[{}]{release = {\ttfamily "{}v7.0"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{downloads_8py_source_l00080}{80}} of file \mbox{\hyperlink{downloads_8py_source}{downloads.\+py}}.
+
+\Hypertarget{namespaceutils_1_1downloads_ac759d007fe80cf3e30f4dc5aa4b32897}\label{namespaceutils_1_1downloads_ac759d007fe80cf3e30f4dc5aa4b32897} 
+\index{utils.downloads@{utils.downloads}!curl\_download@{curl\_download}}
+\index{curl\_download@{curl\_download}!utils.downloads@{utils.downloads}}
+\doxysubsubsection{\texorpdfstring{curl\_download()}{curl\_download()}}
+{\footnotesize\ttfamily  bool utils.\+downloads.\+curl\+\_\+download (\begin{DoxyParamCaption}\item[{}]{url,  }\item[{}]{filename,  }\item[{\texorpdfstring{$\ast$}{*}bool }]{silent = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Download a file from a url to a filename using curl.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{downloads_8py_source_l00036}{36}} of file \mbox{\hyperlink{downloads_8py_source}{downloads.\+py}}.
+
+\Hypertarget{namespaceutils_1_1downloads_abe75d4aa6e65a6a7841723dee875ce10}\label{namespaceutils_1_1downloads_abe75d4aa6e65a6a7841723dee875ce10} 
+\index{utils.downloads@{utils.downloads}!gsutil\_getsize@{gsutil\_getsize}}
+\index{gsutil\_getsize@{gsutil\_getsize}!utils.downloads@{utils.downloads}}
+\doxysubsubsection{\texorpdfstring{gsutil\_getsize()}{gsutil\_getsize()}}
+{\footnotesize\ttfamily utils.\+downloads.\+gsutil\+\_\+getsize (\begin{DoxyParamCaption}\item[{}]{url = {\ttfamily "{}"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{downloads_8py_source_l00024}{24}} of file \mbox{\hyperlink{downloads_8py_source}{downloads.\+py}}.
+
+\Hypertarget{namespaceutils_1_1downloads_a9cbc5e95cdb36fbdb88fa514b8f1ea2d}\label{namespaceutils_1_1downloads_a9cbc5e95cdb36fbdb88fa514b8f1ea2d} 
+\index{utils.downloads@{utils.downloads}!is\_url@{is\_url}}
+\index{is\_url@{is\_url}!utils.downloads@{utils.downloads}}
+\doxysubsubsection{\texorpdfstring{is\_url()}{is\_url()}}
+{\footnotesize\ttfamily utils.\+downloads.\+is\+\_\+url (\begin{DoxyParamCaption}\item[{}]{url,  }\item[{}]{check = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{downloads_8py_source_l00013}{13}} of file \mbox{\hyperlink{downloads_8py_source}{downloads.\+py}}.
+
+\Hypertarget{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96}\label{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96} 
+\index{utils.downloads@{utils.downloads}!safe\_download@{safe\_download}}
+\index{safe\_download@{safe\_download}!utils.downloads@{utils.downloads}}
+\doxysubsubsection{\texorpdfstring{safe\_download()}{safe\_download()}}
+{\footnotesize\ttfamily utils.\+downloads.\+safe\+\_\+download (\begin{DoxyParamCaption}\item[{}]{file,  }\item[{}]{url,  }\item[{}]{url2 = {\ttfamily None},  }\item[{}]{min\+\_\+bytes = {\ttfamily 1e0},  }\item[{}]{error\+\_\+msg = {\ttfamily "{}"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{downloads_8py_source_l00056}{56}} of file \mbox{\hyperlink{downloads_8py_source}{downloads.\+py}}.
+
+\Hypertarget{namespaceutils_1_1downloads_af1c700702c8a64768c07f6908b097183}\label{namespaceutils_1_1downloads_af1c700702c8a64768c07f6908b097183} 
+\index{utils.downloads@{utils.downloads}!url\_getsize@{url\_getsize}}
+\index{url\_getsize@{url\_getsize}!utils.downloads@{utils.downloads}}
+\doxysubsubsection{\texorpdfstring{url\_getsize()}{url\_getsize()}}
+{\footnotesize\ttfamily utils.\+downloads.\+url\+\_\+getsize (\begin{DoxyParamCaption}\item[{}]{url = {\ttfamily "{}https\+://ultralytics.com/images/bus.jpg"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{downloads_8py_source_l00030}{30}} of file \mbox{\hyperlink{downloads_8py_source}{downloads.\+py}}.
+

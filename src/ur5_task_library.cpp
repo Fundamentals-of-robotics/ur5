@@ -4,42 +4,41 @@
  */
 #include "ur5/ur5_task_library.h"
 
-void gestisciStato(stato &state,ros::NodeHandle n){
+void stateHandler(State &state,ros::NodeHandle n){
     switch (state){
         case start:{
             //ask the 3d cam for the blocks' position
             //at the moment, as there is no vision node, we manually
             //initialize the pose of each block
         
-            //X1-Y2-Z1
-            //testing if block is unreachable
-            //pos[0]<< 3.85, 0.7, 0.87;
-            pos[0]<< 0.85, 0.7, 0.87;
-            phi[0]<< 0, 0, 0;
-            //X1-Y2-Z2-TWINFILLET
-            pos[1]<< 0.7, 0.7, 0.87;
-            phi[1]<< 0, 0, 0.785398;
-            //X1-Y3-Z2-FILLET
-            pos[2]<< 0.85, 0.5, 0.87;
-            phi[2]<< 0, 0, 0;
-            //X1-Y4-Z1
-            pos[3]<< 0.7, 0.5, 0.87;
-            phi[3]<< 0, 0, 1.57;
-            //X1-Y4-Z2
-            pos[4]<< 0.9, 0.3, 0.87;
-            phi[4]<< 0, 0, 1.57;
+          
+
+            ros::ServiceClient service2 = n.serviceClient<service_test::VisionService>("Vision");
+            service_test::VisionService srv2;
+
+            srv2.request.start=true;
             
-            //set the class for each block between 1 and 5 (6 for no possible grasping)
-            class_of_block[0]=1;
-            class_of_block[1]=2;
-            class_of_block[2]=3;
-            class_of_block[3]=4;
-            class_of_block[4]=5;
+           
+            
+                
+            while(!service2.call(srv2) && ros::ok()); 
+            
+            
+            for(int i=0;i<srv2.response.n_blocks;i++){            
+               blockSet(srv2.response.block_position[i].x,srv2.response.block_position[i].y,srv2.response.block_position[i].z);    
+            }
+            
+            
 
             //convert coordinates from world to robot frame
-            for(int i=0;i<n_classes;i++){
+            for(int i=0;i<n_blocks;i++){
                 worldToRobotFrame(pos[i],phi[i]);
             }
+            for(int i=0;i<n_blocks;i++){
+                cout<<"pos2 "<<class_of_block[i]<<":  "<< pos[i](0)<<" "<<  pos[i](1)<<" "<< pos[i](2)<<endl;
+                cout<<"phi2 "<<class_of_block[i]<<":  "<< phi[i](0)<<" "<<  phi[i](1)<<" "<< phi[i](2)<<endl<<endl;
+            }
+            
             
             ROS_INFO("block_request");
             state=block_request;
@@ -57,51 +56,75 @@ void gestisciStato(stato &state,ros::NodeHandle n){
             }
 
             //basing on class block, get the known final position
-            switch (class_of_block[k]){
-                case 1:{
-                    //X1-Y2-Z1
-                    phief_class<<0,0,M_PI/2;
-                    xef_class<<0.1,0.32,GRASPING_HEIGHT;
-                                       
-                    break;
-                }
-                case 2:{
-                    //X1-Y2-Z2-TWINFILLET
-                    phief_class<<0,0,M_PI/2;
-                    xef_class<<0.1,0.40,GRASPING_HEIGHT;
-                   
-                    break;
-                }
-                case 3:{
-                    //X1-Y3-Z2-FILLET
-                    phief_class<<0,0,M_PI/2;
-                    xef_class<<0.1,0.48,GRASPING_HEIGHT;
-                    
-                    break;
-                }
-                case 4:{
-                    //X1-Y4-Z1
-                    phief_class<<0,0,M_PI/2;
-                    xef_class<<0.1,0.56,GRASPING_HEIGHT;
-                    
-                    break;
-                }
-                case 5:{
-                    //X1-Y4-Z2
-                    phief_class<<0,0,M_PI/2;
-                    xef_class<<0.1,0.64,GRASPING_HEIGHT;              
+            
+            if(class_of_block[k]=="X1-Y2-Z1"){
+                //X1-Y2-Z1
+                GRIPPER_CLOSE=-0.064; 
+                GRIPPER_OPEN=0.3; 
+                GRASPING_HEIGHT=1.021;
 
-                    break;
-                }
-                case 6:{
-                    //X2-Y2-Z2
-                    //not used because of bad meshes
-                    phief_class<<0,0,M_PI/2;
-                    xef_class<<0.1,0.72,GRASPING_HEIGHT;
-
-                    break;
-                }
+                phief_class<<0,0,M_PI/2;
+                xef_class<<0.1,0.32,GRASPING_HEIGHT;
+                                                           
+                    
             }
+            else if(class_of_block[k]=="X1-Y2-Z2-TWINFILLET"){
+                //X1-Y2-Z2-TWINFILLET
+                GRIPPER_CLOSE=-0.0641; 
+                GRIPPER_OPEN=0.3; 
+                GRASPING_HEIGHT=1.021;
+
+                phief_class<<0,0,M_PI/2;
+                xef_class<<0.1,0.40,GRASPING_HEIGHT;
+                                       
+                    
+            }
+            else if(class_of_block[k]=="X1-Y3-Z2-FILLET"){
+                //X1-Y3-Z2-FILLET
+                GRIPPER_CLOSE=-0.0639; 
+                GRIPPER_OPEN=0.3; 
+                GRASPING_HEIGHT=1.021;
+
+                phief_class<<0,0,M_PI/2;
+                xef_class<<0.1,0.64,GRASPING_HEIGHT;
+                                        
+
+            }
+            else if(class_of_block[k]=="X1-Y4-Z1"){
+                //X1-Y4-Z1
+                GRIPPER_CLOSE=-0.0665; 
+                GRIPPER_OPEN=0.3; 
+                GRASPING_HEIGHT=1.021;
+
+                phief_class<<0,0,M_PI/2;
+                xef_class<<0.1,0.72,GRASPING_HEIGHT;
+
+                    
+            }
+            else if(class_of_block[k]=="X1-Y4-Z2"){
+                //X1-Y4-Z2
+                GRIPPER_CLOSE=-0.0665; 
+                GRIPPER_OPEN=0.35; 
+                GRASPING_HEIGHT=1.021;
+
+                phief_class<<0,0,M_PI/2;
+                xef_class<<0.1,0.48,GRASPING_HEIGHT;
+                           
+                    
+            }
+            else if(class_of_block[k]=="X2-Y2-Z2"){
+                //X2-Y2-Z2
+                
+                GRIPPER_CLOSE=0.264;
+                GRIPPER_OPEN=0.75; 
+                GRASPING_HEIGHT=1.05;
+
+                phief_class<<0,0,M_PI/2;
+                xef_class<<0.1,0.56,GRASPING_HEIGHT;
+
+                    
+            }
+            
 
             //convert from world to robot frame
             worldToRobotFrame(xef_class,phief_class);
@@ -137,6 +160,8 @@ void gestisciStato(stato &state,ros::NodeHandle n){
             srv.request.gripper=gripper;
             srv.request.end=final_end;
             srv.request.ack=0;
+
+            
             
                 
             while(!service.call(srv));//wait until response 
@@ -158,7 +183,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
                     }
                     case 2:{
                         ROS_INFO("ERROR IN MOTION: move on to a different planning (passing through an intermediate safe point)\n\n");
-                        ROS_INFO("motion_error");
+                        // ROS_INFO("motion_error");
                         //next_state=block_take;
                         next_state=high_block_take;
                         state=motion_error;
@@ -208,7 +233,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
                     }
                     case 2:{
                         ROS_INFO("ERROR IN MOTION: move on to a different planning (passing through an intermediate safe point)\n\n");
-                        ROS_INFO("motion_error");
+                        // ROS_INFO("motion_error");
                         //next_state=high_block_release;
                         next_state=block_take;
                         state=motion_error;
@@ -258,7 +283,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
                     }
                     case 2:{
                         ROS_INFO("ERROR IN MOTION: move on to a different planning (passing through an intermediate safe point)\n\n");
-                        ROS_INFO("motion_error");
+                        // ROS_INFO("motion_error");
                         //next_state=high_class_release;
                         next_state=high_block_release;
                         state=motion_error;
@@ -316,7 +341,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
                     }
                     case 2:{
                         ROS_INFO("ERROR IN MOTION: move on to a different planning (passing through an intermediate safe point)\n\n");
-                        ROS_INFO("motion_error");
+                        // ROS_INFO("motion_error");
                         //next_state=class_release;
                         next_state=high_class_release;
                         state=motion_error;
@@ -367,7 +392,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
                     }
                     case 2:{
                         ROS_INFO("ERROR IN MOTION: move on to a different planning (passing through an intermediate safe point)\n\n");
-                        ROS_INFO("motion_error");
+                        //ROS_INFO("motion_error");
                         //next_state=high_class_take;
                         next_state=class_release;
                         state=motion_error;
@@ -384,7 +409,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
             xef[2]=SAFE_Z_MOTION;
 
             //check if this block is the last to be moved
-            if(k++ == n_classes-1) final_end=1;
+            if(k++ == n_blocks-1) final_end=1;
 
             ros::ServiceClient service = n.serviceClient<ur5::ServiceMessage>("tp_mp_communication");
             ur5::ServiceMessage srv;
@@ -414,7 +439,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
                     ROS_INFO("UNREACHABLE POSITION: move on to the next block\n\n");
                     ROS_INFO("block_request");
                     state=block_request;
-                    ++k;
+                    //++k;
                     break;
                 }
                 case 2:{
@@ -439,7 +464,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
             srv.request.phief3=phief[2];
 
             srv.request.xef1=0;
-            srv.request.xef2=-0.4;
+            srv.request.xef2=-0.44;
             srv.request.xef3=xef[2];
             srv.request.gripper=gripper;
             srv.request.end=final_end;
@@ -479,6 +504,7 @@ void gestisciStato(stato &state,ros::NodeHandle n){
             srv.request.ack=0;
             
             service.call(srv);
+            
 
             ROS_INFO("All blocks moved");
             next_state = no_more_blocks;
@@ -498,3 +524,96 @@ void worldToRobotFrame(Vector3d& coords, Vector3d& euler){
     euler(1) = -euler(1);
     euler(2) = -euler(2);
 }
+
+void blockSet(double x,double y,double z){
+    Vector3d position={-1,-1,-1};
+
+    if(abs(x-0.82)<0.099 && abs(y-0.7)<0.099 &&  abs(z-0.87)<0.099){ 
+        //X1-Y2-Z2-TWINFILLET       
+        if(blocks[0]==0){
+            class_of_block[0]="X1-Y2-Z2-TWINFILLET";
+            pos[0](0)=0.82;
+            pos[0](1)=0.7;
+            pos[0](2)=0.87;
+
+            phi[0](0)=0;
+            phi[0](1)=0;
+            phi[0](2)=0.785398;
+            blocks[0]++;
+            n_blocks++;
+
+        }        
+               
+            
+    }
+    else if(abs(x-0.9)<0.099 && abs(y-0.5)<0.099 &&  abs(z-0.87)<0.099){
+        //X1-Y3-Z2-FILLET
+        if(blocks[1]==0){
+            class_of_block[1]="X1-Y3-Z2-FILLET";
+            pos[1](0)=0.9;
+            pos[1](1)=0.5;
+            pos[1](2)=0.87;
+
+            phi[1](0)=0;
+            phi[1](1)=0;
+            phi[1](2)=0;
+            blocks[1]++;
+            n_blocks++;
+
+        } 
+    }
+    else if(abs(x-0.3)<0.099 && abs(y-0.7)<0.099 &&  abs(z-0.87)<0.099){
+        //X1-Y4-Z1
+        if(blocks[2]==0){
+            class_of_block[2]="X1-Y4-Z1";
+            pos[2](0)=0.3;
+            pos[2](1)=0.7;
+            pos[2](2)=0.87;
+
+            phi[2](0)=0;
+            phi[2](1)=0;
+            phi[2](2)=0.785398;
+            blocks[2]++;
+            n_blocks++;
+
+        } 
+        
+    }
+    else if(abs(x-0.85)<0.099 && abs(y-0.3)<0.099 &&  abs(z-0.87)<0.099){
+        //X1-Y4-Z2
+        if(blocks[3]==0){
+            class_of_block[3]="X1-Y4-Z2";
+            pos[3](0)=0.85;
+            pos[3](1)=0.3;
+            pos[3](2)=0.87;
+
+            phi[3](0)=0;
+            phi[3](1)=0;
+            phi[3](2)=1.57;
+            blocks[3]++;
+            n_blocks++;
+
+        } 
+       
+    }
+    else if(abs(x-0.25)<0.099 && abs(y-0.3)<0.099 &&  abs(z-0.87)<0.099){
+        //X2-Y2-Z2
+        if(blocks[4]==0){
+            class_of_block[4]="X2-Y2-Z2";
+            pos[4](0)=0.25;
+            pos[4](1)=0.3;
+            pos[4](2)=0.87;
+
+            phi[4](0)=0;
+            phi[4](1)=0;
+            phi[4](2)=0;
+            blocks[4]++;
+            n_blocks++;
+
+        } 
+        
+    }
+    
+
+}
+

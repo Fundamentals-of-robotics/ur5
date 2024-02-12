@@ -1,0 +1,105 @@
+\doxysection{utils.\+torch\+\_\+utils.\+Model\+EMA Class Reference}
+\hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a}{}\label{classutils_1_1torch__utils_1_1_model_e_m_a}\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_a0dcfb73be7c2e24ac2eca5c4a9966c46}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, model, \mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_a214d2ea83a1b125d95ee917357d551a5}{decay}}=0.\+9999, tau=2000, \mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_a7aae0b7c28fe72aaad17d9b7f171f17f}{updates}}=0)
+\item 
+\mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_ae31f6103442c9cf5efddcbde495404ce}{update}} (self, model)
+\item 
+\mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_a2ba48069236496d2717ee33f0d7944f4}{update\+\_\+attr}} (self, model, include=(), exclude=("{}process\+\_\+group"{}, "{}reducer"{}))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_af4a044afee3bb4faefeef10916fbff2c}{ema}}
+\item 
+\mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_a7aae0b7c28fe72aaad17d9b7f171f17f}{updates}}
+\item 
+\mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a_a214d2ea83a1b125d95ee917357d551a5}{decay}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Updated Exponential Moving Average (EMA) from https://github.com/rwightman/pytorch-image-models
+Keeps a moving average of everything in the model state_dict (parameters and buffers)
+For EMA details see https://www.tensorflow.org/api_docs/python/tf/train/ExponentialMovingAverage
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00422}{422}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a_a0dcfb73be7c2e24ac2eca5c4a9966c46}\label{classutils_1_1torch__utils_1_1_model_e_m_a_a0dcfb73be7c2e24ac2eca5c4a9966c46} 
+\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+Model\+EMA.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{decay = {\ttfamily 0.9999},  }\item[{}]{tau = {\ttfamily 2000},  }\item[{}]{updates = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00428}{428}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a_ae31f6103442c9cf5efddcbde495404ce}\label{classutils_1_1torch__utils_1_1_model_e_m_a_ae31f6103442c9cf5efddcbde495404ce} 
+\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}!update@{update}}
+\index{update@{update}!utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+Model\+EMA.\+update (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00436}{436}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a_a2ba48069236496d2717ee33f0d7944f4}\label{classutils_1_1torch__utils_1_1_model_e_m_a_a2ba48069236496d2717ee33f0d7944f4} 
+\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}!update\_attr@{update\_attr}}
+\index{update\_attr@{update\_attr}!utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection{\texorpdfstring{update\_attr()}{update\_attr()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+Model\+EMA.\+update\+\_\+attr (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{include = {\ttfamily ()},  }\item[{}]{exclude = {\ttfamily ("{}process\+\_\+group"{},~"{}reducer"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00448}{448}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a_a214d2ea83a1b125d95ee917357d551a5}\label{classutils_1_1torch__utils_1_1_model_e_m_a_a214d2ea83a1b125d95ee917357d551a5} 
+\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}!decay@{decay}}
+\index{decay@{decay}!utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection{\texorpdfstring{decay}{decay}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+Model\+EMA.\+decay}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00432}{432}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a_af4a044afee3bb4faefeef10916fbff2c}\label{classutils_1_1torch__utils_1_1_model_e_m_a_af4a044afee3bb4faefeef10916fbff2c} 
+\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}!ema@{ema}}
+\index{ema@{ema}!utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection{\texorpdfstring{ema}{ema}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+Model\+EMA.\+ema}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00430}{430}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{classutils_1_1torch__utils_1_1_model_e_m_a_a7aae0b7c28fe72aaad17d9b7f171f17f}\label{classutils_1_1torch__utils_1_1_model_e_m_a_a7aae0b7c28fe72aaad17d9b7f171f17f} 
+\index{utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}!updates@{updates}}
+\index{updates@{updates}!utils.torch\_utils.ModelEMA@{utils.torch\_utils.ModelEMA}}
+\doxysubsubsection{\texorpdfstring{updates}{updates}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+Model\+EMA.\+updates}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00431}{431}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/\mbox{\hyperlink{torch__utils_8py}{torch\+\_\+utils.\+py}}\end{DoxyCompactItemize}

@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['yaml_0',['yaml',['../classmodels_1_1tf_1_1_t_f_model.html#a9ea39db5e189968817332078e6657d7b',1,'models.tf.TFModel.yaml'],['../classmodels_1_1yolo_1_1_detection_model.html#a086f7d3071b5a4f56e778ece4df284cf',1,'models.yolo.DetectionModel.yaml']]],
+  ['yaml_5ffile_1',['yaml_file',['../classmodels_1_1tf_1_1_t_f_model.html#af84f3aff8815e1b87189496e583ba839',1,'models.tf.TFModel.yaml_file'],['../classmodels_1_1yolo_1_1_detection_model.html#af69520e1f2ebbc493236b46b38b10694',1,'models.yolo.DetectionModel.yaml_file']]],
+  ['yaml_5fload_2',['yaml_load',['../namespaceutils_1_1general.html#ad06fc0da1ec202c6825078142c3aeec3',1,'utils::general']]],
+  ['yaml_5fsave_3',['yaml_save',['../namespaceutils_1_1general.html#ace7b8408ea7fa36590d1aeed2ed23676',1,'utils::general']]],
+  ['yolo_2epy_4',['yolo.py',['../yolo_8py.html',1,'']]],
+  ['yolov5_20🚀_5',['Contributing to YOLOv5 🚀',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2_c_o_n_t_r_i_b_u_t_i_n_g.html',1,'']]],
+  ['yolov5_20div_6',['YOLOv5 div',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2_r_e_a_d_m_e_8zh-_c_n.html#autotoc_md45',1,'&lt;div align=&quot;center&quot;&gt;为什么选择 YOLOv5&lt;/div&gt;'],['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2_r_e_a_d_m_e.html#autotoc_md25',1,'&lt;div align=&quot;center&quot;&gt;Why YOLOv5&lt;/div&gt;']]],
+  ['yolov5_20with_20clearml_7',['🚀 Training YOLOv5 With ClearML',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2clearml_2_r_e_a_d_m_e.html#autotoc_md67',1,'']]],
+  ['yolov5_20with_20comet_8',['YOLOv5 with Comet',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e.html#autotoc_md77',1,'']]],
+  ['yolov5l_9',['yolov5l',['../namespacehubconf.html#a6c5ee0f926496e6d2246afd884f0d7aa',1,'hubconf']]],
+  ['yolov5l6_10',['yolov5l6',['../namespacehubconf.html#a24fc6cb7c5358f589d7626fc6254c085',1,'hubconf']]],
+  ['yolov5m_11',['yolov5m',['../namespacehubconf.html#a517002f3c2b9ad1b591f7d54324f13f3',1,'hubconf']]],
+  ['yolov5m6_12',['yolov5m6',['../namespacehubconf.html#adc72000311015a96777c679b2fae9937',1,'hubconf']]],
+  ['yolov5n_13',['yolov5n',['../namespacehubconf.html#aa3bd4bd5dc3e644f595bb2b667e579a5',1,'hubconf']]],
+  ['yolov5n6_14',['yolov5n6',['../namespacehubconf.html#a59338090e7436955f82d1d7389c6f4dd',1,'hubconf']]],
+  ['yolov5s_15',['yolov5s',['../namespacehubconf.html#ac78e21ec08a9246e87624b2958fff424',1,'hubconf']]],
+  ['yolov5s6_16',['yolov5s6',['../namespacehubconf.html#a74b6664af8902452d73286f55088007c',1,'hubconf']]],
+  ['yolov5x_17',['yolov5x',['../namespacehubconf.html#a7e55f8421f72caed04d54e7219402d35',1,'hubconf']]],
+  ['yolov5x6_18',['yolov5x6',['../namespacehubconf.html#ab7cea48afe0bf842f7069e16dbfcfb05',1,'hubconf']]],
+  ['yolov8_20🚀_20新品_20div_19',['&lt;div align=&quot;center&quot;&gt;YOLOv8 🚀 新品&lt;/div&gt;',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2_r_e_a_d_m_e_8zh-_c_n.html#autotoc_md41',1,'']]],
+  ['yolov8_20🚀_20new_20div_20',['&lt;div align=&quot;center&quot;&gt;YOLOv8 🚀 NEW&lt;/div&gt;',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2_r_e_a_d_m_e.html#autotoc_md21',1,'']]],
+  ['your_20dataset_21',['Your Dataset',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2clearml_2_r_e_a_d_m_e.html#autotoc_md69',1,'Prepare Your Dataset'],['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2clearml_2_r_e_a_d_m_e.html#autotoc_md70',1,'Upload Your Dataset']]]
+];

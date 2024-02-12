@@ -1,0 +1,242 @@
+\doxysection{utils.\+loggers.\+comet.\+hpo Namespace Reference}
+\hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo}{}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo}\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}{get\+\_\+args}} (known=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a8a27a0627b3481e941d6254c3d010faa}{run}} (parameters, \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac8a9af86e3dd7d1300511858d836bc1e}{opt}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab44efc9cb8c627118701fea3103d348a}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_abaf41b8fce891cb83cdfd9a816a17594}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ae65acc551c89f864b4a6ee9f9ef98ffb}{ROOT}} = FILE.\+parents\mbox{[}3\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a913cb9964c10e82220ea615750b5b3}{config}} = comet\+\_\+ml.\+config.\+get\+\_\+config()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a733549dcd2199cb134258cd5c3f6bd}{COMET\+\_\+\+PROJECT\+\_\+\+NAME}} = config.\+get\+\_\+string(os.\+getenv("{}COMET\+\_\+\+PROJECT\+\_\+\+NAME"{}), "{}comet.\+project\+\_\+name"{}, default="{}yolov5"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac8a9af86e3dd7d1300511858d836bc1e}{opt}} = \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}{get\+\_\+args}}(known=True)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac10d2db6a5e0ce46c6484cff7630ce51}{weights}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab5b8d64ca51137392517ada4d9ff65ce}{cfg}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a4aae7fed902cce44f02b746f4665141e}{data}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9f053a992ea51a2b9ca3c9a465182174}{project}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9a554a99ccb843d668dd8deb7c91ffcd}{optimizer\+\_\+id}} = os.\+getenv("{}COMET\+\_\+\+OPTIMIZER\+\_\+\+ID"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_abee8a675f44bce30586ce140a750a05f}{optimizer\+\_\+config}} = json.\+load(f)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a20f4a9524975beeb98042b9f22eb81fc}{optimizer}} = comet\+\_\+ml.\+Optimizer(\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_abee8a675f44bce30586ce140a750a05f}{optimizer\+\_\+config}})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fe2787a292e3ac94805ffa895cfecf0}{comet\+\_\+optimizer\+\_\+id}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a739c17d2be9b5f4985cf4e07d19485f3}{status}} = optimizer.\+status()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a3ba67a6658adc729570212b63000b47c}{comet\+\_\+optimizer\+\_\+objective}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fc2176644a382d39891bae06cfd7356}{comet\+\_\+optimizer\+\_\+metric}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!get\_args@{get\_args}}
+\index{get\_args@{get\_args}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{get\_args()}{get\_args()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+get\+\_\+args (\begin{DoxyParamCaption}\item[{}]{known = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00027}{27}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a8a27a0627b3481e941d6254c3d010faa}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a8a27a0627b3481e941d6254c3d010faa} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!run@{run}}
+\index{run@{run}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+run (\begin{DoxyParamCaption}\item[{}]{parameters,  }\item[{}]{opt }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00085}{85}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab5b8d64ca51137392517ada4d9ff65ce}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab5b8d64ca51137392517ada4d9ff65ce} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!cfg@{cfg}}
+\index{cfg@{cfg}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{cfg}{cfg}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+cfg}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00100}{100}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fe2787a292e3ac94805ffa895cfecf0}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fe2787a292e3ac94805ffa895cfecf0} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!comet\_optimizer\_id@{comet\_optimizer\_id}}
+\index{comet\_optimizer\_id@{comet\_optimizer\_id}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{comet\_optimizer\_id}{comet\_optimizer\_id}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+comet\+\_\+optimizer\+\_\+id}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00112}{112}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fc2176644a382d39891bae06cfd7356}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fc2176644a382d39891bae06cfd7356} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!comet\_optimizer\_metric@{comet\_optimizer\_metric}}
+\index{comet\_optimizer\_metric@{comet\_optimizer\_metric}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{comet\_optimizer\_metric}{comet\_optimizer\_metric}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+comet\+\_\+optimizer\+\_\+metric}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00116}{116}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a3ba67a6658adc729570212b63000b47c}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a3ba67a6658adc729570212b63000b47c} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!comet\_optimizer\_objective@{comet\_optimizer\_objective}}
+\index{comet\_optimizer\_objective@{comet\_optimizer\_objective}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{comet\_optimizer\_objective}{comet\_optimizer\_objective}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+comet\+\_\+optimizer\+\_\+objective}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00115}{115}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a733549dcd2199cb134258cd5c3f6bd}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a733549dcd2199cb134258cd5c3f6bd} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!COMET\_PROJECT\_NAME@{COMET\_PROJECT\_NAME}}
+\index{COMET\_PROJECT\_NAME@{COMET\_PROJECT\_NAME}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{COMET\_PROJECT\_NAME}{COMET\_PROJECT\_NAME}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+COMET\+\_\+\+PROJECT\+\_\+\+NAME = config.\+get\+\_\+string(os.\+getenv("{}COMET\+\_\+\+PROJECT\+\_\+\+NAME"{}), "{}comet.\+project\+\_\+name"{}, default="{}yolov5"{})}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00024}{24}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a913cb9964c10e82220ea615750b5b3}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a913cb9964c10e82220ea615750b5b3} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!config@{config}}
+\index{config@{config}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+config = comet\+\_\+ml.\+config.\+get\+\_\+config()}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00023}{23}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a4aae7fed902cce44f02b746f4665141e}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a4aae7fed902cce44f02b746f4665141e} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!data@{data}}
+\index{data@{data}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+data}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00101}{101}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_abaf41b8fce891cb83cdfd9a816a17594}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_abaf41b8fce891cb83cdfd9a816a17594} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!FILE@{FILE}}
+\index{FILE@{FILE}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00012}{12}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab44efc9cb8c627118701fea3103d348a}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab44efc9cb8c627118701fea3103d348a} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!logger@{logger}}
+\index{logger@{logger}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00010}{10}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac8a9af86e3dd7d1300511858d836bc1e}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac8a9af86e3dd7d1300511858d836bc1e} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!opt@{opt}}
+\index{opt@{opt}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+opt = \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}{get\+\_\+args}}(known=True)}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00097}{97}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a20f4a9524975beeb98042b9f22eb81fc}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a20f4a9524975beeb98042b9f22eb81fc} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!optimizer@{optimizer}}
+\index{optimizer@{optimizer}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{optimizer}{optimizer}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+optimizer = comet\+\_\+ml.\+Optimizer(\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_abee8a675f44bce30586ce140a750a05f}{optimizer\+\_\+config}})}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00108}{108}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_abee8a675f44bce30586ce140a750a05f}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_abee8a675f44bce30586ce140a750a05f} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!optimizer\_config@{optimizer\_config}}
+\index{optimizer\_config@{optimizer\_config}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{optimizer\_config}{optimizer\_config}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+optimizer\+\_\+config = json.\+load(f)}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00107}{107}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9a554a99ccb843d668dd8deb7c91ffcd}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9a554a99ccb843d668dd8deb7c91ffcd} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!optimizer\_id@{optimizer\_id}}
+\index{optimizer\_id@{optimizer\_id}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{optimizer\_id}{optimizer\_id}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+optimizer\+\_\+id = os.\+getenv("{}COMET\+\_\+\+OPTIMIZER\+\_\+\+ID"{})}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00104}{104}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9f053a992ea51a2b9ca3c9a465182174}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9f053a992ea51a2b9ca3c9a465182174} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!project@{project}}
+\index{project@{project}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{project}{project}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+project}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00102}{102}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_ae65acc551c89f864b4a6ee9f9ef98ffb}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_ae65acc551c89f864b4a6ee9f9ef98ffb} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+ROOT = FILE.\+parents\mbox{[}3\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00013}{13}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_a739c17d2be9b5f4985cf4e07d19485f3}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_a739c17d2be9b5f4985cf4e07d19485f3} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!status@{status}}
+\index{status@{status}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{status}{status}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+status = optimizer.\+status()}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00113}{113}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac10d2db6a5e0ce46c6484cff7630ce51}\label{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac10d2db6a5e0ce46c6484cff7630ce51} 
+\index{utils.loggers.comet.hpo@{utils.loggers.comet.hpo}!weights@{weights}}
+\index{weights@{weights}!utils.loggers.comet.hpo@{utils.loggers.comet.hpo}}
+\doxysubsubsection{\texorpdfstring{weights}{weights}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+hpo.\+weights}
+
+
+
+Definition at line \mbox{\hyperlink{comet_2hpo_8py_source_l00099}{99}} of file \mbox{\hyperlink{comet_2hpo_8py_source}{hpo.\+py}}.
+

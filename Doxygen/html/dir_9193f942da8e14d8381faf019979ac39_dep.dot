@@ -1,0 +1,12 @@
+digraph "C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/classify"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_b9309eed96cb4578c401d3eed0c0ec61 {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="yolo", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_b9309eed96cb4578c401d3eed0c0ec61.html",tooltip=""]
+  dir_9193f942da8e14d8381faf019979ac39 [label="classify", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_9193f942da8e14d8381faf019979ac39.html",tooltip=""];
+  }
+}

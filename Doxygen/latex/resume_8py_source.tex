@@ -1,0 +1,46 @@
+\doxysection{resume.\+py}
+\hypertarget{resume_8py_source}{}\label{resume_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/aws/resume.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/aws/resume.py}}
+\mbox{\hyperlink{resume_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1aws}{00001}}\ \textcolor{comment}{\#\ Resume\ all\ interrupted\ trainings\ in\ yolov5/\ dir\ including\ DDP\ trainings}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00002}00002\ \textcolor{comment}{\#\ Usage:\ \$\ python\ utils/aws/resume.py}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00004}00004\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00005}00005\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00006}00006\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00008}00008\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00009}00009\ \textcolor{keyword}{import}\ yaml}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00011}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a93843c2d7133dc4d61320ddfd9d69b66}{00011}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00012}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_aaa7200240514de7fcd261e28f4ce14f6}{00012}}\ ROOT\ =\ FILE.parents[2]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00013}00013\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00014}00014\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00016}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a09a6f1909eca0838b7c466a1f9db00d8}{00016}}\ port\ =\ 0\ \ \textcolor{comment}{\#\ -\/-\/master\_port}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00017}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a8625192782100dfb6ce85dc6600f05cf}{00017}}\ path\ =\ Path(\textcolor{stringliteral}{"{}"{}}).resolve()}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00018}00018\ \textcolor{keywordflow}{for}\ last\ \textcolor{keywordflow}{in}\ path.rglob(\textcolor{stringliteral}{"{}*/**/last.pt"{}}):}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00019}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_aa61fc4375c57933b4b92a83f02f485b9}{00019}}\ \ \ \ \ ckpt\ =\ torch.load(last)}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{if}\ ckpt[\textcolor{stringliteral}{"{}optimizer"{}}]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00023}00023\ \ \ \ \ \textcolor{comment}{\#\ Load\ opt.yaml}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00024}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a4c50e16182da53a1c946a42c9b133a6e}{00024}}\ \ \ \ \ \textcolor{keyword}{with}\ open(last.parent.parent\ /\ \textcolor{stringliteral}{"{}opt.yaml"{}},\ errors=\textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00025}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a9a6d1890c7140cc47d2180f21ed8d164}{00025}}\ \ \ \ \ \ \ \ \ opt\ =\ yaml.safe\_load(f)}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00027}00027\ \ \ \ \ \textcolor{comment}{\#\ Get\ device\ count}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00028}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_afc173aae6aa494c45768d2efb49591ac}{00028}}\ \ \ \ \ d\ =\ opt[\textcolor{stringliteral}{"{}device"{}}].split(\textcolor{stringliteral}{"{},"{}})\ \ \textcolor{comment}{\#\ devices}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00029}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a47daad8f236529f7344f599ea6bfb380}{00029}}\ \ \ \ \ nd\ =\ len(d)\ \ \textcolor{comment}{\#\ number\ of\ devices}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00030}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_a5d8381d92d3d3c4b878b8346ae7fcb14}{00030}}\ \ \ \ \ ddp\ =\ nd\ >\ 1\ \textcolor{keywordflow}{or}\ (nd\ ==\ 0\ \textcolor{keywordflow}{and}\ torch.cuda.device\_count()\ >\ 1)\ \ \textcolor{comment}{\#\ distributed\ data\ parallel}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{if}\ ddp:\ \ \textcolor{comment}{\#\ multi-\/GPU}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ port\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00034}\mbox{\hyperlink{namespaceutils_1_1aws_1_1resume_aa488bc05bc36ae35d916f4a8c26d43fc}{00034}}\ \ \ \ \ \ \ \ \ cmd\ =\ f\textcolor{stringliteral}{"{}python\ -\/m\ torch.distributed.run\ -\/-\/nproc\_per\_node\ \{nd\}\ -\/-\/master\_port\ \{port\}\ train.py\ -\/-\/resume\ \{last\}"{}}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00035}00035\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ single-\/GPU}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ cmd\ =\ f\textcolor{stringliteral}{"{}python\ train.py\ -\/-\/resume\ \{last\}"{}}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00038}00038\ \ \ \ \ cmd\ +=\ \textcolor{stringliteral}{"{}\ >\ /dev/null\ 2>\&1\ \&"{}}\ \ \textcolor{comment}{\#\ redirect\ output\ to\ dev/null\ and\ run\ in\ daemon\ thread}}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00039}00039\ \ \ \ \ print(cmd)}
+\DoxyCodeLine{\Hypertarget{resume_8py_source_l00040}00040\ \ \ \ \ os.system(cmd)}
+
+\end{DoxyCode}

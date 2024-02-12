@@ -1,0 +1,116 @@
+\doxysection{detect Namespace Reference}
+\hypertarget{namespacedetect}{}\label{namespacedetect}\index{detect@{detect}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacedetect_abe563e997679578e2cbb3ba94256c4e5}{run}} (weights=\mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}/"{}yolov5s.\+pt"{}, source=\mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}/"{}data/images"{}, data=\mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}/"{}data/coco128.\+yaml"{}, imgsz=(640, 640), conf\+\_\+thres=0.\+25, iou\+\_\+thres=0.\+45, max\+\_\+det=1000, device="{}"{}, view\+\_\+img=False, save\+\_\+txt=False, save\+\_\+csv=False, save\+\_\+conf=False, save\+\_\+crop=False, nosave=False, classes=None, agnostic\+\_\+nms=False, augment=False, visualize=False, update=False, project=\mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}/"{}runs/detect"{}, name="{}exp"{}, exist\+\_\+ok=False, line\+\_\+thickness=3, hide\+\_\+labels=False, hide\+\_\+conf=False, half=False, dnn=False, vid\+\_\+stride=1)
+\item 
+\mbox{\hyperlink{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}{parse\+\_\+opt}} ()
+\item 
+\mbox{\hyperlink{namespacedetect_a78df8c9b4ed14e1489354cb52c250524}{main}} (\mbox{\hyperlink{namespacedetect_ad255d3adc8eed13a28e6b2870fe69067}{opt}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacedetect_ac6dcac1d77a6882663b313e008e31c0e}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}} = FILE.\+parents\mbox{[}0\mbox{]}
+\item 
+\mbox{\hyperlink{namespacedetect_ad255d3adc8eed13a28e6b2870fe69067}{opt}} = \mbox{\hyperlink{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}{parse\+\_\+opt}}()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Run YOLOv5 detection inference on images, videos, directories, globs, YouTube, webcam, streams, etc.
+
+Usage - sources:
+    $ python detect.py --weights yolov5s.pt --source 0                               # webcam
+                                                     img.jpg                         # image
+                                                     vid.mp4                         # video
+                                                     screen                          # screenshot
+                                                     path/                           # directory
+                                                     list.txt                        # list of images
+                                                     list.streams                    # list of streams
+                                                     'path/*.jpg'                    # glob
+                                                     'https://youtu.be/LNwODJXcvt4'  # YouTube
+                                                     'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
+
+Usage - formats:
+    $ python detect.py --weights yolov5s.pt                 # PyTorch
+                                 yolov5s.torchscript        # TorchScript
+                                 yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
+                                 yolov5s_openvino_model     # OpenVINO
+                                 yolov5s.engine             # TensorRT
+                                 yolov5s.mlmodel            # CoreML (macOS-only)
+                                 yolov5s_saved_model        # TensorFlow SavedModel
+                                 yolov5s.pb                 # TensorFlow GraphDef
+                                 yolov5s.tflite             # TensorFlow Lite
+                                 yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
+                                 yolov5s_paddle_model       # PaddlePaddle
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacedetect_a78df8c9b4ed14e1489354cb52c250524}\label{namespacedetect_a78df8c9b4ed14e1489354cb52c250524} 
+\index{detect@{detect}!main@{main}}
+\index{main@{main}!detect@{detect}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily detect.\+main (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{detect_8py_source_l00302}{302}} of file \mbox{\hyperlink{detect_8py_source}{detect.\+py}}.
+
+\Hypertarget{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}\label{namespacedetect_aa3017f92c25b4de25d05580d88518b1a} 
+\index{detect@{detect}!parse\_opt@{parse\_opt}}
+\index{parse\_opt@{parse\_opt}!detect@{detect}}
+\doxysubsubsection{\texorpdfstring{parse\_opt()}{parse\_opt()}}
+{\footnotesize\ttfamily detect.\+parse\+\_\+opt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{detect_8py_source_l00266}{266}} of file \mbox{\hyperlink{detect_8py_source}{detect.\+py}}.
+
+\Hypertarget{namespacedetect_abe563e997679578e2cbb3ba94256c4e5}\label{namespacedetect_abe563e997679578e2cbb3ba94256c4e5} 
+\index{detect@{detect}!run@{run}}
+\index{run@{run}!detect@{detect}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily detect.\+run (\begin{DoxyParamCaption}\item[{}]{weights = {\ttfamily \mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}~/~"{}yolov5s.pt"{}},  }\item[{}]{source = {\ttfamily \mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}~/~"{}data/images"{}},  }\item[{}]{data = {\ttfamily \mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}~/~"{}data/coco128.yaml"{}},  }\item[{}]{imgsz = {\ttfamily (640,~640)},  }\item[{}]{conf\+\_\+thres = {\ttfamily 0.25},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.45},  }\item[{}]{max\+\_\+det = {\ttfamily 1000},  }\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{view\+\_\+img = {\ttfamily False},  }\item[{}]{save\+\_\+txt = {\ttfamily False},  }\item[{}]{save\+\_\+csv = {\ttfamily False},  }\item[{}]{save\+\_\+conf = {\ttfamily False},  }\item[{}]{save\+\_\+crop = {\ttfamily False},  }\item[{}]{nosave = {\ttfamily False},  }\item[{}]{classes = {\ttfamily None},  }\item[{}]{agnostic\+\_\+nms = {\ttfamily False},  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{visualize = {\ttfamily False},  }\item[{}]{update = {\ttfamily False},  }\item[{}]{project = {\ttfamily \mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{ROOT}}~/~"{}runs/detect"{}},  }\item[{}]{name = {\ttfamily "{}exp"{}},  }\item[{}]{exist\+\_\+ok = {\ttfamily False},  }\item[{}]{line\+\_\+thickness = {\ttfamily 3},  }\item[{}]{hide\+\_\+labels = {\ttfamily False},  }\item[{}]{hide\+\_\+conf = {\ttfamily False},  }\item[{}]{half = {\ttfamily False},  }\item[{}]{dnn = {\ttfamily False},  }\item[{}]{vid\+\_\+stride = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{detect_8py_source_l00070}{70}} of file \mbox{\hyperlink{detect_8py_source}{detect.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacedetect_ac6dcac1d77a6882663b313e008e31c0e}\label{namespacedetect_ac6dcac1d77a6882663b313e008e31c0e} 
+\index{detect@{detect}!FILE@{FILE}}
+\index{FILE@{FILE}!detect@{detect}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily detect.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{detect_8py_source_l00040}{40}} of file \mbox{\hyperlink{detect_8py_source}{detect.\+py}}.
+
+\Hypertarget{namespacedetect_ad255d3adc8eed13a28e6b2870fe69067}\label{namespacedetect_ad255d3adc8eed13a28e6b2870fe69067} 
+\index{detect@{detect}!opt@{opt}}
+\index{opt@{opt}!detect@{detect}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily detect.\+opt = \mbox{\hyperlink{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}{parse\+\_\+opt}}()}
+
+
+
+Definition at line \mbox{\hyperlink{detect_8py_source_l00308}{308}} of file \mbox{\hyperlink{detect_8py_source}{detect.\+py}}.
+
+\Hypertarget{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}\label{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b} 
+\index{detect@{detect}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!detect@{detect}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily detect.\+ROOT = FILE.\+parents\mbox{[}0\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{detect_8py_source_l00041}{41}} of file \mbox{\hyperlink{detect_8py_source}{detect.\+py}}.
+

@@ -1,0 +1,215 @@
+\doxysection{wandb\+\_\+utils.\+py}
+\hypertarget{wandb__utils_8py_source}{}\label{wandb__utils_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/wandb/wandb\_utils.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/wandb/wandb\_utils.py}}
+\mbox{\hyperlink{wandb__utils_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00003}00003\ \textcolor{comment}{\#\ WARNING\ ⚠️\ wandb\ is\ deprecated\ and\ will\ be\ removed\ in\ future\ release.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00004}00004\ \textcolor{comment}{\#\ See\ supported\ integrations\ at\ https://github.com/ultralytics/yolov5\#integrations}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00006}00006\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00007}00007\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00008}00008\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00009}00009\ \textcolor{keyword}{from}\ contextlib\ \textcolor{keyword}{import}\ contextmanager}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00010}00010\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00012}00012\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER,\ colorstr}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00014}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_ab4cad09933fbfcf905799f1b89e2a3a8}{00014}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00015}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a7442e579ddcc0b671c4e11dc66b6b852}{00015}}\ ROOT\ =\ FILE.parents[3]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00016}00016\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00017}00017\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00018}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a09e8b9ff2f96924f4cec130c8af75b07}{00018}}\ RANK\ =\ int(os.getenv(\textcolor{stringliteral}{"{}RANK"{}},\ -\/1))}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00019}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a19048ffe6010969d79d124f819437f8a}{00019}}\ DEPRECATION\_WARNING\ =\ (}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00020}00020\ \ \ \ \ f\textcolor{stringliteral}{"{}\{colorstr('wandb')\}:\ WARNING\ ⚠️\ wandb\ is\ deprecated\ and\ will\ be\ removed\ in\ a\ future\ release.\ "{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00021}00021\ \ \ \ \ f\textcolor{stringliteral}{'See\ supported\ integrations\ at\ https://github.com/ultralytics/yolov5\#integrations.'}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00022}00022\ )}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00024}00024\ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00025}00025\ \ \ \ \ \textcolor{keyword}{import}\ wandb}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{assert}\ hasattr(wandb,\ \textcolor{stringliteral}{"{}\_\_version\_\_"{}})\ \ \textcolor{comment}{\#\ verify\ package\ import\ not\ local\ dir}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00028}00028\ \ \ \ \ LOGGER.warning(DEPRECATION\_WARNING)}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00029}00029\ \textcolor{keywordflow}{except}\ (ImportError,\ AssertionError):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00030}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_affdbac7a9e5beb4d7385f873f40427ad}{00030}}\ \ \ \ \ wandb\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00033}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger}{WandbLogger}}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00034}00034\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ Log\ training\ runs,\ datasets,\ models,\ and\ predictions\ to\ Weights\ \&\ Biases.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00036}00036\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ This\ logger\ sends\ information\ to\ W\&B\ at\ wandb.ai.\ By\ default,\ this\ information\ includes\ hyperparameters,\ system}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ configuration\ and\ metrics,\ model\ metrics,\ and\ basic\ data\ metrics\ and\ analyses.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00039}00039\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ By\ providing\ additional\ command\ line\ arguments\ to\ train.py,\ datasets,\ models\ and\ predictions\ can\ also\ be\ logged.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00041}00041\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ For\ more\ on\ how\ this\ logger\ is\ used,\ see\ the\ Weights\ \&\ Biases\ documentation:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00043}00043\ \textcolor{stringliteral}{\ \ \ \ https://docs.wandb.com/guides/integrations/yolov5}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00044}00044\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00046}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ab58fd0b7edba267e15d1978db8de446f}{00046}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ab58fd0b7edba267e15d1978db8de446f}{\_\_init\_\_}}(self,\ opt,\ run\_id=None,\ job\_type="{}Training"{}):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00048}00048\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ Initialize\ WandbLogger\ instance}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ Upload\ dataset\ if\ opt.upload\_dataset\ is\ True}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ Setup\ training\ processes\ if\ job\_type\ is\ 'Training'}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00051}00051\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (namespace)\ -\/-\/\ Commandline\ arguments\ for\ this\ run}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ run\_id\ (str)\ -\/-\/\ Run\ ID\ of\ W\&B\ run\ to\ be\ resumed}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00055}00055\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ job\_type\ (str)\ -\/-\/\ To\ set\ the\ job\_type\ for\ this\ run}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00056}00056\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00057}00057\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Pre-\/training\ routine\ -\/-\/}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00059}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a9a6dc7636680a13ee6ed2eba53b5a51b}{00059}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a9a6dc7636680a13ee6ed2eba53b5a51b}{job\_type}}\ =\ job\_type}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00060}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abe6e1cd06c2a79d901fefb140a5e8a22}{00060}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abe6e1cd06c2a79d901fefb140a5e8a22}{wandb}},\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}\ =\ wandb,\ wandb.run\ \textcolor{keywordflow}{if}\ wandb\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00061}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ad1d6bb3664e7bfdb8541965b73c96e79}{00061}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a79dc38e4c05ccee9c17139a0e4286cdb}{val\_artifact}},\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ad1d6bb3664e7bfdb8541965b73c96e79}{train\_artifact}}\ =\ \textcolor{keywordtype}{None},\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00062}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a0ea6d3ec848b5a86fc319fe84e0404c7}{00062}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a0ea6d3ec848b5a86fc319fe84e0404c7}{train\_artifact\_path}},\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a5c803ee90b9b85b32d91972b6a48ba7d}{val\_artifact\_path}}\ =\ \textcolor{keywordtype}{None},\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00063}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_adae90741d0dc70db4f9cb34df2850d9e}{00063}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_adae90741d0dc70db4f9cb34df2850d9e}{result\_artifact}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00064}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a2d7b8f182dde84ed85bbf206d6f24ebe}{00064}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a6786d6ad05b1dec2d2742fab7b248896}{val\_table}},\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a2d7b8f182dde84ed85bbf206d6f24ebe}{result\_table}}\ =\ \textcolor{keywordtype}{None},\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00065}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ab9ebf9a4808597e788b7f199dde98d60}{00065}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ab9ebf9a4808597e788b7f199dde98d60}{max\_imgs\_to\_log}}\ =\ 16}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00066}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a899bc3aa8e09967a2e5181fa73eb7a0d}{00066}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a899bc3aa8e09967a2e5181fa73eb7a0d}{data\_dict}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abe6e1cd06c2a79d901fefb140a5e8a22}{wandb}}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}\ =\ wandb.run\ \textcolor{keywordflow}{or}\ wandb.init(}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config=opt,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resume=\textcolor{stringliteral}{"{}allow"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ project=\textcolor{stringliteral}{"{}YOLOv5"{}}\ \textcolor{keywordflow}{if}\ opt.project\ ==\ \textcolor{stringliteral}{"{}runs/train"{}}\ \textcolor{keywordflow}{else}\ Path(opt.project).stem,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity=opt.entity,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name=opt.name\ \textcolor{keywordflow}{if}\ opt.name\ !=\ \textcolor{stringliteral}{"{}exp"{}}\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ job\_type=job\_type,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ id=run\_id,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ allow\_val\_change=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a9a6dc7636680a13ee6ed2eba53b5a51b}{job\_type}}\ ==\ \textcolor{stringliteral}{"{}Training"{}}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(opt.data,\ dict):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ This\ means\ another\ dataset\ manager\ has\ already\ processed\ the\ dataset\ info\ (e.g.\ ClearML)}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ and\ they\ will\ have\ stored\ the\ already\ processed\ dict\ in\ opt.data}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a899bc3aa8e09967a2e5181fa73eb7a0d}{data\_dict}}\ =\ opt.data}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a38b3cd61158a5a5add771026ed6d8633}{setup\_training}}(opt)}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00086}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a38b3cd61158a5a5add771026ed6d8633}{00086}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a38b3cd61158a5a5add771026ed6d8633}{setup\_training}}(self,\ opt):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Setup\ the\ necessary\ processes\ for\ training\ YOLO\ models:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ -\/\ Attempt\ to\ download\ model\ checkpoint\ and\ dataset\ artifacts\ if\ opt.resume\ stats\ with\ WANDB\_ARTIFACT\_PREFIX}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ -\/\ Update\ data\_dict,\ to\ contain\ info\ of\ previous\ run\ if\ resumed\ and\ the\ paths\ of\ dataset\ artifact\ if\ downloaded}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00091}00091\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ -\/\ Setup\ log\_dict,\ initialize\ bbox\_interval}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00092}00092\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (namespace)\ -\/-\/\ commandline\ arguments\ for\ this\ run}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00095}00095\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00096}00096\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00097}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a0b6c26f7212e3045af147d4dfa8e5d57}{00097}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abcf0cbcec7494c107f282814a94c260d}{log\_dict}},\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a0b6c26f7212e3045af147d4dfa8e5d57}{current\_epoch}}\ =\ \{\},\ 0}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00098}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_aad2114127ac19690e68239360f7600b0}{00098}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_aad2114127ac19690e68239360f7600b0}{bbox\_interval}}\ =\ opt.bbox\_interval}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(opt.resume,\ str):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ model\_dir,\ \_\ =\ self.download\_model\_artifact(opt)}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_dir:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00102}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ae5fa7cb29ffb1c683034d5589391aa69}{00102}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ae5fa7cb29ffb1c683034d5589391aa69}{weights}}\ =\ Path(model\_dir)\ /\ \textcolor{stringliteral}{"{}last.pt"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config\ =\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}.config}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opt.weights,\ opt.save\_period,\ opt.batch\_size,\ opt.bbox\_interval,\ opt.epochs,\ opt.hyp,\ opt.imgsz\ =\ (}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str(self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ae5fa7cb29ffb1c683034d5589391aa69}{weights}}),}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.save\_period,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.batch\_size,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.bbox\_interval,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.epochs,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.hyp,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config.imgsz,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.bbox\_interval\ ==\ -\/1:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_aad2114127ac19690e68239360f7600b0}{bbox\_interval}}\ =\ opt.bbox\_interval\ =\ (opt.epochs\ //\ 10)\ \textcolor{keywordflow}{if}\ opt.epochs\ >\ 10\ \textcolor{keywordflow}{else}\ 1}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.evolve\ \textcolor{keywordflow}{or}\ opt.noplots:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_aad2114127ac19690e68239360f7600b0}{bbox\_interval}}\ =\ opt.bbox\_interval\ =\ opt.epochs\ +\ 1\ \ \textcolor{comment}{\#\ disable\ bbox\_interval}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00119}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a37a194c09e8927f277c0a3bc4380e0bd}{00119}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a37a194c09e8927f277c0a3bc4380e0bd}{log\_model}}(self,\ path,\ opt,\ epoch,\ fitness\_score,\ best\_model=False):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00121}00121\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Log\ the\ model\ checkpoint\ as\ W\&B\ artifact.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00122}00122\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00124}00124\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ path\ (Path)\ \ \ -\/-\/\ Path\ of\ directory\ containing\ the\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00125}00125\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (namespace)\ -\/-\/\ Command\ line\ arguments\ for\ this\ run}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00126}00126\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ epoch\ (int)\ \ -\/-\/\ Current\ epoch\ number}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ fitness\_score\ (float)\ -\/-\/\ fitness\ score\ for\ current\ epoch}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00128}00128\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ best\_model\ (boolean)\ -\/-\/\ Boolean\ representing\ if\ the\ current\ checkpoint\ is\ the\ best\ yet.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00129}00129\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ model\_artifact\ =\ wandb.Artifact(}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}run\_\{wandb.run.id\}\_model"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ type=\textcolor{stringliteral}{"{}model"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ metadata=\{}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}original\_url"{}}:\ str(path),}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}epochs\_trained"{}}:\ epoch\ +\ 1,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}save\ period"{}}:\ opt.save\_period,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}project"{}}:\ opt.project,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_epochs"{}}:\ opt.epochs,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fitness\_score"{}}:\ fitness\_score,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ model\_artifact.add\_file(str(path\ /\ \textcolor{stringliteral}{"{}last.pt"{}}),\ name=\textcolor{stringliteral}{"{}last.pt"{}})}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ wandb.log\_artifact(}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ model\_artifact,}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ aliases=[}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}latest"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}last"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}epoch\ \{str(self.current\_epoch)\}"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}best"{}}\ \textcolor{keywordflow}{if}\ best\_model\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Saving\ model\ artifact\ on\ epoch\ \{epoch\ +\ 1\}"{}})}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00154}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a3fee679d3e39f3d607800658d727f54e}{00154}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a3fee679d3e39f3d607800658d727f54e}{val\_one\_image}}(self,\ pred,\ predn,\ path,\ names,\ im):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{pass}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00157}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a7771c6d891d069f6f228be631e0ebbaf}{00157}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a7771c6d891d069f6f228be631e0ebbaf}{log}}(self,\ log\_dict):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00159}00159\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Save\ the\ metrics\ to\ the\ logging\ dictionary.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00160}00160\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00161}00161\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00162}00162\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ log\_dict\ (Dict)\ -\/-\/\ metrics/media\ to\ be\ logged\ in\ current\ step}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00163}00163\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.wandb\_run:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key,\ value\ \textcolor{keywordflow}{in}\ log\_dict.items():}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.log\_dict[key]\ =\ value}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00168}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ac94c029c718b9960b3a50e243aec32a5}{00168}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_ac94c029c718b9960b3a50e243aec32a5}{end\_epoch}}(self):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00170}00170\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Commit\ the\ log\_dict,\ model\ artifacts\ and\ Tables\ to\ W\&B\ and\ flush\ the\ log\_dict.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00171}00171\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00172}00172\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00173}00173\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ best\_result\ (boolean):\ Boolean\ representing\ if\ the\ result\ of\ this\ evaluation\ is\ best\ or\ not}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406}{all\_logging\_disabled}}():}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wandb.log(self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abcf0cbcec7494c107f282814a94c260d}{log\_dict}})}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ BaseException\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}An\ error\ occurred\ in\ wandb\ logger.\ The\ training\ will\ proceed\ without\ interruption.\ More\ info\(\backslash\)n\{e\}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}.finish()}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abcf0cbcec7494c107f282814a94c260d}{log\_dict}}\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00187}\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a68f20cf9e903c566cce28f30da2c76cd}{00187}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a68f20cf9e903c566cce28f30da2c76cd}{finish\_run}}(self):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Log\ metrics\ if\ any\ and\ finish\ the\ current\ W\&B\ run."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_a57e419d95c85e27e59c31929552648fc}{wandb\_run}}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abcf0cbcec7494c107f282814a94c260d}{log\_dict}}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406}{all\_logging\_disabled}}():}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wandb.log(self.\mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger_abcf0cbcec7494c107f282814a94c260d}{log\_dict}})}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ wandb.run.finish()}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(DEPRECATION\_WARNING)}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00197}00197\ \textcolor{preprocessor}{@contextmanager}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00198}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406}{00198}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406}{all\_logging\_disabled}}(highest\_level=logging.CRITICAL):}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00199}00199\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}source\ -\/\ https://gist.github.com/simon-\/weber/7853144}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00200}00200\ \textcolor{stringliteral}{\ \ \ \ A\ context\ manager\ that\ will\ prevent\ any\ logging\ messages\ triggered\ during\ the\ body\ from\ being\ processed.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00201}00201\ \textcolor{stringliteral}{\ \ \ \ :param\ highest\_level:\ the\ maximum\ logging\ level\ in\ use.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00202}00202\ \textcolor{stringliteral}{\ \ \ \ \ \ This\ would\ only\ need\ to\ be\ changed\ if\ a\ custom\ level\ greater\ than\ CRITICAL\ is\ defined.}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00203}00203\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00204}00204\ \ \ \ \ previous\_level\ =\ logging.root.manager.disable}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00205}00205\ \ \ \ \ logging.disable(highest\_level)}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{yield}}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00208}00208\ \ \ \ \ \textcolor{keywordflow}{finally}:}
+\DoxyCodeLine{\Hypertarget{wandb__utils_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ logging.disable(previous\_level)}
+
+\end{DoxyCode}

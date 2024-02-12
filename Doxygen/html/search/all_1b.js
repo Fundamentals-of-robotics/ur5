@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['w_0',['w',['../classmodels_1_1experimental_1_1_sum.html#a25abcd9f000fb18d31a8f2cd56150356',1,'models.experimental.Sum.w'],['../classutils_1_1augmentations_1_1_letter_box.html#a08831caa79415b8936dd8da1402f8cfa',1,'utils.augmentations.LetterBox.w'],['../classutils_1_1augmentations_1_1_center_crop.html#a93e4d051ca04707a7d73a1f7340068cc',1,'utils.augmentations.CenterCrop.w']]],
+  ['wandb_1',['wandb',['../classutils_1_1loggers_1_1_loggers.html#a536bdf6d4f6a56f639e5747c8532bb18',1,'utils.loggers.Loggers.wandb'],['../classutils_1_1loggers_1_1_generic_logger.html#a57e81741cb12226e198132de3bff94c1',1,'utils.loggers.GenericLogger.wandb'],['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#abe6e1cd06c2a79d901fefb140a5e8a22',1,'utils.loggers.wandb.wandb_utils.WandbLogger.wandb'],['../namespaceutils_1_1loggers.html#a7a06e9e3281887ea7594ff5b78d2e05e',1,'utils.loggers.wandb'],['../namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils.html#affdbac7a9e5beb4d7385f873f40427ad',1,'utils.loggers.wandb.wandb_utils.wandb']]],
+  ['wandb_5flogin_5fsuccess_2',['wandb_login_success',['../namespaceutils_1_1loggers.html#a6ac5cbf3ecfb9b4f5c9ea7c2136da87b',1,'utils::loggers']]],
+  ['wandb_5frun_3',['wandb_run',['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#a57e419d95c85e27e59c31929552648fc',1,'utils::loggers::wandb::wandb_utils::WandbLogger']]],
+  ['wandb_5futils_2epy_4',['wandb_utils.py',['../wandb__utils_8py.html',1,'']]],
+  ['wandblogger_5',['WandbLogger',['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html',1,'utils::loggers::wandb::wandb_utils']]],
+  ['warmup_6',['warmup',['../classmodels_1_1common_1_1_detect_multi_backend.html#a7a587e5a1fcc67d08b1295d2e0b380fb',1,'models::common::DetectMultiBackend']]],
+  ['web_5fproject_5fname_7',['web_project_name',['../namespaceutils_1_1loggers.html#abc25f8ac12691941f4e1009b4fdaaabe',1,'utils::loggers']]],
+  ['weight_8',['weight',['../classmodels_1_1experimental_1_1_sum.html#a7c0bcc28ef59234cbb061c4474711982',1,'models::experimental::Sum']]],
+  ['weights_9',['weights',['../classutils_1_1loggers_1_1_loggers.html#a5b470bfe7a408e73855977fdcec87c48',1,'utils.loggers.Loggers.weights'],['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#ae5fa7cb29ffb1c683034d5589391aa69',1,'utils.loggers.wandb.wandb_utils.WandbLogger.weights'],['../namespaceutils_1_1loggers_1_1comet_1_1hpo.html#ac10d2db6a5e0ce46c6484cff7630ce51',1,'utils.loggers.comet.hpo.weights']]],
+  ['wh_5fiou_10',['wh_iou',['../namespaceutils_1_1metrics.html#aed6d3b45dcf3a7d77f1b76d09f974663',1,'utils::metrics']]],
+  ['why_20yolov5_20div_11',['&lt;div align=&quot;center&quot;&gt;Why YOLOv5&lt;/div&gt;',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2_r_e_a_d_m_e.html#autotoc_md25',1,'']]],
+  ['width_12',['width',['../classutils_1_1dataloaders_1_1_load_screenshots.html#a761a6e99d4489be7420c10f3be6d9000',1,'utils::dataloaders::LoadScreenshots']]],
+  ['with_20clearml_13',['🚀 Training YOLOv5 With ClearML',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2clearml_2_r_e_a_d_m_e.html#autotoc_md67',1,'']]],
+  ['with_20comet_14',['With Comet',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e.html#autotoc_md89',1,'Logging Checkpoints with Comet'],['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e.html#autotoc_md77',1,'YOLOv5 with Comet']]],
+  ['with_20the_20comet_20optimizer_15',['Hyperparameter Search with the Comet Optimizer',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e.html#autotoc_md96',1,'']]],
+  ['workers_16',['Autoscaling workers',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2clearml_2_r_e_a_d_m_e.html#autotoc_md76',1,'']]],
+  ['workingdirectory_17',['WorkingDirectory',['../classutils_1_1general_1_1_working_directory.html',1,'utils::general']]],
+  ['world_20files_18',['World files',['../md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e.html#autotoc_md5',1,'']]],
+  ['world_5fsize_19',['WORLD_SIZE',['../namespacetrain.html#aae43f9902f6ea4d5d5603f84d2e8212c',1,'train.WORLD_SIZE'],['../namespaceutils_1_1dataloaders.html#ab36bf2f08141111d0205a73ea38b9971',1,'utils.dataloaders.WORLD_SIZE'],['../namespaceutils_1_1torch__utils.html#a3a4e5258f815f8e98167d46ef9c5b785',1,'utils.torch_utils.WORLD_SIZE']]],
+  ['world_5fto_5frobot_20',['WORLD_TO_ROBOT',['../ur5__task__library_8h.html#a746c3d4c60c58fb15b07a917b8fd72b3',1,'ur5_task_library.h']]],
+  ['world_5fto_5frobot_5fx_21',['WORLD_TO_ROBOT_X',['../ur5__task__library_8h.html#a8579272c1629ca4ab59827303c42f2f7',1,'ur5_task_library.h']]],
+  ['world_5fto_5frobot_5fy_22',['WORLD_TO_ROBOT_Y',['../ur5__task__library_8h.html#af7372396aaf2993e0c39b0f6350c4a9f',1,'ur5_task_library.h']]],
+  ['world_5fto_5frobot_5fz_23',['WORLD_TO_ROBOT_Z',['../ur5__task__library_8h.html#a31199c37d026000a5030df9198976b74',1,'ur5_task_library.h']]],
+  ['worldtorobotframe_24',['worldToRobotFrame',['../ur5__task__library_8h.html#ac39bbcc8e833973995ae031a60a5923e',1,'worldToRobotFrame(Eigen::Vector3d &amp;coords, Eigen::Vector3d &amp;euler):&#160;ur5_task_library.h'],['../ur5__task__library_8cpp.html#adacc08781a15907bbb0ecdac388a91bc',1,'worldToRobotFrame(Vector3d &amp;coords, Vector3d &amp;euler):&#160;ur5_task_library.cpp']]]
+];

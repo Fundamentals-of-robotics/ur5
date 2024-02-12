@@ -1,0 +1,399 @@
+\doxysection{augmentations.\+py}
+\hypertarget{augmentations_8py_source}{}\label{augmentations_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/augmentations.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/augmentations.py}}
+\mbox{\hyperlink{augmentations_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1augmentations}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Image\ augmentation\ functions."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00004}00004\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00005}00005\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00007}00007\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00008}00008\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00009}00009\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00010}00010\ \textcolor{keyword}{import}\ torchvision.transforms\ \textcolor{keyword}{as}\ T}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00011}00011\ \textcolor{keyword}{import}\ torchvision.transforms.functional\ \textcolor{keyword}{as}\ TF}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00013}00013\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER,\ check\_version,\ colorstr,\ resample\_segments,\ segment2box,\ xywhn2xyxy}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00014}00014\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1metrics}{utils.metrics}}\ \textcolor{keyword}{import}\ bbox\_ioa}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00016}\mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{00016}}\ IMAGENET\_MEAN\ =\ 0.485,\ 0.456,\ 0.406\ \ \textcolor{comment}{\#\ RGB\ mean}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00017}\mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{00017}}\ IMAGENET\_STD\ =\ 0.229,\ 0.224,\ 0.225\ \ \textcolor{comment}{\#\ RGB\ standard\ deviation}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00020}\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations}{00020}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations}{Albumentations}}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00021}00021\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Albumentations\ class\ (optional,\ only\ used\ if\ package\ is\ installed)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00022}\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_ae6d0cc8a514c37f817b5604c65a3a527}{00022}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_ae6d0cc8a514c37f817b5604c65a3a527}{\_\_init\_\_}}(self,\ size=640):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00023}\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a8e1998e8369ec4e9cf1d8ce2116ac32b}{00023}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a8e1998e8369ec4e9cf1d8ce2116ac32b}{transform}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ prefix\ =\ colorstr(\textcolor{stringliteral}{"{}albumentations:\ "{}})}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ albumentations\ \textcolor{keyword}{as}\ A}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ check\_version(A.\_\_version\_\_,\ \textcolor{stringliteral}{"{}1.0.3"{}},\ hard=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ version\ requirement}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ T\ =\ [}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.RandomResizedCrop(height=size,\ width=size,\ scale=(0.8,\ 1.0),\ ratio=(0.9,\ 1.11),\ p=0.0),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.Blur(p=0.01),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.MedianBlur(p=0.01),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.ToGray(p=0.01),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.CLAHE(p=0.01),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.RandomBrightnessContrast(p=0.0),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.RandomGamma(p=0.0),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ A.ImageCompression(quality\_lower=75,\ p=0.0),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ ]\ \ \textcolor{comment}{\#\ transforms}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a8e1998e8369ec4e9cf1d8ce2116ac32b}{transform}}\ =\ A.Compose(T,\ bbox\_params=A.BboxParams(format=\textcolor{stringliteral}{"{}yolo"{}},\ label\_fields=[\textcolor{stringliteral}{"{}class\_labels"{}}]))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(prefix\ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{x\}"{}}.replace(\textcolor{stringliteral}{"{}always\_apply=False,\ "{}},\ \textcolor{stringliteral}{"{}"{}})\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ T\ \textcolor{keywordflow}{if}\ x.p))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ ImportError:\ \ \textcolor{comment}{\#\ package\ not\ installed,\ skip}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{pass}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00048}\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a38643001639e530d2cff398979a8c014}{00048}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a38643001639e530d2cff398979a8c014}{\_\_call\_\_}}(self,\ im,\ labels,\ p=1.0):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a8e1998e8369ec4e9cf1d8ce2116ac32b}{transform}}\ \textcolor{keywordflow}{and}\ random.random()\ <\ p:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ new\ =\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations_a8e1998e8369ec4e9cf1d8ce2116ac32b}{transform}}(image=im,\ bboxes=labels[:,\ 1:],\ class\_labels=labels[:,\ 0])\ \ \textcolor{comment}{\#\ transformed}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ im,\ labels\ =\ new[\textcolor{stringliteral}{"{}image"{}}],\ np.array([[c,\ *b]\ \textcolor{keywordflow}{for}\ c,\ b\ \textcolor{keywordflow}{in}\ zip(new[\textcolor{stringliteral}{"{}class\_labels"{}}],\ new[\textcolor{stringliteral}{"{}bboxes"{}}])])}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ labels}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00055}\mbox{\hyperlink{namespaceutils_1_1augmentations_aab210a32ef79f647d1f6a0b47ef12100}{00055}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_aab210a32ef79f647d1f6a0b47ef12100}{normalize}}(x,\ mean=IMAGENET\_MEAN,\ std=IMAGENET\_STD,\ inplace=False):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00056}00056\ \ \ \ \ \textcolor{comment}{\#\ Denormalize\ RGB\ images\ x\ per\ ImageNet\ stats\ in\ BCHW\ format,\ i.e.\ =\ (x\ -\/\ mean)\ /\ std}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{return}\ TF.normalize(x,\ mean,\ std,\ inplace=inplace)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00060}\mbox{\hyperlink{namespaceutils_1_1augmentations_a5db660906462fa1c055e148269c6b7c8}{00060}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a5db660906462fa1c055e148269c6b7c8}{denormalize}}(x,\ mean=IMAGENET\_MEAN,\ std=IMAGENET\_STD):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00061}00061\ \ \ \ \ \textcolor{comment}{\#\ Denormalize\ RGB\ images\ x\ per\ ImageNet\ stats\ in\ BCHW\ format,\ i.e.\ =\ x\ *\ std\ +\ mean}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ x[:,\ i]\ =\ x[:,\ i]\ *\ std[i]\ +\ mean[i]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{return}\ x}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00067}\mbox{\hyperlink{namespaceutils_1_1augmentations_a0e63d57359648db035f96a9433eb2c13}{00067}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a0e63d57359648db035f96a9433eb2c13}{augment\_hsv}}(im,\ hgain=0.5,\ sgain=0.5,\ vgain=0.5):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00068}00068\ \ \ \ \ \textcolor{comment}{\#\ HSV\ color-\/space\ augmentation}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{if}\ hgain\ \textcolor{keywordflow}{or}\ sgain\ \textcolor{keywordflow}{or}\ vgain:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ r\ =\ np.random.uniform(-\/1,\ 1,\ 3)\ *\ [hgain,\ sgain,\ vgain]\ +\ 1\ \ \textcolor{comment}{\#\ random\ gains}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ hue,\ sat,\ val\ =\ cv2.split(cv2.cvtColor(im,\ cv2.COLOR\_BGR2HSV))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ dtype\ =\ im.dtype\ \ \textcolor{comment}{\#\ uint8}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ x\ =\ np.arange(0,\ 256,\ dtype=r.dtype)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ lut\_hue\ =\ ((x\ *\ r[0])\ \%\ 180).astype(dtype)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ lut\_sat\ =\ np.clip(x\ *\ r[1],\ 0,\ 255).astype(dtype)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ lut\_val\ =\ np.clip(x\ *\ r[2],\ 0,\ 255).astype(dtype)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ im\_hsv\ =\ cv2.merge((cv2.LUT(hue,\ lut\_hue),\ cv2.LUT(sat,\ lut\_sat),\ cv2.LUT(val,\ lut\_val)))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ cv2.cvtColor(im\_hsv,\ cv2.COLOR\_HSV2BGR,\ dst=im)\ \ \textcolor{comment}{\#\ no\ return\ needed}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00083}\mbox{\hyperlink{namespaceutils_1_1augmentations_a25794957e944ff72759a06b10281b6dc}{00083}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a25794957e944ff72759a06b10281b6dc}{hist\_equalize}}(im,\ clahe=True,\ bgr=False):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00084}00084\ \ \ \ \ \textcolor{comment}{\#\ Equalize\ histogram\ on\ BGR\ image\ 'im'\ with\ im.shape(n,m,3)\ and\ range\ 0-\/255}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00085}00085\ \ \ \ \ yuv\ =\ cv2.cvtColor(im,\ cv2.COLOR\_BGR2YUV\ \textcolor{keywordflow}{if}\ bgr\ \textcolor{keywordflow}{else}\ cv2.COLOR\_RGB2YUV)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{if}\ clahe:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ c\ =\ cv2.createCLAHE(clipLimit=2.0,\ tileGridSize=(8,\ 8))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ yuv[:,\ :,\ 0]\ =\ c.apply(yuv[:,\ :,\ 0])}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00089}00089\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ yuv[:,\ :,\ 0]\ =\ cv2.equalizeHist(yuv[:,\ :,\ 0])\ \ \textcolor{comment}{\#\ equalize\ Y\ channel\ histogram}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00091}00091\ \ \ \ \ \textcolor{keywordflow}{return}\ cv2.cvtColor(yuv,\ cv2.COLOR\_YUV2BGR\ \textcolor{keywordflow}{if}\ bgr\ \textcolor{keywordflow}{else}\ cv2.COLOR\_YUV2RGB)\ \ \textcolor{comment}{\#\ convert\ YUV\ image\ to\ RGB}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00094}\mbox{\hyperlink{namespaceutils_1_1augmentations_a4ebdc28ccd2e60fb4216d00a6e5a874d}{00094}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a4ebdc28ccd2e60fb4216d00a6e5a874d}{replicate}}(im,\ labels):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00095}00095\ \ \ \ \ \textcolor{comment}{\#\ Replicate\ labels}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00096}00096\ \ \ \ \ h,\ w\ =\ im.shape[:2]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00097}00097\ \ \ \ \ boxes\ =\ labels[:,\ 1:].astype(int)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00098}00098\ \ \ \ \ x1,\ y1,\ x2,\ y2\ =\ boxes.T}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00099}00099\ \ \ \ \ s\ =\ ((x2\ -\/\ x1)\ +\ (y2\ -\/\ y1))\ /\ 2\ \ \textcolor{comment}{\#\ side\ length\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ s.argsort()[:\ round(s.size\ *\ 0.5)]:\ \ \textcolor{comment}{\#\ smallest\ indices}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ x1b,\ y1b,\ x2b,\ y2b\ =\ boxes[i]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ bh,\ bw\ =\ y2b\ -\/\ y1b,\ x2b\ -\/\ x1b}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ yc,\ xc\ =\ int(random.uniform(0,\ h\ -\/\ bh)),\ int(random.uniform(0,\ w\ -\/\ bw))\ \ \textcolor{comment}{\#\ offset\ x,\ y}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ x1a,\ y1a,\ x2a,\ y2a\ =\ [xc,\ yc,\ xc\ +\ bw,\ yc\ +\ bh]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ im[y1a:y2a,\ x1a:x2a]\ =\ im[y1b:y2b,\ x1b:x2b]\ \ \textcolor{comment}{\#\ im4[ymin:ymax,\ xmin:xmax]}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ labels\ =\ np.append(labels,\ [[labels[i,\ 0],\ x1a,\ y1a,\ x2a,\ y2a]],\ axis=0)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ labels}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00111}\mbox{\hyperlink{namespaceutils_1_1augmentations_ab93008816a4cd0a0d666edbf52443fd2}{00111}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_ab93008816a4cd0a0d666edbf52443fd2}{letterbox}}(im,\ new\_shape=(640,\ 640),\ color=(114,\ 114,\ 114),\ auto=\textcolor{keyword}{True},\ scaleFill=\textcolor{keyword}{False},\ scaleup=\textcolor{keyword}{True},\ stride=32):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00112}00112\ \ \ \ \ \textcolor{comment}{\#\ Resize\ and\ pad\ image\ while\ meeting\ stride-\/multiple\ constraints}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00113}00113\ \ \ \ \ shape\ =\ im.shape[:2]\ \ \textcolor{comment}{\#\ current\ shape\ [height,\ width]}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(new\_shape,\ int):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ new\_shape\ =\ (new\_shape,\ new\_shape)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00117}00117\ \ \ \ \ \textcolor{comment}{\#\ Scale\ ratio\ (new\ /\ old)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00118}00118\ \ \ \ \ r\ =\ min(new\_shape[0]\ /\ shape[0],\ new\_shape[1]\ /\ shape[1])}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00119}00119\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ scaleup:\ \ \textcolor{comment}{\#\ only\ scale\ down,\ do\ not\ scale\ up\ (for\ better\ val\ mAP)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ r\ =\ min(r,\ 1.0)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00122}00122\ \ \ \ \ \textcolor{comment}{\#\ Compute\ padding}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00123}00123\ \ \ \ \ ratio\ =\ r,\ r\ \ \textcolor{comment}{\#\ width,\ height\ ratios}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00124}00124\ \ \ \ \ new\_unpad\ =\ int(round(shape[1]\ *\ r)),\ int(round(shape[0]\ *\ r))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00125}00125\ \ \ \ \ dw,\ dh\ =\ new\_shape[1]\ -\/\ new\_unpad[0],\ new\_shape[0]\ -\/\ new\_unpad[1]\ \ \textcolor{comment}{\#\ wh\ padding}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{if}\ auto:\ \ \textcolor{comment}{\#\ minimum\ rectangle}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ dw,\ dh\ =\ np.mod(dw,\ stride),\ np.mod(dh,\ stride)\ \ \textcolor{comment}{\#\ wh\ padding}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00128}00128\ \ \ \ \ \textcolor{keywordflow}{elif}\ scaleFill:\ \ \textcolor{comment}{\#\ stretch}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ dw,\ dh\ =\ 0.0,\ 0.0}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ new\_unpad\ =\ (new\_shape[1],\ new\_shape[0])}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ ratio\ =\ new\_shape[1]\ /\ shape[1],\ new\_shape[0]\ /\ shape[0]\ \ \textcolor{comment}{\#\ width,\ height\ ratios}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00133}00133\ \ \ \ \ dw\ /=\ 2\ \ \textcolor{comment}{\#\ divide\ padding\ into\ 2\ sides}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00134}00134\ \ \ \ \ dh\ /=\ 2}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00136}00136\ \ \ \ \ \textcolor{keywordflow}{if}\ shape[::-\/1]\ !=\ new\_unpad:\ \ \textcolor{comment}{\#\ resize}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ im\ =\ cv2.resize(im,\ new\_unpad,\ interpolation=cv2.INTER\_LINEAR)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00138}00138\ \ \ \ \ top,\ bottom\ =\ int(round(dh\ -\/\ 0.1)),\ int(round(dh\ +\ 0.1))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00139}00139\ \ \ \ \ left,\ right\ =\ int(round(dw\ -\/\ 0.1)),\ int(round(dw\ +\ 0.1))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00140}00140\ \ \ \ \ im\ =\ cv2.copyMakeBorder(im,\ top,\ bottom,\ left,\ right,\ cv2.BORDER\_CONSTANT,\ value=color)\ \ \textcolor{comment}{\#\ add\ border}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00141}00141\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ ratio,\ (dw,\ dh)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00144}\mbox{\hyperlink{namespaceutils_1_1augmentations_a1b0ba033834493b5f1c0b321b3bb6053}{00144}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a1b0ba033834493b5f1c0b321b3bb6053}{random\_perspective}}(}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00145}00145\ \ \ \ \ im,\ targets=(),\ segments=(),\ degrees=10,\ translate=0.1,\ scale=0.1,\ shear=10,\ perspective=0.0,\ border=(0,\ 0)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00146}00146\ ):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00147}00147\ \ \ \ \ \textcolor{comment}{\#\ torchvision.transforms.RandomAffine(degrees=(-\/10,\ 10),\ translate=(0.1,\ 0.1),\ scale=(0.9,\ 1.1),\ shear=(-\/10,\ 10))}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00148}00148\ \ \ \ \ \textcolor{comment}{\#\ targets\ =\ [cls,\ xyxy]}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00150}00150\ \ \ \ \ height\ =\ im.shape[0]\ +\ border[0]\ *\ 2\ \ \textcolor{comment}{\#\ shape(h,w,c)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00151}00151\ \ \ \ \ width\ =\ im.shape[1]\ +\ border[1]\ *\ 2}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00153}00153\ \ \ \ \ \textcolor{comment}{\#\ Center}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00154}00154\ \ \ \ \ C\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00155}00155\ \ \ \ \ C[0,\ 2]\ =\ -\/im.shape[1]\ /\ 2\ \ \textcolor{comment}{\#\ x\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00156}00156\ \ \ \ \ C[1,\ 2]\ =\ -\/im.shape[0]\ /\ 2\ \ \textcolor{comment}{\#\ y\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00158}00158\ \ \ \ \ \textcolor{comment}{\#\ Perspective}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00159}00159\ \ \ \ \ P\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00160}00160\ \ \ \ \ P[2,\ 0]\ =\ random.uniform(-\/perspective,\ perspective)\ \ \textcolor{comment}{\#\ x\ perspective\ (about\ y)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00161}00161\ \ \ \ \ P[2,\ 1]\ =\ random.uniform(-\/perspective,\ perspective)\ \ \textcolor{comment}{\#\ y\ perspective\ (about\ x)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00163}00163\ \ \ \ \ \textcolor{comment}{\#\ Rotation\ and\ Scale}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00164}00164\ \ \ \ \ R\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00165}00165\ \ \ \ \ a\ =\ random.uniform(-\/degrees,\ degrees)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00166}00166\ \ \ \ \ \textcolor{comment}{\#\ a\ +=\ random.choice([-\/180,\ -\/90,\ 0,\ 90])\ \ \#\ add\ 90deg\ rotations\ to\ small\ rotations}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00167}00167\ \ \ \ \ s\ =\ random.uniform(1\ -\/\ scale,\ 1\ +\ scale)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00168}00168\ \ \ \ \ \textcolor{comment}{\#\ s\ =\ 2\ **\ random.uniform(-\/scale,\ scale)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00169}00169\ \ \ \ \ R[:2]\ =\ cv2.getRotationMatrix2D(angle=a,\ center=(0,\ 0),\ scale=s)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00171}00171\ \ \ \ \ \textcolor{comment}{\#\ Shear}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00172}00172\ \ \ \ \ S\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00173}00173\ \ \ \ \ S[0,\ 1]\ =\ math.tan(random.uniform(-\/shear,\ shear)\ *\ math.pi\ /\ 180)\ \ \textcolor{comment}{\#\ x\ shear\ (deg)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00174}00174\ \ \ \ \ S[1,\ 0]\ =\ math.tan(random.uniform(-\/shear,\ shear)\ *\ math.pi\ /\ 180)\ \ \textcolor{comment}{\#\ y\ shear\ (deg)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00176}00176\ \ \ \ \ \textcolor{comment}{\#\ Translation}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00177}00177\ \ \ \ \ T\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00178}00178\ \ \ \ \ T[0,\ 2]\ =\ random.uniform(0.5\ -\/\ translate,\ 0.5\ +\ translate)\ *\ width\ \ \textcolor{comment}{\#\ x\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00179}00179\ \ \ \ \ T[1,\ 2]\ =\ random.uniform(0.5\ -\/\ translate,\ 0.5\ +\ translate)\ *\ height\ \ \textcolor{comment}{\#\ y\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00181}00181\ \ \ \ \ \textcolor{comment}{\#\ Combined\ rotation\ matrix}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00182}00182\ \ \ \ \ M\ =\ T\ @\ S\ @\ R\ @\ P\ @\ C\ \ \textcolor{comment}{\#\ order\ of\ operations\ (right\ to\ left)\ is\ IMPORTANT}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00183}00183\ \ \ \ \ \textcolor{keywordflow}{if}\ (border[0]\ !=\ 0)\ \textcolor{keywordflow}{or}\ (border[1]\ !=\ 0)\ \textcolor{keywordflow}{or}\ (M\ !=\ np.eye(3)).any():\ \ \textcolor{comment}{\#\ image\ changed}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ perspective:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ cv2.warpPerspective(im,\ M,\ dsize=(width,\ height),\ borderValue=(114,\ 114,\ 114))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ affine}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ cv2.warpAffine(im,\ M[:2],\ dsize=(width,\ height),\ borderValue=(114,\ 114,\ 114))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00189}00189\ \ \ \ \ \textcolor{comment}{\#\ Visualize}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00190}00190\ \ \ \ \ \textcolor{comment}{\#\ import\ matplotlib.pyplot\ as\ plt}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00191}00191\ \ \ \ \ \textcolor{comment}{\#\ ax\ =\ plt.subplots(1,\ 2,\ figsize=(12,\ 6))[1].ravel()}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00192}00192\ \ \ \ \ \textcolor{comment}{\#\ ax[0].imshow(im[:,\ :,\ ::-\/1])\ \ \#\ base}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00193}00193\ \ \ \ \ \textcolor{comment}{\#\ ax[1].imshow(im2[:,\ :,\ ::-\/1])\ \ \#\ warped}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00195}00195\ \ \ \ \ \textcolor{comment}{\#\ Transform\ label\ coordinates}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00196}00196\ \ \ \ \ n\ =\ len(targets)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{if}\ n:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ use\_segments\ =\ any(x.any()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ segments)\ \textcolor{keywordflow}{and}\ len(segments)\ ==\ n}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ new\ =\ np.zeros((n,\ 4))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ use\_segments:\ \ \textcolor{comment}{\#\ warp\ segments}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ segments\ =\ resample\_segments(segments)\ \ \textcolor{comment}{\#\ upsample}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ segment\ \textcolor{keywordflow}{in}\ enumerate(segments):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ np.ones((len(segment),\ 3))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xy[:,\ :2]\ =\ segment}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ xy\ @\ M.T\ \ \textcolor{comment}{\#\ transform}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ xy[:,\ :2]\ /\ xy[:,\ 2:3]\ \textcolor{keywordflow}{if}\ perspective\ \textcolor{keywordflow}{else}\ xy[:,\ :2]\ \ \textcolor{comment}{\#\ perspective\ rescale\ or\ affine}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ clip}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new[i]\ =\ segment2box(xy,\ width,\ height)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ warp\ boxes}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ np.ones((n\ *\ 4,\ 3))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ xy[:,\ :2]\ =\ targets[:,\ [1,\ 2,\ 3,\ 4,\ 1,\ 4,\ 3,\ 2]].reshape(n\ *\ 4,\ 2)\ \ \textcolor{comment}{\#\ x1y1,\ x2y2,\ x1y2,\ x2y1}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ xy\ @\ M.T\ \ \textcolor{comment}{\#\ transform}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ (xy[:,\ :2]\ /\ xy[:,\ 2:3]\ \textcolor{keywordflow}{if}\ perspective\ \textcolor{keywordflow}{else}\ xy[:,\ :2]).reshape(n,\ 8)\ \ \textcolor{comment}{\#\ perspective\ rescale\ or\ affine}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ create\ new\ boxes}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ xy[:,\ [0,\ 2,\ 4,\ 6]]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ xy[:,\ [1,\ 3,\ 5,\ 7]]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ new\ =\ np.concatenate((x.min(1),\ y.min(1),\ x.max(1),\ y.max(1))).reshape(4,\ n).T}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ clip}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ new[:,\ [0,\ 2]]\ =\ new[:,\ [0,\ 2]].clip(0,\ width)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ new[:,\ [1,\ 3]]\ =\ new[:,\ [1,\ 3]].clip(0,\ height)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ filter\ candidates}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ i\ =\ box\_candidates(box1=targets[:,\ 1:5].T\ *\ s,\ box2=new.T,\ area\_thr=0.01\ \textcolor{keywordflow}{if}\ use\_segments\ \textcolor{keywordflow}{else}\ 0.10)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ targets\ =\ targets[i]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ targets[:,\ 1:5]\ =\ new[i]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00231}00231\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ targets}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00234}\mbox{\hyperlink{namespaceutils_1_1augmentations_a4ae23c4a9626ea32d10185ca744c038c}{00234}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a4ae23c4a9626ea32d10185ca744c038c}{copy\_paste}}(im,\ labels,\ segments,\ p=0.5):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00235}00235\ \ \ \ \ \textcolor{comment}{\#\ Implement\ Copy-\/Paste\ augmentation\ https://arxiv.org/abs/2012.07177,\ labels\ as\ nx5\ np.array(cls,\ xyxy)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00236}00236\ \ \ \ \ n\ =\ len(segments)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{if}\ p\ \textcolor{keywordflow}{and}\ n:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ h,\ w,\ c\ =\ im.shape\ \ \textcolor{comment}{\#\ height,\ width,\ channels}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ im\_new\ =\ np.zeros(im.shape,\ np.uint8)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ random.sample(range(n),\ k=round(p\ *\ n)):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ l,\ s\ =\ labels[j],\ segments[j]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ box\ =\ w\ -\/\ l[3],\ l[2],\ w\ -\/\ l[1],\ l[4]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ ioa\ =\ bbox\_ioa(box,\ labels[:,\ 1:5])\ \ \textcolor{comment}{\#\ intersection\ over\ area}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ioa\ <\ 0.30).all():\ \ \textcolor{comment}{\#\ allow\ 30\%\ obscuration\ of\ existing\ labels}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ np.concatenate((labels,\ [[l[0],\ *box]]),\ 0)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ segments.append(np.concatenate((w\ -\/\ s[:,\ 0:1],\ s[:,\ 1:2]),\ 1))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cv2.drawContours(im\_new,\ [segments[j].astype(np.int32)],\ -\/1,\ (1,\ 1,\ 1),\ cv2.FILLED)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ result\ =\ cv2.flip(im,\ 1)\ \ \textcolor{comment}{\#\ augment\ segments\ (flip\ left-\/right)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ i\ =\ cv2.flip(im\_new,\ 1).astype(bool)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ im[i]\ =\ result[i]\ \ \textcolor{comment}{\#\ cv2.imwrite('debug.jpg',\ im)\ \ \#\ debug}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00253}00253\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ labels,\ segments}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00256}\mbox{\hyperlink{namespaceutils_1_1augmentations_afbda8f950644c330cd0c509a8faf1c70}{00256}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_afbda8f950644c330cd0c509a8faf1c70}{cutout}}(im,\ labels,\ p=0.5):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00257}00257\ \ \ \ \ \textcolor{comment}{\#\ Applies\ image\ cutout\ augmentation\ https://arxiv.org/abs/1708.04552}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00258}00258\ \ \ \ \ \textcolor{keywordflow}{if}\ random.random()\ <\ p:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ h,\ w\ =\ im.shape[:2]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ scales\ =\ [0.5]\ *\ 1\ +\ [0.25]\ *\ 2\ +\ [0.125]\ *\ 4\ +\ [0.0625]\ *\ 8\ +\ [0.03125]\ *\ 16\ \ \textcolor{comment}{\#\ image\ size\ fraction}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ scales:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ mask\_h\ =\ random.randint(1,\ int(h\ *\ s))\ \ \textcolor{comment}{\#\ create\ random\ masks}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ mask\_w\ =\ random.randint(1,\ int(w\ *\ s))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ box}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ xmin\ =\ max(0,\ random.randint(0,\ w)\ -\/\ mask\_w\ //\ 2)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ ymin\ =\ max(0,\ random.randint(0,\ h)\ -\/\ mask\_h\ //\ 2)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ xmax\ =\ min(w,\ xmin\ +\ mask\_w)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ ymax\ =\ min(h,\ ymin\ +\ mask\_h)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ apply\ random\ color\ mask}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ im[ymin:ymax,\ xmin:xmax]\ =\ [random.randint(64,\ 191)\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(3)]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ return\ unobscured\ labels}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(labels)\ \textcolor{keywordflow}{and}\ s\ >\ 0.03:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ box\ =\ np.array([xmin,\ ymin,\ xmax,\ ymax],\ dtype=np.float32)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ioa\ =\ bbox\_ioa(box,\ xywhn2xyxy(labels[:,\ 1:5],\ w,\ h))\ \ \textcolor{comment}{\#\ intersection\ over\ area}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ labels[ioa\ <\ 0.60]\ \ \textcolor{comment}{\#\ remove\ >60\%\ obscured\ labels}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00280}00280\ \ \ \ \ \textcolor{keywordflow}{return}\ labels}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00283}\mbox{\hyperlink{namespaceutils_1_1augmentations_a6e6136d7a9250923943ccf838356488e}{00283}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a6e6136d7a9250923943ccf838356488e}{mixup}}(im,\ labels,\ im2,\ labels2):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00284}00284\ \ \ \ \ \textcolor{comment}{\#\ Applies\ MixUp\ augmentation\ https://arxiv.org/pdf/1710.09412.pdf}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00285}00285\ \ \ \ \ r\ =\ np.random.beta(32.0,\ 32.0)\ \ \textcolor{comment}{\#\ mixup\ ratio,\ alpha=beta=32.0}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00286}00286\ \ \ \ \ im\ =\ (im\ *\ r\ +\ im2\ *\ (1\ -\/\ r)).astype(np.uint8)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00287}00287\ \ \ \ \ labels\ =\ np.concatenate((labels,\ labels2),\ 0)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00288}00288\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ labels}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00291}\mbox{\hyperlink{namespaceutils_1_1augmentations_ac377e03317ff9ea3586e2de2c6312e9c}{00291}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_ac377e03317ff9ea3586e2de2c6312e9c}{box\_candidates}}(box1,\ box2,\ wh\_thr=2,\ ar\_thr=100,\ area\_thr=0.1,\ eps=1e-\/16):\ \ \textcolor{comment}{\#\ box1(4,n),\ box2(4,n)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00292}00292\ \ \ \ \ \textcolor{comment}{\#\ Compute\ candidate\ boxes:\ box1\ before\ augment,\ box2\ after\ augment,\ wh\_thr\ (pixels),\ aspect\_ratio\_thr,\ area\_ratio}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00293}00293\ \ \ \ \ w1,\ h1\ =\ box1[2]\ -\/\ box1[0],\ box1[3]\ -\/\ box1[1]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00294}00294\ \ \ \ \ w2,\ h2\ =\ box2[2]\ -\/\ box2[0],\ box2[3]\ -\/\ box2[1]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00295}00295\ \ \ \ \ ar\ =\ np.maximum(w2\ /\ (h2\ +\ eps),\ h2\ /\ (w2\ +\ eps))\ \ \textcolor{comment}{\#\ aspect\ ratio}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00296}00296\ \ \ \ \ \textcolor{keywordflow}{return}\ (w2\ >\ wh\_thr)\ \&\ (h2\ >\ wh\_thr)\ \&\ (w2\ *\ h2\ /\ (w1\ *\ h1\ +\ eps)\ >\ area\_thr)\ \&\ (ar\ <\ ar\_thr)\ \ \textcolor{comment}{\#\ candidates}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00299}\mbox{\hyperlink{namespaceutils_1_1augmentations_a9be26b805c8d395d9bd65b623816f314}{00299}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_a9be26b805c8d395d9bd65b623816f314}{classify\_albumentations}}(}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00300}00300\ \ \ \ \ augment=True,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00301}00301\ \ \ \ \ size=224,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00302}00302\ \ \ \ \ scale=(0.08,\ 1.0),}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00303}00303\ \ \ \ \ ratio=(0.75,\ 1.0\ /\ 0.75),\ \ \textcolor{comment}{\#\ 0.75,\ 1.33}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00304}00304\ \ \ \ \ hflip=0.5,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00305}00305\ \ \ \ \ vflip=0.0,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00306}00306\ \ \ \ \ jitter=0.4,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00307}00307\ \ \ \ \ mean=IMAGENET\_MEAN,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00308}00308\ \ \ \ \ std=IMAGENET\_STD,}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00309}00309\ \ \ \ \ auto\_aug=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00310}00310\ ):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00311}00311\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ classification\ Albumentations\ (optional,\ only\ used\ if\ package\ is\ installed)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00312}00312\ \ \ \ \ prefix\ =\ colorstr(\textcolor{stringliteral}{"{}albumentations:\ "{}})}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00313}00313\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ albumentations\ \textcolor{keyword}{as}\ A}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ albumentations.pytorch\ \textcolor{keyword}{import}\ ToTensorV2}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ check\_version(A.\_\_version\_\_,\ \textcolor{stringliteral}{"{}1.0.3"{}},\ hard=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ version\ requirement}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ augment:\ \ \textcolor{comment}{\#\ Resize\ and\ crop}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ T\ =\ [A.RandomResizedCrop(height=size,\ width=size,\ scale=scale,\ ratio=ratio)]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ auto\_aug:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TODO:\ implement\ AugMix,\ AutoAug\ \&\ RandAug\ in\ albumentation}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}auto\ augmentations\ are\ currently\ not\ supported"{}})}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ hflip\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\ +=\ [A.HorizontalFlip(p=hflip)]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ vflip\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\ +=\ [A.VerticalFlip(p=vflip)]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ jitter\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color\_jitter\ =\ (float(jitter),)\ *\ 3\ \ \textcolor{comment}{\#\ repeat\ value\ for\ brightness,\ contrast,\ satuaration,\ 0\ hue}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ T\ +=\ [A.ColorJitter(*color\_jitter,\ 0)]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ Use\ fixed\ crop\ for\ eval\ set\ (reproducibility)}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ T\ =\ [A.SmallestMaxSize(max\_size=size),\ A.CenterCrop(height=size,\ width=size)]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ T\ +=\ [A.Normalize(mean=mean,\ std=std),\ ToTensorV2()]\ \ \textcolor{comment}{\#\ Normalize\ and\ convert\ to\ Tensor}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ LOGGER.info(prefix\ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{x\}"{}}.replace(\textcolor{stringliteral}{"{}always\_apply=False,\ "{}},\ \textcolor{stringliteral}{"{}"{}})\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ T\ \textcolor{keywordflow}{if}\ x.p))}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ A.Compose(T)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00337}00337\ \ \ \ \ \textcolor{keywordflow}{except}\ ImportError:\ \ \textcolor{comment}{\#\ package\ not\ installed,\ skip}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}\{prefix\}⚠️\ not\ found,\ install\ with\ \`{}pip\ install\ albumentations`\ (recommended)"{}})}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00339}00339\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}\{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00342}00342\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00343}\mbox{\hyperlink{namespaceutils_1_1augmentations_ab6de1426ae40c47757600692da011d91}{00343}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1augmentations_ab6de1426ae40c47757600692da011d91}{classify\_transforms}}(size=224):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00344}00344\ \ \ \ \ \textcolor{comment}{\#\ Transforms\ to\ apply\ if\ albumentations\ not\ installed}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00345}00345\ \ \ \ \ \textcolor{keyword}{assert}\ isinstance(size,\ int),\ f\textcolor{stringliteral}{"{}ERROR:\ classify\_transforms\ size\ \{size\}\ must\ be\ integer,\ not\ (list,\ tuple)"{}}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00346}00346\ \ \ \ \ \textcolor{comment}{\#\ T.Compose([T.ToTensor(),\ T.Resize(size),\ T.CenterCrop(size),\ T.Normalize(IMAGENET\_MEAN,\ IMAGENET\_STD)])}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00347}00347\ \ \ \ \ \textcolor{keywordflow}{return}\ T.Compose([\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop}{CenterCrop}}(size),\ \mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor}{ToTensor}}(),\ T.Normalize(IMAGENET\_MEAN,\ IMAGENET\_STD)])}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00350}\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box}{00350}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box}{LetterBox}}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00351}00351\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ LetterBox\ class\ for\ image\ preprocessing,\ i.e.\ T.Compose([LetterBox(size),\ ToTensor()])}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00352}\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a1ed64ef97178d27354c5579afa831d4c}{00352}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a1ed64ef97178d27354c5579afa831d4c}{\_\_init\_\_}}(self,\ size=(640,\ 640),\ auto=\textcolor{keyword}{False},\ stride=32):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a1ed64ef97178d27354c5579afa831d4c}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00354}\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a90ba25515b1a3060812a8df667c73a99}{00354}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a90ba25515b1a3060812a8df667c73a99}{h}},\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a08831caa79415b8936dd8da1402f8cfa}{w}}\ =\ (size,\ size)\ \textcolor{keywordflow}{if}\ isinstance(size,\ int)\ \textcolor{keywordflow}{else}\ size}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00355}\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_ae463d5c70bc3d7d044bab1d06819afd9}{00355}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_ae463d5c70bc3d7d044bab1d06819afd9}{auto}}\ =\ auto\ \ \textcolor{comment}{\#\ pass\ max\ size\ integer,\ automatically\ solve\ for\ short\ side\ using\ stride}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00356}\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_adcbf25f0024c6aae2e9939ba6f1e03cc}{00356}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_adcbf25f0024c6aae2e9939ba6f1e03cc}{stride}}\ =\ stride\ \ \textcolor{comment}{\#\ used\ with\ auto}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00358}\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a4875a6efff7db980482447a914c72d58}{00358}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a4875a6efff7db980482447a914c72d58}{\_\_call\_\_}}(self,\ im):\ \ \textcolor{comment}{\#\ im\ =\ np.array\ HWC}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ imh,\ imw\ =\ im.shape[:2]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ r\ =\ min(self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a90ba25515b1a3060812a8df667c73a99}{h}}\ /\ imh,\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a08831caa79415b8936dd8da1402f8cfa}{w}}\ /\ imw)\ \ \textcolor{comment}{\#\ ratio\ of\ new/old}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ h,\ w\ =\ round(imh\ *\ r),\ round(imw\ *\ r)\ \ \textcolor{comment}{\#\ resized\ image}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ hs,\ ws\ =\ (math.ceil(x\ /\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_adcbf25f0024c6aae2e9939ba6f1e03cc}{stride}})\ *\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_adcbf25f0024c6aae2e9939ba6f1e03cc}{stride}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (h,\ w))\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_ae463d5c70bc3d7d044bab1d06819afd9}{auto}}\ \textcolor{keywordflow}{else}\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a90ba25515b1a3060812a8df667c73a99}{h}},\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a08831caa79415b8936dd8da1402f8cfa}{w}}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ top,\ left\ =\ round((hs\ -\/\ h)\ /\ 2\ -\/\ 0.1),\ round((ws\ -\/\ w)\ /\ 2\ -\/\ 0.1)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ im\_out\ =\ np.full((self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a90ba25515b1a3060812a8df667c73a99}{h}},\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box_a08831caa79415b8936dd8da1402f8cfa}{w}},\ 3),\ 114,\ dtype=im.dtype)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ im\_out[top\ :\ top\ +\ h,\ left\ :\ left\ +\ w]\ =\ cv2.resize(im,\ (w,\ h),\ interpolation=cv2.INTER\_LINEAR)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ im\_out}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00367}00367\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00369}\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop}{00369}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop}{CenterCrop}}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00370}00370\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ CenterCrop\ class\ for\ image\ preprocessing,\ i.e.\ T.Compose([CenterCrop(size),\ ToTensor()])}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00371}\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_aec771deafa939a34c07e729988a06e41}{00371}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_aec771deafa939a34c07e729988a06e41}{\_\_init\_\_}}(self,\ size=640):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00372}00372\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_aec771deafa939a34c07e729988a06e41}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00373}\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a881a6578039c47d00d79314617848995}{00373}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a881a6578039c47d00d79314617848995}{h}},\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a93e4d051ca04707a7d73a1f7340068cc}{w}}\ =\ (size,\ size)\ \textcolor{keywordflow}{if}\ isinstance(size,\ int)\ \textcolor{keywordflow}{else}\ size}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00374}00374\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00375}\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a991c3d399dc885619cac77a3366a948f}{00375}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a991c3d399dc885619cac77a3366a948f}{\_\_call\_\_}}(self,\ im):\ \ \textcolor{comment}{\#\ im\ =\ np.array\ HWC}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ imh,\ imw\ =\ im.shape[:2]}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ m\ =\ min(imh,\ imw)\ \ \textcolor{comment}{\#\ min\ dimension}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ top,\ left\ =\ (imh\ -\/\ m)\ //\ 2,\ (imw\ -\/\ m)\ //\ 2}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cv2.resize(im[top\ :\ top\ +\ m,\ left\ :\ left\ +\ m],\ (self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a93e4d051ca04707a7d73a1f7340068cc}{w}},\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop_a881a6578039c47d00d79314617848995}{h}}),\ interpolation=cv2.INTER\_LINEAR)}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00380}00380\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00382}\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor}{00382}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor}{ToTensor}}:}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00383}00383\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ ToTensor\ class\ for\ image\ preprocessing,\ i.e.\ T.Compose([LetterBox(size),\ ToTensor()])}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00384}\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_aca3a1c1c2d840da304addb34093b5d0b}{00384}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_aca3a1c1c2d840da304addb34093b5d0b}{\_\_init\_\_}}(self,\ half=False):}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_aca3a1c1c2d840da304addb34093b5d0b}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00386}\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_af4c2eff27e0df391d3ac469baff502e1}{00386}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_af4c2eff27e0df391d3ac469baff502e1}{half}}\ =\ half}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00388}\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_af1c9d2846a0b26faaa7267fc21760ff9}{00388}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_af1c9d2846a0b26faaa7267fc21760ff9}{\_\_call\_\_}}(self,\ im):\ \ \textcolor{comment}{\#\ im\ =\ np.array\ HWC\ in\ BGR\ order}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ im\ =\ np.ascontiguousarray(im.transpose((2,\ 0,\ 1))[::-\/1])\ \ \textcolor{comment}{\#\ HWC\ to\ CHW\ -\/>\ BGR\ to\ RGB\ -\/>\ contiguous}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ im\ =\ torch.from\_numpy(im)\ \ \textcolor{comment}{\#\ to\ torch}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ im\ =\ im.half()\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor_af4c2eff27e0df391d3ac469baff502e1}{half}}\ \textcolor{keywordflow}{else}\ im.float()\ \ \textcolor{comment}{\#\ uint8\ to\ fp16/32}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ im\ /=\ 255.0\ \ \textcolor{comment}{\#\ 0-\/255\ to\ 0.0-\/1.0}}
+\DoxyCodeLine{\Hypertarget{augmentations_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ im}
+
+\end{DoxyCode}

@@ -1,0 +1,240 @@
+\doxysection{train Namespace Reference}
+\hypertarget{namespacetrain}{}\label{namespacetrain}\index{train@{train}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacetrain_aff3e936230788ec1ff45538929277533}{train}} (\mbox{\hyperlink{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6}{opt}}, device)
+\item 
+\mbox{\hyperlink{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}{parse\+\_\+opt}} (known=False)
+\item 
+\mbox{\hyperlink{namespacetrain_aa55a3dab9fbcc2dcafe0fddce9cb144a}{main}} (\mbox{\hyperlink{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6}{opt}})
+\item 
+\mbox{\hyperlink{namespacetrain_a27ed4e0214d7d7f01146614c1c063542}{run}} (\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{namespacetrain_a165c8db7d0d098f2da9f04f83eb4a443}{train}} (hyp, \mbox{\hyperlink{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6}{opt}}, device, callbacks)
+\item 
+\mbox{\hyperlink{namespacetrain_acd078656d0187c4782aa687a0c407edd}{main}} (\mbox{\hyperlink{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6}{opt}}, callbacks=\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}())
+\item 
+\mbox{\hyperlink{namespacetrain_a3b5b2b18a1e55050ca56f90e6e322370}{generate\+\_\+individual}} (input\+\_\+ranges, individual\+\_\+length)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacetrain_add74d372d0a1ebe4092c91d501f92034}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespacetrain_aa1aebe5c6044ab0d9f4eb2f387439700}{ROOT}} = FILE.\+parents\mbox{[}1\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetrain_abc52041aeca5611a7d219e612c36a7b2}{LOCAL\+\_\+\+RANK}} = int(os.\+getenv("{}LOCAL\+\_\+\+RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespacetrain_a6dd13c1a6cf9587741f3de1e8339b7c1}{RANK}} = int(os.\+getenv("{}RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespacetrain_aae43f9902f6ea4d5d5603f84d2e8212c}{WORLD\+\_\+\+SIZE}} = int(os.\+getenv("{}WORLD\+\_\+\+SIZE"{}, 1))
+\item 
+\mbox{\hyperlink{namespacetrain_ae603c070a3f7f6ce8fea4b0e4148135b}{GIT\+\_\+\+INFO}} = check\+\_\+git\+\_\+info()
+\item 
+\mbox{\hyperlink{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6}{opt}} = \mbox{\hyperlink{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}{parse\+\_\+opt}}()
+\item 
+\mbox{\hyperlink{namespacetrain_a64cf27375407e6f7fedc86c8a87dc636}{comet\+\_\+ml}} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Train a YOLOv5 classifier model on a classification dataset.
+
+Usage - Single-GPU training:
+    $ python classify/train.py --model yolov5s-cls.pt --data imagenette160 --epochs 5 --img 224
+
+Usage - Multi-GPU DDP training:
+    $ python -m torch.distributed.run --nproc_per_node 4 --master_port 2022 classify/train.py --model yolov5s-cls.pt --data imagenet --epochs 5 --img 224 --device 0,1,2,3
+
+Datasets:           --data mnist, fashion-mnist, cifar10, cifar100, imagenette, imagewoof, imagenet, or 'path/to/data'
+YOLOv5-cls models:  --model yolov5n-cls.pt, yolov5s-cls.pt, yolov5m-cls.pt, yolov5l-cls.pt, yolov5x-cls.pt
+Torchvision models: --model resnet50, efficientnet_b0, etc. See https://pytorch.org/vision/stable/models.html
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}Train a YOLOv5 segment model on a segment dataset Models and datasets download automatically from the latest YOLOv5
+release.
+
+Usage - Single-GPU training:
+    $ python segment/train.py --data coco128-seg.yaml --weights yolov5s-seg.pt --img 640  # from pretrained (recommended)
+    $ python segment/train.py --data coco128-seg.yaml --weights '' --cfg yolov5s-seg.yaml --img 640  # from scratch
+
+Usage - Multi-GPU DDP training:
+    $ python -m torch.distributed.run --nproc_per_node 4 --master_port 1 segment/train.py --data coco128-seg.yaml --weights yolov5s-seg.pt --img 640 --device 0,1,2,3
+
+Models:     https://github.com/ultralytics/yolov5/tree/master/models
+Datasets:   https://github.com/ultralytics/yolov5/tree/master/data
+Tutorial:   https://docs.ultralytics.com/yolov5/tutorials/train_custom_data
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}Train a YOLOv5 model on a custom dataset. Models and datasets download automatically from the latest YOLOv5 release.
+
+Usage - Single-GPU training:
+    $ python train.py --data coco128.yaml --weights yolov5s.pt --img 640  # from pretrained (recommended)
+    $ python train.py --data coco128.yaml --weights '' --cfg yolov5s.yaml --img 640  # from scratch
+
+Usage - Multi-GPU DDP training:
+    $ python -m torch.distributed.run --nproc_per_node 4 --master_port 1 train.py --data coco128.yaml --weights yolov5s.pt --img 640 --device 0,1,2,3
+
+Models:     https://github.com/ultralytics/yolov5/tree/master/models
+Datasets:   https://github.com/ultralytics/yolov5/tree/master/data
+Tutorial:   https://docs.ultralytics.com/yolov5/tutorials/train_custom_data
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacetrain_a3b5b2b18a1e55050ca56f90e6e322370}\label{namespacetrain_a3b5b2b18a1e55050ca56f90e6e322370} 
+\index{train@{train}!generate\_individual@{generate\_individual}}
+\index{generate\_individual@{generate\_individual}!train@{train}}
+\doxysubsubsection{\texorpdfstring{generate\_individual()}{generate\_individual()}}
+{\footnotesize\ttfamily train.\+generate\+\_\+individual (\begin{DoxyParamCaption}\item[{}]{input\+\_\+ranges,  }\item[{}]{individual\+\_\+length }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{train_8py_source_l00817}{817}} of file \mbox{\hyperlink{train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_aa55a3dab9fbcc2dcafe0fddce9cb144a}\label{namespacetrain_aa55a3dab9fbcc2dcafe0fddce9cb144a} 
+\index{train@{train}!main@{main}}
+\index{main@{main}!train@{train}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily train.\+main (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00335}{335}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_acd078656d0187c4782aa687a0c407edd}\label{namespacetrain_acd078656d0187c4782aa687a0c407edd} 
+\index{train@{train}!main@{main}}
+\index{main@{main}!train@{train}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily train.\+main (\begin{DoxyParamCaption}\item[{}]{opt,  }\item[{}]{callbacks = {\ttfamily \mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}()} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2train_8py_source_l00578}{578}} of file \mbox{\hyperlink{segment_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}\label{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490} 
+\index{train@{train}!parse\_opt@{parse\_opt}}
+\index{parse\_opt@{parse\_opt}!train@{train}}
+\doxysubsubsection{\texorpdfstring{parse\_opt()}{parse\_opt()}}
+{\footnotesize\ttfamily train.\+parse\+\_\+opt (\begin{DoxyParamCaption}\item[{}]{known = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00308}{308}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_a27ed4e0214d7d7f01146614c1c063542}\label{namespacetrain_a27ed4e0214d7d7f01146614c1c063542} 
+\index{train@{train}!run@{run}}
+\index{run@{run}!train@{train}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily train.\+run (\begin{DoxyParamCaption}\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00359}{359}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_a165c8db7d0d098f2da9f04f83eb4a443}\label{namespacetrain_a165c8db7d0d098f2da9f04f83eb4a443} 
+\index{train@{train}!train@{train}}
+\index{train@{train}!train@{train}}
+\doxysubsubsection{\texorpdfstring{train()}{train()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily train.\+train (\begin{DoxyParamCaption}\item[{}]{hyp,  }\item[{}]{opt,  }\item[{}]{device,  }\item[{}]{callbacks }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2train_8py_source_l00098}{98}} of file \mbox{\hyperlink{segment_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_aff3e936230788ec1ff45538929277533}\label{namespacetrain_aff3e936230788ec1ff45538929277533} 
+\index{train@{train}!train@{train}}
+\index{train@{train}!train@{train}}
+\doxysubsubsection{\texorpdfstring{train()}{train()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily train.\+train (\begin{DoxyParamCaption}\item[{}]{opt,  }\item[{}]{device }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00078}{78}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacetrain_a64cf27375407e6f7fedc86c8a87dc636}\label{namespacetrain_a64cf27375407e6f7fedc86c8a87dc636} 
+\index{train@{train}!comet\_ml@{comet\_ml}}
+\index{comet\_ml@{comet\_ml}!train@{train}}
+\doxysubsubsection{\texorpdfstring{comet\_ml}{comet\_ml}}
+{\footnotesize\ttfamily train.\+comet\+\_\+ml = None}
+
+
+
+Definition at line \mbox{\hyperlink{train_8py_source_l00031}{31}} of file \mbox{\hyperlink{train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_add74d372d0a1ebe4092c91d501f92034}\label{namespacetrain_add74d372d0a1ebe4092c91d501f92034} 
+\index{train@{train}!FILE@{FILE}}
+\index{FILE@{FILE}!train@{train}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily train.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00033}{33}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_ae603c070a3f7f6ce8fea4b0e4148135b}\label{namespacetrain_ae603c070a3f7f6ce8fea4b0e4148135b} 
+\index{train@{train}!GIT\_INFO@{GIT\_INFO}}
+\index{GIT\_INFO@{GIT\_INFO}!train@{train}}
+\doxysubsubsection{\texorpdfstring{GIT\_INFO}{GIT\_INFO}}
+{\footnotesize\ttfamily train.\+GIT\+\_\+\+INFO = check\+\_\+git\+\_\+info()}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00075}{75}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_abc52041aeca5611a7d219e612c36a7b2}\label{namespacetrain_abc52041aeca5611a7d219e612c36a7b2} 
+\index{train@{train}!LOCAL\_RANK@{LOCAL\_RANK}}
+\index{LOCAL\_RANK@{LOCAL\_RANK}!train@{train}}
+\doxysubsubsection{\texorpdfstring{LOCAL\_RANK}{LOCAL\_RANK}}
+{\footnotesize\ttfamily train.\+LOCAL\+\_\+\+RANK = int(os.\+getenv("{}LOCAL\+\_\+\+RANK"{}, -\/1))}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00072}{72}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6}\label{namespacetrain_a8ce47f3ce85e34ed945573b80e08aaf6} 
+\index{train@{train}!opt@{opt}}
+\index{opt@{opt}!train@{train}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily train.\+opt = \mbox{\hyperlink{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}{parse\+\_\+opt}}()}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00369}{369}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_a6dd13c1a6cf9587741f3de1e8339b7c1}\label{namespacetrain_a6dd13c1a6cf9587741f3de1e8339b7c1} 
+\index{train@{train}!RANK@{RANK}}
+\index{RANK@{RANK}!train@{train}}
+\doxysubsubsection{\texorpdfstring{RANK}{RANK}}
+{\footnotesize\ttfamily train.\+RANK = int(os.\+getenv("{}RANK"{}, -\/1))}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00073}{73}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_aa1aebe5c6044ab0d9f4eb2f387439700}\label{namespacetrain_aa1aebe5c6044ab0d9f4eb2f387439700} 
+\index{train@{train}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!train@{train}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily train.\+ROOT = FILE.\+parents\mbox{[}1\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00034}{34}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+
+\Hypertarget{namespacetrain_aae43f9902f6ea4d5d5603f84d2e8212c}\label{namespacetrain_aae43f9902f6ea4d5d5603f84d2e8212c} 
+\index{train@{train}!WORLD\_SIZE@{WORLD\_SIZE}}
+\index{WORLD\_SIZE@{WORLD\_SIZE}!train@{train}}
+\doxysubsubsection{\texorpdfstring{WORLD\_SIZE}{WORLD\_SIZE}}
+{\footnotesize\ttfamily train.\+WORLD\+\_\+\+SIZE = int(os.\+getenv("{}WORLD\+\_\+\+SIZE"{}, 1))}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2train_8py_source_l00074}{74}} of file \mbox{\hyperlink{classify_2train_8py_source}{train.\+py}}.
+

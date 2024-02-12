@@ -1,0 +1,116 @@
+\doxysection{experimental.\+py}
+\hypertarget{experimental_8py_source}{}\label{experimental_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/models/experimental.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/models/experimental.py}}
+\mbox{\hyperlink{experimental_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00001}\mbox{\hyperlink{namespacemodels_1_1experimental}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Experimental\ modules."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00003}00003\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00005}00005\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00006}00006\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00007}00007\ \textcolor{keyword}{import}\ \mbox{\hyperlink{namespacetorch_1_1nn}{torch.nn}}\ \textcolor{keyword}{as}\ nn}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00009}00009\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1downloads}{utils.downloads}}\ \textcolor{keyword}{import}\ attempt\_download}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00012}\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum}{00012}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum}{Sum}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00013}00013\ \ \ \ \ \textcolor{comment}{\#\ Weighted\ sum\ of\ 2\ or\ more\ layers\ https://arxiv.org/abs/1911.09070}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00014}\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_af4ec1641210ce82c1f491a8b43a93985}{00014}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_af4ec1641210ce82c1f491a8b43a93985}{\_\_init\_\_}}(self,\ n,\ weight=False):\ \ \textcolor{comment}{\#\ n:\ number\ of\ inputs}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00015}00015\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_af4ec1641210ce82c1f491a8b43a93985}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00016}\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a7c0bcc28ef59234cbb061c4474711982}{00016}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a7c0bcc28ef59234cbb061c4474711982}{weight}}\ =\ weight\ \ \textcolor{comment}{\#\ apply\ weights\ boolean}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00017}\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a73c57823845aa9e656f65c0eb4b98aae}{00017}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a73c57823845aa9e656f65c0eb4b98aae}{iter}}\ =\ range(n\ -\/\ 1)\ \ \textcolor{comment}{\#\ iter\ object}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ weight:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00019}\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a25abcd9f000fb18d31a8f2cd56150356}{00019}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a25abcd9f000fb18d31a8f2cd56150356}{w}}\ =\ nn.Parameter(-\/torch.arange(1.0,\ n)\ /\ 2,\ requires\_grad=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ layer\ weights}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00021}\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a1f4b33d977a5c00561962bbe0f4023ce}{00021}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a1f4b33d977a5c00561962bbe0f4023ce}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00022}00022\ \ \ \ \ \ \ \ \ y\ =\ x[0]\ \ \textcolor{comment}{\#\ no\ weight}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a7c0bcc28ef59234cbb061c4474711982}{weight}}:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ w\ =\ torch.sigmoid(self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a25abcd9f000fb18d31a8f2cd56150356}{w}})\ *\ 2}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a73c57823845aa9e656f65c0eb4b98aae}{iter}}:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ y\ +\ x[i\ +\ 1]\ *\ w[i]}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_sum_a73c57823845aa9e656f65c0eb4b98aae}{iter}}:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ y\ +\ x[i\ +\ 1]}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ y}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00033}\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d}{MixConv2d}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00034}00034\ \ \ \ \ \textcolor{comment}{\#\ Mixed\ Depth-\/wise\ Conv\ https://arxiv.org/abs/1907.09595}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00035}\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a161b64fd480f477f92d536bcd5920601}{00035}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a161b64fd480f477f92d536bcd5920601}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=(1,\ 3),\ s=1,\ equal\_ch=\textcolor{keyword}{True}):\ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ kernel,\ stride,\ ch\_strategy}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a161b64fd480f477f92d536bcd5920601}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ n\ =\ len(k)\ \ \textcolor{comment}{\#\ number\ of\ convolutions}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ equal\_ch:\ \ \textcolor{comment}{\#\ equal\ c\_\ per\ group}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ i\ =\ torch.linspace(0,\ n\ -\/\ 1e-\/6,\ c2).floor()\ \ \textcolor{comment}{\#\ c2\ indices}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ c\_\ =\ [(i\ ==\ g).sum()\ \textcolor{keywordflow}{for}\ g\ \textcolor{keywordflow}{in}\ range(n)]\ \ \textcolor{comment}{\#\ intermediate\ channels}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ equal\ weight.numel()\ per\ group}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ b\ =\ [c2]\ +\ [0]\ *\ n}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ a\ =\ np.eye(n\ +\ 1,\ n,\ k=-\/1)}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ a\ -\/=\ np.roll(a,\ 1,\ axis=1)}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ a\ *=\ np.array(k)\ **\ 2}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ a[0]\ =\ 1}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ c\_\ =\ np.linalg.lstsq(a,\ b,\ rcond=\textcolor{keywordtype}{None})[0].round()\ \ \textcolor{comment}{\#\ solve\ for\ equal\ weight\ indices,\ ax\ =\ b}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00049}\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a8e34b49c9ee1b8b2e3962342f3db1b3a}{00049}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a8e34b49c9ee1b8b2e3962342f3db1b3a}{m}}\ =\ nn.ModuleList(}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ [nn.Conv2d(c1,\ int(c\_),\ k,\ s,\ k\ //\ 2,\ groups=math.gcd(c1,\ int(c\_)),\ bias=\textcolor{keyword}{False})\ \textcolor{keywordflow}{for}\ k,\ c\_\ \textcolor{keywordflow}{in}\ zip(k,\ c\_)]}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00052}\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a775e4c51a7ee7ea5c575799a8a4b3ab6}{00052}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a775e4c51a7ee7ea5c575799a8a4b3ab6}{bn}}\ =\ nn.BatchNorm2d(c2)}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00053}\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a0fc862f7d834961800f9584662cba3ba}{00053}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a0fc862f7d834961800f9584662cba3ba}{act}}\ =\ nn.SiLU()}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00055}\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_aae2a1e5c914adf9741ba8f9230781b5b}{00055}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_aae2a1e5c914adf9741ba8f9230781b5b}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a0fc862f7d834961800f9584662cba3ba}{act}}(self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a775e4c51a7ee7ea5c575799a8a4b3ab6}{bn}}(torch.cat([\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a8e34b49c9ee1b8b2e3962342f3db1b3a}{m}}(x)\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classmodels_1_1experimental_1_1_mix_conv2d_a8e34b49c9ee1b8b2e3962342f3db1b3a}{m}}],\ 1)))}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00059}\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble}{00059}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble}{Ensemble}}(nn.ModuleList):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00060}00060\ \ \ \ \ \textcolor{comment}{\#\ Ensemble\ of\ models}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00061}\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble_a7e03fdf9de349a0b488e4c5cda497990}{00061}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble_a7e03fdf9de349a0b488e4c5cda497990}{\_\_init\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble_a7e03fdf9de349a0b488e4c5cda497990}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00064}\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble_aae1464c47019e9f79823efc6aeefa9f3}{00064}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble_aae1464c47019e9f79823efc6aeefa9f3}{forward}}(self,\ x,\ augment=False,\ profile=False,\ visualize=False):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ y\ =\ [module(x,\ augment,\ profile,\ visualize)[0]\ \textcolor{keywordflow}{for}\ module\ \textcolor{keywordflow}{in}\ self]}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ y\ =\ torch.stack(y).max(0)[0]\ \ \#\ max\ ensemble}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ y\ =\ torch.stack(y).mean(0)\ \ \#\ mean\ ensemble}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ y\ =\ torch.cat(y,\ 1)\ \ \textcolor{comment}{\#\ nms\ ensemble}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ y,\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ inference,\ train\ output}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00072}\mbox{\hyperlink{namespacemodels_1_1experimental_a4c6a4a9558407e98a0140f50ff612bd4}{00072}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1experimental_a4c6a4a9558407e98a0140f50ff612bd4}{attempt\_load}}(weights,\ device=None,\ inplace=True,\ fuse=True):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00073}00073\ \ \ \ \ \textcolor{comment}{\#\ Loads\ an\ ensemble\ of\ models\ weights=[a,b,c]\ or\ a\ single\ model\ weights=[a]\ or\ weights=a}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00074}00074\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1yolo}{models.yolo}}\ \textcolor{keyword}{import}\ Detect,\ Model}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00076}00076\ \ \ \ \ model\ =\ \mbox{\hyperlink{classmodels_1_1experimental_1_1_ensemble}{Ensemble}}()}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{for}\ w\ \textcolor{keywordflow}{in}\ weights\ \textcolor{keywordflow}{if}\ isinstance(weights,\ list)\ \textcolor{keywordflow}{else}\ [weights]:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ ckpt\ =\ torch.load(attempt\_download(w),\ map\_location=\textcolor{stringliteral}{"{}cpu"{}})\ \ \textcolor{comment}{\#\ load}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ ckpt\ =\ (ckpt.get(\textcolor{stringliteral}{"{}ema"{}})\ \textcolor{keywordflow}{or}\ ckpt[\textcolor{stringliteral}{"{}model"{}}]).to(device).float()\ \ \textcolor{comment}{\#\ FP32\ model}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Model\ compatibility\ updates}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ hasattr(ckpt,\ \textcolor{stringliteral}{"{}stride"{}}):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ ckpt.stride\ =\ torch.tensor([32.0])}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ hasattr(ckpt,\ \textcolor{stringliteral}{"{}names"{}})\ \textcolor{keywordflow}{and}\ isinstance(ckpt.names,\ (list,\ tuple)):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ ckpt.names\ =\ dict(enumerate(ckpt.names))\ \ \textcolor{comment}{\#\ convert\ to\ dict}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ model.append(ckpt.fuse().eval()\ \textcolor{keywordflow}{if}\ fuse\ \textcolor{keywordflow}{and}\ hasattr(ckpt,\ \textcolor{stringliteral}{"{}fuse"{}})\ \textcolor{keywordflow}{else}\ ckpt.eval())\ \ \textcolor{comment}{\#\ model\ in\ eval\ mode}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00089}00089\ \ \ \ \ \textcolor{comment}{\#\ Module\ updates}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ model.modules():}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ t\ =\ type(m)}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ t\ \textcolor{keywordflow}{in}\ (nn.Hardswish,\ nn.LeakyReLU,\ nn.ReLU,\ nn.ReLU6,\ nn.SiLU,\ Detect,\ Model):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ m.inplace\ =\ inplace}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ t\ \textcolor{keywordflow}{is}\ Detect\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ isinstance(m.anchor\_grid,\ list):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ delattr(m,\ \textcolor{stringliteral}{"{}anchor\_grid"{}})}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setattr(m,\ \textcolor{stringliteral}{"{}anchor\_grid"{}},\ [torch.zeros(1)]\ *\ m.nl)}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ t\ \textcolor{keywordflow}{is}\ nn.Upsample\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ hasattr(m,\ \textcolor{stringliteral}{"{}recompute\_scale\_factor"{}}):}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ m.recompute\_scale\_factor\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ torch\ 1.11.0\ compatibility}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00100}00100\ \ \ \ \ \textcolor{comment}{\#\ Return\ model}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00101}00101\ \ \ \ \ \textcolor{keywordflow}{if}\ len(model)\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ model[-\/1]}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00104}00104\ \ \ \ \ \textcolor{comment}{\#\ Return\ detection\ ensemble}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00105}00105\ \ \ \ \ print(f\textcolor{stringliteral}{"{}Ensemble\ created\ with\ \{weights\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ \textcolor{stringliteral}{"{}names"{}},\ \textcolor{stringliteral}{"{}nc"{}},\ \textcolor{stringliteral}{"{}yaml"{}}:}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ setattr(model,\ k,\ getattr(model[0],\ k))}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00108}00108\ \ \ \ \ model.stride\ =\ model[torch.argmax(torch.tensor([m.stride.max()\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ model])).int()].stride\ \ \textcolor{comment}{\#\ max\ stride}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00109}00109\ \ \ \ \ \textcolor{keyword}{assert}\ all(model[0].nc\ ==\ m.nc\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ model),\ f\textcolor{stringliteral}{"{}Models\ have\ different\ class\ counts:\ \{[m.nc\ for\ m\ in\ model]\}"{}}}
+\DoxyCodeLine{\Hypertarget{experimental_8py_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{return}\ model}
+
+\end{DoxyCode}

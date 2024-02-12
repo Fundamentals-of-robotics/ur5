@@ -1,0 +1,9 @@
+bool start
+
+---
+int32 n_blocks
+geometry_msgs/Point[] block_position
+geometry_msgs/Vector3[] block_orientation
+
+string[] class_of_block
+

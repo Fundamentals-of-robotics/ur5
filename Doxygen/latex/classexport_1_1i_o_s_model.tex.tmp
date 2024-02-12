@@ -1,0 +1,97 @@
+\doxysection{export.\+i\+OSModel Class Reference}
+\hypertarget{classexport_1_1i_o_s_model}{}\label{classexport_1_1i_o_s_model}\index{export.iOSModel@{export.iOSModel}}
+
+
+Inheritance diagram for export.\+i\+OSModel\+:
+% FIG 0
+
+
+Collaboration diagram for export.\+i\+OSModel\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classexport_1_1i_o_s_model_a799eb2f71bb398ebb7141390e1c8270d}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675}{model}}, im)
+\item 
+\mbox{\hyperlink{classexport_1_1i_o_s_model_a7f57fa8c08eba0afd487f173bbe23bb1}{forward}} (self, x)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675}{model}}
+\item 
+\mbox{\hyperlink{classexport_1_1i_o_s_model_a184866e5a8bd01739fdf697264226772}{nc}}
+\item 
+\mbox{\hyperlink{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d}{normalize}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00093}{93}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classexport_1_1i_o_s_model_a799eb2f71bb398ebb7141390e1c8270d}\label{classexport_1_1i_o_s_model_a799eb2f71bb398ebb7141390e1c8270d} 
+\index{export.iOSModel@{export.iOSModel}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!export.iOSModel@{export.iOSModel}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily export.\+i\+OSModel.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{im }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00094}{94}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classexport_1_1i_o_s_model_a7f57fa8c08eba0afd487f173bbe23bb1}\label{classexport_1_1i_o_s_model_a7f57fa8c08eba0afd487f173bbe23bb1} 
+\index{export.iOSModel@{export.iOSModel}!forward@{forward}}
+\index{forward@{forward}!export.iOSModel@{export.iOSModel}}
+\doxysubsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily export.\+i\+OSModel.\+forward (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{x }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00106}{106}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675}\label{classexport_1_1i_o_s_model_a1128a5d38c7990aa4337e03d59437675} 
+\index{export.iOSModel@{export.iOSModel}!model@{model}}
+\index{model@{model}!export.iOSModel@{export.iOSModel}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily export.\+i\+OSModel.\+model}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00097}{97}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{classexport_1_1i_o_s_model_a184866e5a8bd01739fdf697264226772}\label{classexport_1_1i_o_s_model_a184866e5a8bd01739fdf697264226772} 
+\index{export.iOSModel@{export.iOSModel}!nc@{nc}}
+\index{nc@{nc}!export.iOSModel@{export.iOSModel}}
+\doxysubsubsection{\texorpdfstring{nc}{nc}}
+{\footnotesize\ttfamily export.\+i\+OSModel.\+nc}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00098}{98}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+\Hypertarget{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d}\label{classexport_1_1i_o_s_model_a89812062c3289dbfc243a67623cde01d} 
+\index{export.iOSModel@{export.iOSModel}!normalize@{normalize}}
+\index{normalize@{normalize}!export.iOSModel@{export.iOSModel}}
+\doxysubsubsection{\texorpdfstring{normalize}{normalize}}
+{\footnotesize\ttfamily export.\+i\+OSModel.\+normalize}
+
+
+
+Definition at line \mbox{\hyperlink{export_8py_source_l00100}{100}} of file \mbox{\hyperlink{export_8py_source}{export.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/\mbox{\hyperlink{export_8py}{export.\+py}}\end{DoxyCompactItemize}

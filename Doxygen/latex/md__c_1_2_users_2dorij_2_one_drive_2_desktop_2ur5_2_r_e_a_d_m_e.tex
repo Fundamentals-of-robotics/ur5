@@ -1,0 +1,176 @@
+\chapter{FoR Project}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e}{}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e}\index{FoR Project@{FoR Project}}
+\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md0}%
+ A number of objects are stored without any specific order on a stand located within the workspace of a robotic manipulator.
+
+The manipulator is an anthropomorphic arm, with a spherical wrist and a two-\/fingered gripper as end-\/effector.
+
+The objects can belong to different classes but have a known geometry.
+
+The objective of the project is to use the manipulator to pick the objects in sequence and to position them on a different stand according to a specified order.
+
+A calibrated 3D sensor is used to locate the different objects and to detect their position in the initial stand.\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{List of contents}{List of contents}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md1}
+
+\begin{DoxyItemize}
+\item Installation and Configuration
+\item Start the simulation
+\item Contributions
+\end{DoxyItemize}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md2}{}\doxysection{\texorpdfstring{Installation and Configuration}{Installation and Configuration}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md2}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{\texorpdfstring{Install the environment}{Install the environment}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md3}
+There are few possible ways to install the environment
+
+\href{https://github.com/mfocchi/lab-docker}{\texttt{ Docker}}
+
+\href{https://github.com/mfocchi/locosim}{\texttt{ Natively on Linux}}
+
+\href{http://www.dropbox.com/sh/5trh0s5y1xzdjds/AACchznJb7606MbQKb6-fUiUa}{\texttt{ Virtual Machine image}}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md4}{}\doxysubsection{\texorpdfstring{Repository}{Repository}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md4}
+Install the Eigen library\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt\ install\ libeigen3-\/dev}
+
+\end{DoxyCode}
+
+
+Clone the repository inside the {\bfseries{row\+\_\+ws/src}} folder\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ ros\_ws/src}
+\DoxyCodeLine{git\ clone\ https://github.com/Fundamentals-\/of-\/robotics/ur5.git}
+
+\end{DoxyCode}
+
+
+Inside {\bfseries{ros\+\_\+ws}} folder type\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ ..}
+\DoxyCodeLine{catkin\_make\ install}
+
+\end{DoxyCode}
+
+
+And finally, in the {\bfseries{ros\+\_\+ws}} folder\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source\ devel/setup.bash}
+
+\end{DoxyCode}
+ This is to make sure that the env variables are updated. This command is needed to be done every time you open a {\bfseries{new terminal}}.\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{\texorpdfstring{World files}{World files}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md5}
+Copy the content of the {\bfseries{worlds}} folder inside {\bfseries{ros\+\_\+ws/src/locosim/ros\+\_\+impedance\+\_\+controller/worlds}} (you should have already other world files in the same folder such as tavolo.\+world, tavolo\+\_\+obstacles.\+world).
+
+After that, compile as done before with\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ ros\_ws}
+\DoxyCodeLine{catkin\_make\ install}
+\DoxyCodeLine{source\ devel/setup.bash}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{\texorpdfstring{Blocks models}{Blocks models}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md6}
+If not already imported, copy the content of the {\bfseries{blocks}} folder inside {\bfseries{ros\+\_\+ws/src/locosim/ros\+\_\+impedance\+\_\+controller/worlds/models}} (you should have already other models in the same folder such as tavolo, brick, wall).\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{Model path}{Model path}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md7}
+It can be that the folder where you copied the files is not inside the gazebo model path. To make shure that you can use the new models, even if they are not in the gazebo path, you can edit {\bfseries{GAZEBO\+\_\+\+MODEL\+\_\+\+PATH}} through the \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\sim$}{\string~}/.bashrc\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{gedit\ \string~/.bashrc}
+
+\end{DoxyCode}
+
+
+then you can add your model path with, you can add as much as paths as you want, you need to split them using \textquotesingle{}\+:\textquotesingle{} \+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ GAZEBO\_MODEL\_PATH=\$GAZEBO\_MODEL\_PATH:<path\ to\ your\ model>}
+
+\end{DoxyCode}
+
+
+to check if the new path has been added\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{echo\ \$GAZEBO\_MODEL\_PATH}
+
+\end{DoxyCode}
+ this will print all the path associated with the gazebo model path.
+
+After that, compile as done before with\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ ros\_ws}
+\DoxyCodeLine{catkin\_make\ install}
+\DoxyCodeLine{source\ devel/setup.bash}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md8}{}\doxysection{\texorpdfstring{Vision setup}{Vision setup}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md8}
+Now you need to install the components to load and run the YOLOv5 model 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ \string~ros\_ws/src/ur5/vision}
+\DoxyCodeLine{git\ clone\ https://github.com/ultralytics/yolov5.git}
+\DoxyCodeLine{cd\ yolov5}
+\DoxyCodeLine{pip3\ install\ -\/r\ requirements.txt}
+\DoxyCodeLine{pip\ install\ torchvision}
+
+\end{DoxyCode}
+ After that, compile as done before with\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ ros\_ws}
+\DoxyCodeLine{catkin\_make\ install}
+\DoxyCodeLine{source\ devel/setup.bash}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{Configuration}{Configuration}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md9}
+In order to be able to grab all the blocks you should change the maximum gripper aperture value inside\+: {\bfseries{ros\+\_\+ws/src/locosim/robot\+\_\+descriptions/gripper\+\_\+description/gripper\+\_\+description/urdf/soft\+\_\+finger.\+xacro}} we change the {\bfseries{line 25}} of this file to\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<limit\ effort="{}50"{}\ velocity="{}10.0"{}\ lower="{}-\/0.5"{}\ upper="{}0.90"{}\ />}
+
+\end{DoxyCode}
+
+
+If not already done, you should set {\bfseries{gripper\+\_\+sim}}, inside {\bfseries{ros\+\_\+ws/src/locosim/robot\+\_\+control/base\+\_\+controllers/params.\+py}} at {\bfseries{line 45}}, to {\bfseries{True}}. This will cause the gripper to be considered as a movable body rather than a rigid one.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{stringliteral}{'gripper\_sim'}:\ \textcolor{keyword}{True},\ \textcolor{comment}{\#\ False:\ the\ gripper\ is\ treated\ as\ a\ Rigid\ Body}}
+
+\end{DoxyCode}
+
+
+To select a specfic {\bfseries{world file}}, so that different blocks will spawn on the table, rewrite the {\bfseries{line 71}} of the file {\bfseries{ros\+\_\+ws/src/locosim/robot\+\_\+control/base\+\_\+controllers/ur5\+\_\+generic.\+py}} as
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{self.world\_name\ =\ <name\_of\_the\_world\_file>.world}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{\#for\ example}}
+\DoxyCodeLine{self.world\_name\ =\ tavolo\_blocks\_1.world}
+
+\end{DoxyCode}
+ At the end, go to the directory ros\+\_\+ws and use the following commands\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{catkin\_make\ install}
+\DoxyCodeLine{source\ devel/setup.bash}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md10}{}\doxysection{\texorpdfstring{Start the simulation}{Start the simulation}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md10}
+To start the simulation, navigate to {\bfseries{ros\+\_\+ws/src/locosim/robot\+\_\+control/base\+\_\+controllers}} folder. Once done type\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python3\ ur5\_generic.py}
+
+\end{DoxyCode}
+ This will start a Gazebo and a r\+Viz window.
+
+After the homing procedure has finished (you can see it printed on the terminal), navigate using a new terminal, to {\bfseries{ros\+\_\+ws}} folder and type\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{roslaunch\ ur5\ ur5.launch}
+
+\end{DoxyCode}
+ This command will launch automatically all the nodes (vision, task and motion).
+
+In the terminal, a series of debugging information will be printed to keep track of the actual state of the manipulator.\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md11}{}\doxysection{\texorpdfstring{Contributions}{Contributions}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2_r_e_a_d_m_e_autotoc_md11}
+Pier Guido Seno \mbox{[}227485\mbox{]} \href{mailto:pierguido.seno@studenti.unitn.it}{\texttt{ pierguido.\+seno@studenti.\+unitn.\+it}}
+
+Pietro Giannini \mbox{[}202099\mbox{]} \href{mailto:pietro.giannini@studenti.unitn.it}{\texttt{ pietro.\+giannini@studenti.\+unitn.\+it}}
+
+Stefano Camposilvan \mbox{[}226697\mbox{]} \href{mailto:stefano.camposilvan@studenti.unitn.it}{\texttt{ stefano.\+camposilvan@studenti.\+unitn.\+it}}
+
+Dorijan Di Zepp \mbox{[}226865\mbox{]} -\/ \href{mailto:dorijan.dizepp@studenti.unitn.it}{\texttt{ dorijan.\+dizepp@studenti.\+unitn.\+it}} 

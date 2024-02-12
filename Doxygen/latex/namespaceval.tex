@@ -1,0 +1,248 @@
+\doxysection{val Namespace Reference}
+\hypertarget{namespaceval}{}\label{namespaceval}\index{val@{val}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceval_a68d1b6a8c7f3f4c30afe14a7f2492a8e}{run}} (data=\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}/"{}../datasets/mnist"{}, weights=\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}/"{}yolov5s-\/cls.\+pt"{}, batch\+\_\+size=128, imgsz=224, device="{}"{}, workers=8, verbose=False, project=\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}/"{}runs/val-\/cls"{}, name="{}exp"{}, exist\+\_\+ok=False, half=False, dnn=False, model=None, dataloader=None, criterion=None, pbar=None)
+\item 
+\mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\+\_\+opt}} ()
+\item 
+\mbox{\hyperlink{namespaceval_aa85e72f2be85829c1d458402a4ad3196}{main}} (\mbox{\hyperlink{namespaceval_a1127a298ff36841c4ed64170b810536b}{opt}})
+\item 
+\mbox{\hyperlink{namespaceval_a6caa1705f339843632037dab90799a9f}{save\+\_\+one\+\_\+txt}} (predn, save\+\_\+conf, shape, file)
+\item 
+\mbox{\hyperlink{namespaceval_aa80c545ea2b3b16066f43c12b40ea2c8}{save\+\_\+one\+\_\+json}} (predn, jdict, path, class\+\_\+map, pred\+\_\+masks)
+\item 
+\mbox{\hyperlink{namespaceval_a9047efe14a41ff80f40c5d7243797305}{process\+\_\+batch}} (detections, labels, iouv, pred\+\_\+masks=None, gt\+\_\+masks=None, overlap=False, masks=False)
+\item 
+\mbox{\hyperlink{namespaceval_a7bfb6be114374682907ab8c05af56395}{run}} (data, weights=None, batch\+\_\+size=32, imgsz=640, conf\+\_\+thres=0.\+001, iou\+\_\+thres=0.\+6, max\+\_\+det=300, task="{}val"{}, device="{}"{}, workers=8, single\+\_\+cls=False, augment=False, verbose=False, save\+\_\+txt=False, save\+\_\+hybrid=False, save\+\_\+conf=False, save\+\_\+json=False, project=\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}/"{}runs/val-\/seg"{}, name="{}exp"{}, exist\+\_\+ok=False, half=True, dnn=False, model=None, dataloader=None, save\+\_\+dir=Path("{}"{}), plots=True, overlap=False, mask\+\_\+downsample\+\_\+ratio=1, compute\+\_\+loss=None, callbacks=\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}())
+\item 
+\mbox{\hyperlink{namespaceval_afd6b3267839c853c0d5b19c4b1f47b5b}{save\+\_\+one\+\_\+json}} (predn, jdict, path, class\+\_\+map)
+\item 
+\mbox{\hyperlink{namespaceval_aa671e970f9e83c81f90d3d33f09eab14}{process\+\_\+batch}} (detections, labels, iouv)
+\item 
+\mbox{\hyperlink{namespaceval_a67bf42f206b200c48937a5c024016850}{run}} (data, weights=None, batch\+\_\+size=32, imgsz=640, conf\+\_\+thres=0.\+001, iou\+\_\+thres=0.\+6, max\+\_\+det=300, task="{}val"{}, device="{}"{}, workers=8, single\+\_\+cls=False, augment=False, verbose=False, save\+\_\+txt=False, save\+\_\+hybrid=False, save\+\_\+conf=False, save\+\_\+json=False, project=\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}/"{}runs/val"{}, name="{}exp"{}, exist\+\_\+ok=False, half=True, dnn=False, model=None, dataloader=None, save\+\_\+dir=Path("{}"{}), plots=True, callbacks=\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}(), compute\+\_\+loss=None)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceval_a9572b46935104dab1c3fd617b1414f17}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}} = FILE.\+parents\mbox{[}1\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceval_a1127a298ff36841c4ed64170b810536b}{opt}} = \mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\+\_\+opt}}()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Validate a trained YOLOv5 classification model on a classification dataset.
+
+Usage:
+    $ bash data/scripts/get_imagenet.sh --val  # download ImageNet val split (6.3G, 50000 images)
+    $ python classify/val.py --weights yolov5m-cls.pt --data ../datasets/imagenet --img 224  # validate ImageNet
+
+Usage - formats:
+    $ python classify/val.py --weights yolov5s-cls.pt                 # PyTorch
+                                       yolov5s-cls.torchscript        # TorchScript
+                                       yolov5s-cls.onnx               # ONNX Runtime or OpenCV DNN with --dnn
+                                       yolov5s-cls_openvino_model     # OpenVINO
+                                       yolov5s-cls.engine             # TensorRT
+                                       yolov5s-cls.mlmodel            # CoreML (macOS-only)
+                                       yolov5s-cls_saved_model        # TensorFlow SavedModel
+                                       yolov5s-cls.pb                 # TensorFlow GraphDef
+                                       yolov5s-cls.tflite             # TensorFlow Lite
+                                       yolov5s-cls_edgetpu.tflite     # TensorFlow Edge TPU
+                                       yolov5s-cls_paddle_model       # PaddlePaddle
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}Validate a trained YOLOv5 segment model on a segment dataset.
+
+Usage:
+    $ bash data/scripts/get_coco.sh --val --segments  # download COCO-segments val split (1G, 5000 images)
+    $ python segment/val.py --weights yolov5s-seg.pt --data coco.yaml --img 640  # validate COCO-segments
+
+Usage - formats:
+    $ python segment/val.py --weights yolov5s-seg.pt                 # PyTorch
+                                      yolov5s-seg.torchscript        # TorchScript
+                                      yolov5s-seg.onnx               # ONNX Runtime or OpenCV DNN with --dnn
+                                      yolov5s-seg_openvino_label     # OpenVINO
+                                      yolov5s-seg.engine             # TensorRT
+                                      yolov5s-seg.mlmodel            # CoreML (macOS-only)
+                                      yolov5s-seg_saved_model        # TensorFlow SavedModel
+                                      yolov5s-seg.pb                 # TensorFlow GraphDef
+                                      yolov5s-seg.tflite             # TensorFlow Lite
+                                      yolov5s-seg_edgetpu.tflite     # TensorFlow Edge TPU
+                                      yolov5s-seg_paddle_model       # PaddlePaddle
+\end{DoxyVerb}
+
+
+\begin{DoxyVerb}Validate a trained YOLOv5 detection model on a detection dataset.
+
+Usage:
+    $ python val.py --weights yolov5s.pt --data coco128.yaml --img 640
+
+Usage - formats:
+    $ python val.py --weights yolov5s.pt                 # PyTorch
+                              yolov5s.torchscript        # TorchScript
+                              yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
+                              yolov5s_openvino_model     # OpenVINO
+                              yolov5s.engine             # TensorRT
+                              yolov5s.mlmodel            # CoreML (macOS-only)
+                              yolov5s_saved_model        # TensorFlow SavedModel
+                              yolov5s.pb                 # TensorFlow GraphDef
+                              yolov5s.tflite             # TensorFlow Lite
+                              yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
+                              yolov5s_paddle_model       # PaddlePaddle
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceval_aa85e72f2be85829c1d458402a4ad3196}\label{namespaceval_aa85e72f2be85829c1d458402a4ad3196} 
+\index{val@{val}!main@{main}}
+\index{main@{main}!val@{val}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily val.\+main (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2val_8py_source_l00168}{168}} of file \mbox{\hyperlink{classify_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a994b1b7fd23511832a86459479c0a01a}\label{namespaceval_a994b1b7fd23511832a86459479c0a01a} 
+\index{val@{val}!parse\_opt@{parse\_opt}}
+\index{parse\_opt@{parse\_opt}!val@{val}}
+\doxysubsubsection{\texorpdfstring{parse\_opt()}{parse\_opt()}}
+{\footnotesize\ttfamily val.\+parse\+\_\+opt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2val_8py_source_l00149}{149}} of file \mbox{\hyperlink{classify_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_aa671e970f9e83c81f90d3d33f09eab14}\label{namespaceval_aa671e970f9e83c81f90d3d33f09eab14} 
+\index{val@{val}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!val@{val}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily val.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{detections,  }\item[{}]{labels,  }\item[{}]{iouv }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return correct prediction matrix.
+
+Arguments:
+    detections (array[N, 6]), x1, y1, x2, y2, conf, class
+    labels (array[M, 5]), class, x1, y1, x2, y2
+Returns:
+    correct (array[N, 10]), for 10 IoU levels
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{val_8py_source_l00090}{90}} of file \mbox{\hyperlink{val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a9047efe14a41ff80f40c5d7243797305}\label{namespaceval_a9047efe14a41ff80f40c5d7243797305} 
+\index{val@{val}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!val@{val}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily val.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{detections,  }\item[{}]{labels,  }\item[{}]{iouv,  }\item[{}]{pred\+\_\+masks = {\ttfamily None},  }\item[{}]{gt\+\_\+masks = {\ttfamily None},  }\item[{}]{overlap = {\ttfamily False},  }\item[{}]{masks = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return correct prediction matrix
+Arguments:
+    detections (array[N, 6]), x1, y1, x2, y2, conf, class
+    labels (array[M, 5]), class, x1, y1, x2, y2
+Returns:
+    correct (array[N, 10]), for 10 IoU levels
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2val_8py_source_l00110}{110}} of file \mbox{\hyperlink{segment_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a67bf42f206b200c48937a5c024016850}\label{namespaceval_a67bf42f206b200c48937a5c024016850} 
+\index{val@{val}!run@{run}}
+\index{run@{run}!val@{val}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily val.\+run (\begin{DoxyParamCaption}\item[{}]{data,  }\item[{}]{weights = {\ttfamily None},  }\item[{}]{batch\+\_\+size = {\ttfamily 32},  }\item[{}]{imgsz = {\ttfamily 640},  }\item[{}]{conf\+\_\+thres = {\ttfamily 0.001},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.6},  }\item[{}]{max\+\_\+det = {\ttfamily 300},  }\item[{}]{task = {\ttfamily "{}val"{}},  }\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{workers = {\ttfamily 8},  }\item[{}]{single\+\_\+cls = {\ttfamily False},  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{save\+\_\+txt = {\ttfamily False},  }\item[{}]{save\+\_\+hybrid = {\ttfamily False},  }\item[{}]{save\+\_\+conf = {\ttfamily False},  }\item[{}]{save\+\_\+json = {\ttfamily False},  }\item[{}]{project = {\ttfamily \mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}~/~"{}runs/val"{}},  }\item[{}]{name = {\ttfamily "{}exp"{}},  }\item[{}]{exist\+\_\+ok = {\ttfamily False},  }\item[{}]{half = {\ttfamily True},  }\item[{}]{dnn = {\ttfamily False},  }\item[{}]{model = {\ttfamily None},  }\item[{}]{dataloader = {\ttfamily None},  }\item[{}]{save\+\_\+dir = {\ttfamily Path("{}"{})},  }\item[{}]{plots = {\ttfamily True},  }\item[{}]{callbacks = {\ttfamily \mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}()},  }\item[{}]{compute\+\_\+loss = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{val_8py_source_l00117}{117}} of file \mbox{\hyperlink{val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a7bfb6be114374682907ab8c05af56395}\label{namespaceval_a7bfb6be114374682907ab8c05af56395} 
+\index{val@{val}!run@{run}}
+\index{run@{run}!val@{val}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily val.\+run (\begin{DoxyParamCaption}\item[{}]{data,  }\item[{}]{weights = {\ttfamily None},  }\item[{}]{batch\+\_\+size = {\ttfamily 32},  }\item[{}]{imgsz = {\ttfamily 640},  }\item[{}]{conf\+\_\+thres = {\ttfamily 0.001},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.6},  }\item[{}]{max\+\_\+det = {\ttfamily 300},  }\item[{}]{task = {\ttfamily "{}val"{}},  }\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{workers = {\ttfamily 8},  }\item[{}]{single\+\_\+cls = {\ttfamily False},  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{save\+\_\+txt = {\ttfamily False},  }\item[{}]{save\+\_\+hybrid = {\ttfamily False},  }\item[{}]{save\+\_\+conf = {\ttfamily False},  }\item[{}]{save\+\_\+json = {\ttfamily False},  }\item[{}]{project = {\ttfamily \mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}~/~"{}runs/val-\/seg"{}},  }\item[{}]{name = {\ttfamily "{}exp"{}},  }\item[{}]{exist\+\_\+ok = {\ttfamily False},  }\item[{}]{half = {\ttfamily True},  }\item[{}]{dnn = {\ttfamily False},  }\item[{}]{model = {\ttfamily None},  }\item[{}]{dataloader = {\ttfamily None},  }\item[{}]{save\+\_\+dir = {\ttfamily Path("{}"{})},  }\item[{}]{plots = {\ttfamily True},  }\item[{}]{overlap = {\ttfamily False},  }\item[{}]{mask\+\_\+downsample\+\_\+ratio = {\ttfamily 1},  }\item[{}]{compute\+\_\+loss = {\ttfamily None},  }\item[{}]{callbacks = {\ttfamily \mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}()} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2val_8py_source_l00148}{148}} of file \mbox{\hyperlink{segment_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a68d1b6a8c7f3f4c30afe14a7f2492a8e}\label{namespaceval_a68d1b6a8c7f3f4c30afe14a7f2492a8e} 
+\index{val@{val}!run@{run}}
+\index{run@{run}!val@{val}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily val.\+run (\begin{DoxyParamCaption}\item[{}]{data = {\ttfamily \mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}~/~"{}../datasets/mnist"{}},  }\item[{}]{weights = {\ttfamily \mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}~/~"{}yolov5s-\/cls.pt"{}},  }\item[{}]{batch\+\_\+size = {\ttfamily 128},  }\item[{}]{imgsz = {\ttfamily 224},  }\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{workers = {\ttfamily 8},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{project = {\ttfamily \mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{ROOT}}~/~"{}runs/val-\/cls"{}},  }\item[{}]{name = {\ttfamily "{}exp"{}},  }\item[{}]{exist\+\_\+ok = {\ttfamily False},  }\item[{}]{half = {\ttfamily False},  }\item[{}]{dnn = {\ttfamily False},  }\item[{}]{model = {\ttfamily None},  }\item[{}]{dataloader = {\ttfamily None},  }\item[{}]{criterion = {\ttfamily None},  }\item[{}]{pbar = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2val_8py_source_l00053}{53}} of file \mbox{\hyperlink{classify_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_afd6b3267839c853c0d5b19c4b1f47b5b}\label{namespaceval_afd6b3267839c853c0d5b19c4b1f47b5b} 
+\index{val@{val}!save\_one\_json@{save\_one\_json}}
+\index{save\_one\_json@{save\_one\_json}!val@{val}}
+\doxysubsubsection{\texorpdfstring{save\_one\_json()}{save\_one\_json()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily val.\+save\+\_\+one\+\_\+json (\begin{DoxyParamCaption}\item[{}]{predn,  }\item[{}]{jdict,  }\item[{}]{path,  }\item[{}]{class\+\_\+map }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{val_8py_source_l00074}{74}} of file \mbox{\hyperlink{val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_aa80c545ea2b3b16066f43c12b40ea2c8}\label{namespaceval_aa80c545ea2b3b16066f43c12b40ea2c8} 
+\index{val@{val}!save\_one\_json@{save\_one\_json}}
+\index{save\_one\_json@{save\_one\_json}!val@{val}}
+\doxysubsubsection{\texorpdfstring{save\_one\_json()}{save\_one\_json()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily val.\+save\+\_\+one\+\_\+json (\begin{DoxyParamCaption}\item[{}]{predn,  }\item[{}]{jdict,  }\item[{}]{path,  }\item[{}]{class\+\_\+map,  }\item[{}]{pred\+\_\+masks }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2val_8py_source_l00083}{83}} of file \mbox{\hyperlink{segment_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a6caa1705f339843632037dab90799a9f}\label{namespaceval_a6caa1705f339843632037dab90799a9f} 
+\index{val@{val}!save\_one\_txt@{save\_one\_txt}}
+\index{save\_one\_txt@{save\_one\_txt}!val@{val}}
+\doxysubsubsection{\texorpdfstring{save\_one\_txt()}{save\_one\_txt()}}
+{\footnotesize\ttfamily val.\+save\+\_\+one\+\_\+txt (\begin{DoxyParamCaption}\item[{}]{predn,  }\item[{}]{save\+\_\+conf,  }\item[{}]{shape,  }\item[{}]{file }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2val_8py_source_l00073}{73}} of file \mbox{\hyperlink{segment_2val_8py_source}{val.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceval_a9572b46935104dab1c3fd617b1414f17}\label{namespaceval_a9572b46935104dab1c3fd617b1414f17} 
+\index{val@{val}!FILE@{FILE}}
+\index{FILE@{FILE}!val@{val}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily val.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2val_8py_source_l00031}{31}} of file \mbox{\hyperlink{classify_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a1127a298ff36841c4ed64170b810536b}\label{namespaceval_a1127a298ff36841c4ed64170b810536b} 
+\index{val@{val}!opt@{opt}}
+\index{opt@{opt}!val@{val}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily val.\+opt = \mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\+\_\+opt}}()}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2val_8py_source_l00174}{174}} of file \mbox{\hyperlink{classify_2val_8py_source}{val.\+py}}.
+
+\Hypertarget{namespaceval_a481b90651ac652c0165cbd271448a5af}\label{namespaceval_a481b90651ac652c0165cbd271448a5af} 
+\index{val@{val}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!val@{val}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily val.\+ROOT = FILE.\+parents\mbox{[}1\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{classify_2val_8py_source_l00032}{32}} of file \mbox{\hyperlink{classify_2val_8py_source}{val.\+py}}.
+

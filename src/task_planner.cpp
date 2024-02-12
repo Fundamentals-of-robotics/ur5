@@ -13,17 +13,17 @@ int main(int argc, char** argv){
 
     //set initial state and number of blocks to be moved
     state=start;
-    n_classes=5;///< set the number of blocks that are positioned on the workspace
+    // n_classes=6;///< set the number of blocks that are positioned on the workspace
 
-    iteration=1;            //used for synchronization of the service
-    actual_iteration=0;
+   
 
     ROS_INFO("Starting task planner");
 
     while(next_state!=no_more_blocks && ros::ok()){
-        gestisciStato(state,n); 
+        stateHandler(state,n); 
     }
     
+    ros::Duration(1).sleep();
     ROS_INFO("Terminating task planner");
 
     return 0;

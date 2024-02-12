@@ -94,24 +94,22 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa33c717b13ca516b9c8468b6e7870f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad153653dc080fc172d2c2ce6068d3f1e" id="r_ad153653dc080fc172d2c2ce6068d3f1e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad153653dc080fc172d2c2ce6068d3f1e">invDiff</a> ()</td></tr>
 <tr class="separator:ad153653dc080fc172d2c2ce6068d3f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5efe5a6e5f615e1c95924e9a072811d" id="r_ab5efe5a6e5f615e1c95924e9a072811d"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5efe5a6e5f615e1c95924e9a072811d">eulerAnglesToRotationMatrix</a> (const Eigen::Vector3d &amp;<a class="el" href="ur5__task__library_8h.html#a902ea9d67d166f593a8b3631fc1d4b8f">euler</a>)</td></tr>
+<tr class="memitem:ab5efe5a6e5f615e1c95924e9a072811d" id="r_ab5efe5a6e5f615e1c95924e9a072811d"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5efe5a6e5f615e1c95924e9a072811d">eulerAnglesToRotationMatrix</a> (const Eigen::Vector3d &amp;euler)</td></tr>
 <tr class="separator:ab5efe5a6e5f615e1c95924e9a072811d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58f3cfe96b6b5f6cba41668446bcbe16" id="r_a58f3cfe96b6b5f6cba41668446bcbe16"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58f3cfe96b6b5f6cba41668446bcbe16">rotationMatrixToEulerAngles</a> (const Eigen::Matrix3d &amp;rotationMatrix)</td></tr>
 <tr class="separator:a58f3cfe96b6b5f6cba41668446bcbe16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af43d4eb4919d4e723b5da2336f6f5458" id="r_af43d4eb4919d4e723b5da2336f6f5458"><td class="memItemLeft" align="right" valign="top">Eigen::Quaterniond&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af43d4eb4919d4e723b5da2336f6f5458">eulerAnglesToQuaternion</a> (const Eigen::Vector3d &amp;<a class="el" href="ur5__task__library_8h.html#a902ea9d67d166f593a8b3631fc1d4b8f">euler</a>)</td></tr>
+<tr class="memitem:af43d4eb4919d4e723b5da2336f6f5458" id="r_af43d4eb4919d4e723b5da2336f6f5458"><td class="memItemLeft" align="right" valign="top">Eigen::Quaterniond&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af43d4eb4919d4e723b5da2336f6f5458">eulerAnglesToQuaternion</a> (const Eigen::Vector3d &amp;euler)</td></tr>
 <tr class="separator:af43d4eb4919d4e723b5da2336f6f5458"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ba13246ca8c9f3ebcd8e1a7d9ca836c" id="r_a5ba13246ca8c9f3ebcd8e1a7d9ca836c"><td class="memItemLeft" align="right" valign="top">Eigen::Quaterniond&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ba13246ca8c9f3ebcd8e1a7d9ca836c">rotationMatrixToQuaternion</a> (const Eigen::Matrix3d &amp;rotationMatrix)</td></tr>
 <tr class="separator:a5ba13246ca8c9f3ebcd8e1a7d9ca836c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7531bfd8ea80634111d35ed51e54416e" id="r_a7531bfd8ea80634111d35ed51e54416e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7531bfd8ea80634111d35ed51e54416e">worldToRobotFrame</a> (Eigen::Vector3d &amp;coords, Eigen::Vector3d &amp;<a class="el" href="ur5__task__library_8h.html#a902ea9d67d166f593a8b3631fc1d4b8f">euler</a>)</td></tr>
-<tr class="separator:a7531bfd8ea80634111d35ed51e54416e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa22074a716b2eb75b0c215feb94ba856" id="r_aa22074a716b2eb75b0c215feb94ba856"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa22074a716b2eb75b0c215feb94ba856">ur5Direct</a> (Eigen::Vector3d &amp;xe, Eigen::Matrix3d &amp;Re, const Eigen::VectorXd q_des)</td></tr>
 <tr class="separator:aa22074a716b2eb75b0c215feb94ba856"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf950624c6fb514c2a444c857fdac632" id="r_acf950624c6fb514c2a444c857fdac632"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf950624c6fb514c2a444c857fdac632">ur5Jac</a> (Eigen::VectorXd v)</td></tr>
 <tr class="separator:acf950624c6fb514c2a444c857fdac632"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32083436e32012e392ddc1d9286e409a" id="r_a32083436e32012e392ddc1d9286e409a"><td class="memItemLeft" align="right" valign="top">list&lt; Eigen::VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32083436e32012e392ddc1d9286e409a">invDiffKinematicControlSimCompleteQuaternion</a> (Eigen::VectorXd TH0, Eigen::VectorXd T, Eigen::Matrix3d Kp, Eigen::Matrix3d Kphi)</td></tr>
-<tr class="separator:a32083436e32012e392ddc1d9286e409a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3f7f21de2aef187ebb68eefb6250a16" id="r_ae3f7f21de2aef187ebb68eefb6250a16"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3f7f21de2aef187ebb68eefb6250a16">invDiffKinematicControlCompleteQuaternion</a> (Eigen::VectorXd qk, Eigen::Vector3d xe, Eigen::Vector3d <a class="el" href="#a782ccc9a19761e4c733b8d92b81c7d75">xd</a>, Eigen::Vector3d vd, Eigen::Vector3d omegad, Eigen::Quaterniond qe, Eigen::Quaterniond <a class="el" href="#a7634212e1417ba684130c575d9433808">qd</a>, Eigen::Matrix3d Kp, Eigen::Matrix3d Kphi)</td></tr>
-<tr class="separator:ae3f7f21de2aef187ebb68eefb6250a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b7a182e074703a75ac273c67d4e3c8" id="r_a84b7a182e074703a75ac273c67d4e3c8"><td class="memItemLeft" align="right" valign="top">list&lt; Eigen::VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84b7a182e074703a75ac273c67d4e3c8">invDiffKinematic</a> (Eigen::VectorXd TH0, Eigen::VectorXd T, Eigen::Matrix3d Kp, Eigen::Matrix3d Kphi)</td></tr>
+<tr class="separator:a84b7a182e074703a75ac273c67d4e3c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29bbefec4031d634cfedf95bd4f0873f" id="r_a29bbefec4031d634cfedf95bd4f0873f"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29bbefec4031d634cfedf95bd4f0873f">invDiffKinematicControl</a> (Eigen::VectorXd qk, Eigen::Vector3d xe, Eigen::Vector3d <a class="el" href="#a782ccc9a19761e4c733b8d92b81c7d75">xd</a>, Eigen::Vector3d vd, Eigen::Vector3d omegad, Eigen::Quaterniond qe, Eigen::Quaterniond <a class="el" href="#a7634212e1417ba684130c575d9433808">qd</a>, Eigen::Matrix3d Kp, Eigen::Matrix3d Kphi)</td></tr>
+<tr class="separator:a29bbefec4031d634cfedf95bd4f0873f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a782ccc9a19761e4c733b8d92b81c7d75" id="r_a782ccc9a19761e4c733b8d92b81c7d75"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a782ccc9a19761e4c733b8d92b81c7d75">xd</a> (double ti)</td></tr>
 <tr class="separator:a782ccc9a19761e4c733b8d92b81c7d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7634212e1417ba684130c575d9433808" id="r_a7634212e1417ba684130c575d9433808"><td class="memItemLeft" align="right" valign="top">Eigen::Quaterniond&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7634212e1417ba684130c575d9433808">qd</a> (double ti)</td></tr>
@@ -122,12 +120,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad6abd5dfc09b9cb6dea39b42e26ed8a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa640d318bae523fe5c58630bb8601f82" id="r_aa640d318bae523fe5c58630bb8601f82"><td class="memItemLeft" align="right" valign="top">Eigen::MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa640d318bae523fe5c58630bb8601f82">purgeNanColumn</a> (Eigen::MatrixXd matrix)</td></tr>
 <tr class="separator:aa640d318bae523fe5c58630bb8601f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf0094a89d54885e7d6e01bbd8f66e1c" id="r_adf0094a89d54885e7d6e01bbd8f66e1c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf0094a89d54885e7d6e01bbd8f66e1c">checkWorkArea</a> (const Eigen::Vector3d &amp;<a class="el" href="ur5__task__library_8h.html#a55e78da50a013252924928eaa2720258">position</a>)</td></tr>
+<tr class="memitem:adf0094a89d54885e7d6e01bbd8f66e1c" id="r_adf0094a89d54885e7d6e01bbd8f66e1c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf0094a89d54885e7d6e01bbd8f66e1c">checkWorkArea</a> (const Eigen::Vector3d &amp;position)</td></tr>
 <tr class="separator:adf0094a89d54885e7d6e01bbd8f66e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a298083be41bb82377e2a62458f4167ba" id="r_a298083be41bb82377e2a62458f4167ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a298083be41bb82377e2a62458f4167ba">checkWorkArea</a> (const Eigen::VectorXd &amp;joints)</td></tr>
 <tr class="separator:a298083be41bb82377e2a62458f4167ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf7528f33f238e5684332080d8b4584d" id="r_abf7528f33f238e5684332080d8b4584d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf7528f33f238e5684332080d8b4584d">printVector</a> (Eigen::VectorXd v)</td></tr>
-<tr class="separator:abf7528f33f238e5684332080d8b4584d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcd806150e519b6df7f1c4f86f6ba646" id="r_abcd806150e519b6df7f1c4f86f6ba646"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abcd806150e519b6df7f1c4f86f6ba646">almostZero</a> (double value)</td></tr>
 <tr class="separator:abcd806150e519b6df7f1c4f86f6ba646"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74bfa9fd20aa08b67528eefcf48558bf" id="r_a74bfa9fd20aa08b67528eefcf48558bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74bfa9fd20aa08b67528eefcf48558bf">angleCorrection</a> (double &amp;angle)</td></tr>
@@ -137,7 +133,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8h_source.html#l00029">29</a> of file <a class="el" href="ur5__motion__library_8h_source.html">ur5_motion_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8h_source.html#l00030">30</a> of file <a class="el" href="ur5__motion__library_8h_source.html">ur5_motion_library.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab2911d33514ce3cd8b3f6495a6519edb" name="ab2911d33514ce3cd8b3f6495a6519edb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2911d33514ce3cd8b3f6495a6519edb">&#9670;&#160;</a></span>InverseDifferential()</h2>
@@ -168,7 +164,6 @@ Public Member Functions</h2></td></tr>
 <p>!&lt;the D-H parameter</p>
 <p>&lt; the D-H parameter</p>
 <p>&lt; the D-H parameter</p>
-<p>&lt; rotation matrix to convert the coordinates of the world frame into robot frame</p>
 
 <p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00008">8</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
@@ -198,7 +193,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the values is close to zero, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00774">774</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00769">769</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -224,7 +219,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00778">778</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00773">773</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -301,7 +296,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the corresponding quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00208">208</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00217">217</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +323,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the corresponding rotation matrix </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00227">227</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00236">236</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -354,7 +349,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00784">784</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00779">779</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -398,7 +393,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the homogeneous matrix </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00705">705</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00707">707</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -419,18 +414,62 @@ Public Member Functions</h2></td></tr>
 <p>function called from the talker. given the initial and final pose, compute the trajectory trying to stay away from singularities</p>
 <dl class="section return"><dt>Returns</dt><dd>true if no problems occured, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00111">111</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00108">108</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ae3f7f21de2aef187ebb68eefb6250a16" name="ae3f7f21de2aef187ebb68eefb6250a16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3f7f21de2aef187ebb68eefb6250a16">&#9670;&#160;</a></span>invDiffKinematicControlCompleteQuaternion()</h2>
+<a id="a84b7a182e074703a75ac273c67d4e3c8" name="a84b7a182e074703a75ac273c67d4e3c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84b7a182e074703a75ac273c67d4e3c8">&#9670;&#160;</a></span>invDiffKinematic()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">VectorXd InverseDifferential::invDiffKinematicControlCompleteQuaternion </td>
+          <td class="memname">list&lt; VectorXd &gt; InverseDifferential::invDiffKinematic </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::VectorXd</td>          <td class="paramname"><span class="paramname"><em>TH0</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::VectorXd</td>          <td class="paramname"><span class="paramname"><em>T</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Matrix3d</td>          <td class="paramname"><span class="paramname"><em>Kp</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Matrix3d</td>          <td class="paramname"><span class="paramname"><em>Kphi</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>first of the two functions that generates the trajectory for the robot</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">TH0</td><td>the initial joint configuration </td></tr>
+    <tr><td class="paramname">T</td><td>vector containing the time intervals </td></tr>
+    <tr><td class="paramname">Kp</td><td>correction matrix for the velocity component </td></tr>
+    <tr><td class="paramname">Kphi</td><td>correction mateix for the orientation component</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a list of joint configuration for each time interval </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00343">343</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a29bbefec4031d634cfedf95bd4f0873f" name="a29bbefec4031d634cfedf95bd4f0873f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29bbefec4031d634cfedf95bd4f0873f">&#9670;&#160;</a></span>invDiffKinematicControl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">VectorXd InverseDifferential::invDiffKinematicControl </td>
           <td>(</td>
           <td class="paramtype">Eigen::VectorXd</td>          <td class="paramname"><span class="paramname"><em>qk</em>, </span></td>
         </tr>
@@ -497,50 +536,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a32083436e32012e392ddc1d9286e409a" name="a32083436e32012e392ddc1d9286e409a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32083436e32012e392ddc1d9286e409a">&#9670;&#160;</a></span>invDiffKinematicControlSimCompleteQuaternion()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">list&lt; VectorXd &gt; InverseDifferential::invDiffKinematicControlSimCompleteQuaternion </td>
-          <td>(</td>
-          <td class="paramtype">Eigen::VectorXd</td>          <td class="paramname"><span class="paramname"><em>TH0</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Eigen::VectorXd</td>          <td class="paramname"><span class="paramname"><em>T</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Eigen::Matrix3d</td>          <td class="paramname"><span class="paramname"><em>Kp</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Eigen::Matrix3d</td>          <td class="paramname"><span class="paramname"><em>Kphi</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>first of the two functions that generates the trajectory for the robot</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">TH0</td><td>the initial joint configuration </td></tr>
-    <tr><td class="paramname">T</td><td>vector containing the time intervals </td></tr>
-    <tr><td class="paramname">Kp</td><td>correction matrix for the velocity component </td></tr>
-    <tr><td class="paramname">Kphi</td><td>correction mateix for the orientation component</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>a list of joint configuration for each time interval </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00349">349</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
-
-</div>
-</div>
 <a id="a0a1560543f7ee702fe14bafa769e290d" name="a0a1560543f7ee702fe14bafa769e290d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0a1560543f7ee702fe14bafa769e290d">&#9670;&#160;</a></span>motionPlannerToTaskPlannerServiceResponse()</h2>
 
@@ -569,33 +564,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the motion has been done without problems, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00046">46</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
-
-</div>
-</div>
-<a id="abf7528f33f238e5684332080d8b4584d" name="abf7528f33f238e5684332080d8b4584d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf7528f33f238e5684332080d8b4584d">&#9670;&#160;</a></span>printVector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void InverseDifferential::printVector </td>
-          <td>(</td>
-          <td class="paramtype">Eigen::VectorXd</td>          <td class="paramname"><span class="paramname"><em>v</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>print the values of a generic vector</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">v</td><td>vector of doubles </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00767">767</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00038">38</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -622,7 +591,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a possible resized matrix which doesn't contain non valid solutions </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00721">721</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00723">723</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -649,7 +618,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>quaternion corresponding to a rotation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00439">439</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00442">442</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -675,7 +644,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00087">87</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00084">84</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -702,7 +671,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the vector containing the euler angles in XYZ order </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00216">216</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00225">225</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -729,7 +698,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the corresponding quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00265">265</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00274">274</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -760,7 +729,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00074">74</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00071">71</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -780,7 +749,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>main function, initialize nodes, reading and sending the new joint states </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00097">97</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00094">94</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -817,7 +786,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00288">288</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00282">282</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -849,7 +818,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a matrix containing the solutions, saving them in columns order </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00451">451</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00454">454</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -876,40 +845,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <p>&lt; the jacobian matrix of the ur5 manipulator</p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00303">303</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a7531bfd8ea80634111d35ed51e54416e" name="a7531bfd8ea80634111d35ed51e54416e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7531bfd8ea80634111d35ed51e54416e">&#9670;&#160;</a></span>worldToRobotFrame()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void InverseDifferential::worldToRobotFrame </td>
-          <td>(</td>
-          <td class="paramtype">Eigen::Vector3d &amp;</td>          <td class="paramname"><span class="paramname"><em>coords</em>, </span></td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Eigen::Vector3d &amp;</td>          <td class="paramname"><span class="paramname"><em>euler</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>given the pose of a block in the world frame, return the pose of the same block in the robot frame.</p>
-<p>The coordinates and orientation has the same unit of gazebo (in meters and radiants)</p>
-<p>Useful when specifing the block pose w.r.t world frame</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">coords</td><td>vector containing the xyz coordinates </td></tr>
-    <tr><td class="paramname">euler</td><td>vector containing the xyz orientation values </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00271">271</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00297">297</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
@@ -936,13 +872,13 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>xyz position in a vector </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00427">427</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__motion__library_8cpp_source.html#l00429">429</a> of file <a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/ur5/<a class="el" href="ur5__motion__library_8h_source.html">ur5_motion_library.h</a></li>
-<li>src/<a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a></li>
+<li>C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/<a class="el" href="ur5__motion__library_8h_source.html">ur5_motion_library.h</a></li>
+<li>C:/Users/dorij/OneDrive/Desktop/ur5/src/<a class="el" href="ur5__motion__library_8cpp_source.html">ur5_motion_library.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

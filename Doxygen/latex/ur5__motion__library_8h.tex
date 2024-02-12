@@ -1,5 +1,5 @@
-\doxysection{include/ur5/ur5\+\_\+motion\+\_\+library.h File Reference}
-\hypertarget{ur5__motion__library_8h}{}\label{ur5__motion__library_8h}\index{include/ur5/ur5\_motion\_library.h@{include/ur5/ur5\_motion\_library.h}}
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/include/ur5/ur5\+\_\+motion\+\_\+library.h File Reference}
+\hypertarget{ur5__motion__library_8h}{}\label{ur5__motion__library_8h}\index{C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5\_motion\_library.h@{C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5\_motion\_library.h}}
 {\ttfamily \#include "{}ros/ros.\+h"{}}\newline
 {\ttfamily \#include "{}std\+\_\+msgs/\+Float64\+Multi\+Array.\+h"{}}\newline
 {\ttfamily \#include "{}sensor\+\_\+msgs/\+Joint\+State.\+h"{}}\newline
@@ -14,8 +14,34 @@
 {\ttfamily \#include $<$math.\+h$>$}\newline
 {\ttfamily \#include $<$list$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
+Include dependency graph for ur5\+\_\+motion\+\_\+library.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{class_inverse_differential}{Inverse\+Differential}}
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ur5__motion__library_8h_a19785d30eb2be1b111abd9730fbce9f6}{INTERMEDIATE\+\_\+\+POINT}}~1
+\begin{DoxyCompactList}\small\item\em 0 to use damping factor, 1 to use intermediate point \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ur5__motion__library_8h_a19785d30eb2be1b111abd9730fbce9f6}\label{ur5__motion__library_8h_a19785d30eb2be1b111abd9730fbce9f6} 
+\index{ur5\_motion\_library.h@{ur5\_motion\_library.h}!INTERMEDIATE\_POINT@{INTERMEDIATE\_POINT}}
+\index{INTERMEDIATE\_POINT@{INTERMEDIATE\_POINT}!ur5\_motion\_library.h@{ur5\_motion\_library.h}}
+\doxysubsubsection{\texorpdfstring{INTERMEDIATE\_POINT}{INTERMEDIATE\_POINT}}
+{\footnotesize\ttfamily \#define INTERMEDIATE\+\_\+\+POINT~1}
+
+
+
+0 to use damping factor, 1 to use intermediate point 
+
+the file contains all the functions that are used in order to compute the trajectory of the robot and also make some checks in order to avoid singularities and go outside the designed workin area. 
+
+Definition at line \mbox{\hyperlink{ur5__motion__library_8h_source_l00025}{25}} of file \mbox{\hyperlink{ur5__motion__library_8h_source}{ur5\+\_\+motion\+\_\+library.\+h}}.
+

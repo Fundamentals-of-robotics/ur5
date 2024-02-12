@@ -1,0 +1,91 @@
+\doxysection{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}
+\hypertarget{utils_2____init_____8py_source}{}\label{utils_2____init_____8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/\_\_init\_\_.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/\_\_init\_\_.py}}
+\mbox{\hyperlink{utils_2____init_____8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00001}\mbox{\hyperlink{namespaceutils}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}utils/initialization."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00004}00004\ \textcolor{keyword}{import}\ contextlib}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00005}00005\ \textcolor{keyword}{import}\ platform}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00006}00006\ \textcolor{keyword}{import}\ threading}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00009}\mbox{\hyperlink{namespaceutils_aa7e88ef391dee672c3c7848b7e09d968}{00009}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_aa7e88ef391dee672c3c7848b7e09d968}{emojis}}(str="{}"{}):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00010}00010\ \ \ \ \ \textcolor{comment}{\#\ Return\ platform-\/dependent\ emoji-\/safe\ version\ of\ string}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00011}00011\ \ \ \ \ \textcolor{keywordflow}{return}\ str.encode().decode(\textcolor{stringliteral}{"{}ascii"{}},\ \textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keywordflow}{if}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Windows"{}}\ \textcolor{keywordflow}{else}\ str}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00014}\mbox{\hyperlink{classutils_1_1_try_except}{00014}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1_try_except}{TryExcept}}(contextlib.ContextDecorator):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00015}00015\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ TryExcept\ class.\ Usage:\ @TryExcept()\ decorator\ or\ 'with\ TryExcept():'\ context\ manager}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00016}\mbox{\hyperlink{classutils_1_1_try_except_a65ec3d4d8f669148dc7663d2566e829c}{00016}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1_try_except_a65ec3d4d8f669148dc7663d2566e829c}{\_\_init\_\_}}(self,\ msg="{}"{}):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00017}\mbox{\hyperlink{classutils_1_1_try_except_a5891cc5911f30f441ae36092226b4de2}{00017}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1_try_except_a5891cc5911f30f441ae36092226b4de2}{msg}}\ =\ msg}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00019}\mbox{\hyperlink{classutils_1_1_try_except_a2ce671ca33282450946769f49d083e05}{00019}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1_try_except_a2ce671ca33282450946769f49d083e05}{\_\_enter\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{pass}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00022}\mbox{\hyperlink{classutils_1_1_try_except_a4ca25428be784acbdc6230e1dc5aca11}{00022}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1_try_except_a4ca25428be784acbdc6230e1dc5aca11}{\_\_exit\_\_}}(self,\ exc\_type,\ value,\ traceback):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ value:}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ print(emojis(f\textcolor{stringliteral}{"{}\{self.msg\}\{':\ '\ if\ self.msg\ else\ ''\}\{value\}"{}}))}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00028}\mbox{\hyperlink{namespaceutils_a13fdc2ce87b24bea3e8991474fb774ad}{00028}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_a13fdc2ce87b24bea3e8991474fb774ad}{threaded}}(func):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00029}00029\ \ \ \ \ \textcolor{comment}{\#\ Multi-\/threads\ a\ target\ function\ and\ returns\ thread.\ Usage:\ @threaded\ decorator}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{def\ }wrapper(*args,\ **kwargs):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00031}00031\ \ \ \ \ \ \ \ \ thread\ =\ threading.Thread(target=func,\ args=args,\ kwargs=kwargs,\ daemon=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00032}00032\ \ \ \ \ \ \ \ \ thread.start()}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ thread}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00035}00035\ \ \ \ \ \textcolor{keywordflow}{return}\ wrapper}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00038}\mbox{\hyperlink{namespaceutils_a89b83818793853a4c9eeab0bf04a6a3e}{00038}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_a89b83818793853a4c9eeab0bf04a6a3e}{join\_threads}}(verbose=False):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00039}00039\ \ \ \ \ \textcolor{comment}{\#\ Join\ all\ daemon\ threads,\ i.e.\ atexit.register(lambda:\ join\_threads())}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00040}00040\ \ \ \ \ main\_thread\ =\ threading.current\_thread()}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ threading.enumerate():}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ t\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ main\_thread:}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Joining\ thread\ \{t.name\}"{}})}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ t.join()}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00048}\mbox{\hyperlink{namespaceutils_a9184e8d7f491c3473385d5fee62338b5}{00048}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_a9184e8d7f491c3473385d5fee62338b5}{notebook\_init}}(verbose=True):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00049}00049\ \ \ \ \ \textcolor{comment}{\#\ Check\ system\ software\ and\ hardware}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00050}00050\ \ \ \ \ print(\textcolor{stringliteral}{"{}Checking\ setup..."{}})}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{import}\ shutil}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{from}\ ultralytics.utils.checks\ \textcolor{keyword}{import}\ check\_requirements}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ check\_font,\ is\_colab}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ select\_device\ \ \textcolor{comment}{\#\ imports}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00060}00060\ \ \ \ \ check\_font()}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{import}\ psutil}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{if}\ check\_requirements(\textcolor{stringliteral}{"{}wandb"{}},\ install=\textcolor{keyword}{False}):}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00065}00065\ \ \ \ \ \ \ \ \ os.system(\textcolor{stringliteral}{"{}pip\ uninstall\ -\/y\ wandb"{}})\ \ \textcolor{comment}{\#\ eliminate\ unexpected\ account\ creation\ prompt\ with\ infinite\ hang}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{if}\ is\_colab():}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00067}00067\ \ \ \ \ \ \ \ \ shutil.rmtree(\textcolor{stringliteral}{"{}/content/sample\_data"{}},\ ignore\_errors=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ remove\ colab\ /sample\_data\ directory}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00069}00069\ \ \ \ \ \textcolor{comment}{\#\ System\ info}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00070}00070\ \ \ \ \ display\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00072}00072\ \ \ \ \ \ \ \ \ gb\ =\ 1\ <<\ 30\ \ \textcolor{comment}{\#\ bytes\ to\ GiB\ (1024\ **\ 3)}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00073}00073\ \ \ \ \ \ \ \ \ ram\ =\ psutil.virtual\_memory().total}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00074}00074\ \ \ \ \ \ \ \ \ total,\ used,\ free\ =\ shutil.disk\_usage(\textcolor{stringliteral}{"{}/"{}})}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ contextlib.suppress(Exception):\ \ \textcolor{comment}{\#\ clear\ display\ if\ ipython\ is\ installed}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ IPython\ \textcolor{keyword}{import}\ display}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ display.clear\_output()}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00079}00079\ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}(\{os.cpu\_count()\}\ CPUs,\ \{ram\ /\ gb:.1f\}\ GB\ RAM,\ \{(total\ -\/\ free)\ /\ gb:.1f\}/\{total\ /\ gb:.1f\}\ GB\ disk)"{}}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00080}00080\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00081}00081\ \ \ \ \ \ \ \ \ s\ =\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00083}00083\ \ \ \ \ select\_device(newline=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00084}00084\ \ \ \ \ print(emojis(f\textcolor{stringliteral}{"{}Setup\ complete\ ✅\ \{s\}"{}}))}
+\DoxyCodeLine{\Hypertarget{utils_2____init_____8py_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{return}\ display}
+
+\end{DoxyCode}

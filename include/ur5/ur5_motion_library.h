@@ -32,22 +32,22 @@ class InverseDifferential
     const double Tf=10.0;
     const double Tb=0;
     const double deltaT=0.1;//the smaller, the more precise but more computation
+    
 
     const std::string TOPIC = std::string("/ur5/joint_group_pos_controller/command");///< the topic to send the new joints configurations
     const std::string TOPIC_SUB = std::string("/ur5/joint_states");///< the topic to read the joints states
 
-    int iteration=0;//number of iteration
-    int intermediate_point_trajectory=0;
+    
 
     const static int JOINT_NAMES = 6;
     const double SCALAR_FACTOR = 1.0;
-    const double DAMPING_FACTOR = pow(10, -1);///< the damping value used in damped pseudoinverse matrix
+    const double DAMPING_FACTOR = 0.095;///< the damping value used in damped pseudoinverse matrix
     const double ALMOST_ZERO = 1e-7;///< threshold when a values is recognized as zero
-    const int RATE = 1000;//set to 100 to slow down
+    const int RATE = 700;//set to 100 to slow down
 
     //global values
     Quaterniond q0,qf;
-    Vector3d xe0,xef,phie0,phief,xe_intermediate,phie_intermediate;
+    Vector3d xe0,xef,phie0,phief; //xe_intermediate,phie_intermediate;
     Vector2d gripper;
     VectorXd q, q_des;
     VectorXd A, D, ALPHA;
@@ -59,11 +59,12 @@ class InverseDifferential
     char **argv;
     int argc;
 
-    //ack/ack2 are used to syncronize the service 
-    const int ack=0;
-    int ack2=1;
+    //ack is used to syncronize the service 
+    
+    int ack=1;
     int error=0;//no error at start
-    int final_end=0;//dfferent from 0 if there are no other blocks
+    int final_end=0;//different from 0 if there are no other blocks
+    int counter;
 
     /**
      * define the workin area of the manipulator
@@ -199,7 +200,7 @@ class InverseDifferential
          * 
          * @return a list of joint configuration for each time interval
          */
-        list<Eigen::VectorXd> invDiffKinematicControlSimCompleteQuaternion(Eigen::VectorXd TH0,Eigen::VectorXd T,Eigen::Matrix3d Kp,Eigen::Matrix3d Kphi);
+        list<Eigen::VectorXd> invDiffKinematic(Eigen::VectorXd TH0,Eigen::VectorXd T,Eigen::Matrix3d Kp,Eigen::Matrix3d Kphi);
 
         /**
          * second of the two functions that generates the trajectory for the robot
@@ -217,7 +218,7 @@ class InverseDifferential
          * 
          * @return the joint velocities
          */
-        Eigen::VectorXd invDiffKinematicControlCompleteQuaternion(Eigen::VectorXd qk, Eigen::Vector3d xe, Eigen::Vector3d xd, Eigen::Vector3d vd, Eigen::Vector3d omegad, Eigen::Quaterniond qe, Eigen::Quaterniond qd, Eigen::Matrix3d Kp, Eigen::Matrix3d Kphi);
+        Eigen::VectorXd invDiffKinematicControl(Eigen::VectorXd qk, Eigen::Vector3d xe, Eigen::Vector3d xd, Eigen::Vector3d vd, Eigen::Vector3d omegad, Eigen::Quaterniond qe, Eigen::Quaterniond qd, Eigen::Matrix3d Kp, Eigen::Matrix3d Kphi);
 
         /**
          * position as a function over time using linear interpolation between 2 points

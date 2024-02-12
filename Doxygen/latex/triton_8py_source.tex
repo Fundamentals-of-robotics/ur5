@@ -1,0 +1,96 @@
+\doxysection{triton.\+py}
+\hypertarget{triton_8py_source}{}\label{triton_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/triton.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/triton.py}}
+\mbox{\hyperlink{triton_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1triton}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Utils\ to\ interact\ with\ the\ Triton\ Inference\ Server."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00004}00004\ \textcolor{keyword}{import}\ typing}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00005}00005\ \textcolor{keyword}{from}\ urllib.parse\ \textcolor{keyword}{import}\ urlparse}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00007}00007\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00010}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model}{00010}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model}{TritonRemoteModel}}:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00011}00011\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ A\ wrapper\ over\ a\ model\ served\ by\ the\ Triton\ Inference\ Server.}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00013}00013\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ It\ can\ be\ configured\ to\ communicate\ over\ GRPC\ or\ HTTP.\ It\ accepts\ Torch\ Tensors\ as\ input\ and\ returns\ them\ as}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ outputs.}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00016}00016\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00018}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_afa7a56456cc98efe9022de723221787e}{00018}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_afa7a56456cc98efe9022de723221787e}{\_\_init\_\_}}(self,\ url:\ str):}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Keyword\ arguments:}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ url:\ Fully\ qualified\ address\ of\ the\ Triton\ server\ -\/\ for\ e.g.\ grpc://localhost:8000}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ parsed\_url\ =\ urlparse(url)}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ parsed\_url.scheme\ ==\ \textcolor{stringliteral}{"{}grpc"{}}:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ tritonclient.grpc\ \textcolor{keyword}{import}\ InferenceServerClient,\ InferInput}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00028}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{00028}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}\ =\ InferenceServerClient(parsed\_url.netloc)\ \ \textcolor{comment}{\#\ Triton\ GRPC\ client}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ model\_repository\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}.get\_model\_repository\_index()}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00030}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a96a8ea28f4dfd051ce5dc8868a39c8fd}{00030}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a96a8ea28f4dfd051ce5dc8868a39c8fd}{model\_name}}\ =\ model\_repository.models[0].name}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00031}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{00031}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}.get\_model\_metadata(self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a96a8ea28f4dfd051ce5dc8868a39c8fd}{model\_name}},\ as\_json=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }create\_input\_placeholders()\ -\/>\ typing.List[InferInput]:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ InferInput(i[\textcolor{stringliteral}{"{}name"{}}],\ [int(s)\ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ i[\textcolor{stringliteral}{"{}shape"{}}]],\ i[\textcolor{stringliteral}{"{}datatype"{}}])\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}[\textcolor{stringliteral}{"{}inputs"{}}]}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ tritonclient.http\ \textcolor{keyword}{import}\ InferenceServerClient,\ InferInput}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}\ =\ InferenceServerClient(parsed\_url.netloc)\ \ \textcolor{comment}{\#\ Triton\ HTTP\ client}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ model\_repository\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}.get\_model\_repository\_index()}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a96a8ea28f4dfd051ce5dc8868a39c8fd}{model\_name}}\ =\ model\_repository[0][\textcolor{stringliteral}{"{}name"{}}]}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}.get\_model\_metadata(self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a96a8ea28f4dfd051ce5dc8868a39c8fd}{model\_name}})}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }create\_input\_placeholders()\ -\/>\ typing.List[InferInput]:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ InferInput(i[\textcolor{stringliteral}{"{}name"{}}],\ [int(s)\ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ i[\textcolor{stringliteral}{"{}shape"{}}]],\ i[\textcolor{stringliteral}{"{}datatype"{}}])\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}[\textcolor{stringliteral}{"{}inputs"{}}]}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00051}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ac1d9368c91e1d1830cb32ab3231fc068}{00051}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ac1d9368c91e1d1830cb32ab3231fc068}{\_create\_input\_placeholders\_fn}}\ =\ create\_input\_placeholders}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00053}00053\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00054}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_aeab2d1f257f633d34fad05c8a2899c67}{00054}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_aeab2d1f257f633d34fad05c8a2899c67}{runtime}}(self):}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Returns\ the\ model\ runtime."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}.get(\textcolor{stringliteral}{"{}backend"{}},\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}.get(\textcolor{stringliteral}{"{}platform"{}}))}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00058}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a47c6aa6c8f8a98225eaf897737ee6afa}{00058}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a47c6aa6c8f8a98225eaf897737ee6afa}{\_\_call\_\_}}(self,\ *args,\ **kwargs)\ -\/>\ typing.Union[torch.Tensor,\ typing.Tuple[torch.Tensor,\ ...]]:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00060}00060\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Invokes\ the\ model.}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00061}00061\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Parameters\ can\ be\ provided\ via\ args\ or\ kwargs.\ args,\ if\ provided,\ are\ assumed\ to\ match\ the\ order\ of\ inputs\ of}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ the\ model.\ kwargs\ are\ matched\ with\ the\ model\ input\ names.}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ inputs\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a1b7db121207c9089709ca2fc5ad30899}{\_create\_inputs}}(*args,\ **kwargs)}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ response\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ab76f17002b234a4aa1f2a839bf9d0ea8}{client}}.infer(model\_name=self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a96a8ea28f4dfd051ce5dc8868a39c8fd}{model\_name}},\ inputs=inputs)}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ result\ =\ []}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ output\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a2514bb0af1898cfb980d47c2e19bde8e}{metadata}}[\textcolor{stringliteral}{"{}outputs"{}}]:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ tensor\ =\ torch.as\_tensor(response.as\_numpy(output[\textcolor{stringliteral}{"{}name"{}}]))}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ result.append(tensor)}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result[0]\ \textcolor{keywordflow}{if}\ len(result)\ ==\ 1\ \textcolor{keywordflow}{else}\ result}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00073}\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a1b7db121207c9089709ca2fc5ad30899}{00073}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_a1b7db121207c9089709ca2fc5ad30899}{\_create\_inputs}}(self,\ *args,\ **kwargs):}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ args\_len,\ kwargs\_len\ =\ len(args),\ len(kwargs)}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ args\_len\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ kwargs\_len:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(\textcolor{stringliteral}{"{}No\ inputs\ provided."{}})}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args\_len\ \textcolor{keywordflow}{and}\ kwargs\_len:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(\textcolor{stringliteral}{"{}Cannot\ specify\ args\ and\ kwargs\ at\ the\ same\ time"{}})}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ placeholders\ =\ self.\mbox{\hyperlink{classutils_1_1triton_1_1_triton_remote_model_ac1d9368c91e1d1830cb32ab3231fc068}{\_create\_input\_placeholders\_fn}}()}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args\_len:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args\_len\ !=\ len(placeholders):}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(f\textcolor{stringliteral}{"{}Expected\ \{len(placeholders)\}\ inputs,\ got\ \{args\_len\}."{}})}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ input,\ value\ \textcolor{keywordflow}{in}\ zip(placeholders,\ args):}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ input.set\_data\_from\_numpy(value.cpu().numpy())}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ input\ \textcolor{keywordflow}{in}\ placeholders:}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ kwargs[input.name]}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ input.set\_data\_from\_numpy(value.cpu().numpy())}
+\DoxyCodeLine{\Hypertarget{triton_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ placeholders}
+
+\end{DoxyCode}

@@ -1,0 +1,217 @@
+\doxysection{metrics.\+py}
+\hypertarget{segment_2metrics_8py_source}{}\label{segment_2metrics_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/metrics.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/metrics.py}}
+\mbox{\hyperlink{segment_2metrics_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Model\ validation\ metrics."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00004}00004\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00006}00006\ \textcolor{keyword}{from}\ ..metrics\ \textcolor{keyword}{import}\ ap\_per\_class}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00009}\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_a3cc896cd35cb40bb837f33c579ab9f85}{00009}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_a3cc896cd35cb40bb837f33c579ab9f85}{fitness}}(x):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00010}00010\ \ \ \ \ \textcolor{comment}{\#\ Model\ fitness\ as\ a\ weighted\ combination\ of\ metrics}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00011}00011\ \ \ \ \ w\ =\ [0.0,\ 0.0,\ 0.1,\ 0.9,\ 0.0,\ 0.0,\ 0.1,\ 0.9]}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00012}00012\ \ \ \ \ \textcolor{keywordflow}{return}\ (x[:,\ :8]\ *\ w).sum(1)}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00015}\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_adc8d0d518e8657f9514f22e0b631b701}{00015}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_adc8d0d518e8657f9514f22e0b631b701}{ap\_per\_class\_box\_and\_mask}}(}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00016}00016\ \ \ \ \ tp\_m,}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00017}00017\ \ \ \ \ tp\_b,}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00018}00018\ \ \ \ \ conf,}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00019}00019\ \ \ \ \ pred\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00020}00020\ \ \ \ \ target\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00021}00021\ \ \ \ \ plot=False,}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00022}00022\ \ \ \ \ save\_dir="{}."{},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00023}00023\ \ \ \ \ names=(),}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00024}00024\ ):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00025}00025\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ tp\_b:\ tp\ of\ boxes.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ tp\_m:\ tp\ of\ masks.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ other\ arguments\ see\ \`{}func:\ ap\_per\_class\`{}.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00031}00031\ \ \ \ \ results\_boxes\ =\ ap\_per\_class(}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ tp\_b,\ conf,\ pred\_cls,\ target\_cls,\ plot=plot,\ save\_dir=save\_dir,\ names=names,\ prefix=\textcolor{stringliteral}{"{}Box"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00033}00033\ \ \ \ \ )[2:]}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00034}00034\ \ \ \ \ results\_masks\ =\ ap\_per\_class(}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ tp\_m,\ conf,\ pred\_cls,\ target\_cls,\ plot=plot,\ save\_dir=save\_dir,\ names=names,\ prefix=\textcolor{stringliteral}{"{}Mask"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00036}00036\ \ \ \ \ )[2:]}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}boxes"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}p"{}}:\ results\_boxes[0],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}r"{}}:\ results\_boxes[1],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ap"{}}:\ results\_boxes[3],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}f1"{}}:\ results\_boxes[2],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ap\_class"{}}:\ results\_boxes[4],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}masks"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}p"{}}:\ results\_masks[0],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}r"{}}:\ results\_masks[1],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ap"{}}:\ results\_masks[3],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}f1"{}}:\ results\_masks[2],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ap\_class"{}}:\ results\_masks[4],}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00056}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric}{00056}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric}{Metric}}:}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00057}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ab75e72879baadbd7cb4a39255150bf3c}{00057}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ab75e72879baadbd7cb4a39255150bf3c}{\_\_init\_\_}}(self)\ -\/>\ None:}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00058}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a7d7abd4eb0012c7531869b99e58127b1}{00058}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a7d7abd4eb0012c7531869b99e58127b1}{p}}\ =\ []\ \ \textcolor{comment}{\#\ (nc,\ )}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00059}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62aafa409c3bcfc656ba764a64f3d7fc}{00059}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62aafa409c3bcfc656ba764a64f3d7fc}{r}}\ =\ []\ \ \textcolor{comment}{\#\ (nc,\ )}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00060}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_aecd74b6236f44fa250b1ef97d7ad6938}{00060}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_aecd74b6236f44fa250b1ef97d7ad6938}{f1}}\ =\ []\ \ \textcolor{comment}{\#\ (nc,\ )}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00061}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{00061}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}}\ =\ []\ \ \textcolor{comment}{\#\ (nc,\ 10)}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00062}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a1e499b789afa849b08e2d47b4934698a}{00062}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a1e499b789afa849b08e2d47b4934698a}{ap\_class\_index}}\ =\ []\ \ \textcolor{comment}{\#\ (nc,\ )}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00064}00064\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00065}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62d395d605e90a47c21d19847dbac678}{00065}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62d395d605e90a47c21d19847dbac678}{ap50}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ AP@0.5\ of\ all\ classes.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00068}00068\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ (nc,\ )\ or\ [].}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}}[:,\ 0]\ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}})\ \textcolor{keywordflow}{else}\ []}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00074}00074\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00075}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a29b7b57a8e6e0199d87524e68ea6ff83}{00075}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a29b7b57a8e6e0199d87524e68ea6ff83}{ap}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}AP@0.5:0.95}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ (nc,\ )\ or\ [].}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}}.mean(1)\ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}})\ \textcolor{keywordflow}{else}\ []}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00082}00082\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00083}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0facc280c78c56b81d46fc46b864ac1e}{00083}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a36b8c3762e8683ecf5bc5369201bf528}{mp}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Mean\ precision\ of\ all\ classes.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00086}00086\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00087}00087\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ float.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a7d7abd4eb0012c7531869b99e58127b1}{p}}.mean()\ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a7d7abd4eb0012c7531869b99e58127b1}{p}})\ \textcolor{keywordflow}{else}\ 0.0}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00092}00092\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00093}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ac8bcee058c17490859c54044866948c3}{00093}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a4af287ef1470ec347007b2d90dc27df3}{mr}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Mean\ recall\ of\ all\ classes.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00096}00096\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00098}00098\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ float.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00099}00099\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62aafa409c3bcfc656ba764a64f3d7fc}{r}}.mean()\ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62aafa409c3bcfc656ba764a64f3d7fc}{r}})\ \textcolor{keywordflow}{else}\ 0.0}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00102}00102\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00103}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ae5b62a09645c615cbee13e9901829ffb}{00103}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a15323c924ffe15a36ca15c4688cbbb7b}{map50}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Mean\ AP@0.5\ of\ all\ classes.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00106}00106\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ float.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}}[:,\ 0].mean()\ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}})\ \textcolor{keywordflow}{else}\ 0.0}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00112}00112\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00113}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_aad5cbbbebc32af13606401062776eeda}{00113}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ac99a731c97772f5493a2939e755111df}{map}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00115}00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Mean\ AP@0.5:0.95\ of\ all\ classes.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00116}00116\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00117}00117\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00118}00118\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ float.}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00119}00119\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}}.mean()\ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}})\ \textcolor{keywordflow}{else}\ 0.0}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00122}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a3fdefb5de4c22382b6c93e8661b04c9b}{00122}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a3fdefb5de4c22382b6c93e8661b04c9b}{mean\_results}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Mean\ of\ results,\ return\ mp,\ mr,\ map50,\ map."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00124}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ac99a731c97772f5493a2939e755111df}{00124}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a36b8c3762e8683ecf5bc5369201bf528}{mp}}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0facc280c78c56b81d46fc46b864ac1e}{mp}},\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a4af287ef1470ec347007b2d90dc27df3}{mr}}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ac8bcee058c17490859c54044866948c3}{mr}},\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a15323c924ffe15a36ca15c4688cbbb7b}{map50}}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ae5b62a09645c615cbee13e9901829ffb}{map50}},\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ac99a731c97772f5493a2939e755111df}{map}}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_aad5cbbbebc32af13606401062776eeda}{map}})}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00126}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a4415dd316d9dfc7740c254bdd647fd71}{00126}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a4415dd316d9dfc7740c254bdd647fd71}{class\_result}}(self,\ i):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Class-\/aware\ result,\ return\ p[i],\ r[i],\ ap50[i],\ ap[i]"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a7d7abd4eb0012c7531869b99e58127b1}{p}}[i],\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62aafa409c3bcfc656ba764a64f3d7fc}{r}}[i],\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62d395d605e90a47c21d19847dbac678}{ap50}}[i],\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a29b7b57a8e6e0199d87524e68ea6ff83}{ap}}[i])}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00130}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a03fd2d39f9f2339f9e40a1da7f2ade25}{00130}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a03fd2d39f9f2339f9e40a1da7f2ade25}{get\_maps}}(self,\ nc):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ maps\ =\ np.zeros(nc)\ +\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_ac99a731c97772f5493a2939e755111df}{map}}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_aad5cbbbebc32af13606401062776eeda}{map}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ c\ \textcolor{keywordflow}{in}\ enumerate(self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a1e499b789afa849b08e2d47b4934698a}{ap\_class\_index}}):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ maps[c]\ =\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a29b7b57a8e6e0199d87524e68ea6ff83}{ap}}[i]}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ maps}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00136}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_abe403d1c213ead6273552d54f68aa384}{00136}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_abe403d1c213ead6273552d54f68aa384}{update}}(self,\ results):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00138}00138\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00139}00139\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ results:\ tuple(p,\ r,\ ap,\ f1,\ ap\_class)}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00140}00140\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ p,\ r,\ all\_ap,\ f1,\ ap\_class\_index\ =\ results}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a7d7abd4eb0012c7531869b99e58127b1}{p}}\ =\ p}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a62aafa409c3bcfc656ba764a64f3d7fc}{r}}\ =\ r}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a0be3232809cc8a60f859f78df288475f}{all\_ap}}\ =\ all\_ap}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_aecd74b6236f44fa250b1ef97d7ad6938}{f1}}\ =\ f1}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric_a1e499b789afa849b08e2d47b4934698a}{ap\_class\_index}}\ =\ ap\_class\_index}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00149}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics}{00149}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics}{Metrics}}:}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00150}00150\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Metric\ for\ boxes\ and\ masks."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00152}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a1aa6276df1730f4bd022f846782148e8}{00152}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a1aa6276df1730f4bd022f846782148e8}{\_\_init\_\_}}(self)\ -\/>\ None:}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00153}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{00153}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{metric\_box}}\ =\ \mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric}{Metric}}()}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00154}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a6acc5a8184cc405295f51d66be16e447}{00154}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a6acc5a8184cc405295f51d66be16e447}{metric\_mask}}\ =\ \mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric}{Metric}}()}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00156}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a575b51ed853d08a40d0ae14fdda5a22b}{00156}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a575b51ed853d08a40d0ae14fdda5a22b}{update}}(self,\ results):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00158}00158\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00159}00159\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ results:\ Dict\{'boxes':\ Dict\{\},\ 'masks':\ Dict\{\}\}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00160}00160\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{metric\_box}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a575b51ed853d08a40d0ae14fdda5a22b}{update}}(list(results[\textcolor{stringliteral}{"{}boxes"{}}].values()))}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a6acc5a8184cc405295f51d66be16e447}{metric\_mask}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a575b51ed853d08a40d0ae14fdda5a22b}{update}}(list(results[\textcolor{stringliteral}{"{}masks"{}}].values()))}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00164}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ac950bd5dcb07e0454938c6f69b75ef46}{00164}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ac950bd5dcb07e0454938c6f69b75ef46}{mean\_results}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{metric\_box}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ac950bd5dcb07e0454938c6f69b75ef46}{mean\_results}}()\ +\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a6acc5a8184cc405295f51d66be16e447}{metric\_mask}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ac950bd5dcb07e0454938c6f69b75ef46}{mean\_results}}()}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00167}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a62589848c3df23503722aa651c1350d8}{00167}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a62589848c3df23503722aa651c1350d8}{class\_result}}(self,\ i):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{metric\_box}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a62589848c3df23503722aa651c1350d8}{class\_result}}(i)\ +\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a6acc5a8184cc405295f51d66be16e447}{metric\_mask}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a62589848c3df23503722aa651c1350d8}{class\_result}}(i)}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00170}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ad585c3a0f2ca8458003d1913ee76e40c}{00170}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ad585c3a0f2ca8458003d1913ee76e40c}{get\_maps}}(self,\ nc):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{metric\_box}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ad585c3a0f2ca8458003d1913ee76e40c}{get\_maps}}(nc)\ +\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a6acc5a8184cc405295f51d66be16e447}{metric\_mask}}.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_ad585c3a0f2ca8458003d1913ee76e40c}{get\_maps}}(nc)}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00173}00173\ \ \ \ \ \textcolor{preprocessor}{@property}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00174}\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a8c7560943ddff53e170852e9e8062827}{00174}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a8c7560943ddff53e170852e9e8062827}{ap\_class\_index}}(self):}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ boxes\ and\ masks\ have\ the\ same\ ap\_class\_index}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics_a3c11e6529baed9edc7e3bf09991902f1}{metric\_box}}.ap\_class\_index}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00179}\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_ab137220ad62e77f9a9d16f6dc31e6d0c}{00179}}\ KEYS\ =\ [}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00180}00180\ \ \ \ \ \textcolor{stringliteral}{"{}train/box\_loss"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00181}00181\ \ \ \ \ \textcolor{stringliteral}{"{}train/seg\_loss"{}},\ \ \textcolor{comment}{\#\ train\ loss}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00182}00182\ \ \ \ \ \textcolor{stringliteral}{"{}train/obj\_loss"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00183}00183\ \ \ \ \ \textcolor{stringliteral}{"{}train/cls\_loss"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00184}00184\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/precision(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00185}00185\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/recall(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00186}00186\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00187}00187\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5:0.95(B)"{}},\ \ \textcolor{comment}{\#\ metrics}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00188}00188\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/precision(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00189}00189\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/recall(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00190}00190\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00191}00191\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5:0.95(M)"{}},\ \ \textcolor{comment}{\#\ metrics}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00192}00192\ \ \ \ \ \textcolor{stringliteral}{"{}val/box\_loss"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00193}00193\ \ \ \ \ \textcolor{stringliteral}{"{}val/seg\_loss"{}},\ \ \textcolor{comment}{\#\ val\ loss}}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00194}00194\ \ \ \ \ \textcolor{stringliteral}{"{}val/obj\_loss"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00195}00195\ \ \ \ \ \textcolor{stringliteral}{"{}val/cls\_loss"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00196}00196\ \ \ \ \ \textcolor{stringliteral}{"{}x/lr0"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00197}00197\ \ \ \ \ \textcolor{stringliteral}{"{}x/lr1"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00198}00198\ \ \ \ \ \textcolor{stringliteral}{"{}x/lr2"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00199}00199\ ]}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00201}\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_ab0995b3bec89c17be93c758a22a88067}{00201}}\ BEST\_KEYS\ =\ [}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00202}00202\ \ \ \ \ \textcolor{stringliteral}{"{}best/epoch"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00203}00203\ \ \ \ \ \textcolor{stringliteral}{"{}best/precision(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00204}00204\ \ \ \ \ \textcolor{stringliteral}{"{}best/recall(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00205}00205\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00206}00206\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5:0.95(B)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00207}00207\ \ \ \ \ \textcolor{stringliteral}{"{}best/precision(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00208}00208\ \ \ \ \ \textcolor{stringliteral}{"{}best/recall(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00209}00209\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00210}00210\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5:0.95(M)"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2metrics_8py_source_l00211}00211\ ]}
+
+\end{DoxyCode}

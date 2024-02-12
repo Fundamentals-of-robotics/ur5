@@ -1,0 +1,125 @@
+\doxysection{benchmarks Namespace Reference}
+\hypertarget{namespacebenchmarks}{}\label{namespacebenchmarks}\index{benchmarks@{benchmarks}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebenchmarks_ade05a8dbc202c6aacb5761e8e4c5ea5e}{run}} (weights=\mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}/"{}yolov5s.\+pt"{}, imgsz=640, batch\+\_\+size=1, data=\mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}/"{}data/coco128.\+yaml"{}, device="{}"{}, half=False, \mbox{\hyperlink{namespacebenchmarks_a64ada08bd2cbc822a6f715b7ee100cdf}{test}}=False, pt\+\_\+only=False, hard\+\_\+fail=False)
+\item 
+\mbox{\hyperlink{namespacebenchmarks_a64ada08bd2cbc822a6f715b7ee100cdf}{test}} (weights=\mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}/"{}yolov5s.\+pt"{}, imgsz=640, batch\+\_\+size=1, data=\mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}/"{}data/coco128.\+yaml"{}, device="{}"{}, half=False, test=False, pt\+\_\+only=False, hard\+\_\+fail=False)
+\item 
+\mbox{\hyperlink{namespacebenchmarks_a0d5f1198ff50977ed087410f1e961b21}{parse\+\_\+opt}} ()
+\item 
+\mbox{\hyperlink{namespacebenchmarks_a88da04a12f0c6fa3141393e587ee79f7}{main}} (\mbox{\hyperlink{namespacebenchmarks_a110ebb765dff3038f95f6c95bd7c63f7}{opt}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebenchmarks_aec626caa437b94fbcaa05390e9771510}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}} = FILE.\+parents\mbox{[}0\mbox{]}
+\item 
+\mbox{\hyperlink{namespacebenchmarks_a110ebb765dff3038f95f6c95bd7c63f7}{opt}} = \mbox{\hyperlink{namespacebenchmarks_a0d5f1198ff50977ed087410f1e961b21}{parse\+\_\+opt}}()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Run YOLOv5 benchmarks on all supported export formats.
+
+Format                      | `export.py --include`         | Model
+---                         | ---                           | ---
+PyTorch                     | -                             | yolov5s.pt
+TorchScript                 | `torchscript`                 | yolov5s.torchscript
+ONNX                        | `onnx`                        | yolov5s.onnx
+OpenVINO                    | `openvino`                    | yolov5s_openvino_model/
+TensorRT                    | `engine`                      | yolov5s.engine
+CoreML                      | `coreml`                      | yolov5s.mlmodel
+TensorFlow SavedModel       | `saved_model`                 | yolov5s_saved_model/
+TensorFlow GraphDef         | `pb`                          | yolov5s.pb
+TensorFlow Lite             | `tflite`                      | yolov5s.tflite
+TensorFlow Edge TPU         | `edgetpu`                     | yolov5s_edgetpu.tflite
+TensorFlow.js               | `tfjs`                        | yolov5s_web_model/
+
+Requirements:
+    $ pip install -r requirements.txt coremltools onnx onnx-simplifier onnxruntime openvino-dev tensorflow-cpu  # CPU
+    $ pip install -r requirements.txt coremltools onnx onnx-simplifier onnxruntime-gpu openvino-dev tensorflow  # GPU
+    $ pip install -U nvidia-tensorrt --index-url https://pypi.ngc.nvidia.com  # TensorRT
+
+Usage:
+    $ python benchmarks.py --weights yolov5s.pt --img 640
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacebenchmarks_a88da04a12f0c6fa3141393e587ee79f7}\label{namespacebenchmarks_a88da04a12f0c6fa3141393e587ee79f7} 
+\index{benchmarks@{benchmarks}!main@{main}}
+\index{main@{main}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily benchmarks.\+main (\begin{DoxyParamCaption}\item[{}]{opt }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00168}{168}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+
+\Hypertarget{namespacebenchmarks_a0d5f1198ff50977ed087410f1e961b21}\label{namespacebenchmarks_a0d5f1198ff50977ed087410f1e961b21} 
+\index{benchmarks@{benchmarks}!parse\_opt@{parse\_opt}}
+\index{parse\_opt@{parse\_opt}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{parse\_opt()}{parse\_opt()}}
+{\footnotesize\ttfamily benchmarks.\+parse\+\_\+opt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00151}{151}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+
+\Hypertarget{namespacebenchmarks_ade05a8dbc202c6aacb5761e8e4c5ea5e}\label{namespacebenchmarks_ade05a8dbc202c6aacb5761e8e4c5ea5e} 
+\index{benchmarks@{benchmarks}!run@{run}}
+\index{run@{run}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily benchmarks.\+run (\begin{DoxyParamCaption}\item[{}]{weights = {\ttfamily \mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}~/~"{}yolov5s.pt"{}},  }\item[{}]{imgsz = {\ttfamily 640},  }\item[{}]{batch\+\_\+size = {\ttfamily 1},  }\item[{}]{data = {\ttfamily \mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}~/~"{}data/coco128.yaml"{}},  }\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{half = {\ttfamily False},  }\item[{}]{test = {\ttfamily False},  }\item[{}]{pt\+\_\+only = {\ttfamily False},  }\item[{}]{hard\+\_\+fail = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00052}{52}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+
+\Hypertarget{namespacebenchmarks_a64ada08bd2cbc822a6f715b7ee100cdf}\label{namespacebenchmarks_a64ada08bd2cbc822a6f715b7ee100cdf} 
+\index{benchmarks@{benchmarks}!test@{test}}
+\index{test@{test}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily benchmarks.\+test (\begin{DoxyParamCaption}\item[{}]{weights = {\ttfamily \mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}~/~"{}yolov5s.pt"{}},  }\item[{}]{imgsz = {\ttfamily 640},  }\item[{}]{batch\+\_\+size = {\ttfamily 1},  }\item[{}]{data = {\ttfamily \mbox{\hyperlink{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}{ROOT}}~/~"{}data/coco128.yaml"{}},  }\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{half = {\ttfamily False},  }\item[{}]{test = {\ttfamily False},  }\item[{}]{pt\+\_\+only = {\ttfamily False},  }\item[{}]{hard\+\_\+fail = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00116}{116}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebenchmarks_aec626caa437b94fbcaa05390e9771510}\label{namespacebenchmarks_aec626caa437b94fbcaa05390e9771510} 
+\index{benchmarks@{benchmarks}!FILE@{FILE}}
+\index{FILE@{FILE}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily benchmarks.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00036}{36}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+
+\Hypertarget{namespacebenchmarks_a110ebb765dff3038f95f6c95bd7c63f7}\label{namespacebenchmarks_a110ebb765dff3038f95f6c95bd7c63f7} 
+\index{benchmarks@{benchmarks}!opt@{opt}}
+\index{opt@{opt}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily benchmarks.\+opt = \mbox{\hyperlink{namespacebenchmarks_a0d5f1198ff50977ed087410f1e961b21}{parse\+\_\+opt}}()}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00173}{173}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+
+\Hypertarget{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6}\label{namespacebenchmarks_a783652233b34d5ee8aa4e4eb2304cbd6} 
+\index{benchmarks@{benchmarks}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!benchmarks@{benchmarks}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily benchmarks.\+ROOT = FILE.\+parents\mbox{[}0\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{benchmarks_8py_source_l00037}{37}} of file \mbox{\hyperlink{benchmarks_8py_source}{benchmarks.\+py}}.
+

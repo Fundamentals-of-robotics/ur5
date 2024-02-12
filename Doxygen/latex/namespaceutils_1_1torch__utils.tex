@@ -1,0 +1,368 @@
+\doxysection{utils.\+torch\+\_\+utils Namespace Reference}
+\hypertarget{namespaceutils_1_1torch__utils}{}\label{namespaceutils_1_1torch__utils}\index{utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1torch__utils_1_1_early_stopping}{Early\+Stopping}}
+\item 
+class \mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a}{Model\+EMA}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_acd98a5045058c2c8d51ddbc5d79577f3}{smart\+\_\+inference\+\_\+mode}} (torch\+\_\+1\+\_\+9=check\+\_\+version(torch.\+\_\+\+\_\+version\+\_\+\+\_\+, "{}1.\+9.\+0"{}))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a0cdd25eabe2a046aaae796d08662e738}{smart\+Cross\+Entropy\+Loss}} (label\+\_\+smoothing=0.\+0)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a50a79a79edca8da4a7f50ecfcf61d9db}{smart\+\_\+\+DDP}} (model)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a718f7c0fb416b9ab2f573d260c65a60b}{reshape\+\_\+classifier\+\_\+output}} (model, n=1000)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a4bde0a04cf1360cc587360009d51653b}{torch\+\_\+distributed\+\_\+zero\+\_\+first}} (int local\+\_\+rank)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_aefea5597288ac8b960afab8aebfc687b}{device\+\_\+count}} ()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a86588a994509a200060ffd8cd2d0b80a}{select\+\_\+device}} (device="{}"{}, batch\+\_\+size=0, newline=True)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_acc87192d17b26c0952f5a200a90f4130}{time\+\_\+sync}} ()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a18a0dcae01772cf5609826dc1e49cca1}{profile}} (input, ops, n=10, device=None)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a82ce1df6cd0d3b6d6f74ae2b11d1c76c}{is\+\_\+parallel}} (model)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_ad4ad061373c0c5f916bbead9551feb9b}{de\+\_\+parallel}} (model)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a054a2cb76c2def88877e7f9b14d04dc3}{initialize\+\_\+weights}} (model)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a7c12a9444daa8efcd340f091a7a1e62e}{find\+\_\+modules}} (model, mclass=nn.\+Conv2d)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_acadf18716d33e04abbeb936e3961818e}{sparsity}} (model)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a7c61e514e5280bbe0828434fa149fc55}{prune}} (model, amount=0.\+3)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a47786566d98be89ac7d7c640921fa42c}{fuse\+\_\+conv\+\_\+and\+\_\+bn}} (conv, bn)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a598c955ca2e4051b0c9e3601db9d5a78}{model\+\_\+info}} (model, verbose=False, imgsz=640)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_af498e4842dd961c38444f645e38b552b}{scale\+\_\+img}} (img, ratio=1.\+0, same\+\_\+shape=False, gs=32)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_af9e05f408848d0912fc3dd3d86959778}{copy\+\_\+attr}} (a, b, include=(), exclude=())
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a6e432f564abf721ee87a2985deddafb2}{smart\+\_\+optimizer}} (model, name="{}Adam"{}, lr=0.\+001, momentum=0.\+9, decay=1e-\/5)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a3e25d10d4e75e9a1ae5fbec812145323}{smart\+\_\+hub\+\_\+load}} (repo="{}ultralytics/yolov5"{}, model="{}yolov5s"{}, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a189ad8961ec1e3568eb972f4caada889}{smart\+\_\+resume}} (ckpt, optimizer, ema=None, weights="{}yolov5s.\+pt"{}, epochs=300, resume=True)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a7fad7e4ebcc9e791aed03e9673b25388}{LOCAL\+\_\+\+RANK}} = int(os.\+getenv("{}LOCAL\+\_\+\+RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a249f75ffff26b41b256b209b614a21d9}{RANK}} = int(os.\+getenv("{}RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a3a4e5258f815f8e98167d46ef9c5b785}{WORLD\+\_\+\+SIZE}} = int(os.\+getenv("{}WORLD\+\_\+\+SIZE"{}, 1))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_ad74401a9fbe9c48fe7152252835f17d6}{thop}} = None
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_a048b0f9ddcba6d65fbded833be3604b9}{message}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1torch__utils_ad30466b6b72f312cd56544ca02e8a327}{category}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}PyTorch utils.\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1torch__utils_af9e05f408848d0912fc3dd3d86959778}\label{namespaceutils_1_1torch__utils_af9e05f408848d0912fc3dd3d86959778} 
+\index{utils.torch\_utils@{utils.torch\_utils}!copy\_attr@{copy\_attr}}
+\index{copy\_attr@{copy\_attr}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{copy\_attr()}{copy\_attr()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+copy\+\_\+attr (\begin{DoxyParamCaption}\item[{}]{a,  }\item[{}]{b,  }\item[{}]{include = {\ttfamily ()},  }\item[{}]{exclude = {\ttfamily ()} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00321}{321}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_ad4ad061373c0c5f916bbead9551feb9b}\label{namespaceutils_1_1torch__utils_ad4ad061373c0c5f916bbead9551feb9b} 
+\index{utils.torch\_utils@{utils.torch\_utils}!de\_parallel@{de\_parallel}}
+\index{de\_parallel@{de\_parallel}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{de\_parallel()}{de\_parallel()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+de\+\_\+parallel (\begin{DoxyParamCaption}\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00210}{210}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_aefea5597288ac8b960afab8aebfc687b}\label{namespaceutils_1_1torch__utils_aefea5597288ac8b960afab8aebfc687b} 
+\index{utils.torch\_utils@{utils.torch\_utils}!device\_count@{device\_count}}
+\index{device\_count@{device\_count}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{device\_count()}{device\_count()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+device\+\_\+count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00098}{98}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a7c12a9444daa8efcd340f091a7a1e62e}\label{namespaceutils_1_1torch__utils_a7c12a9444daa8efcd340f091a7a1e62e} 
+\index{utils.torch\_utils@{utils.torch\_utils}!find\_modules@{find\_modules}}
+\index{find\_modules@{find\_modules}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{find\_modules()}{find\_modules()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+find\+\_\+modules (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{mclass = {\ttfamily nn.Conv2d} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00227}{227}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a47786566d98be89ac7d7c640921fa42c}\label{namespaceutils_1_1torch__utils_a47786566d98be89ac7d7c640921fa42c} 
+\index{utils.torch\_utils@{utils.torch\_utils}!fuse\_conv\_and\_bn@{fuse\_conv\_and\_bn}}
+\index{fuse\_conv\_and\_bn@{fuse\_conv\_and\_bn}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{fuse\_conv\_and\_bn()}{fuse\_conv\_and\_bn()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+fuse\+\_\+conv\+\_\+and\+\_\+bn (\begin{DoxyParamCaption}\item[{}]{conv,  }\item[{}]{bn }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00252}{252}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a054a2cb76c2def88877e7f9b14d04dc3}\label{namespaceutils_1_1torch__utils_a054a2cb76c2def88877e7f9b14d04dc3} 
+\index{utils.torch\_utils@{utils.torch\_utils}!initialize\_weights@{initialize\_weights}}
+\index{initialize\_weights@{initialize\_weights}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{initialize\_weights()}{initialize\_weights()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+initialize\+\_\+weights (\begin{DoxyParamCaption}\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00215}{215}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a82ce1df6cd0d3b6d6f74ae2b11d1c76c}\label{namespaceutils_1_1torch__utils_a82ce1df6cd0d3b6d6f74ae2b11d1c76c} 
+\index{utils.torch\_utils@{utils.torch\_utils}!is\_parallel@{is\_parallel}}
+\index{is\_parallel@{is\_parallel}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{is\_parallel()}{is\_parallel()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+is\+\_\+parallel (\begin{DoxyParamCaption}\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00205}{205}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a598c955ca2e4051b0c9e3601db9d5a78}\label{namespaceutils_1_1torch__utils_a598c955ca2e4051b0c9e3601db9d5a78} 
+\index{utils.torch\_utils@{utils.torch\_utils}!model\_info@{model\_info}}
+\index{model\_info@{model\_info}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{model\_info()}{model\_info()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+model\+\_\+info (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{imgsz = {\ttfamily 640} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00282}{282}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a18a0dcae01772cf5609826dc1e49cca1}\label{namespaceutils_1_1torch__utils_a18a0dcae01772cf5609826dc1e49cca1} 
+\index{utils.torch\_utils@{utils.torch\_utils}!profile@{profile}}
+\index{profile@{profile}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{profile()}{profile()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+profile (\begin{DoxyParamCaption}\item[{}]{input,  }\item[{}]{ops,  }\item[{}]{n = {\ttfamily 10},  }\item[{}]{device = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}YOLOv5 speed/memory/FLOPs profiler
+Usage:
+    input = torch.randn(16, 3, 640, 640)
+    m1 = lambda x: x * torch.sigmoid(x)
+    m2 = nn.SiLU()
+    profile(input, [m1, m2], n=100)  # profile over 100 iterations
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00152}{152}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a7c61e514e5280bbe0828434fa149fc55}\label{namespaceutils_1_1torch__utils_a7c61e514e5280bbe0828434fa149fc55} 
+\index{utils.torch\_utils@{utils.torch\_utils}!prune@{prune}}
+\index{prune@{prune}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{prune()}{prune()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+prune (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{amount = {\ttfamily 0.3} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00241}{241}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a718f7c0fb416b9ab2f573d260c65a60b}\label{namespaceutils_1_1torch__utils_a718f7c0fb416b9ab2f573d260c65a60b} 
+\index{utils.torch\_utils@{utils.torch\_utils}!reshape\_classifier\_output@{reshape\_classifier\_output}}
+\index{reshape\_classifier\_output@{reshape\_classifier\_output}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{reshape\_classifier\_output()}{reshape\_classifier\_output()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+reshape\+\_\+classifier\+\_\+output (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{n = {\ttfamily 1000} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00065}{65}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_af498e4842dd961c38444f645e38b552b}\label{namespaceutils_1_1torch__utils_af498e4842dd961c38444f645e38b552b} 
+\index{utils.torch\_utils@{utils.torch\_utils}!scale\_img@{scale\_img}}
+\index{scale\_img@{scale\_img}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{scale\_img()}{scale\_img()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+scale\+\_\+img (\begin{DoxyParamCaption}\item[{}]{img,  }\item[{}]{ratio = {\ttfamily 1.0},  }\item[{}]{same\+\_\+shape = {\ttfamily False},  }\item[{}]{gs = {\ttfamily 32} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00309}{309}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a86588a994509a200060ffd8cd2d0b80a}\label{namespaceutils_1_1torch__utils_a86588a994509a200060ffd8cd2d0b80a} 
+\index{utils.torch\_utils@{utils.torch\_utils}!select\_device@{select\_device}}
+\index{select\_device@{select\_device}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{select\_device()}{select\_device()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+select\+\_\+device (\begin{DoxyParamCaption}\item[{}]{device = {\ttfamily "{}"{}},  }\item[{}]{batch\+\_\+size = {\ttfamily 0},  }\item[{}]{newline = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00108}{108}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a50a79a79edca8da4a7f50ecfcf61d9db}\label{namespaceutils_1_1torch__utils_a50a79a79edca8da4a7f50ecfcf61d9db} 
+\index{utils.torch\_utils@{utils.torch\_utils}!smart\_DDP@{smart\_DDP}}
+\index{smart\_DDP@{smart\_DDP}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{smart\_DDP()}{smart\_DDP()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+smart\+\_\+\+DDP (\begin{DoxyParamCaption}\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00053}{53}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a3e25d10d4e75e9a1ae5fbec812145323}\label{namespaceutils_1_1torch__utils_a3e25d10d4e75e9a1ae5fbec812145323} 
+\index{utils.torch\_utils@{utils.torch\_utils}!smart\_hub\_load@{smart\_hub\_load}}
+\index{smart\_hub\_load@{smart\_hub\_load}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{smart\_hub\_load()}{smart\_hub\_load()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+smart\+\_\+hub\+\_\+load (\begin{DoxyParamCaption}\item[{}]{repo = {\ttfamily "{}ultralytics/yolov5"{}},  }\item[{}]{model = {\ttfamily "{}yolov5s"{}},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00363}{363}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_acd98a5045058c2c8d51ddbc5d79577f3}\label{namespaceutils_1_1torch__utils_acd98a5045058c2c8d51ddbc5d79577f3} 
+\index{utils.torch\_utils@{utils.torch\_utils}!smart\_inference\_mode@{smart\_inference\_mode}}
+\index{smart\_inference\_mode@{smart\_inference\_mode}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{smart\_inference\_mode()}{smart\_inference\_mode()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+smart\+\_\+inference\+\_\+mode (\begin{DoxyParamCaption}\item[{}]{torch\+\_\+1\+\_\+9 = {\ttfamily check\+\_\+version(torch.\+\_\+\+\_\+version\+\_\+\+\_\+,~"{}1.9.0"{})} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00036}{36}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a6e432f564abf721ee87a2985deddafb2}\label{namespaceutils_1_1torch__utils_a6e432f564abf721ee87a2985deddafb2} 
+\index{utils.torch\_utils@{utils.torch\_utils}!smart\_optimizer@{smart\_optimizer}}
+\index{smart\_optimizer@{smart\_optimizer}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{smart\_optimizer()}{smart\_optimizer()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+smart\+\_\+optimizer (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{name = {\ttfamily "{}Adam"{}},  }\item[{}]{lr = {\ttfamily 0.001},  }\item[{}]{momentum = {\ttfamily 0.9},  }\item[{}]{decay = {\ttfamily 1e-\/5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00330}{330}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a189ad8961ec1e3568eb972f4caada889}\label{namespaceutils_1_1torch__utils_a189ad8961ec1e3568eb972f4caada889} 
+\index{utils.torch\_utils@{utils.torch\_utils}!smart\_resume@{smart\_resume}}
+\index{smart\_resume@{smart\_resume}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{smart\_resume()}{smart\_resume()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+smart\+\_\+resume (\begin{DoxyParamCaption}\item[{}]{ckpt,  }\item[{}]{optimizer,  }\item[{}]{ema = {\ttfamily None},  }\item[{}]{weights = {\ttfamily "{}yolov5s.pt"{}},  }\item[{}]{epochs = {\ttfamily 300},  }\item[{}]{resume = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00375}{375}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a0cdd25eabe2a046aaae796d08662e738}\label{namespaceutils_1_1torch__utils_a0cdd25eabe2a046aaae796d08662e738} 
+\index{utils.torch\_utils@{utils.torch\_utils}!smartCrossEntropyLoss@{smartCrossEntropyLoss}}
+\index{smartCrossEntropyLoss@{smartCrossEntropyLoss}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{smartCrossEntropyLoss()}{smartCrossEntropyLoss()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+smart\+Cross\+Entropy\+Loss (\begin{DoxyParamCaption}\item[{}]{label\+\_\+smoothing = {\ttfamily 0.0} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00044}{44}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_acadf18716d33e04abbeb936e3961818e}\label{namespaceutils_1_1torch__utils_acadf18716d33e04abbeb936e3961818e} 
+\index{utils.torch\_utils@{utils.torch\_utils}!sparsity@{sparsity}}
+\index{sparsity@{sparsity}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{sparsity()}{sparsity()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+sparsity (\begin{DoxyParamCaption}\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00232}{232}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_acc87192d17b26c0952f5a200a90f4130}\label{namespaceutils_1_1torch__utils_acc87192d17b26c0952f5a200a90f4130} 
+\index{utils.torch\_utils@{utils.torch\_utils}!time\_sync@{time\_sync}}
+\index{time\_sync@{time\_sync}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{time\_sync()}{time\_sync()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+time\+\_\+sync (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00145}{145}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a4bde0a04cf1360cc587360009d51653b}\label{namespaceutils_1_1torch__utils_a4bde0a04cf1360cc587360009d51653b} 
+\index{utils.torch\_utils@{utils.torch\_utils}!torch\_distributed\_zero\_first@{torch\_distributed\_zero\_first}}
+\index{torch\_distributed\_zero\_first@{torch\_distributed\_zero\_first}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{torch\_distributed\_zero\_first()}{torch\_distributed\_zero\_first()}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+torch\+\_\+distributed\+\_\+zero\+\_\+first (\begin{DoxyParamCaption}\item[{int}]{local\+\_\+rank }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00089}{89}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1torch__utils_ad30466b6b72f312cd56544ca02e8a327}\label{namespaceutils_1_1torch__utils_ad30466b6b72f312cd56544ca02e8a327} 
+\index{utils.torch\_utils@{utils.torch\_utils}!category@{category}}
+\index{category@{category}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{category}{category}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+category}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00033}{33}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a7fad7e4ebcc9e791aed03e9673b25388}\label{namespaceutils_1_1torch__utils_a7fad7e4ebcc9e791aed03e9673b25388} 
+\index{utils.torch\_utils@{utils.torch\_utils}!LOCAL\_RANK@{LOCAL\_RANK}}
+\index{LOCAL\_RANK@{LOCAL\_RANK}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{LOCAL\_RANK}{LOCAL\_RANK}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+LOCAL\+\_\+\+RANK = int(os.\+getenv("{}LOCAL\+\_\+\+RANK"{}, -\/1))}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00022}{22}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a048b0f9ddcba6d65fbded833be3604b9}\label{namespaceutils_1_1torch__utils_a048b0f9ddcba6d65fbded833be3604b9} 
+\index{utils.torch\_utils@{utils.torch\_utils}!message@{message}}
+\index{message@{message}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{message}{message}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+message}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00032}{32}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a249f75ffff26b41b256b209b614a21d9}\label{namespaceutils_1_1torch__utils_a249f75ffff26b41b256b209b614a21d9} 
+\index{utils.torch\_utils@{utils.torch\_utils}!RANK@{RANK}}
+\index{RANK@{RANK}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{RANK}{RANK}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+RANK = int(os.\+getenv("{}RANK"{}, -\/1))}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00023}{23}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_ad74401a9fbe9c48fe7152252835f17d6}\label{namespaceutils_1_1torch__utils_ad74401a9fbe9c48fe7152252835f17d6} 
+\index{utils.torch\_utils@{utils.torch\_utils}!thop@{thop}}
+\index{thop@{thop}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{thop}{thop}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+thop = None}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00029}{29}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1torch__utils_a3a4e5258f815f8e98167d46ef9c5b785}\label{namespaceutils_1_1torch__utils_a3a4e5258f815f8e98167d46ef9c5b785} 
+\index{utils.torch\_utils@{utils.torch\_utils}!WORLD\_SIZE@{WORLD\_SIZE}}
+\index{WORLD\_SIZE@{WORLD\_SIZE}!utils.torch\_utils@{utils.torch\_utils}}
+\doxysubsubsection{\texorpdfstring{WORLD\_SIZE}{WORLD\_SIZE}}
+{\footnotesize\ttfamily utils.\+torch\+\_\+utils.\+WORLD\+\_\+\+SIZE = int(os.\+getenv("{}WORLD\+\_\+\+SIZE"{}, 1))}
+
+
+
+Definition at line \mbox{\hyperlink{torch__utils_8py_source_l00024}{24}} of file \mbox{\hyperlink{torch__utils_8py_source}{torch\+\_\+utils.\+py}}.
+

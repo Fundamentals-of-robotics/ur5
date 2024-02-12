@@ -1,6 +1,25 @@
 var searchData=
 [
-  ['ur5direct_0',['ur5Direct',['../class_inverse_differential.html#aa22074a716b2eb75b0c215feb94ba856',1,'InverseDifferential']]],
-  ['ur5inverse_1',['ur5Inverse',['../class_inverse_differential.html#a577d0f75335d43dd3685e08f58ad8de8',1,'InverseDifferential']]],
-  ['ur5jac_2',['ur5Jac',['../class_inverse_differential.html#acf950624c6fb514c2a444c857fdac632',1,'InverseDifferential']]]
+  ['labels_5fto_5fclass_5fweights_0',['labels_to_class_weights',['../namespaceutils_1_1general.html#ac88756120b16a78328ce3756cc0e0254',1,'utils::general']]],
+  ['labels_5fto_5fimage_5fweights_1',['labels_to_image_weights',['../namespaceutils_1_1general.html#a36317aa57f14e948b480d6e096dc4095',1,'utils::general']]],
+  ['letterbox_2',['letterbox',['../namespaceutils_1_1augmentations.html#ab93008816a4cd0a0d666edbf52443fd2',1,'utils::augmentations']]],
+  ['load_5fimage_3',['load_image',['../classutils_1_1dataloaders_1_1_load_images_and_labels.html#ad7355c09718eacd1e94296447e55ea8a',1,'utils::dataloaders::LoadImagesAndLabels']]],
+  ['load_5fmosaic_4',['load_mosaic',['../classutils_1_1dataloaders_1_1_load_images_and_labels.html#a6610f7b878a6088e3c476b9dde13c85d',1,'utils.dataloaders.LoadImagesAndLabels.load_mosaic()'],['../classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks.html#a7ca226729be42b51475e2449a1f5d642',1,'utils.segment.dataloaders.LoadImagesAndLabelsAndMasks.load_mosaic()']]],
+  ['load_5fmosaic9_5',['load_mosaic9',['../classutils_1_1dataloaders_1_1_load_images_and_labels.html#a156fbc1a6ccab1ee4c998e7a4f7cf8d0',1,'utils::dataloaders::LoadImagesAndLabels']]],
+  ['log_6',['log',['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#a7771c6d891d069f6f228be631e0ebbaf',1,'utils::loggers::wandb::wandb_utils::WandbLogger']]],
+  ['log_5fasset_7',['log_asset',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#a8ae1e33faf89a6430c65aca0cf8787cd',1,'utils::loggers::comet::CometLogger']]],
+  ['log_5fasset_5fdata_8',['log_asset_data',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#af10add0e07581ebbffb26cbe51a5ea26',1,'utils::loggers::comet::CometLogger']]],
+  ['log_5fdebug_5fsamples_9',['log_debug_samples',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#a3528c15db3f74a26b3e3556fdd6bd13f',1,'utils::loggers::clearml::clearml_utils::ClearmlLogger']]],
+  ['log_5fgraph_10',['log_graph',['../classutils_1_1loggers_1_1_generic_logger.html#ae1147566cc46c3cace817fcd64f08b34',1,'utils::loggers::GenericLogger']]],
+  ['log_5fimage_11',['log_image',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#a43029d5b428409eedd85923cd70c61fa',1,'utils::loggers::comet::CometLogger']]],
+  ['log_5fimage_5fwith_5fboxes_12',['log_image_with_boxes',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#a5ee572c088e2e758413cded84d49c43a',1,'utils::loggers::clearml::clearml_utils::ClearmlLogger']]],
+  ['log_5fimages_13',['log_images',['../classutils_1_1loggers_1_1_generic_logger.html#a60e8e1316bbf59bbe4ecfd1a56c78314',1,'utils::loggers::GenericLogger']]],
+  ['log_5fmetrics_14',['log_metrics',['../classutils_1_1loggers_1_1_generic_logger.html#a45fc8f9d8ff94009aa4302b749229e37',1,'utils.loggers.GenericLogger.log_metrics()'],['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#ac26975ac85d389a14637552830bd389a',1,'utils.loggers.comet.CometLogger.log_metrics()']]],
+  ['log_5fmodel_15',['log_model',['../classutils_1_1loggers_1_1_generic_logger.html#a1921b1779c442e5bcc2eaee91a0dafa6',1,'utils.loggers.GenericLogger.log_model()'],['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#ae36552f64bd0f947b46c4a654517c3fb',1,'utils.loggers.clearml.clearml_utils.ClearmlLogger.log_model()'],['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#adab26ff12d66fec7a61adb753790a938',1,'utils.loggers.comet.CometLogger.log_model()'],['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#a37a194c09e8927f277c0a3bc4380e0bd',1,'utils.loggers.wandb.wandb_utils.WandbLogger.log_model()']]],
+  ['log_5fparameters_16',['log_parameters',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#acfc7e05aab05f4a4e4a9c289680be29b',1,'utils::loggers::comet::CometLogger']]],
+  ['log_5fplot_17',['log_plot',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#a0df3ca2e6b84285e0657e1b2e815c82c',1,'utils::loggers::clearml::clearml_utils::ClearmlLogger']]],
+  ['log_5fpredictions_18',['log_predictions',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#a36e71d6b02c0d1f861f9dfc6272e0003',1,'utils::loggers::comet::CometLogger']]],
+  ['log_5fscalars_19',['log_scalars',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#a7c3429e164bc207e8598e5b8280516a1',1,'utils::loggers::clearml::clearml_utils::ClearmlLogger']]],
+  ['log_5fsummary_20',['log_summary',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#a6c9d3fd19bf78c51282d31077294d0ab',1,'utils::loggers::clearml::clearml_utils::ClearmlLogger']]],
+  ['log_5ftensorboard_5fgraph_21',['log_tensorboard_graph',['../namespaceutils_1_1loggers.html#a38b39ba8e751a1d1fb3e03c46efc346c',1,'utils::loggers']]]
 ];

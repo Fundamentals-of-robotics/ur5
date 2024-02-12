@@ -1,21 +1,58 @@
-\doxysection{src/ur5\+\_\+task\+\_\+library.cpp File Reference}
-\hypertarget{ur5__task__library_8cpp}{}\label{ur5__task__library_8cpp}\index{src/ur5\_task\_library.cpp@{src/ur5\_task\_library.cpp}}
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/src/ur5\+\_\+task\+\_\+library.cpp File Reference}
+\hypertarget{ur5__task__library_8cpp}{}\label{ur5__task__library_8cpp}\index{C:/Users/dorij/OneDrive/Desktop/ur5/src/ur5\_task\_library.cpp@{C:/Users/dorij/OneDrive/Desktop/ur5/src/ur5\_task\_library.cpp}}
 {\ttfamily \#include "{}ur5/ur5\+\_\+task\+\_\+library.\+h"{}}\newline
+Include dependency graph for ur5\+\_\+task\+\_\+library.\+cpp\+:
+% FIG 0
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{ur5__task__library_8cpp_a27322d3e02e036a55a58ff0a38785621}{gestisci\+Stato}} (\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \&\mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}, ros\+::\+Node\+Handle n)
+void \mbox{\hyperlink{ur5__task__library_8cpp_a314d65e5c6b186779332124fa865880a}{state\+Handler}} (\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \&\mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}, ros\+::\+Node\+Handle n)
+\item 
+void \mbox{\hyperlink{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}{world\+To\+Robot\+Frame}} (Vector3d \&coords, Vector3d \&euler)
+\item 
+void \mbox{\hyperlink{ur5__task__library_8cpp_a7ce87af21aae2b76f8cab5b9a81f8e8e}{block\+Set}} (double x, double y, double z)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{ur5__task__library_8cpp_a27322d3e02e036a55a58ff0a38785621}\label{ur5__task__library_8cpp_a27322d3e02e036a55a58ff0a38785621} 
-\index{ur5\_task\_library.cpp@{ur5\_task\_library.cpp}!gestisciStato@{gestisciStato}}
-\index{gestisciStato@{gestisciStato}!ur5\_task\_library.cpp@{ur5\_task\_library.cpp}}
-\doxysubsubsection{\texorpdfstring{gestisciStato()}{gestisciStato()}}
-{\footnotesize\ttfamily void gestisci\+Stato (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \&}]{state,  }\item[{ros\+::\+Node\+Handle}]{n }\end{DoxyParamCaption})}
+\Hypertarget{ur5__task__library_8cpp_a7ce87af21aae2b76f8cab5b9a81f8e8e}\label{ur5__task__library_8cpp_a7ce87af21aae2b76f8cab5b9a81f8e8e} 
+\index{ur5\_task\_library.cpp@{ur5\_task\_library.cpp}!blockSet@{blockSet}}
+\index{blockSet@{blockSet}!ur5\_task\_library.cpp@{ur5\_task\_library.cpp}}
+\doxysubsubsection{\texorpdfstring{blockSet()}{blockSet()}}
+{\footnotesize\ttfamily void block\+Set (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y,  }\item[{double}]{z }\end{DoxyParamCaption})}
+
+the function implements a calibration of the values received by the vision node. We need this function for the precision required by the motion planner
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & x position received by the vision node \\
+\hline
+{\em y} & y position received by the vision node \\
+\hline
+{\em z} & z position received by the vision node \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8cpp_source_l00528}{528}} of file \mbox{\hyperlink{ur5__task__library_8cpp_source}{ur5\+\_\+task\+\_\+library.\+cpp}}.
+
+\Hypertarget{ur5__task__library_8cpp_a314d65e5c6b186779332124fa865880a}\label{ur5__task__library_8cpp_a314d65e5c6b186779332124fa865880a} 
+\index{ur5\_task\_library.cpp@{ur5\_task\_library.cpp}!stateHandler@{stateHandler}}
+\index{stateHandler@{stateHandler}!ur5\_task\_library.cpp@{ur5\_task\_library.cpp}}
+\doxysubsubsection{\texorpdfstring{stateHandler()}{stateHandler()}}
+{\footnotesize\ttfamily void state\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \&}]{state,  }\item[{ros\+::\+Node\+Handle}]{n }\end{DoxyParamCaption})}
 
 the file contains the implementation of all functions defined in the ur5\+\_\+task\+\_\+planner\+\_\+library.\+h file 
 
 Definition at line \mbox{\hyperlink{ur5__task__library_8cpp_source_l00007}{7}} of file \mbox{\hyperlink{ur5__task__library_8cpp_source}{ur5\+\_\+task\+\_\+library.\+cpp}}.
+
+\Hypertarget{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}\label{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc} 
+\index{ur5\_task\_library.cpp@{ur5\_task\_library.cpp}!worldToRobotFrame@{worldToRobotFrame}}
+\index{worldToRobotFrame@{worldToRobotFrame}!ur5\_task\_library.cpp@{ur5\_task\_library.cpp}}
+\doxysubsubsection{\texorpdfstring{worldToRobotFrame()}{worldToRobotFrame()}}
+{\footnotesize\ttfamily void world\+To\+Robot\+Frame (\begin{DoxyParamCaption}\item[{Vector3d \&}]{coords,  }\item[{Vector3d \&}]{euler }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8cpp_source_l00517}{517}} of file \mbox{\hyperlink{ur5__task__library_8cpp_source}{ur5\+\_\+task\+\_\+library.\+cpp}}.
 

@@ -1,0 +1,233 @@
+\doxysection{clearml\+\_\+utils.\+py}
+\hypertarget{clearml__utils_8py_source}{}\label{clearml__utils_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/clearml/clearml\_utils.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/clearml/clearml\_utils.py}}
+\mbox{\hyperlink{clearml__utils_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}Main\ Logger\ class\ for\ ClearML\ experiment\ tracking."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00002}00002\ \textcolor{keyword}{import}\ glob}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00003}00003\ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00004}00004\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00006}00006\ \textcolor{keyword}{import}\ matplotlib.image\ \textcolor{keyword}{as}\ mpimg}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00007}00007\ \textcolor{keyword}{import}\ matplotlib.pyplot\ \textcolor{keyword}{as}\ plt}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00008}00008\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00009}00009\ \textcolor{keyword}{import}\ yaml}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00010}00010\ \textcolor{keyword}{from}\ ultralytics.utils.plotting\ \textcolor{keyword}{import}\ Annotator,\ colors}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00012}00012\ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{import}\ clearml}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{from}\ clearml\ \textcolor{keyword}{import}\ Dataset,\ Task}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{assert}\ hasattr(clearml,\ \textcolor{stringliteral}{"{}\_\_version\_\_"{}})\ \ \textcolor{comment}{\#\ verify\ package\ import\ not\ local\ dir}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00017}00017\ \textcolor{keywordflow}{except}\ (ImportError,\ AssertionError):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00018}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1clearml__utils_a8ae77acb99da5bb1d375c731a280da37}{00018}}\ \ \ \ \ clearml\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00021}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1clearml__utils_a2eae54d3a514d2bfdc6c6b921e4a17d0}{00021}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1clearml__utils_a2eae54d3a514d2bfdc6c6b921e4a17d0}{construct\_dataset}}(clearml\_info\_string):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00022}00022\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ in\ a\ clearml\ dataset\ and\ fill\ the\ internal\ data\_dict\ with\ its\ contents."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00023}00023\ \ \ \ \ dataset\_id\ =\ clearml\_info\_string.replace(\textcolor{stringliteral}{"{}clearml://"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00024}00024\ \ \ \ \ dataset\ =\ Dataset.get(dataset\_id=dataset\_id)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00025}00025\ \ \ \ \ dataset\_root\_path\ =\ Path(dataset.get\_local\_copy())}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00027}00027\ \ \ \ \ \textcolor{comment}{\#\ We'll\ search\ for\ the\ yaml\ file\ definition\ in\ the\ dataset}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00028}00028\ \ \ \ \ yaml\_filenames\ =\ list(glob.glob(str(dataset\_root\_path\ /\ \textcolor{stringliteral}{"{}*.yaml"{}}))\ +\ glob.glob(str(dataset\_root\_path\ /\ \textcolor{stringliteral}{"{}*.yml"{}})))}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00029}00029\ \ \ \ \ \textcolor{keywordflow}{if}\ len(yaml\_filenames)\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}More\ than\ one\ yaml\ file\ was\ found\ in\ the\ dataset\ root,\ cannot\ determine\ which\ one\ contains\ "{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}the\ dataset\ definition\ this\ way."{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00034}00034\ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{keywordflow}{not}\ yaml\_filenames:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}No\ yaml\ definition\ found\ in\ dataset\ root\ path,\ check\ that\ there\ is\ a\ correct\ yaml\ file\ "{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}inside\ the\ dataset\ root\ path."{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{with}\ open(yaml\_filenames[0])\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ dataset\_definition\ =\ yaml.safe\_load(f)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00042}00042\ \ \ \ \ \textcolor{keyword}{assert}\ set(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ dataset\_definition.keys()}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00044}00044\ \ \ \ \ ).issuperset(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}test"{}},\ \textcolor{stringliteral}{"{}val"{}},\ \textcolor{stringliteral}{"{}nc"{}},\ \textcolor{stringliteral}{"{}names"{}}\}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00046}00046\ \ \ \ \ ),\ \textcolor{stringliteral}{"{}The\ right\ keys\ were\ not\ found\ in\ the\ yaml\ file,\ make\ sure\ it\ at\ least\ has\ the\ following\ keys:\ ('train',\ 'test',\ 'val',\ 'nc',\ 'names')"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00048}00048\ \ \ \ \ data\_dict\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00049}00049\ \ \ \ \ data\_dict[\textcolor{stringliteral}{"{}train"{}}]\ =\ (}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ str((dataset\_root\_path\ /\ dataset\_definition[\textcolor{stringliteral}{"{}train"{}}]).resolve())\ \textcolor{keywordflow}{if}\ dataset\_definition[\textcolor{stringliteral}{"{}train"{}}]\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00051}00051\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00052}00052\ \ \ \ \ data\_dict[\textcolor{stringliteral}{"{}test"{}}]\ =\ (}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ str((dataset\_root\_path\ /\ dataset\_definition[\textcolor{stringliteral}{"{}test"{}}]).resolve())\ \textcolor{keywordflow}{if}\ dataset\_definition[\textcolor{stringliteral}{"{}test"{}}]\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00054}00054\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00055}00055\ \ \ \ \ data\_dict[\textcolor{stringliteral}{"{}val"{}}]\ =\ (}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ str((dataset\_root\_path\ /\ dataset\_definition[\textcolor{stringliteral}{"{}val"{}}]).resolve())\ \textcolor{keywordflow}{if}\ dataset\_definition[\textcolor{stringliteral}{"{}val"{}}]\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00057}00057\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00058}00058\ \ \ \ \ data\_dict[\textcolor{stringliteral}{"{}nc"{}}]\ =\ dataset\_definition[\textcolor{stringliteral}{"{}nc"{}}]}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00059}00059\ \ \ \ \ data\_dict[\textcolor{stringliteral}{"{}names"{}}]\ =\ dataset\_definition[\textcolor{stringliteral}{"{}names"{}}]}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00061}00061\ \ \ \ \ \textcolor{keywordflow}{return}\ data\_dict}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00064}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger}{00064}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger}{ClearmlLogger}}:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00065}00065\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ Log\ training\ runs,\ datasets,\ models,\ and\ predictions\ to\ ClearML.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00067}00067\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00068}00068\ \textcolor{stringliteral}{\ \ \ \ This\ logger\ sends\ information\ to\ ClearML\ at\ app.clear.ml\ or\ to\ your\ own\ hosted\ server.\ By\ default,\ this\ information}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ includes\ hyperparameters,\ system\ configuration\ and\ metrics,\ model\ metrics,\ code\ information\ and\ basic\ data\ metrics}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ and\ analyses.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00071}00071\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00072}00072\ \textcolor{stringliteral}{\ \ \ \ By\ providing\ additional\ command\ line\ arguments\ to\ train.py,\ datasets,\ models\ and\ predictions\ can\ also\ be\ logged.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00075}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6c92f304b10f7e32044a8a1925886f06}{00075}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6c92f304b10f7e32044a8a1925886f06}{\_\_init\_\_}}(self,\ opt,\ hyp):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ Initialize\ ClearML\ Task,\ this\ object\ will\ capture\ the\ experiment}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ Upload\ dataset\ version\ to\ ClearML\ Data\ if\ opt.upload\_dataset\ is\ True}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00079}00079\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ opt\ (namespace)\ -\/-\/\ Commandline\ arguments\ for\ this\ run}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ hyp\ (dict)\ -\/-\/\ Hyperparameters\ for\ this\ run}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00083}00083\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00085}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_af29dc9b086f9a41c8a5ba8cd628fb547}{00085}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_af29dc9b086f9a41c8a5ba8cd628fb547}{current\_epoch}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Keep\ tracked\ of\ amount\ of\ logged\ images\ to\ enforce\ a\ limit}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00087}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6716d988b1bdc1c3a34fb3c253ce0340}{00087}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6716d988b1bdc1c3a34fb3c253ce0340}{current\_epoch\_logged\_images}}\ =\ set()}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Maximum\ number\ of\ images\ to\ log\ to\ clearML\ per\ epoch}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00089}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_aa30aa334883840209ff09dc0a29cb254}{00089}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_aa30aa334883840209ff09dc0a29cb254}{max\_imgs\_to\_log\_per\_epoch}}\ =\ 16}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ the\ interval\ of\ epochs\ when\ bounding\ box\ images\ should\ be\ logged}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Only\ for\ detection\ task\ though!}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}bbox\_interval"{}}\ \textcolor{keywordflow}{in}\ opt:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00093}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a4c24ab925c18c89502d5a44d9be44159}{00093}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a4c24ab925c18c89502d5a44d9be44159}{bbox\_interval}}\ =\ opt.bbox\_interval}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00094}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a555ff105debaf54641db37336f16db74}{00094}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a555ff105debaf54641db37336f16db74}{clearml}}\ =\ clearml}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00095}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{00095}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00096}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_ae7f0778446ae13c0f324f9a48c211a62}{00096}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_ae7f0778446ae13c0f324f9a48c211a62}{data\_dict}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a555ff105debaf54641db37336f16db74}{clearml}}:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}\ =\ Task.init(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ project\_name=\textcolor{stringliteral}{"{}YOLOv5"{}}\ \textcolor{keywordflow}{if}\ str(opt.project).startswith(\textcolor{stringliteral}{"{}runs/"{}})\ \textcolor{keywordflow}{else}\ opt.project,}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ task\_name=opt.name\ \textcolor{keywordflow}{if}\ opt.name\ !=\ \textcolor{stringliteral}{"{}exp"{}}\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}Training"{}},}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tags=[\textcolor{stringliteral}{"{}YOLOv5"{}}],}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output\_uri=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reuse\_last\_task\_id=opt.exist\_ok,}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ auto\_connect\_frameworks=\{\textcolor{stringliteral}{"{}pytorch"{}}:\ \textcolor{keyword}{False},\ \textcolor{stringliteral}{"{}matplotlib"{}}:\ \textcolor{keyword}{False}\},}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ We\ disconnect\ pytorch\ auto-\/detection,\ because\ we\ added\ manual\ model\ save\ points\ in\ the\ code}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ClearML's\ hooks\ will\ already\ grab\ all\ general\ parameters}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Only\ the\ hyperparameters\ coming\ from\ the\ yaml\ config\ file}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ will\ have\ to\ be\ added\ manually!}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.connect(hyp,\ name=\textcolor{stringliteral}{"{}Hyperparameters"{}})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.connect(opt,\ name=\textcolor{stringliteral}{"{}Args"{}})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Make\ sure\ the\ code\ is\ easily\ remotely\ runnable\ by\ setting\ the\ docker\ image\ to\ use\ by\ the\ remote\ agent}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.set\_base\_docker(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ultralytics/yolov5:latest"{}},}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ docker\_arguments=\textcolor{stringliteral}{'-\/-\/ipc=host\ -\/e="{}CLEARML\_AGENT\_SKIP\_PYTHON\_ENV\_INSTALL=1"{}'},}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ docker\_setup\_bash\_script=\textcolor{stringliteral}{"{}pip\ install\ clearml"{}},}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ ClearML\ Dataset\ Version\ if\ requested}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.data.startswith(\textcolor{stringliteral}{"{}clearml://"{}}):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ data\_dict\ should\ have\ the\ following\ keys:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ names,\ nc\ (number\ of\ classes),\ test,\ train,\ val\ (all\ three\ relative\ paths\ to\ ../datasets)}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_ae7f0778446ae13c0f324f9a48c211a62}{data\_dict}}\ =\ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1clearml__utils_a2eae54d3a514d2bfdc6c6b921e4a17d0}{construct\_dataset}}(opt.data)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Set\ data\ to\ data\_dict\ because\ wandb\ will\ crash\ without\ this\ information\ and\ opt\ is\ the\ best\ way}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ to\ give\ it\ to\ them}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opt.data\ =\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_ae7f0778446ae13c0f324f9a48c211a62}{data\_dict}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00129}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a7c3429e164bc207e8598e5b8280516a1}{00129}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a7c3429e164bc207e8598e5b8280516a1}{log\_scalars}}(self,\ metrics,\ epoch):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00131}00131\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Log\ scalars/metrics\ to\ ClearML.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00132}00132\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00133}00133\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00134}00134\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ metrics\ (dict)\ Metrics\ in\ dict\ format:\ \{"{}metrics/mAP"{}:\ 0.8,\ ...\}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00135}00135\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ epoch\ (int)\ iteration\ number\ for\ the\ current\ set\ of\ metrics}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00136}00136\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ metrics.items():}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ title,\ series\ =\ k.split(\textcolor{stringliteral}{"{}/"{}})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.get\_logger().report\_scalar(title,\ series,\ v,\ epoch)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00141}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_ae36552f64bd0f947b46c4a654517c3fb}{00141}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_ae36552f64bd0f947b46c4a654517c3fb}{log\_model}}(self,\ model\_path,\ model\_name,\ epoch=0):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00143}00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Log\ model\ weights\ to\ ClearML.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00144}00144\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00145}00145\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00146}00146\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ model\_path\ (PosixPath\ or\ str)\ Path\ to\ the\ model\ weights}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00147}00147\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ model\_name\ (str)\ Name\ of\ the\ model\ visible\ in\ ClearML}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00148}00148\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ epoch\ (int)\ Iteration\ /\ epoch\ of\ the\ model\ weights}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00149}00149\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.update\_output\_model(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ model\_path=str(model\_path),\ name=model\_name,\ iteration=epoch,\ auto\_delete\_file=\textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00154}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6c9d3fd19bf78c51282d31077294d0ab}{00154}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6c9d3fd19bf78c51282d31077294d0ab}{log\_summary}}(self,\ metrics):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00156}00156\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Log\ final\ metrics\ to\ a\ summary\ table.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00157}00157\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00158}00158\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00159}00159\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ metrics\ (dict)\ Metrics\ in\ dict\ format:\ \{"{}metrics/mAP"{}:\ 0.8,\ ...\}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00160}00160\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ metrics.items():}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.get\_logger().report\_single\_value(k,\ v)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00164}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a0df3ca2e6b84285e0657e1b2e815c82c}{00164}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a0df3ca2e6b84285e0657e1b2e815c82c}{log\_plot}}(self,\ title,\ plot\_path):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00166}00166\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Log\ image\ as\ plot\ in\ the\ plot\ section\ of\ ClearML.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00167}00167\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00168}00168\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00169}00169\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ title\ (str)\ Title\ of\ the\ plot}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00170}00170\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ plot\_path\ (PosixPath\ or\ str)\ Path\ to\ the\ saved\ image\ file}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00171}00171\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ img\ =\ mpimg.imread(plot\_path)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ fig\ =\ plt.figure()}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ ax\ =\ fig.add\_axes([0,\ 0,\ 1,\ 1],\ frameon=\textcolor{keyword}{False},\ aspect=\textcolor{stringliteral}{"{}auto"{}},\ xticks=[],\ yticks=[])\ \ \textcolor{comment}{\#\ no\ ticks}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ ax.imshow(img)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.get\_logger().report\_matplotlib\_figure(title,\ \textcolor{stringliteral}{"{}"{}},\ figure=fig,\ report\_interactive=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00179}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a3528c15db3f74a26b3e3556fdd6bd13f}{00179}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a3528c15db3f74a26b3e3556fdd6bd13f}{log\_debug\_samples}}(self,\ files,\ title="{}Debug\ Samples"{}):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00181}00181\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Log\ files\ (images)\ as\ debug\ samples\ in\ the\ ClearML\ task.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00182}00182\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00183}00183\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00184}00184\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ files\ (List(PosixPath))\ a\ list\ of\ file\ paths\ in\ PosixPath\ format}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00185}00185\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ title\ (str)\ A\ title\ that\ groups\ together\ images\ with\ the\ same\ values}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00186}00186\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ files:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ f.exists():}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ re.search(\textcolor{stringliteral}{r"{}\_batch(\(\backslash\)d+)"{}},\ f.name)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iteration\ =\ int(it.groups()[0])\ \textcolor{keywordflow}{if}\ it\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.get\_logger().report\_image(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ title=title,\ series=f.name.replace(f\textcolor{stringliteral}{"{}\_batch\{iteration\}"{}},\ \textcolor{stringliteral}{"{}"{}}),\ local\_path=str(f),\ iteration=iteration}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00195}\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a5ee572c088e2e758413cded84d49c43a}{00195}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a5ee572c088e2e758413cded84d49c43a}{log\_image\_with\_boxes}}(self,\ image\_path,\ boxes,\ class\_names,\ image,\ conf\_threshold=0.25):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00197}00197\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Draw\ the\ bounding\ boxes\ on\ a\ single\ image\ and\ report\ the\ result\ as\ a\ ClearML\ debug\ sample.}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00198}00198\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00199}00199\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ arguments:}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00200}00200\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ image\_path\ (PosixPath)\ the\ path\ the\ original\ image\ file}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00201}00201\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ boxes\ (list):\ list\ of\ scaled\ predictions\ in\ the\ format\ -\/\ [xmin,\ ymin,\ xmax,\ ymax,\ confidence,\ class]}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00202}00202\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ class\_names\ (dict):\ dict\ containing\ mapping\ of\ class\ int\ to\ class\ name}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00203}00203\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ image\ (Tensor):\ A\ torch\ tensor\ containing\ the\ actual\ image\ data}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00204}00204\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ len(self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6716d988b1bdc1c3a34fb3c253ce0340}{current\_epoch\_logged\_images}})\ <\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_aa30aa334883840209ff09dc0a29cb254}{max\_imgs\_to\_log\_per\_epoch}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_af29dc9b086f9a41c8a5ba8cd628fb547}{current\_epoch}}\ >=\ 0}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ (self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_af29dc9b086f9a41c8a5ba8cd628fb547}{current\_epoch}}\ \%\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a4c24ab925c18c89502d5a44d9be44159}{bbox\_interval}}\ ==\ 0\ \textcolor{keywordflow}{and}\ image\_path\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6716d988b1bdc1c3a34fb3c253ce0340}{current\_epoch\_logged\_images}})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ np.ascontiguousarray(np.moveaxis(image.mul(255).clamp(0,\ 255).byte().cpu().numpy(),\ 0,\ 2))}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ annotator\ =\ Annotator(im=im,\ pil=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ (conf,\ class\_nr,\ box)\ \textcolor{keywordflow}{in}\ enumerate(zip(boxes[:,\ 4],\ boxes[:,\ 5],\ boxes[:,\ :4])):}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color\ =\ colors(i)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ class\_name\ =\ class\_names[int(class\_nr)]}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ confidence\_percentage\ =\ round(float(conf)\ *\ 100,\ 2)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ label\ =\ f\textcolor{stringliteral}{"{}\{class\_name\}:\ \{confidence\_percentage\}\%"{}}}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ conf\ >\ conf\_threshold:}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ annotator.rectangle(box.cpu().numpy(),\ outline=color)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ annotator.box\_label(box.cpu().numpy(),\ label=label,\ color=color)}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ annotated\_image\ =\ annotator.result()}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a07b6ea0804052e51a504bf70ba323910}{task}}.get\_logger().report\_image(}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ title=\textcolor{stringliteral}{"{}Bounding\ Boxes"{}},\ series=image\_path.name,\ iteration=self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_af29dc9b086f9a41c8a5ba8cd628fb547}{current\_epoch}},\ image=annotated\_image}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{clearml__utils_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger_a6716d988b1bdc1c3a34fb3c253ce0340}{current\_epoch\_logged\_images}}.add(image\_path)}
+
+\end{DoxyCode}

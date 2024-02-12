@@ -1,0 +1,355 @@
+\doxysection{vision\+\_\+node Namespace Reference}
+\hypertarget{namespacevision__node}{}\label{namespacevision__node}\index{vision\_node@{vision\_node}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3}{get\+\_\+block\+\_\+values}} (name)
+\item 
+\mbox{\hyperlink{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94}{get\+\_\+block\+\_\+points}} (\mbox{\hyperlink{namespacevision__node_a1281bdc997309bb53f56defe414e474c}{image}}, block)
+\item 
+\mbox{\hyperlink{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c}{convert\+\_\+2\+D\+\_\+to\+\_\+3D}} (\mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{point\+\_\+cloud2\+\_\+msg}}, zed\+\_\+points)
+\item 
+\mbox{\hyperlink{namespacevision__node_a507cee100077bf84ad28fee5103ab116}{get\+\_\+vertices}} (wf\+\_\+points)
+\item 
+\mbox{\hyperlink{namespacevision__node_a64f85026e26d634c747447b1cd9c1484}{get\+\_\+block\+\_\+pose}} (miny\+\_\+minx, maxy\+\_\+minx, minx)
+\item 
+\mbox{\hyperlink{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33}{get\+\_\+block\+\_\+center\+\_\+point}} (min\+\_\+x, \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}, block\+\_\+short\+\_\+side, block\+\_\+long\+\_\+side, block\+\_\+height)
+\item 
+\mbox{\hyperlink{namespacevision__node_a6638683337d1b6ed979be52d0c546f29}{store\+\_\+block\+\_\+data}} (name, x, y, z, \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}})
+\item 
+None \mbox{\hyperlink{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d}{object\+\_\+detection}} (Image image\+\_\+msg, Point\+Cloud2 \mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{point\+\_\+cloud2\+\_\+msg}}, \mbox{\hyperlink{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}{model}})
+\item 
+\mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{send\+\_\+blocks\+\_\+info}} (req)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+list \mbox{\hyperlink{namespacevision__node_a4b69f78e85e2fae1da638ad13cbdff90}{blocks\+\_\+data}} = \mbox{[}$\,$\mbox{]}
+\item 
+bool \mbox{\hyperlink{namespacevision__node_a8957192d38e03a80cbc0f8c71ea751de}{start}} = False
+\item 
+float \mbox{\hyperlink{namespacevision__node_a493523e0470ec5889bbf946a37ca314a}{table\+\_\+height}} = 0.\+88
+\item 
+float \mbox{\hyperlink{namespacevision__node_a1d183c0332572a9fd5f5ca581f5babf1}{tolerance\+\_\+error}} = 0.\+001
+\item 
+float \mbox{\hyperlink{namespacevision__node_a2415130221427f6c7b2fe1b96c0937f5}{block\+\_\+error}} = 0.\+001
+\item 
+float \mbox{\hyperlink{namespacevision__node_a2d465472e457ac6e6989208240fe1755}{value\+\_\+error}} = 0.\+001
+\item 
+float \mbox{\hyperlink{namespacevision__node_a08184610e854712aa57975fbd3f709c1}{distance\+\_\+error}} = 0.\+005
+\item 
+dict \mbox{\hyperlink{namespacevision__node_a4ba011c1f1e58442602adc37699abc98}{blocks\+\_\+values}}
+\item 
+dict \mbox{\hyperlink{namespacevision__node_a4028e6c368113544966ce88ac3a60d20}{color\+\_\+ranges}}
+\item 
+\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}} = os.\+path.\+expanduser(\textquotesingle{}\texorpdfstring{$\sim$}{\string~}\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespacevision__node_ab346d0b407e46f95551d3908df945675}{path\+\_\+yolo}} = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}}, "{}ros\+\_\+ws/src/ur5/vision/yolo"{})
+\item 
+\mbox{\hyperlink{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}{path\+\_\+vision}} = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}}, "{}ros\+\_\+ws/src/ur5/vision"{})
+\item 
+\mbox{\hyperlink{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}{path\+\_\+weigths}} = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}{path\+\_\+vision}}, \textquotesingle{}best.\+pt\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}{model}} = torch.\+hub.\+load(\mbox{\hyperlink{namespacevision__node_ab346d0b407e46f95551d3908df945675}{path\+\_\+yolo}}, "{}custom"{}, \mbox{\hyperlink{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}{path\+\_\+weigths}}, source=\textquotesingle{}local\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespacevision__node_a1281bdc997309bb53f56defe414e474c}{image}} = rospy.\+wait\+\_\+for\+\_\+message("{}/ur5/zed\+\_\+node/left\+\_\+raw/image\+\_\+raw\+\_\+color"{}, Image)
+\item 
+\mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{point\+\_\+cloud2\+\_\+msg}} = rospy.\+wait\+\_\+for\+\_\+message("{}/ur5/zed\+\_\+node/point\+\_\+cloud/cloud\+\_\+registered"{}, Point\+Cloud2)
+\item 
+\mbox{\hyperlink{namespacevision__node_a367c375401edcf5ba18fee25a889a3d2}{s}} = rospy.\+Service(\textquotesingle{}Vision\textquotesingle{}, Vision\+Service, \mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{send\+\_\+blocks\+\_\+info}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c}\label{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c} 
+\index{vision\_node@{vision\_node}!convert\_2D\_to\_3D@{convert\_2D\_to\_3D}}
+\index{convert\_2D\_to\_3D@{convert\_2D\_to\_3D}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{convert\_2D\_to\_3D()}{convert\_2D\_to\_3D()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+convert\+\_\+2\+D\+\_\+to\+\_\+3D (\begin{DoxyParamCaption}\item[{}]{point\+\_\+cloud2\+\_\+msg,  }\item[{}]{zed\+\_\+points }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00094}{94}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33}\label{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33} 
+\index{vision\_node@{vision\_node}!get\_block\_center\_point@{get\_block\_center\_point}}
+\index{get\_block\_center\_point@{get\_block\_center\_point}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{get\_block\_center\_point()}{get\_block\_center\_point()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+get\+\_\+block\+\_\+center\+\_\+point (\begin{DoxyParamCaption}\item[{}]{min\+\_\+x,  }\item[{}]{phi,  }\item[{}]{block\+\_\+short\+\_\+side,  }\item[{}]{block\+\_\+long\+\_\+side,  }\item[{}]{block\+\_\+height }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00167}{167}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94}\label{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94} 
+\index{vision\_node@{vision\_node}!get\_block\_points@{get\_block\_points}}
+\index{get\_block\_points@{get\_block\_points}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{get\_block\_points()}{get\_block\_points()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+get\+\_\+block\+\_\+points (\begin{DoxyParamCaption}\item[{}]{image,  }\item[{}]{block }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00062}{62}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a64f85026e26d634c747447b1cd9c1484}\label{namespacevision__node_a64f85026e26d634c747447b1cd9c1484} 
+\index{vision\_node@{vision\_node}!get\_block\_pose@{get\_block\_pose}}
+\index{get\_block\_pose@{get\_block\_pose}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{get\_block\_pose()}{get\_block\_pose()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+get\+\_\+block\+\_\+pose (\begin{DoxyParamCaption}\item[{}]{miny\+\_\+minx,  }\item[{}]{maxy\+\_\+minx,  }\item[{}]{minx }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00141}{141}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3}\label{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3} 
+\index{vision\_node@{vision\_node}!get\_block\_values@{get\_block\_values}}
+\index{get\_block\_values@{get\_block\_values}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{get\_block\_values()}{get\_block\_values()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+get\+\_\+block\+\_\+values (\begin{DoxyParamCaption}\item[{}]{name }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00057}{57}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a507cee100077bf84ad28fee5103ab116}\label{namespacevision__node_a507cee100077bf84ad28fee5103ab116} 
+\index{vision\_node@{vision\_node}!get\_vertices@{get\_vertices}}
+\index{get\_vertices@{get\_vertices}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{get\_vertices()}{get\_vertices()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+get\+\_\+vertices (\begin{DoxyParamCaption}\item[{}]{wf\+\_\+points }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00106}{106}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d}\label{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d} 
+\index{vision\_node@{vision\_node}!object\_detection@{object\_detection}}
+\index{object\_detection@{object\_detection}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{object\_detection()}{object\_detection()}}
+{\footnotesize\ttfamily  None vision\+\_\+node.\+object\+\_\+detection (\begin{DoxyParamCaption}\item[{Image}]{image\+\_\+msg,  }\item[{Point\+Cloud2}]{point\+\_\+cloud2\+\_\+msg,  }\item[{}]{model }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00178}{178}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}\label{namespacevision__node_ad368b64f027d39e3f710aba6f1071040} 
+\index{vision\_node@{vision\_node}!send\_blocks\_info@{send\_blocks\_info}}
+\index{send\_blocks\_info@{send\_blocks\_info}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{send\_blocks\_info()}{send\_blocks\_info()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+send\+\_\+blocks\+\_\+info (\begin{DoxyParamCaption}\item[{}]{req }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00240}{240}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a6638683337d1b6ed979be52d0c546f29}\label{namespacevision__node_a6638683337d1b6ed979be52d0c546f29} 
+\index{vision\_node@{vision\_node}!store\_block\_data@{store\_block\_data}}
+\index{store\_block\_data@{store\_block\_data}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{store\_block\_data()}{store\_block\_data()}}
+{\footnotesize\ttfamily vision\+\_\+node.\+store\+\_\+block\+\_\+data (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{x,  }\item[{}]{y,  }\item[{}]{z,  }\item[{}]{phi }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00175}{175}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacevision__node_a2415130221427f6c7b2fe1b96c0937f5}\label{namespacevision__node_a2415130221427f6c7b2fe1b96c0937f5} 
+\index{vision\_node@{vision\_node}!block\_error@{block\_error}}
+\index{block\_error@{block\_error}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{block\_error}{block\_error}}
+{\footnotesize\ttfamily float vision\+\_\+node.\+block\+\_\+error = 0.\+001}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00027}{27}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a4b69f78e85e2fae1da638ad13cbdff90}\label{namespacevision__node_a4b69f78e85e2fae1da638ad13cbdff90} 
+\index{vision\_node@{vision\_node}!blocks\_data@{blocks\_data}}
+\index{blocks\_data@{blocks\_data}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{blocks\_data}{blocks\_data}}
+{\footnotesize\ttfamily list vision\+\_\+node.\+blocks\+\_\+data = \mbox{[}$\,$\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00020}{20}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a4ba011c1f1e58442602adc37699abc98}\label{namespacevision__node_a4ba011c1f1e58442602adc37699abc98} 
+\index{vision\_node@{vision\_node}!blocks\_values@{blocks\_values}}
+\index{blocks\_values@{blocks\_values}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{blocks\_values}{blocks\_values}}
+{\footnotesize\ttfamily dict vision\+\_\+node.\+blocks\+\_\+values}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y1-\/Z2'}:\ [0.031,\ 0.031,\ 0.057],}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z1'}:\ [0.031,\ 0.062,\ 0.038],\ }
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z2-\/CHAMFER'}:\ [0.031,\ 0.062,\ 0.057],}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z2-\/TWINFILLET'}:\ [0.031,\ 0.062,\ 0.057],}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y2-\/Z2'}:\ [0.031,\ 0.062,\ 0.057],}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y3-\/Z2-\/FILLET'}:\ [0.031,\ 0.095,\ 0.057],}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y3-\/Z2'}:\ [0.031,\ 0.095,\ 0.057],}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y4-\/Z1'}:\ [0.031,\ 0.127,\ 0.038],}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{stringliteral}{'X1-\/Y4-\/Z2'}:\ [0.031,\ 0.127,\ 0.057],}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{stringliteral}{'X2-\/Y2-\/Z2-\/FILLET'}:\ [0.063,\ 0.063,\ 0.057],}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{stringliteral}{'X2-\/Y2-\/Z2'}:\ [0.062,\ 0.063,\ 0.057],}
+\DoxyCodeLine{00013\ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00032}{32}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a4028e6c368113544966ce88ac3a60d20}\label{namespacevision__node_a4028e6c368113544966ce88ac3a60d20} 
+\index{vision\_node@{vision\_node}!color\_ranges@{color\_ranges}}
+\index{color\_ranges@{color\_ranges}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{color\_ranges}{color\_ranges}}
+{\footnotesize\ttfamily dict vision\+\_\+node.\+color\+\_\+ranges}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'red'}:\ [(0,\ 50,\ 50),\ (10,\ 255,\ 255)],}
+\DoxyCodeLine{00003\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'green'}:\ [(36,\ 50,\ 50),\ (70,\ 255,\ 255)],}
+\DoxyCodeLine{00004\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'blue'}:\ [(90,\ 50,\ 50),\ (130,\ 255,\ 255)],}
+\DoxyCodeLine{00005\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'yellow'}:\ [(20,\ 50,\ 50),\ (35,\ 255,\ 255)],}
+\DoxyCodeLine{00006\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fuchsia'}:\ [(145,\ 50,\ 50),\ (175,\ 255,\ 255)],}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'orange'}:\ [(11,\ 50,\ 50),\ (25,\ 255,\ 255)]}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00047}{47}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a08184610e854712aa57975fbd3f709c1}\label{namespacevision__node_a08184610e854712aa57975fbd3f709c1} 
+\index{vision\_node@{vision\_node}!distance\_error@{distance\_error}}
+\index{distance\_error@{distance\_error}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{distance\_error}{distance\_error}}
+{\footnotesize\ttfamily float vision\+\_\+node.\+distance\+\_\+error = 0.\+005}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00029}{29}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}\label{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3} 
+\index{vision\_node@{vision\_node}!home\_path@{home\_path}}
+\index{home\_path@{home\_path}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{home\_path}{home\_path}}
+{\footnotesize\ttfamily vision\+\_\+node.\+home\+\_\+path = os.\+path.\+expanduser(\textquotesingle{}\texorpdfstring{$\sim$}{\string~}\textquotesingle{})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00272}{272}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a1281bdc997309bb53f56defe414e474c}\label{namespacevision__node_a1281bdc997309bb53f56defe414e474c} 
+\index{vision\_node@{vision\_node}!image@{image}}
+\index{image@{image}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{image}{image}}
+{\footnotesize\ttfamily vision\+\_\+node.\+image = rospy.\+wait\+\_\+for\+\_\+message("{}/ur5/zed\+\_\+node/left\+\_\+raw/image\+\_\+raw\+\_\+color"{}, Image)}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00281}{281}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}\label{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb} 
+\index{vision\_node@{vision\_node}!model@{model}}
+\index{model@{model}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily vision\+\_\+node.\+model = torch.\+hub.\+load(\mbox{\hyperlink{namespacevision__node_ab346d0b407e46f95551d3908df945675}{path\+\_\+yolo}}, "{}custom"{}, \mbox{\hyperlink{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}{path\+\_\+weigths}}, source=\textquotesingle{}local\textquotesingle{})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00278}{278}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}\label{namespacevision__node_ad1b149e71a857c7d15154dfd16118533} 
+\index{vision\_node@{vision\_node}!path\_vision@{path\_vision}}
+\index{path\_vision@{path\_vision}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{path\_vision}{path\_vision}}
+{\footnotesize\ttfamily vision\+\_\+node.\+path\+\_\+vision = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}}, "{}ros\+\_\+ws/src/ur5/vision"{})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00274}{274}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}\label{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3} 
+\index{vision\_node@{vision\_node}!path\_weigths@{path\_weigths}}
+\index{path\_weigths@{path\_weigths}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{path\_weigths}{path\_weigths}}
+{\footnotesize\ttfamily vision\+\_\+node.\+path\+\_\+weigths = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}{path\+\_\+vision}}, \textquotesingle{}best.\+pt\textquotesingle{})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00275}{275}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_ab346d0b407e46f95551d3908df945675}\label{namespacevision__node_ab346d0b407e46f95551d3908df945675} 
+\index{vision\_node@{vision\_node}!path\_yolo@{path\_yolo}}
+\index{path\_yolo@{path\_yolo}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{path\_yolo}{path\_yolo}}
+{\footnotesize\ttfamily vision\+\_\+node.\+path\+\_\+yolo = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}}, "{}ros\+\_\+ws/src/ur5/vision/yolo"{})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00273}{273}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}\label{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5} 
+\index{vision\_node@{vision\_node}!point\_cloud2\_msg@{point\_cloud2\_msg}}
+\index{point\_cloud2\_msg@{point\_cloud2\_msg}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{point\_cloud2\_msg}{point\_cloud2\_msg}}
+{\footnotesize\ttfamily vision\+\_\+node.\+point\+\_\+cloud2\+\_\+msg = rospy.\+wait\+\_\+for\+\_\+message("{}/ur5/zed\+\_\+node/point\+\_\+cloud/cloud\+\_\+registered"{}, Point\+Cloud2)}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00283}{283}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a367c375401edcf5ba18fee25a889a3d2}\label{namespacevision__node_a367c375401edcf5ba18fee25a889a3d2} 
+\index{vision\_node@{vision\_node}!s@{s}}
+\index{s@{s}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{s}{s}}
+{\footnotesize\ttfamily vision\+\_\+node.\+s = rospy.\+Service(\textquotesingle{}Vision\textquotesingle{}, Vision\+Service, \mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{send\+\_\+blocks\+\_\+info}})}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00289}{289}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a8957192d38e03a80cbc0f8c71ea751de}\label{namespacevision__node_a8957192d38e03a80cbc0f8c71ea751de} 
+\index{vision\_node@{vision\_node}!start@{start}}
+\index{start@{start}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily bool vision\+\_\+node.\+start = False}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00022}{22}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a493523e0470ec5889bbf946a37ca314a}\label{namespacevision__node_a493523e0470ec5889bbf946a37ca314a} 
+\index{vision\_node@{vision\_node}!table\_height@{table\_height}}
+\index{table\_height@{table\_height}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{table\_height}{table\_height}}
+{\footnotesize\ttfamily float vision\+\_\+node.\+table\+\_\+height = 0.\+88}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00025}{25}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a1d183c0332572a9fd5f5ca581f5babf1}\label{namespacevision__node_a1d183c0332572a9fd5f5ca581f5babf1} 
+\index{vision\_node@{vision\_node}!tolerance\_error@{tolerance\_error}}
+\index{tolerance\_error@{tolerance\_error}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{tolerance\_error}{tolerance\_error}}
+{\footnotesize\ttfamily float vision\+\_\+node.\+tolerance\+\_\+error = 0.\+001}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00026}{26}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+
+\Hypertarget{namespacevision__node_a2d465472e457ac6e6989208240fe1755}\label{namespacevision__node_a2d465472e457ac6e6989208240fe1755} 
+\index{vision\_node@{vision\_node}!value\_error@{value\_error}}
+\index{value\_error@{value\_error}!vision\_node@{vision\_node}}
+\doxysubsubsection{\texorpdfstring{value\_error}{value\_error}}
+{\footnotesize\ttfamily float vision\+\_\+node.\+value\+\_\+error = 0.\+001}
+
+
+
+Definition at line \mbox{\hyperlink{vision__node_8py_source_l00028}{28}} of file \mbox{\hyperlink{vision__node_8py_source}{vision\+\_\+node.\+py}}.
+

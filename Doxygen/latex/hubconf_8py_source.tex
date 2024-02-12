@@ -1,0 +1,181 @@
+\doxysection{hubconf.\+py}
+\hypertarget{hubconf_8py_source}{}\label{hubconf_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/hubconf.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/hubconf.py}}
+\mbox{\hyperlink{hubconf_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00001}\mbox{\hyperlink{namespacehubconf}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00003}00003\ \textcolor{stringliteral}{PyTorch\ Hub\ models\ https://pytorch.org/hub/ultralytics\_yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00005}00005\ \textcolor{stringliteral}{Usage:}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00006}00006\ \textcolor{stringliteral}{\ \ \ \ import\ torch}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ model\ =\ torch.hub.load('ultralytics/yolov5',\ 'yolov5s')\ \ \#\ official\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00008}00008\ \textcolor{stringliteral}{\ \ \ \ model\ =\ torch.hub.load('ultralytics/yolov5:master',\ 'yolov5s')\ \ \#\ from\ branch}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00009}00009\ \textcolor{stringliteral}{\ \ \ \ model\ =\ torch.hub.load('ultralytics/yolov5',\ 'custom',\ 'yolov5s.pt')\ \ \#\ custom/local\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ model\ =\ torch.hub.load('.',\ 'custom',\ 'yolov5s.pt',\ source='local')\ \ \#\ local\ repo}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00011}00011\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00013}00013\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00016}\mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{00016}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(name,\ pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00017}00017\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ Creates\ or\ loads\ a\ YOLOv5\ model.}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00019}00019\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ Arguments:}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ name\ (str):\ model\ name\ 'yolov5s'\ or\ path\ 'path/to/best.pt'}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ pretrained\ (bool):\ load\ pretrained\ weights\ into\ the\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00023}00023\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ channels\ (int):\ number\ of\ input\ channels}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ classes\ (int):\ number\ of\ model\ classes}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ autoshape\ (bool):\ apply\ YOLOv5\ .autoshape()\ wrapper\ to\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ verbose\ (bool):\ print\ all\ information\ to\ screen}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ device\ (str,\ torch.device,\ None):\ device\ to\ use\ for\ model\ parameters}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00028}00028\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ YOLOv5\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1common}{models.common}}\ \textcolor{keyword}{import}\ AutoShape,\ DetectMultiBackend}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1experimental}{models.experimental}}\ \textcolor{keyword}{import}\ attempt\_load}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1yolo}{models.yolo}}\ \textcolor{keyword}{import}\ ClassificationModel,\ DetectionModel,\ SegmentationModel}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1downloads}{utils.downloads}}\ \textcolor{keyword}{import}\ attempt\_download}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER,\ ROOT,\ check\_requirements,\ intersect\_dicts,\ logging}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ select\_device}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ verbose:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ LOGGER.setLevel(logging.WARNING)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00043}00043\ \ \ \ \ check\_requirements(ROOT\ /\ \textcolor{stringliteral}{"{}requirements.txt"{}},\ exclude=(\textcolor{stringliteral}{"{}opencv-\/python"{}},\ \textcolor{stringliteral}{"{}tensorboard"{}},\ \textcolor{stringliteral}{"{}thop"{}}))}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00044}00044\ \ \ \ \ name\ =\ Path(name)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00045}00045\ \ \ \ \ path\ =\ name.with\_suffix(\textcolor{stringliteral}{"{}.pt"{}})\ \textcolor{keywordflow}{if}\ name.suffix\ ==\ \textcolor{stringliteral}{"{}"{}}\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ name.is\_dir()\ \textcolor{keywordflow}{else}\ name\ \ \textcolor{comment}{\#\ checkpoint\ path}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00046}00046\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ device\ =\ select\_device(device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pretrained\ \textcolor{keywordflow}{and}\ channels\ ==\ 3\ \textcolor{keywordflow}{and}\ classes\ ==\ 80:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\ =\ DetectMultiBackend(path,\ device=device,\ fuse=autoshape)\ \ \textcolor{comment}{\#\ detection\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ autoshape:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model.pt\ \textcolor{keywordflow}{and}\ isinstance(model.model,\ ClassificationModel):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WARNING\ ⚠️\ YOLOv5\ ClassificationModel\ is\ not\ yet\ AutoShape\ compatible.\ "{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}You\ must\ pass\ torch\ tensors\ in\ BCHW\ to\ this\ model,\ i.e.\ shape(1,3,224,224)."{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ model.pt\ \textcolor{keywordflow}{and}\ isinstance(model.model,\ SegmentationModel):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WARNING\ ⚠️\ YOLOv5\ SegmentationModel\ is\ not\ yet\ AutoShape\ compatible.\ "{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}You\ will\ not\ be\ able\ to\ run\ inference\ with\ this\ model."{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\ =\ AutoShape(model)\ \ \textcolor{comment}{\#\ for\ file/URI/PIL/cv2/np\ inputs\ and\ NMS}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\ =\ attempt\_load(path,\ device=device,\ fuse=\textcolor{keyword}{False})\ \ \textcolor{comment}{\#\ arbitrary\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ cfg\ =\ list((Path(\_\_file\_\_).parent\ /\ \textcolor{stringliteral}{"{}models"{}}).rglob(f\textcolor{stringliteral}{"{}\{path.stem\}.yaml"{}}))[0]\ \ \textcolor{comment}{\#\ model.yaml\ path}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ model\ =\ DetectionModel(cfg,\ channels,\ classes)\ \ \textcolor{comment}{\#\ create\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pretrained:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ckpt\ =\ torch.load(attempt\_download(path),\ map\_location=device)\ \ \textcolor{comment}{\#\ load}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ csd\ =\ ckpt[\textcolor{stringliteral}{"{}model"{}}].float().state\_dict()\ \ \textcolor{comment}{\#\ checkpoint\ state\_dict\ as\ FP32}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ csd\ =\ intersect\_dicts(csd,\ model.state\_dict(),\ exclude=[\textcolor{stringliteral}{"{}anchors"{}}])\ \ \textcolor{comment}{\#\ intersect}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model.load\_state\_dict(csd,\ strict=\textcolor{keyword}{False})\ \ \textcolor{comment}{\#\ load}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(ckpt[\textcolor{stringliteral}{"{}model"{}}].names)\ ==\ classes:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model.names\ =\ ckpt[\textcolor{stringliteral}{"{}model"{}}].names\ \ \textcolor{comment}{\#\ set\ class\ names\ attribute}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ verbose:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.setLevel(logging.INFO)\ \ \textcolor{comment}{\#\ reset\ to\ default}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ model.to(device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00080}00080\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ help\_url\ =\ \textcolor{stringliteral}{"{}https://docs.ultralytics.com/yolov5/tutorials/pytorch\_hub\_model\_loading"{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}\{e\}.\ Cache\ may\ be\ out\ of\ date,\ try\ \`{}force\_reload=True`\ or\ see\ \{help\_url\}\ for\ help."{}}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ Exception(s)\ \textcolor{keyword}{from}\ e}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00086}\mbox{\hyperlink{namespacehubconf_a16d39dd15d18ab44069aa4c5c4c4cc05}{00086}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a16d39dd15d18ab44069aa4c5c4c4cc05}{custom}}(path="{}path/to/model.pt"{},\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00087}00087\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ custom\ or\ local\ model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(path,\ autoshape=autoshape,\ verbose=\_verbose,\ device=device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00091}\mbox{\hyperlink{namespacehubconf_aa3bd4bd5dc3e644f595bb2b667e579a5}{00091}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_aa3bd4bd5dc3e644f595bb2b667e579a5}{yolov5n}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00092}00092\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/nano\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5n"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00096}\mbox{\hyperlink{namespacehubconf_ac78e21ec08a9246e87624b2958fff424}{00096}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_ac78e21ec08a9246e87624b2958fff424}{yolov5s}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00097}00097\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/small\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00098}00098\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5s"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00101}\mbox{\hyperlink{namespacehubconf_a517002f3c2b9ad1b591f7d54324f13f3}{00101}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a517002f3c2b9ad1b591f7d54324f13f3}{yolov5m}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00102}00102\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/medium\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5m"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00106}\mbox{\hyperlink{namespacehubconf_a6c5ee0f926496e6d2246afd884f0d7aa}{00106}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a6c5ee0f926496e6d2246afd884f0d7aa}{yolov5l}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00107}00107\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/large\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5l"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00111}\mbox{\hyperlink{namespacehubconf_a7e55f8421f72caed04d54e7219402d35}{00111}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a7e55f8421f72caed04d54e7219402d35}{yolov5x}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00112}00112\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/xlarge\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5x"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00116}\mbox{\hyperlink{namespacehubconf_a59338090e7436955f82d1d7389c6f4dd}{00116}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a59338090e7436955f82d1d7389c6f4dd}{yolov5n6}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00117}00117\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/nano-\/P6\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5n6"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00121}\mbox{\hyperlink{namespacehubconf_a74b6664af8902452d73286f55088007c}{00121}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a74b6664af8902452d73286f55088007c}{yolov5s6}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00122}00122\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/small-\/P6\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5s6"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00126}\mbox{\hyperlink{namespacehubconf_adc72000311015a96777c679b2fae9937}{00126}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_adc72000311015a96777c679b2fae9937}{yolov5m6}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00127}00127\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/medium-\/P6\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00128}00128\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5m6"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00131}\mbox{\hyperlink{namespacehubconf_a24fc6cb7c5358f589d7626fc6254c085}{00131}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_a24fc6cb7c5358f589d7626fc6254c085}{yolov5l6}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00132}00132\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/large-\/P6\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00133}00133\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5l6"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00136}\mbox{\hyperlink{namespacehubconf_ab7cea48afe0bf842f7069e16dbfcfb05}{00136}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacehubconf_ab7cea48afe0bf842f7069e16dbfcfb05}{yolov5x6}}(pretrained=True,\ channels=3,\ classes=80,\ autoshape=True,\ \_verbose=True,\ device=None):}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00137}00137\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5-\/xlarge-\/P6\ model\ https://github.com/ultralytics/yolov5}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(\textcolor{stringliteral}{"{}yolov5x6"{}},\ pretrained,\ channels,\ classes,\ autoshape,\ \_verbose,\ device)}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00141}00141\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00142}00142\ \ \ \ \ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00143}00143\ \ \ \ \ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00145}00145\ \ \ \ \ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00146}00146\ \ \ \ \ \textcolor{keyword}{from}\ PIL\ \textcolor{keyword}{import}\ Image}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00148}00148\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ cv2,\ print\_args}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00150}00150\ \ \ \ \ \textcolor{comment}{\#\ Argparser}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00151}\mbox{\hyperlink{namespacehubconf_a4bc49af68a6600ac86b67f7d69ec5282}{00151}}\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00152}\mbox{\hyperlink{namespacehubconf_a695f0a9ddf0d81caf5cc07310bb3c0e5}{00152}}\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/model"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}yolov5s"{}},\ help=\textcolor{stringliteral}{"{}model\ name"{}})}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00153}\mbox{\hyperlink{namespacehubconf_ad5b15592f4ba74cdc435e06c1785d0a1}{00153}}\ \ \ \ \ opt\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00154}00154\ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00156}00156\ \ \ \ \ \textcolor{comment}{\#\ Model}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00157}\mbox{\hyperlink{namespacehubconf_a121754ebff6ebf330a6c0113afe25550}{00157}}\ \ \ \ \ model\ =\ \mbox{\hyperlink{namespacehubconf_ad1d70c80a477c02404f5d552f251714b}{\_create}}(name=opt.model,\ pretrained=\textcolor{keyword}{True},\ channels=3,\ classes=80,\ autoshape=\textcolor{keyword}{True},\ verbose=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00158}00158\ \ \ \ \ \textcolor{comment}{\#\ model\ =\ custom(path='path/to/model.pt')\ \ \#\ custom}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00160}00160\ \ \ \ \ \textcolor{comment}{\#\ Images}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00161}\mbox{\hyperlink{namespacehubconf_af4d150499d1d02ae1ad95234cdc82a29}{00161}}\ \ \ \ \ imgs\ =\ [}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data/images/zidane.jpg"{}},\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ Path(\textcolor{stringliteral}{"{}data/images/zidane.jpg"{}}),\ \ \textcolor{comment}{\#\ Path}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}https://ultralytics.com/images/zidane.jpg"{}},\ \ \textcolor{comment}{\#\ URI}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ cv2.imread(\textcolor{stringliteral}{"{}data/images/bus.jpg"{}})[:,\ :,\ ::-\/1],\ \ \textcolor{comment}{\#\ OpenCV}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ Image.open(\textcolor{stringliteral}{"{}data/images/bus.jpg"{}}),\ \ \textcolor{comment}{\#\ PIL}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ np.zeros((320,\ 640,\ 3)),}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00168}00168\ \ \ \ \ ]\ \ \textcolor{comment}{\#\ numpy}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00170}00170\ \ \ \ \ \textcolor{comment}{\#\ Inference}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00171}\mbox{\hyperlink{namespacehubconf_a42799aa2cc6319465e4d8653c1d67474}{00171}}\ \ \ \ \ results\ =\ \mbox{\hyperlink{namespacehubconf_a121754ebff6ebf330a6c0113afe25550}{model}}(imgs,\ size=320)\ \ \textcolor{comment}{\#\ batched\ inference}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00173}00173\ \ \ \ \ \textcolor{comment}{\#\ Results}}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00174}00174\ \ \ \ \ results.print()}
+\DoxyCodeLine{\Hypertarget{hubconf_8py_source_l00175}00175\ \ \ \ \ results.save()}
+
+\end{DoxyCode}

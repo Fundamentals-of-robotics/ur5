@@ -1,0 +1,242 @@
+\doxysection{loss.\+py}
+\hypertarget{loss_8py_source}{}\label{loss_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loss.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loss.py}}
+\mbox{\hyperlink{loss_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1loss}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Loss\ functions."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00004}00004\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00005}00005\ \textcolor{keyword}{import}\ \mbox{\hyperlink{namespacetorch_1_1nn}{torch.nn}}\ \textcolor{keyword}{as}\ nn}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00007}00007\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1metrics}{utils.metrics}}\ \textcolor{keyword}{import}\ bbox\_iou}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00008}00008\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ de\_parallel}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00011}\mbox{\hyperlink{namespaceutils_1_1loss_a105ea4a900c8f9ac9cc05c3dad8a5237}{00011}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loss_a105ea4a900c8f9ac9cc05c3dad8a5237}{smooth\_BCE}}(eps=0.1):\ \ \textcolor{comment}{\#\ https://github.com/ultralytics/yolov3/issues/238\#issuecomment-\/598028441}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00012}00012\ \ \ \ \ \textcolor{comment}{\#\ return\ positive,\ negative\ label\ smoothing\ BCE\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00013}00013\ \ \ \ \ \textcolor{keywordflow}{return}\ 1.0\ -\/\ 0.5\ *\ eps,\ 0.5\ *\ eps}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00016}\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss}{00016}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss}{BCEBlurWithLogitsLoss}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00017}00017\ \ \ \ \ \textcolor{comment}{\#\ BCEwithLogitLoss()\ with\ reduced\ missing\ label\ effects.}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00018}\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_aa9d11dad0fa790595f815832ce8da927}{00018}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_aa9d11dad0fa790595f815832ce8da927}{\_\_init\_\_}}(self,\ alpha=0.05):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_aa9d11dad0fa790595f815832ce8da927}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00020}\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_a3337dbbabdb77f80d925007ab1215ed7}{00020}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_a3337dbbabdb77f80d925007ab1215ed7}{loss\_fcn}}\ =\ nn.BCEWithLogitsLoss(reduction=\textcolor{stringliteral}{"{}none"{}})\ \ \textcolor{comment}{\#\ must\ be\ nn.BCEWithLogitsLoss()}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00021}\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_a480b9d1106b47bba879e81ed9613cb0d}{00021}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_a480b9d1106b47bba879e81ed9613cb0d}{alpha}}\ =\ alpha}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00023}\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_ab44e132ade9055be69c20ea69eaac5d5}{00023}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_ab44e132ade9055be69c20ea69eaac5d5}{forward}}(self,\ pred,\ true):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ loss\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_a3337dbbabdb77f80d925007ab1215ed7}{loss\_fcn}}(pred,\ true)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ pred\ =\ torch.sigmoid(pred)\ \ \textcolor{comment}{\#\ prob\ from\ logits}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ dx\ =\ pred\ -\/\ true\ \ \textcolor{comment}{\#\ reduce\ only\ missing\ label\ effects}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ dx\ =\ (pred\ -\/\ true).abs()\ \ \#\ reduce\ missing\ label\ and\ false\ label\ effects}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ alpha\_factor\ =\ 1\ -\/\ torch.exp((dx\ -\/\ 1)\ /\ (self.\mbox{\hyperlink{classutils_1_1loss_1_1_b_c_e_blur_with_logits_loss_a480b9d1106b47bba879e81ed9613cb0d}{alpha}}\ +\ 1e-\/4))}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ loss\ *=\ alpha\_factor}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss.mean()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00033}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss}{FocalLoss}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00034}00034\ \ \ \ \ \textcolor{comment}{\#\ Wraps\ focal\ loss\ around\ existing\ loss\_fcn(),\ i.e.\ criteria\ =\ FocalLoss(nn.BCEWithLogitsLoss(),\ gamma=1.5)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00035}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_afb15544ce37b89ab981816d97605bea6}{00035}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_afb15544ce37b89ab981816d97605bea6}{\_\_init\_\_}}(self,\ loss\_fcn,\ gamma=1.5,\ alpha=0.25):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_afb15544ce37b89ab981816d97605bea6}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00037}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a8a9c706685cc75e4fcf092cdd57af527}{00037}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a8a9c706685cc75e4fcf092cdd57af527}{loss\_fcn}}\ =\ loss\_fcn\ \ \textcolor{comment}{\#\ must\ be\ nn.BCEWithLogitsLoss()}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00038}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a97e0e1f2e3f6c7ae497265d81ff568ae}{00038}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a97e0e1f2e3f6c7ae497265d81ff568ae}{gamma}}\ =\ gamma}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00039}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a05191ad5a7a70a59c7861d926d62779a}{00039}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a05191ad5a7a70a59c7861d926d62779a}{alpha}}\ =\ alpha}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00040}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_ae18d6fe7e28b6ada6c3a80ce10a0d7cc}{00040}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_ae18d6fe7e28b6ada6c3a80ce10a0d7cc}{reduction}}\ =\ loss\_fcn.reduction}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a8a9c706685cc75e4fcf092cdd57af527}{loss\_fcn}}.reduction\ =\ \textcolor{stringliteral}{"{}none"{}}\ \ \textcolor{comment}{\#\ required\ to\ apply\ FL\ to\ each\ element}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00043}\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_aa898edd05ecaa8303409a0385b702bb4}{00043}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_aa898edd05ecaa8303409a0385b702bb4}{forward}}(self,\ pred,\ true):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ loss\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a8a9c706685cc75e4fcf092cdd57af527}{loss\_fcn}}(pred,\ true)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ p\_t\ =\ torch.exp(-\/loss)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ loss\ *=\ self.alpha\ *\ (1.000001\ -\/\ p\_t)\ **\ self.gamma\ \ \#\ non-\/zero\ power\ for\ gradient\ stability}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TF\ implementation\ https://github.com/tensorflow/addons/blob/v0.7.1/tensorflow\_addons/losses/focal\_loss.py}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ pred\_prob\ =\ torch.sigmoid(pred)\ \ \textcolor{comment}{\#\ prob\ from\ logits}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ p\_t\ =\ true\ *\ pred\_prob\ +\ (1\ -\/\ true)\ *\ (1\ -\/\ pred\_prob)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ alpha\_factor\ =\ true\ *\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a05191ad5a7a70a59c7861d926d62779a}{alpha}}\ +\ (1\ -\/\ true)\ *\ (1\ -\/\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a05191ad5a7a70a59c7861d926d62779a}{alpha}})}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ modulating\_factor\ =\ (1.0\ -\/\ p\_t)\ **\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_a97e0e1f2e3f6c7ae497265d81ff568ae}{gamma}}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ loss\ *=\ alpha\_factor\ *\ modulating\_factor}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_ae18d6fe7e28b6ada6c3a80ce10a0d7cc}{reduction}}\ ==\ \textcolor{stringliteral}{"{}mean"{}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss.mean()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss_ae18d6fe7e28b6ada6c3a80ce10a0d7cc}{reduction}}\ ==\ \textcolor{stringliteral}{"{}sum"{}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss.sum()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ 'none'}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00063}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss}{00063}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss}{QFocalLoss}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00064}00064\ \ \ \ \ \textcolor{comment}{\#\ Wraps\ Quality\ focal\ loss\ around\ existing\ loss\_fcn(),\ i.e.\ criteria\ =\ FocalLoss(nn.BCEWithLogitsLoss(),\ gamma=1.5)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00065}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a5ad4789a29e37948465ef8ada98ab4c2}{00065}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a5ad4789a29e37948465ef8ada98ab4c2}{\_\_init\_\_}}(self,\ loss\_fcn,\ gamma=1.5,\ alpha=0.25):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a5ad4789a29e37948465ef8ada98ab4c2}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00067}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acf6426b9a0644bd2fd862f4be4bd386d}{00067}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acf6426b9a0644bd2fd862f4be4bd386d}{loss\_fcn}}\ =\ loss\_fcn\ \ \textcolor{comment}{\#\ must\ be\ nn.BCEWithLogitsLoss()}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00068}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a81f992e6de38060f0e4965294876fe6f}{00068}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a81f992e6de38060f0e4965294876fe6f}{gamma}}\ =\ gamma}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00069}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_af0900df2eaf895f808653655b61a0830}{00069}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_af0900df2eaf895f808653655b61a0830}{alpha}}\ =\ alpha}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00070}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acbfefcff11c2ef58c9bd948d6cba761a}{00070}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acbfefcff11c2ef58c9bd948d6cba761a}{reduction}}\ =\ loss\_fcn.reduction}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acf6426b9a0644bd2fd862f4be4bd386d}{loss\_fcn}}.reduction\ =\ \textcolor{stringliteral}{"{}none"{}}\ \ \textcolor{comment}{\#\ required\ to\ apply\ FL\ to\ each\ element}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00073}\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a5d9c6a010cd3bdb3d7b9b268eaf30eaa}{00073}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a5d9c6a010cd3bdb3d7b9b268eaf30eaa}{forward}}(self,\ pred,\ true):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ loss\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acf6426b9a0644bd2fd862f4be4bd386d}{loss\_fcn}}(pred,\ true)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ pred\_prob\ =\ torch.sigmoid(pred)\ \ \textcolor{comment}{\#\ prob\ from\ logits}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ alpha\_factor\ =\ true\ *\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_af0900df2eaf895f808653655b61a0830}{alpha}}\ +\ (1\ -\/\ true)\ *\ (1\ -\/\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_af0900df2eaf895f808653655b61a0830}{alpha}})}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ modulating\_factor\ =\ torch.abs(true\ -\/\ pred\_prob)\ **\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_a81f992e6de38060f0e4965294876fe6f}{gamma}}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ loss\ *=\ alpha\_factor\ *\ modulating\_factor}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acbfefcff11c2ef58c9bd948d6cba761a}{reduction}}\ ==\ \textcolor{stringliteral}{"{}mean"{}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss.mean()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_q_focal_loss_acbfefcff11c2ef58c9bd948d6cba761a}{reduction}}\ ==\ \textcolor{stringliteral}{"{}sum"{}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss.sum()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ 'none'}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ loss}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00089}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss}{00089}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss}{ComputeLoss}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00090}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ad43169d35fb1b82f14efd972e903c0e7}{00090}}\ \ \ \ \ sort\_obj\_iou\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00092}00092\ \ \ \ \ \textcolor{comment}{\#\ Compute\ losses}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00093}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_acff5e3a7b96e911d3d85d5c2333b9166}{00093}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_acff5e3a7b96e911d3d85d5c2333b9166}{\_\_init\_\_}}(self,\ model,\ autobalance=False):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ device\ =\ next(model.parameters()).device\ \ \textcolor{comment}{\#\ get\ model\ device}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ h\ =\ model.hyp\ \ \textcolor{comment}{\#\ hyperparameters}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Define\ criteria}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ BCEcls\ =\ nn.BCEWithLogitsLoss(pos\_weight=torch.tensor([h[\textcolor{stringliteral}{"{}cls\_pw"{}}]],\ device=device))}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ BCEobj\ =\ nn.BCEWithLogitsLoss(pos\_weight=torch.tensor([h[\textcolor{stringliteral}{"{}obj\_pw"{}}]],\ device=device))}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Class\ label\ smoothing\ https://arxiv.org/pdf/1902.04103.pdf\ eqn\ 3}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00102}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a761537e15e4dfb27ae5a95dc11c76c5f}{00102}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a6d1514e51e674b321e114b5c8d37c25e}{cp}},\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a761537e15e4dfb27ae5a95dc11c76c5f}{cn}}\ =\ smooth\_BCE(eps=h.get(\textcolor{stringliteral}{"{}label\_smoothing"{}},\ 0.0))\ \ \textcolor{comment}{\#\ positive,\ negative\ BCE\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Focal\ loss}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ g\ =\ h[\textcolor{stringliteral}{"{}fl\_gamma"{}}]\ \ \textcolor{comment}{\#\ focal\ loss\ gamma}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ g\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ BCEcls,\ BCEobj\ =\ \mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss}{FocalLoss}}(BCEcls,\ g),\ \mbox{\hyperlink{classutils_1_1loss_1_1_focal_loss}{FocalLoss}}(BCEobj,\ g)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ m\ =\ de\_parallel(model).model[-\/1]\ \ \textcolor{comment}{\#\ Detect()\ module}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00110}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{00110}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}\ =\ \{3:\ [4.0,\ 1.0,\ 0.4]\}.get(m.nl,\ [4.0,\ 1.0,\ 0.25,\ 0.06,\ 0.02])\ \ \textcolor{comment}{\#\ P3-\/P7}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00111}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ab0fe07842b01852de5e5f40d93798b09}{00111}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ab0fe07842b01852de5e5f40d93798b09}{ssi}}\ =\ list(m.stride).index(16)\ \textcolor{keywordflow}{if}\ autobalance\ \textcolor{keywordflow}{else}\ 0\ \ \textcolor{comment}{\#\ stride\ 16\ index}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00112}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a67a233ad04ee309398c6be7bf68416b1}{00112}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a4a1068c79cbb09a043b2e0fbce4e0652}{BCEcls}},\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a1684b5face58b852bcf259c31a77f0d3}{BCEobj}},\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a12c6f937e052c8a232b6f37b0d0736eb}{gr}},\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a7ea7999088a6b3efd18c839362f47780}{hyp}},\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a67a233ad04ee309398c6be7bf68416b1}{autobalance}}\ =\ BCEcls,\ BCEobj,\ 1.0,\ h,\ autobalance}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00113}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ad640c4d71bc0617bde302d710d6ccc90}{00113}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ad640c4d71bc0617bde302d710d6ccc90}{na}}\ =\ m.na\ \ \textcolor{comment}{\#\ number\ of\ anchors}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00114}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a18a96133e2093765d655de70c4b375f4}{00114}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a18a96133e2093765d655de70c4b375f4}{nc}}\ =\ m.nc\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00115}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a9d2620ee5aa6814bae93983a11ed439c}{00115}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a9d2620ee5aa6814bae93983a11ed439c}{nl}}\ =\ m.nl\ \ \textcolor{comment}{\#\ number\ of\ layers}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00116}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a5c5dfe991ac01e76672f0a490db60f9b}{00116}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a5c5dfe991ac01e76672f0a490db60f9b}{anchors}}\ =\ m.anchors}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00117}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{00117}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}}\ =\ device}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00119}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ae8d082cae3704a3d44d4e1e6c318099a}{00119}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ae8d082cae3704a3d44d4e1e6c318099a}{\_\_call\_\_}}(self,\ p,\ targets):\ \ \textcolor{comment}{\#\ predictions,\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ lcls\ =\ torch.zeros(1,\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}})\ \ \textcolor{comment}{\#\ class\ loss}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ lbox\ =\ torch.zeros(1,\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}})\ \ \textcolor{comment}{\#\ box\ loss}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ lobj\ =\ torch.zeros(1,\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}})\ \ \textcolor{comment}{\#\ object\ loss}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ tcls,\ tbox,\ indices,\ anchors\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a99b0beed148ea4d89ea7f9ee3cd9ca87}{build\_targets}}(p,\ targets)\ \ \textcolor{comment}{\#\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Losses}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ pi\ \textcolor{keywordflow}{in}\ enumerate(p):\ \ \textcolor{comment}{\#\ layer\ index,\ layer\ predictions}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ b,\ a,\ gj,\ gi\ =\ indices[i]\ \ \textcolor{comment}{\#\ image,\ anchor,\ gridy,\ gridx}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ tobj\ =\ torch.zeros(pi.shape[:4],\ dtype=pi.dtype,\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}})\ \ \textcolor{comment}{\#\ target\ obj}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ n\ =\ b.shape[0]\ \ \textcolor{comment}{\#\ number\ of\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ n:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ pxy,\ pwh,\ \_,\ pcls\ =\ pi[b,\ a,\ gj,\ gi].tensor\_split((2,\ 4,\ 5),\ dim=1)\ \ \#\ faster,\ requires\ torch\ 1.8.0}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pxy,\ pwh,\ \_,\ pcls\ =\ pi[b,\ a,\ gj,\ gi].split((2,\ 2,\ 1,\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a18a96133e2093765d655de70c4b375f4}{nc}}),\ 1)\ \ \textcolor{comment}{\#\ target-\/subset\ of\ predictions}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Regression}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pxy\ =\ pxy.sigmoid()\ *\ 2\ -\/\ 0.5}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pwh\ =\ (pwh.sigmoid()\ *\ 2)\ **\ 2\ *\ anchors[i]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pbox\ =\ torch.cat((pxy,\ pwh),\ 1)\ \ \textcolor{comment}{\#\ predicted\ box}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iou\ =\ bbox\_iou(pbox,\ tbox[i],\ CIoU=\textcolor{keyword}{True}).squeeze()\ \ \textcolor{comment}{\#\ iou(prediction,\ target)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lbox\ +=\ (1.0\ -\/\ iou).mean()\ \ \textcolor{comment}{\#\ iou\ loss}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Objectness}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iou\ =\ iou.detach().clamp(0).type(tobj.dtype)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ad43169d35fb1b82f14efd972e903c0e7}{sort\_obj\_iou}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ j\ =\ iou.argsort()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ b,\ a,\ gj,\ gi,\ iou\ =\ b[j],\ a[j],\ gj[j],\ gi[j],\ iou[j]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a12c6f937e052c8a232b6f37b0d0736eb}{gr}}\ <\ 1:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iou\ =\ (1.0\ -\/\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a12c6f937e052c8a232b6f37b0d0736eb}{gr}})\ +\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a12c6f937e052c8a232b6f37b0d0736eb}{gr}}\ *\ iou}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tobj[b,\ a,\ gj,\ gi]\ =\ iou\ \ \textcolor{comment}{\#\ iou\ ratio}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Classification}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a18a96133e2093765d655de70c4b375f4}{nc}}\ >\ 1:\ \ \textcolor{comment}{\#\ cls\ loss\ (only\ if\ multiple\ classes)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ torch.full\_like(pcls,\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a761537e15e4dfb27ae5a95dc11c76c5f}{cn}},\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}})\ \ \textcolor{comment}{\#\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t[range(n),\ tcls[i]]\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a6d1514e51e674b321e114b5c8d37c25e}{cp}}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lcls\ +=\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a4a1068c79cbb09a043b2e0fbce4e0652}{BCEcls}}(pcls,\ t)\ \ \textcolor{comment}{\#\ BCE}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Append\ targets\ to\ text\ file}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ with\ open('targets.txt',\ 'a')\ as\ file:}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ [file.write('\%11.5g\ '\ *\ 4\ \%\ tuple(x)\ +\ '\(\backslash\)n')\ for\ x\ in\ torch.cat((txy[i],\ twh[i]),\ 1)]}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ obji\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a1684b5face58b852bcf259c31a77f0d3}{BCEobj}}(pi[...,\ 4],\ tobj)}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ lobj\ +=\ obji\ *\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}[i]\ \ \textcolor{comment}{\#\ obj\ loss}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a67a233ad04ee309398c6be7bf68416b1}{autobalance}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}[i]\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}[i]\ *\ 0.9999\ +\ 0.0001\ /\ obji.detach().item()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a67a233ad04ee309398c6be7bf68416b1}{autobalance}}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}\ =\ [x\ /\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}[self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ab0fe07842b01852de5e5f40d93798b09}{ssi}}]\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a30a16dfd7ac1245ec36afed277fa8744}{balance}}]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ lbox\ *=\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a7ea7999088a6b3efd18c839362f47780}{hyp}}[\textcolor{stringliteral}{"{}box"{}}]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ lobj\ *=\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a7ea7999088a6b3efd18c839362f47780}{hyp}}[\textcolor{stringliteral}{"{}obj"{}}]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ lcls\ *=\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a7ea7999088a6b3efd18c839362f47780}{hyp}}[\textcolor{stringliteral}{"{}cls"{}}]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ bs\ =\ tobj.shape[0]\ \ \textcolor{comment}{\#\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (lbox\ +\ lobj\ +\ lcls)\ *\ bs,\ torch.cat((lbox,\ lobj,\ lcls)).detach()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00175}\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a99b0beed148ea4d89ea7f9ee3cd9ca87}{00175}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a99b0beed148ea4d89ea7f9ee3cd9ca87}{build\_targets}}(self,\ p,\ targets):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Build\ targets\ for\ compute\_loss(),\ input\ targets(image,class,x,y,w,h)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ na,\ nt\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_ad640c4d71bc0617bde302d710d6ccc90}{na}},\ targets.shape[0]\ \ \textcolor{comment}{\#\ number\ of\ anchors,\ targets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ tcls,\ tbox,\ indices,\ anch\ =\ [],\ [],\ [],\ []}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ gain\ =\ torch.ones(7,\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}})\ \ \textcolor{comment}{\#\ normalized\ to\ gridspace\ gain}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ ai\ =\ torch.arange(na,\ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}}).float().view(na,\ 1).repeat(1,\ nt)\ \ \textcolor{comment}{\#\ same\ as\ .repeat\_interleave(nt)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ targets\ =\ torch.cat((targets.repeat(na,\ 1,\ 1),\ ai[...,\ \textcolor{keywordtype}{None}]),\ 2)\ \ \textcolor{comment}{\#\ append\ anchor\ indices}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ g\ =\ 0.5\ \ \textcolor{comment}{\#\ bias}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ off\ =\ (}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ torch.tensor(}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [0,\ 0],}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [1,\ 0],}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [0,\ 1],}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [-\/1,\ 0],}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [0,\ -\/1],\ \ \textcolor{comment}{\#\ j,k,l,m}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ [1,\ 1],\ [1,\ -\/1],\ [-\/1,\ 1],\ [-\/1,\ -\/1],\ \ \#\ jk,jm,lk,lm}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ device=self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a664a32257d01d4771995665c7eae7e73}{device}},}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ ).float()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ *\ g}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ offsets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a9d2620ee5aa6814bae93983a11ed439c}{nl}}):}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ anchors,\ shape\ =\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a5c5dfe991ac01e76672f0a490db60f9b}{anchors}}[i],\ p[i].shape}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ gain[2:6]\ =\ torch.tensor(shape)[[3,\ 2,\ 3,\ 2]]\ \ \textcolor{comment}{\#\ xyxy\ gain}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Match\ targets\ to\ anchors}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ targets\ *\ gain\ \ \textcolor{comment}{\#\ shape(3,n,7)}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nt:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Matches}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ r\ =\ t[...,\ 4:6]\ /\ anchors[:,\ \textcolor{keywordtype}{None}]\ \ \textcolor{comment}{\#\ wh\ ratio}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ j\ =\ torch.max(r,\ 1\ /\ r).max(2)[0]\ <\ self.\mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss_a7ea7999088a6b3efd18c839362f47780}{hyp}}[\textcolor{stringliteral}{"{}anchor\_t"{}}]\ \ \textcolor{comment}{\#\ compare}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ j\ =\ wh\_iou(anchors,\ t[:,\ 4:6])\ >\ model.hyp['iou\_t']\ \ \#\ iou(3,n)=wh\_iou(anchors(3,2),\ gwh(n,2))}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ t[j]\ \ \textcolor{comment}{\#\ filter}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Offsets}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gxy\ =\ t[:,\ 2:4]\ \ \textcolor{comment}{\#\ grid\ xy}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gxi\ =\ gain[[2,\ 3]]\ -\/\ gxy\ \ \textcolor{comment}{\#\ inverse}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ j,\ k\ =\ ((gxy\ \%\ 1\ <\ g)\ \&\ (gxy\ >\ 1)).T}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ l,\ m\ =\ ((gxi\ \%\ 1\ <\ g)\ \&\ (gxi\ >\ 1)).T}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ j\ =\ torch.stack((torch.ones\_like(j),\ j,\ k,\ l,\ m))}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ t.repeat((5,\ 1,\ 1))[j]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offsets\ =\ (torch.zeros\_like(gxy)[\textcolor{keywordtype}{None}]\ +\ off[:,\ \textcolor{keywordtype}{None}])[j]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ targets[0]}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offsets\ =\ 0}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Define}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ bc,\ gxy,\ gwh,\ a\ =\ t.chunk(4,\ 1)\ \ \textcolor{comment}{\#\ (image,\ class),\ grid\ xy,\ grid\ wh,\ anchors}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ a,\ (b,\ c)\ =\ a.long().view(-\/1),\ bc.long().T\ \ \textcolor{comment}{\#\ anchors,\ image,\ class}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ gij\ =\ (gxy\ -\/\ offsets).long()}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ gi,\ gj\ =\ gij.T\ \ \textcolor{comment}{\#\ grid\ indices}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Append}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ indices.append((b,\ a,\ gj.clamp\_(0,\ shape[2]\ -\/\ 1),\ gi.clamp\_(0,\ shape[3]\ -\/\ 1)))\ \ \textcolor{comment}{\#\ image,\ anchor,\ grid}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ tbox.append(torch.cat((gxy\ -\/\ gij,\ gwh),\ 1))\ \ \textcolor{comment}{\#\ box}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ anch.append(anchors[a])\ \ \textcolor{comment}{\#\ anchors}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ tcls.append(c)\ \ \textcolor{comment}{\#\ class}}
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{loss_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tcls,\ tbox,\ indices,\ anch}
+
+\end{DoxyCode}

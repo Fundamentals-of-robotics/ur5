@@ -1,0 +1,693 @@
+\doxysection{utils.\+loggers.\+comet.\+Comet\+Logger Class Reference}
+\hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger}{}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger}\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a77fe3bdb7912c7ef1ac85b4a1dfdee7e}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7bbac17e22d136f79aa1b3689e05a00a}{opt}}, \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aad87960810101db4cd1c8c3e67578e49}{hyp}}, run\+\_\+id=None, \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa4c052e69df6c20232683fd10076486f}{job\+\_\+type}}="{}Training"{}, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}experiment\+\_\+kwargs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac26975ac85d389a14637552830bd389a}{log\+\_\+metrics}} (self, log\+\_\+dict, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_acfc7e05aab05f4a4e4a9c289680be29b}{log\+\_\+parameters}} (self, log\+\_\+dict, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a8ae1e33faf89a6430c65aca0cf8787cd}{log\+\_\+asset}} (self, asset\+\_\+path, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_af10add0e07581ebbffb26cbe51a5ea26}{log\+\_\+asset\+\_\+data}} (self, asset, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a43029d5b428409eedd85923cd70c61fa}{log\+\_\+image}} (self, img, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_adab26ff12d66fec7a61adb753790a938}{log\+\_\+model}} (self, path, \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7bbac17e22d136f79aa1b3689e05a00a}{opt}}, epoch, fitness\+\_\+score, best\+\_\+model=False)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0bae99a216c86ab2968a7490be31e0db}{check\+\_\+dataset}} (self, data\+\_\+file)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a36e71d6b02c0d1f861f9dfc6272e0003}{log\+\_\+predictions}} (self, image, labelsn, path, shape, predn)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a44388042bc050554d6c19bd588b4d54a}{preprocess\+\_\+prediction}} (self, image, labels, shape, pred)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae6adf158931a063e952811dac0e5833a}{add\+\_\+assets\+\_\+to\+\_\+artifact}} (self, artifact, path, asset\+\_\+path, split)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a9cbc4ec65b6c5f869e17d49519fbf20a}{upload\+\_\+dataset\+\_\+artifact}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab6fd09064fcfe4596c4b035f0a1e5a84}{download\+\_\+dataset\+\_\+artifact}} (self, artifact\+\_\+path)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_add71a907976c364f9f8a48a8f5bd6691}{update\+\_\+data\+\_\+paths}} (self, \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2ce85d347ff76641484a54fc3e6cac91}{data\+\_\+dict}})
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a608ce65fe4e0d299be95b034f5329e73}{on\+\_\+pretrain\+\_\+routine\+\_\+end}} (self, paths)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae4ca4512817c18c85a16d3aa1444f3b7}{on\+\_\+train\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a1b71374142beb3f5253e03ee890c14a6}{on\+\_\+train\+\_\+epoch\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a555958b23b986f4c2d741470374e6fe7}{on\+\_\+train\+\_\+epoch\+\_\+end}} (self, epoch)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a9fa185f9731ac4b93087d35535cd4624}{on\+\_\+train\+\_\+batch\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a27e74f767bf5e2412e81cd77b8bbc1e4}{on\+\_\+train\+\_\+batch\+\_\+end}} (self, log\+\_\+dict, step)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae4906c5bf69d1405b0b2033e361973bf}{on\+\_\+train\+\_\+end}} (self, files, save\+\_\+dir, last, best, epoch, results)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac6a55f88fb7efbb2af6b87c7155bca87}{on\+\_\+val\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aecc93dc0bdd5c6a1cd023508a720d8ed}{on\+\_\+val\+\_\+batch\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa01cb65ec068b2395a8b0513a9042723}{on\+\_\+val\+\_\+batch\+\_\+end}} (self, batch\+\_\+i, images, targets, paths, shapes, outputs)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a98d6b73cb7a47f0decc669cf6a21a1b9}{on\+\_\+val\+\_\+end}} (self, nt, tp, fp, p, r, f1, ap, ap50, ap\+\_\+class, confusion\+\_\+matrix)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aaffde044e918761fce4a92f8cc4b9be5}{on\+\_\+fit\+\_\+epoch\+\_\+end}} (self, result, epoch)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a5e88866b30b27aabab921b30d2f8d662}{on\+\_\+model\+\_\+save}} (self, last, epoch, final\+\_\+epoch, best\+\_\+fitness, fi)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7d357c2be0e81aaadcc411766e2de443}{on\+\_\+params\+\_\+update}} (self, params)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab950e25a6e60376d97130ec393f83b41}{finish\+\_\+run}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa4c052e69df6c20232683fd10076486f}{job\+\_\+type}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7bbac17e22d136f79aa1b3689e05a00a}{opt}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aad87960810101db4cd1c8c3e67578e49}{hyp}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_adc5d671c2bac9633c13460c9105400af}{comet\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0a7ac5019cb9ee0ac1b95d88cb223c61}{save\+\_\+model}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a38b9dd166521e3f73cf6e3c7fd496777}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aec716976650ca513c3e6741f1bcb51bc}{log\+\_\+batch\+\_\+metrics}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a964e31e2a4b73eb96d69d094a34556be}{comet\+\_\+log\+\_\+batch\+\_\+interval}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a1a6ebef670513e8efb9d544e66ec7d37}{upload\+\_\+dataset}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab407004f6fb68532a050f2128adb47f4}{resume}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a8bccc171c0e6bb157fd18bbd52ed4646}{default\+\_\+experiment\+\_\+kwargs}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a51706365d13488b11e812c525873791b}{experiment}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2ce85d347ff76641484a54fc3e6cac91}{data\+\_\+dict}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa6244112b4146a90f69ab4d09ca89648}{class\+\_\+names}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a27518d6e667eeb93f616c100ced3d4e5}{num\+\_\+classes}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2e7934fe3f517a54e2b75bc6d0e50632}{logged\+\_\+images\+\_\+count}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a906bac84a113731f0532fe32900c0f34}{max\+\_\+images}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a3f97f7b94074baabd4904e169889feae}{comet\+\_\+log\+\_\+confusion\+\_\+matrix}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_af5d47c3599434e1aabaf12f897a0fe07}{conf\+\_\+thres}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac169094531c52df6b188c85d53cc2ee5}{iou\+\_\+thres}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a569a5943cb0a0a6bd07622a6c98dbb1c}{comet\+\_\+log\+\_\+predictions}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab66c90097f865698b96c475382240099}{comet\+\_\+log\+\_\+prediction\+\_\+interval}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a78273005f4028834cecf285f0785ddae}{metadata\+\_\+dict}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a12f2273e88c84710686442b87c47a3a7}{logged\+\_\+image\+\_\+names}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab3df56c085f059804cee5a399473a466}{comet\+\_\+log\+\_\+per\+\_\+class\+\_\+metrics}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0e763b1fc17be22be2000663c03e42cb}{\+\_\+get\+\_\+experiment}} (self, mode, experiment\+\_\+id=None)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Log metrics, parameters, source code, models and much more with Comet.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00064}{64}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a77fe3bdb7912c7ef1ac85b4a1dfdee7e}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a77fe3bdb7912c7ef1ac85b4a1dfdee7e} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily  None utils.\+loggers.\+comet.\+Comet\+Logger.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{opt,  }\item[{}]{hyp,  }\item[{}]{run\+\_\+id = {\ttfamily None},  }\item[{}]{job\+\_\+type = {\ttfamily "{}Training"{}},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{experiment\+\_\+kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00067}{67}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0e763b1fc17be22be2000663c03e42cb}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0e763b1fc17be22be2000663c03e42cb} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!\_get\_experiment@{\_get\_experiment}}
+\index{\_get\_experiment@{\_get\_experiment}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{\_get\_experiment()}{\_get\_experiment()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+\_\+get\+\_\+experiment (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{mode,  }\item[{}]{experiment\+\_\+id = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00167}{167}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae6adf158931a063e952811dac0e5833a}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae6adf158931a063e952811dac0e5833a} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!add\_assets\_to\_artifact@{add\_assets\_to\_artifact}}
+\index{add\_assets\_to\_artifact@{add\_assets\_to\_artifact}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{add\_assets\_to\_artifact()}{add\_assets\_to\_artifact()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+add\+\_\+assets\+\_\+to\+\_\+artifact (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{artifact,  }\item[{}]{path,  }\item[{}]{asset\+\_\+path,  }\item[{}]{split }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00308}{308}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0bae99a216c86ab2968a7490be31e0db}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0bae99a216c86ab2968a7490be31e0db} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!check\_dataset@{check\_dataset}}
+\index{check\_dataset@{check\_dataset}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{check\_dataset()}{check\_dataset()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+check\+\_\+dataset (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00237}{237}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab6fd09064fcfe4596c4b035f0a1e5a84}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab6fd09064fcfe4596c4b035f0a1e5a84} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!download\_dataset\_artifact@{download\_dataset\_artifact}}
+\index{download\_dataset\_artifact@{download\_dataset\_artifact}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{download\_dataset\_artifact()}{download\_dataset\_artifact()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+download\+\_\+dataset\+\_\+artifact (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{artifact\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00357}{357}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab950e25a6e60376d97130ec393f83b41}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab950e25a6e60376d97130ec393f83b41} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!finish\_run@{finish\_run}}
+\index{finish\_run@{finish\_run}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{finish\_run()}{finish\_run()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+finish\+\_\+run (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00516}{516}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a8ae1e33faf89a6430c65aca0cf8787cd}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a8ae1e33faf89a6430c65aca0cf8787cd} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_asset@{log\_asset}}
+\index{log\_asset@{log\_asset}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_asset()}{log\_asset()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+asset (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{asset\+\_\+path,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00205}{205}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_af10add0e07581ebbffb26cbe51a5ea26}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_af10add0e07581ebbffb26cbe51a5ea26} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_asset\_data@{log\_asset\_data}}
+\index{log\_asset\_data@{log\_asset\_data}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_asset\_data()}{log\_asset\_data()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+asset\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{asset,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00208}{208}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a43029d5b428409eedd85923cd70c61fa}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a43029d5b428409eedd85923cd70c61fa} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_image@{log\_image}}
+\index{log\_image@{log\_image}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_image()}{log\_image()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+image (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{img,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00211}{211}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac26975ac85d389a14637552830bd389a}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac26975ac85d389a14637552830bd389a} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_metrics@{log\_metrics}}
+\index{log\_metrics@{log\_metrics}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_metrics()}{log\_metrics()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+metrics (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{log\+\_\+dict,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00199}{199}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_adab26ff12d66fec7a61adb753790a938}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_adab26ff12d66fec7a61adb753790a938} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_model@{log\_model}}
+\index{log\_model@{log\_model}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_model()}{log\_model()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{path,  }\item[{}]{opt,  }\item[{}]{epoch,  }\item[{}]{fitness\+\_\+score,  }\item[{}]{best\+\_\+model = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00214}{214}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_acfc7e05aab05f4a4e4a9c289680be29b}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_acfc7e05aab05f4a4e4a9c289680be29b} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_parameters@{log\_parameters}}
+\index{log\_parameters@{log\_parameters}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_parameters()}{log\_parameters()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+parameters (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{log\+\_\+dict,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00202}{202}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a36e71d6b02c0d1f861f9dfc6272e0003}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a36e71d6b02c0d1f861f9dfc6272e0003} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_predictions@{log\_predictions}}
+\index{log\_predictions@{log\_predictions}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_predictions()}{log\_predictions()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+predictions (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{image,  }\item[{}]{labelsn,  }\item[{}]{path,  }\item[{}]{shape,  }\item[{}]{predn }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00249}{249}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aaffde044e918761fce4a92f8cc4b9be5}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aaffde044e918761fce4a92f8cc4b9be5} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_fit\_epoch\_end@{on\_fit\_epoch\_end}}
+\index{on\_fit\_epoch\_end@{on\_fit\_epoch\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_fit\_epoch\_end()}{on\_fit\_epoch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+fit\+\_\+epoch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{result,  }\item[{}]{epoch }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00506}{506}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a5e88866b30b27aabab921b30d2f8d662}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a5e88866b30b27aabab921b30d2f8d662} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_model\_save@{on\_model\_save}}
+\index{on\_model\_save@{on\_model\_save}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_model\_save()}{on\_model\_save()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+model\+\_\+save (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{last,  }\item[{}]{epoch,  }\item[{}]{final\+\_\+epoch,  }\item[{}]{best\+\_\+fitness,  }\item[{}]{fi }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00509}{509}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7d357c2be0e81aaadcc411766e2de443}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7d357c2be0e81aaadcc411766e2de443} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_params\_update@{on\_params\_update}}
+\index{on\_params\_update@{on\_params\_update}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_params\_update()}{on\_params\_update()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+params\+\_\+update (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{params }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00513}{513}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a608ce65fe4e0d299be95b034f5329e73}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a608ce65fe4e0d299be95b034f5329e73} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_pretrain\_routine\_end@{on\_pretrain\_routine\_end}}
+\index{on\_pretrain\_routine\_end@{on\_pretrain\_routine\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_pretrain\_routine\_end()}{on\_pretrain\_routine\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+pretrain\+\_\+routine\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{paths }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00388}{388}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a27e74f767bf5e2412e81cd77b8bbc1e4}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a27e74f767bf5e2412e81cd77b8bbc1e4} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_train\_batch\_end@{on\_train\_batch\_end}}
+\index{on\_train\_batch\_end@{on\_train\_batch\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_train\_batch\_end()}{on\_train\_batch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+train\+\_\+batch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{log\+\_\+dict,  }\item[{}]{step }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00414}{414}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a9fa185f9731ac4b93087d35535cd4624}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a9fa185f9731ac4b93087d35535cd4624} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_train\_batch\_start@{on\_train\_batch\_start}}
+\index{on\_train\_batch\_start@{on\_train\_batch\_start}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_train\_batch\_start()}{on\_train\_batch\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+train\+\_\+batch\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00411}{411}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae4906c5bf69d1405b0b2033e361973bf}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae4906c5bf69d1405b0b2033e361973bf} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_train\_end@{on\_train\_end}}
+\index{on\_train\_end@{on\_train\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_train\_end()}{on\_train\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+train\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{files,  }\item[{}]{save\+\_\+dir,  }\item[{}]{last,  }\item[{}]{best,  }\item[{}]{epoch,  }\item[{}]{results }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00421}{421}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a555958b23b986f4c2d741470374e6fe7}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a555958b23b986f4c2d741470374e6fe7} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_train\_epoch\_end@{on\_train\_epoch\_end}}
+\index{on\_train\_epoch\_end@{on\_train\_epoch\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_train\_epoch\_end()}{on\_train\_epoch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+train\+\_\+epoch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{epoch }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00406}{406}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a1b71374142beb3f5253e03ee890c14a6}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a1b71374142beb3f5253e03ee890c14a6} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_train\_epoch\_start@{on\_train\_epoch\_start}}
+\index{on\_train\_epoch\_start@{on\_train\_epoch\_start}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_train\_epoch\_start()}{on\_train\_epoch\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+train\+\_\+epoch\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00403}{403}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae4ca4512817c18c85a16d3aa1444f3b7}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ae4ca4512817c18c85a16d3aa1444f3b7} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_train\_start@{on\_train\_start}}
+\index{on\_train\_start@{on\_train\_start}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_train\_start()}{on\_train\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+train\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00400}{400}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa01cb65ec068b2395a8b0513a9042723}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa01cb65ec068b2395a8b0513a9042723} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_val\_batch\_end@{on\_val\_batch\_end}}
+\index{on\_val\_batch\_end@{on\_val\_batch\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_val\_batch\_end()}{on\_val\_batch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+val\+\_\+batch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{batch\+\_\+i,  }\item[{}]{images,  }\item[{}]{targets,  }\item[{}]{paths,  }\item[{}]{shapes,  }\item[{}]{outputs }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00454}{454}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aecc93dc0bdd5c6a1cd023508a720d8ed}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aecc93dc0bdd5c6a1cd023508a720d8ed} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_val\_batch\_start@{on\_val\_batch\_start}}
+\index{on\_val\_batch\_start@{on\_val\_batch\_start}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_val\_batch\_start()}{on\_val\_batch\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+val\+\_\+batch\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00451}{451}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a98d6b73cb7a47f0decc669cf6a21a1b9}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a98d6b73cb7a47f0decc669cf6a21a1b9} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_val\_end@{on\_val\_end}}
+\index{on\_val\_end@{on\_val\_end}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_val\_end()}{on\_val\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+val\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{nt,  }\item[{}]{tp,  }\item[{}]{fp,  }\item[{}]{p,  }\item[{}]{r,  }\item[{}]{f1,  }\item[{}]{ap,  }\item[{}]{ap50,  }\item[{}]{ap\+\_\+class,  }\item[{}]{confusion\+\_\+matrix }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00472}{472}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac6a55f88fb7efbb2af6b87c7155bca87}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac6a55f88fb7efbb2af6b87c7155bca87} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!on\_val\_start@{on\_val\_start}}
+\index{on\_val\_start@{on\_val\_start}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{on\_val\_start()}{on\_val\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+on\+\_\+val\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00448}{448}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a44388042bc050554d6c19bd588b4d54a}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a44388042bc050554d6c19bd588b4d54a} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!preprocess\_prediction@{preprocess\_prediction}}
+\index{preprocess\_prediction@{preprocess\_prediction}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{preprocess\_prediction()}{preprocess\_prediction()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+preprocess\+\_\+prediction (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{image,  }\item[{}]{labels,  }\item[{}]{shape,  }\item[{}]{pred }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00289}{289}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_add71a907976c364f9f8a48a8f5bd6691}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_add71a907976c364f9f8a48a8f5bd6691} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!update\_data\_paths@{update\_data\_paths}}
+\index{update\_data\_paths@{update\_data\_paths}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{update\_data\_paths()}{update\_data\_paths()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+update\+\_\+data\+\_\+paths (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{data\+\_\+dict }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00376}{376}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a9cbc4ec65b6c5f869e17d49519fbf20a}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a9cbc4ec65b6c5f869e17d49519fbf20a} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!upload\_dataset\_artifact@{upload\_dataset\_artifact}}
+\index{upload\_dataset\_artifact@{upload\_dataset\_artifact}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{upload\_dataset\_artifact()}{upload\_dataset\_artifact()}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+upload\+\_\+dataset\+\_\+artifact (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00333}{333}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa6244112b4146a90f69ab4d09ca89648}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa6244112b4146a90f69ab4d09ca89648} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!class\_names@{class\_names}}
+\index{class\_names@{class\_names}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{class\_names}{class\_names}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+class\+\_\+names}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00098}{98}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a964e31e2a4b73eb96d69d094a34556be}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a964e31e2a4b73eb96d69d094a34556be} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!comet\_log\_batch\_interval@{comet\_log\_batch\_interval}}
+\index{comet\_log\_batch\_interval@{comet\_log\_batch\_interval}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{comet\_log\_batch\_interval}{comet\_log\_batch\_interval}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+comet\+\_\+log\+\_\+batch\+\_\+interval}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00080}{80}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a3f97f7b94074baabd4904e169889feae}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a3f97f7b94074baabd4904e169889feae} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!comet\_log\_confusion\_matrix@{comet\_log\_confusion\_matrix}}
+\index{comet\_log\_confusion\_matrix@{comet\_log\_confusion\_matrix}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{comet\_log\_confusion\_matrix}{comet\_log\_confusion\_matrix}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+comet\+\_\+log\+\_\+confusion\+\_\+matrix}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00124}{124}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab3df56c085f059804cee5a399473a466}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab3df56c085f059804cee5a399473a466} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!comet\_log\_per\_class\_metrics@{comet\_log\_per\_class\_metrics}}
+\index{comet\_log\_per\_class\_metrics@{comet\_log\_per\_class\_metrics}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{comet\_log\_per\_class\_metrics}{comet\_log\_per\_class\_metrics}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+comet\+\_\+log\+\_\+per\+\_\+class\+\_\+metrics}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00147}{147}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab66c90097f865698b96c475382240099}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab66c90097f865698b96c475382240099} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!comet\_log\_prediction\_interval@{comet\_log\_prediction\_interval}}
+\index{comet\_log\_prediction\_interval@{comet\_log\_prediction\_interval}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{comet\_log\_prediction\_interval}{comet\_log\_prediction\_interval}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+comet\+\_\+log\+\_\+prediction\+\_\+interval}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00139}{139}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a569a5943cb0a0a6bd07622a6c98dbb1c}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a569a5943cb0a0a6bd07622a6c98dbb1c} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!comet\_log\_predictions@{comet\_log\_predictions}}
+\index{comet\_log\_predictions@{comet\_log\_predictions}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{comet\_log\_predictions}{comet\_log\_predictions}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+comet\+\_\+log\+\_\+predictions}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00137}{137}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_adc5d671c2bac9633c13460c9105400af}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_adc5d671c2bac9633c13460c9105400af} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!comet\_mode@{comet\_mode}}
+\index{comet\_mode@{comet\_mode}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{comet\_mode}{comet\_mode}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+comet\+\_\+mode}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00073}{73}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_af5d47c3599434e1aabaf12f897a0fe07}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_af5d47c3599434e1aabaf12f897a0fe07} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!conf\_thres@{conf\_thres}}
+\index{conf\_thres@{conf\_thres}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{conf\_thres}{conf\_thres}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+conf\+\_\+thres}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00127}{127}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2ce85d347ff76641484a54fc3e6cac91}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2ce85d347ff76641484a54fc3e6cac91} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!data\_dict@{data\_dict}}
+\index{data\_dict@{data\_dict}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{data\_dict}{data\_dict}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+data\+\_\+dict}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00097}{97}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a8bccc171c0e6bb157fd18bbd52ed4646}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a8bccc171c0e6bb157fd18bbd52ed4646} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!default\_experiment\_kwargs@{default\_experiment\_kwargs}}
+\index{default\_experiment\_kwargs@{default\_experiment\_kwargs}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{default\_experiment\_kwargs}{default\_experiment\_kwargs}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+default\+\_\+experiment\+\_\+kwargs}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00087}{87}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a51706365d13488b11e812c525873791b}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a51706365d13488b11e812c525873791b} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!experiment@{experiment}}
+\index{experiment@{experiment}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{experiment}{experiment}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+experiment}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00094}{94}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aad87960810101db4cd1c8c3e67578e49}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aad87960810101db4cd1c8c3e67578e49} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!hyp@{hyp}}
+\index{hyp@{hyp}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{hyp}{hyp}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+hyp}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00070}{70}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac169094531c52df6b188c85d53cc2ee5}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ac169094531c52df6b188c85d53cc2ee5} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!iou\_thres@{iou\_thres}}
+\index{iou\_thres@{iou\_thres}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{iou\_thres}{iou\_thres}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+iou\+\_\+thres}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00131}{131}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa4c052e69df6c20232683fd10076486f}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aa4c052e69df6c20232683fd10076486f} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!job\_type@{job\_type}}
+\index{job\_type@{job\_type}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{job\_type}{job\_type}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+job\+\_\+type}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00068}{68}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_aec716976650ca513c3e6741f1bcb51bc}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_aec716976650ca513c3e6741f1bcb51bc} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!log\_batch\_metrics@{log\_batch\_metrics}}
+\index{log\_batch\_metrics@{log\_batch\_metrics}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{log\_batch\_metrics}{log\_batch\_metrics}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+log\+\_\+batch\+\_\+metrics}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00079}{79}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a12f2273e88c84710686442b87c47a3a7}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a12f2273e88c84710686442b87c47a3a7} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!logged\_image\_names@{logged\_image\_names}}
+\index{logged\_image\_names@{logged\_image\_names}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{logged\_image\_names}{logged\_image\_names}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+logged\+\_\+image\+\_\+names}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00145}{145}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2e7934fe3f517a54e2b75bc6d0e50632}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a2e7934fe3f517a54e2b75bc6d0e50632} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!logged\_images\_count@{logged\_images\_count}}
+\index{logged\_images\_count@{logged\_images\_count}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{logged\_images\_count}{logged\_images\_count}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+logged\+\_\+images\+\_\+count}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00101}{101}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a906bac84a113731f0532fe32900c0f34}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a906bac84a113731f0532fe32900c0f34} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!max\_images@{max\_images}}
+\index{max\_images@{max\_images}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{max\_images}{max\_images}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+max\+\_\+images}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00102}{102}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a78273005f4028834cecf285f0785ddae}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a78273005f4028834cecf285f0785ddae} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!metadata\_dict@{metadata\_dict}}
+\index{metadata\_dict@{metadata\_dict}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{metadata\_dict}{metadata\_dict}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+metadata\+\_\+dict}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00144}{144}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a38b9dd166521e3f73cf6e3c7fd496777}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a38b9dd166521e3f73cf6e3c7fd496777} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!model\_name@{model\_name}}
+\index{model\_name@{model\_name}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{model\_name}{model\_name}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00076}{76}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a27518d6e667eeb93f616c100ced3d4e5}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a27518d6e667eeb93f616c100ced3d4e5} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!num\_classes@{num\_classes}}
+\index{num\_classes@{num\_classes}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{num\_classes}{num\_classes}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+num\+\_\+classes}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00099}{99}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7bbac17e22d136f79aa1b3689e05a00a}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a7bbac17e22d136f79aa1b3689e05a00a} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!opt@{opt}}
+\index{opt@{opt}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+opt}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00069}{69}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab407004f6fb68532a050f2128adb47f4}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_ab407004f6fb68532a050f2128adb47f4} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!resume@{resume}}
+\index{resume@{resume}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{resume}{resume}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+resume}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00084}{84}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0a7ac5019cb9ee0ac1b95d88cb223c61}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a0a7ac5019cb9ee0ac1b95d88cb223c61} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!save\_model@{save\_model}}
+\index{save\_model@{save\_model}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{save\_model}{save\_model}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+save\+\_\+model}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00075}{75}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1comet_1_1_comet_logger_a1a6ebef670513e8efb9d544e66ec7d37}\label{classutils_1_1loggers_1_1comet_1_1_comet_logger_a1a6ebef670513e8efb9d544e66ec7d37} 
+\index{utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}!upload\_dataset@{upload\_dataset}}
+\index{upload\_dataset@{upload\_dataset}!utils.loggers.comet.CometLogger@{utils.loggers.comet.CometLogger}}
+\doxysubsubsection{\texorpdfstring{upload\_dataset}{upload\_dataset}}
+{\footnotesize\ttfamily utils.\+loggers.\+comet.\+Comet\+Logger.\+upload\+\_\+dataset}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source_l00083}{83}} of file \mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/loggers/comet/\mbox{\hyperlink{utils_2loggers_2comet_2____init_____8py}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}\end{DoxyCompactItemize}

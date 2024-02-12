@@ -1,0 +1,79 @@
+\doxysection{callbacks.\+py}
+\hypertarget{callbacks_8py_source}{}\label{callbacks_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/callbacks.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/callbacks.py}}
+\mbox{\hyperlink{callbacks_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1callbacks}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Callback\ utils."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00004}00004\ \textcolor{keyword}{import}\ threading}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00007}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{00007}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}:}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00008}00008\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}"{}\ Handles\ all\ registered\ callbacks\ for\ YOLOv5\ Hooks."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00010}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a9f46d27c2efe1de6bb239d77659813e7}{00010}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a9f46d27c2efe1de6bb239d77659813e7}{\_\_init\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Define\ the\ available\ callbacks}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00012}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{00012}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}}\ =\ \{}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_pretrain\_routine\_start"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_pretrain\_routine\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_train\_start"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_train\_epoch\_start"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_train\_batch\_start"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}optimizer\_step"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_before\_zero\_grad"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_train\_batch\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_train\_epoch\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_val\_start"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_val\_batch\_start"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_val\_image\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_val\_batch\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_val\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_fit\_epoch\_end"{}}:\ [],\ \ \textcolor{comment}{\#\ fit\ =\ train\ +\ val}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_model\_save"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_train\_end"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}on\_params\_update"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}teardown"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00033}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_aa068e3af6f2a405c3933d18d9633b4d0}{00033}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_aa068e3af6f2a405c3933d18d9633b4d0}{stop\_training}}\ =\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ set\ True\ to\ interrupt\ training}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00035}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a3a8b9b4f40c608470620fd43f59fe906}{00035}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a3a8b9b4f40c608470620fd43f59fe906}{register\_action}}(self,\ hook,\ name="{}"{},\ callback=None):}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Register\ a\ new\ action\ to\ a\ callback\ hook.}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00038}00038\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ hook:\ The\ callback\ hook\ name\ to\ register\ the\ action\ to}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ name:\ The\ name\ of\ the\ action\ for\ later\ reference}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ callback:\ The\ callback\ to\ fire}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00043}00043\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ hook\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}},\ f\textcolor{stringliteral}{"{}hook\ '\{hook\}'\ not\ found\ in\ callbacks\ \{self.\_callbacks\}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ callable(callback),\ f\textcolor{stringliteral}{"{}callback\ '\{callback\}'\ is\ not\ callable"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}}[hook].append(\{\textcolor{stringliteral}{"{}name"{}}:\ name,\ \textcolor{stringliteral}{"{}callback"{}}:\ callback\})}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00048}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a7fac032248bf1540f5ed9b25ac3cb465}{00048}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a7fac032248bf1540f5ed9b25ac3cb465}{get\_registered\_actions}}(self,\ hook=None):}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}\ Returns\ all\ the\ registered\ actions\ by\ callback\ hook.}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00051}00051\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ hook:\ The\ name\ of\ the\ hook\ to\ check,\ defaults\ to\ all}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}}[hook]\ \textcolor{keywordflow}{if}\ hook\ \textcolor{keywordflow}{else}\ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00057}\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a597a6abade1d8547878b431b3be8ca7d}{00057}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a597a6abade1d8547878b431b3be8ca7d}{run}}(self,\ hook,\ *args,\ thread=False,\ **kwargs):}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Loop\ through\ the\ registered\ actions\ and\ fire\ all\ callbacks\ on\ main\ thread.}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00060}00060\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ hook:\ The\ name\ of\ the\ hook\ to\ check,\ defaults\ to\ all}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ args:\ Arguments\ to\ receive\ from\ YOLOv5}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ thread:\ (boolean)\ Run\ callbacks\ in\ daemon\ thread}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ kwargs:\ Keyword\ Arguments\ to\ receive\ from\ YOLOv5}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ hook\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}},\ f\textcolor{stringliteral}{"{}hook\ '\{hook\}'\ not\ found\ in\ callbacks\ \{self.\_callbacks\}"{}}}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ logger\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\_callbacks}}[hook]:}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ thread:}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ threading.Thread(target=logger[\textcolor{stringliteral}{"{}callback"{}}],\ args=args,\ kwargs=kwargs,\ daemon=\textcolor{keyword}{True}).\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc}{start}}()}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{callbacks_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger[\textcolor{stringliteral}{"{}callback"{}}](*args,\ **kwargs)}
+
+\end{DoxyCode}

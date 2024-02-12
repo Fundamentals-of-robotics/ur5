@@ -1,0 +1,663 @@
+\doxysection{tf.\+py}
+\hypertarget{tf_8py_source}{}\label{tf_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/models/tf.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/models/tf.py}}
+\mbox{\hyperlink{tf_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00001}\mbox{\hyperlink{namespacemodels_1_1tf}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00003}00003\ \textcolor{stringliteral}{TensorFlow,\ Keras\ and\ TFLite\ versions\ of\ YOLOv5}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00004}00004\ \textcolor{stringliteral}{Authored\ by\ https://github.com/zldrobit\ in\ PR\ https://github.com/ultralytics/yolov5/pull/1127}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00005}00005\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00006}00006\ \textcolor{stringliteral}{Usage:}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ models/tf.py\ -\/-\/weights\ yolov5s.pt}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00008}00008\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00009}00009\ \textcolor{stringliteral}{Export:}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ export.py\ -\/-\/weights\ yolov5s.pt\ -\/-\/include\ saved\_model\ pb\ tflite\ tfjs}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00011}00011\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00013}00013\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00014}00014\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00015}00015\ \textcolor{keyword}{from}\ copy\ \textcolor{keyword}{import}\ deepcopy}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00016}00016\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00018}\mbox{\hyperlink{namespacemodels_1_1tf_a9db309b059c53d8ea2d5bf9e84872ed9}{00018}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00019}\mbox{\hyperlink{namespacemodels_1_1tf_aae5416adb44a1cec94fc300c37c348d4}{00019}}\ ROOT\ =\ FILE.parents[1]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00020}00020\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00021}00021\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00022}00022\ \textcolor{comment}{\#\ ROOT\ =\ ROOT.relative\_to(Path.cwd())\ \ \#\ relative}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00024}00024\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00025}00025\ \textcolor{keyword}{import}\ tensorflow\ \textcolor{keyword}{as}\ tf}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00026}00026\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00027}00027\ \textcolor{keyword}{import}\ \mbox{\hyperlink{namespacetorch_1_1nn}{torch.nn}}\ \textcolor{keyword}{as}\ nn}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00028}00028\ \textcolor{keyword}{from}\ tensorflow\ \textcolor{keyword}{import}\ keras}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00030}00030\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1common}{models.common}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00031}00031\ \ \ \ \ C3,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00032}00032\ \ \ \ \ SPP,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00033}00033\ \ \ \ \ SPPF,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00034}00034\ \ \ \ \ Bottleneck,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00035}00035\ \ \ \ \ BottleneckCSP,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00036}00036\ \ \ \ \ C3x,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00037}00037\ \ \ \ \ Concat,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00038}00038\ \ \ \ \ Conv,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00039}00039\ \ \ \ \ CrossConv,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00040}00040\ \ \ \ \ DWConv,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00041}00041\ \ \ \ \ DWConvTranspose2d,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00042}00042\ \ \ \ \ Focus,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00043}00043\ \ \ \ \ autopad,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00044}00044\ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00045}00045\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1experimental}{models.experimental}}\ \textcolor{keyword}{import}\ MixConv2d,\ attempt\_load}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00046}00046\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1yolo}{models.yolo}}\ \textcolor{keyword}{import}\ Detect,\ Segment}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00047}00047\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1activations}{utils.activations}}\ \textcolor{keyword}{import}\ SiLU}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00048}00048\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER,\ make\_divisible,\ print\_args}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00051}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n}{00051}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n}{TFBN}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00052}00052\ \ \ \ \ \textcolor{comment}{\#\ TensorFlow\ BatchNormalization\ wrapper}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00053}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_a127c03adae8704741079052cd9ef4ba5}{00053}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_a127c03adae8704741079052cd9ef4ba5}{\_\_init\_\_}}(self,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_a127c03adae8704741079052cd9ef4ba5}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00055}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_aeaf04762847bcae0940ffcc19d0b9601}{00055}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_aeaf04762847bcae0940ffcc19d0b9601}{bn}}\ =\ keras.layers.BatchNormalization(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ beta\_initializer=keras.initializers.Constant(w.bias.numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ gamma\_initializer=keras.initializers.Constant(w.weight.numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ moving\_mean\_initializer=keras.initializers.Constant(w.running\_mean.numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ moving\_variance\_initializer=keras.initializers.Constant(w.running\_var.numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ epsilon=w.eps,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00063}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_aa82143ac606cbcf641748835539d604b}{00063}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_aa82143ac606cbcf641748835539d604b}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n_aeaf04762847bcae0940ffcc19d0b9601}{bn}}(inputs)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00067}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad}{00067}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad}{TFPad}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00068}00068\ \ \ \ \ \textcolor{comment}{\#\ Pad\ inputs\ in\ spatial\ dimensions\ 1\ and\ 2}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00069}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_a19a779b177c803a1f0d2f43d4aeaa20c}{00069}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_a19a779b177c803a1f0d2f43d4aeaa20c}{\_\_init\_\_}}(self,\ pad):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_a19a779b177c803a1f0d2f43d4aeaa20c}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(pad,\ int):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00072}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_acf648ac872975fe129863bae45a95775}{00072}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_acf648ac872975fe129863bae45a95775}{pad}}\ =\ tf.constant([[0,\ 0],\ [pad,\ pad],\ [pad,\ pad],\ [0,\ 0]])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ tuple/list}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_acf648ac872975fe129863bae45a95775}{pad}}\ =\ tf.constant([[0,\ 0],\ [pad[0],\ pad[0]],\ [pad[1],\ pad[1]],\ [0,\ 0]])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00076}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_a8ff0bad8d4af31e47ebf753ece5d6970}{00076}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_a8ff0bad8d4af31e47ebf753ece5d6970}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.pad(inputs,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad_acf648ac872975fe129863bae45a95775}{pad}},\ mode=\textcolor{stringliteral}{"{}constant"{}},\ constant\_values=0)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00080}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{00080}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00081}00081\ \ \ \ \ \textcolor{comment}{\#\ Standard\ convolution}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00082}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a7b5a5bf9f6604821d9e1a4f80f5e3f7b}{00082}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a7b5a5bf9f6604821d9e1a4f80f5e3f7b}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=1,\ s=1,\ p=None,\ g=1,\ act=True,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ weights,\ kernel,\ stride,\ padding,\ groups}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a7b5a5bf9f6604821d9e1a4f80f5e3f7b}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ g\ ==\ 1,\ \textcolor{stringliteral}{"{}TF\ v2.2\ Conv2D\ does\ not\ support\ 'groups'\ argument"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ TensorFlow\ convolution\ padding\ is\ inconsistent\ with\ PyTorch\ (e.g.\ k=3\ s=2\ 'SAME'\ padding)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ see\ https://stackoverflow.com/questions/52975843/comparing-\/conv2d-\/with-\/padding-\/between-\/tensorflow-\/and-\/pytorch}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ conv\ =\ keras.layers.Conv2D(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ filters=c2,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_size=k,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ strides=s,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ padding=\textcolor{stringliteral}{"{}SAME"{}}\ \textcolor{keywordflow}{if}\ s\ ==\ 1\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}VALID"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ use\_bias=\textcolor{keywordflow}{not}\ hasattr(w,\ \textcolor{stringliteral}{"{}bn"{}}),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_initializer=keras.initializers.Constant(w.conv.weight.permute(2,\ 3,\ 1,\ 0).numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ bias\_initializer=\textcolor{stringliteral}{"{}zeros"{}}\ \textcolor{keywordflow}{if}\ hasattr(w,\ \textcolor{stringliteral}{"{}bn"{}})\ \textcolor{keywordflow}{else}\ keras.initializers.Constant(w.conv.bias.numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00097}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a5af2e487f711f7020de6a3c8d99fcb1f}{00097}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a5af2e487f711f7020de6a3c8d99fcb1f}{conv}}\ =\ conv\ \textcolor{keywordflow}{if}\ s\ ==\ 1\ \textcolor{keywordflow}{else}\ keras.Sequential([\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad}{TFPad}}(autopad(k,\ p)),\ conv])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00098}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a66100543b1cc5166bdca0f36b670e6ef}{00098}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a66100543b1cc5166bdca0f36b670e6ef}{bn}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n}{TFBN}}(w.bn)\ \textcolor{keywordflow}{if}\ hasattr(w,\ \textcolor{stringliteral}{"{}bn"{}})\ \textcolor{keywordflow}{else}\ tf.identity}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00099}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_aa22f6f6daf5b7c1f3c35969d8e8ff692}{00099}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_aa22f6f6daf5b7c1f3c35969d8e8ff692}{act}}\ =\ \mbox{\hyperlink{namespacemodels_1_1tf_aa75918dd4849c007e562b1abd138dab1}{activations}}(w.act)\ \textcolor{keywordflow}{if}\ act\ \textcolor{keywordflow}{else}\ tf.identity}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00101}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_aed1829791d416da0effb7bd74da44694}{00101}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_aed1829791d416da0effb7bd74da44694}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_aa22f6f6daf5b7c1f3c35969d8e8ff692}{act}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a66100543b1cc5166bdca0f36b670e6ef}{bn}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv_a5af2e487f711f7020de6a3c8d99fcb1f}{conv}}(inputs)))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00105}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv}{00105}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv}{TFDWConv}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00106}00106\ \ \ \ \ \textcolor{comment}{\#\ Depthwise\ convolution}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00107}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a63303301e4b4e75aabcd7cef00633823}{00107}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a63303301e4b4e75aabcd7cef00633823}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=1,\ s=1,\ p=None,\ act=True,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ weights,\ kernel,\ stride,\ padding,\ groups}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a63303301e4b4e75aabcd7cef00633823}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ c2\ \%\ c1\ ==\ 0,\ f\textcolor{stringliteral}{"{}TFDWConv()\ output=\{c2\}\ must\ be\ a\ multiple\ of\ input=\{c1\}\ channels"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ conv\ =\ keras.layers.DepthwiseConv2D(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_size=k,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ depth\_multiplier=c2\ //\ c1,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ strides=s,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ padding=\textcolor{stringliteral}{"{}SAME"{}}\ \textcolor{keywordflow}{if}\ s\ ==\ 1\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}VALID"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ use\_bias=\textcolor{keywordflow}{not}\ hasattr(w,\ \textcolor{stringliteral}{"{}bn"{}}),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ depthwise\_initializer=keras.initializers.Constant(w.conv.weight.permute(2,\ 3,\ 1,\ 0).numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ bias\_initializer=\textcolor{stringliteral}{"{}zeros"{}}\ \textcolor{keywordflow}{if}\ hasattr(w,\ \textcolor{stringliteral}{"{}bn"{}})\ \textcolor{keywordflow}{else}\ keras.initializers.Constant(w.conv.bias.numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00120}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a4d22327944e47caca7ecfde43a719211}{00120}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a4d22327944e47caca7ecfde43a719211}{conv}}\ =\ conv\ \textcolor{keywordflow}{if}\ s\ ==\ 1\ \textcolor{keywordflow}{else}\ keras.Sequential([\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_pad}{TFPad}}(autopad(k,\ p)),\ conv])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00121}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a49c2f8de5e4a9b769aa7af25a10f9457}{00121}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a49c2f8de5e4a9b769aa7af25a10f9457}{bn}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n}{TFBN}}(w.bn)\ \textcolor{keywordflow}{if}\ hasattr(w,\ \textcolor{stringliteral}{"{}bn"{}})\ \textcolor{keywordflow}{else}\ tf.identity}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00122}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a7443aa0d32f216fe21eec93aabf5dc5f}{00122}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a7443aa0d32f216fe21eec93aabf5dc5f}{act}}\ =\ \mbox{\hyperlink{namespacemodels_1_1tf_aa75918dd4849c007e562b1abd138dab1}{activations}}(w.act)\ \textcolor{keywordflow}{if}\ act\ \textcolor{keywordflow}{else}\ tf.identity}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00124}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a40ba0c4f93e185ca3567e1fc8a92345b}{00124}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a40ba0c4f93e185ca3567e1fc8a92345b}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a7443aa0d32f216fe21eec93aabf5dc5f}{act}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a49c2f8de5e4a9b769aa7af25a10f9457}{bn}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_a4d22327944e47caca7ecfde43a719211}{conv}}(inputs)))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00128}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d}{00128}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d}{TFDWConvTranspose2d}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00129}00129\ \ \ \ \ \textcolor{comment}{\#\ Depthwise\ ConvTranspose2d}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00130}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_ae2d745954fff4ba0ad55432ef492957b}{00130}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_ae2d745954fff4ba0ad55432ef492957b}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=1,\ s=1,\ p1=0,\ p2=0,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ weights,\ kernel,\ stride,\ padding,\ groups}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_ae2d745954fff4ba0ad55432ef492957b}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ c1\ ==\ c2,\ f\textcolor{stringliteral}{"{}TFDWConv()\ output=\{c2\}\ must\ be\ equal\ to\ input=\{c1\}\ channels"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ k\ ==\ 4\ \textcolor{keywordflow}{and}\ p1\ ==\ 1,\ \textcolor{stringliteral}{"{}TFDWConv()\ only\ valid\ for\ k=4\ and\ p1=1"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ weight,\ bias\ =\ w.weight.permute(2,\ 3,\ 1,\ 0).numpy(),\ w.bias.numpy()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00136}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a07c41e7083ece283360ed48ac9c8512b}{00136}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a07c41e7083ece283360ed48ac9c8512b}{c1}}\ =\ c1}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00137}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a49cacdf5fd5f53229ad379c8ead4f5c2}{00137}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a49cacdf5fd5f53229ad379c8ead4f5c2}{conv}}\ =\ [}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ keras.layers.Conv2DTranspose(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filters=1,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_size=k,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strides=s,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ padding=\textcolor{stringliteral}{"{}VALID"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output\_padding=p2,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ use\_bias=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_initializer=keras.initializers.Constant(weight[...,\ i\ :\ i\ +\ 1]),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bias\_initializer=keras.initializers.Constant(bias[i]),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(c1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00151}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a467cbc1a625553267d8d3ce61e43a9ce}{00151}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a467cbc1a625553267d8d3ce61e43a9ce}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.concat([m(x)\ \textcolor{keywordflow}{for}\ m,\ x\ \textcolor{keywordflow}{in}\ zip(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a49cacdf5fd5f53229ad379c8ead4f5c2}{conv}},\ tf.split(inputs,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_d_w_conv_transpose2d_a07c41e7083ece283360ed48ac9c8512b}{c1}},\ 3))],\ 3)[:,\ 1:-\/1,\ 1:-\/1]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00155}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus}{00155}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus}{TFFocus}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00156}00156\ \ \ \ \ \textcolor{comment}{\#\ Focus\ wh\ information\ into\ c-\/space}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00157}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_abf173ab8d427468cef9bb8fa8da31cc1}{00157}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_abf173ab8d427468cef9bb8fa8da31cc1}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=1,\ s=1,\ p=None,\ g=1,\ act=True,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ kernel,\ stride,\ padding,\ groups}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_abf173ab8d427468cef9bb8fa8da31cc1}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00160}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_a78cb5e608bb0202aff3f0e6ebda8e34c}{00160}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_a78cb5e608bb0202aff3f0e6ebda8e34c}{conv}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1\ *\ 4,\ c2,\ k,\ s,\ p,\ g,\ act,\ w.conv)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00162}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_ae64ea5d5433f2411af591998d81dcfc2}{00162}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_ae64ea5d5433f2411af591998d81dcfc2}{call}}(self,\ inputs):\ \ \textcolor{comment}{\#\ x(b,w,h,c)\ -\/>\ y(b,w/2,h/2,4c)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ inputs\ =\ inputs\ /\ 255\ \ \#\ normalize\ 0-\/255\ to\ 0-\/1}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ inputs\ =\ [inputs[:,\ ::2,\ ::2,\ :],\ inputs[:,\ 1::2,\ ::2,\ :],\ inputs[:,\ ::2,\ 1::2,\ :],\ inputs[:,\ 1::2,\ 1::2,\ :]]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_focus_a78cb5e608bb0202aff3f0e6ebda8e34c}{conv}}(tf.concat(inputs,\ 3))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00168}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck}{00168}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck}{TFBottleneck}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00169}00169\ \ \ \ \ \textcolor{comment}{\#\ Standard\ bottleneck}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00170}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_af8580049025916569a929c4dcb023499}{00170}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_af8580049025916569a929c4dcb023499}{\_\_init\_\_}}(self,\ c1,\ c2,\ shortcut=True,\ g=1,\ e=0.5,\ w=None):\ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ shortcut,\ groups,\ expansion}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_af8580049025916569a929c4dcb023499}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ c\_\ =\ int(c2\ *\ e)\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00173}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_a26e5df6e64632fc0de73bebf06e77bd4}{00173}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_a26e5df6e64632fc0de73bebf06e77bd4}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00174}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_abd908009b1d9ff2bd21b6617964a061b}{00174}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_abd908009b1d9ff2bd21b6617964a061b}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c\_,\ c2,\ 3,\ 1,\ g=g,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00175}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_ac3f58c7241f2f39a3444b52a21389fbb}{00175}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_ac3f58c7241f2f39a3444b52a21389fbb}{add}}\ =\ shortcut\ \textcolor{keywordflow}{and}\ c1\ ==\ c2}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00177}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_abf658d06de1e8055adb2ce0f470398c3}{00177}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_abf658d06de1e8055adb2ce0f470398c3}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ inputs\ +\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_abd908009b1d9ff2bd21b6617964a061b}{cv2}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_a26e5df6e64632fc0de73bebf06e77bd4}{cv1}}(inputs))\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_ac3f58c7241f2f39a3444b52a21389fbb}{add}}\ \textcolor{keywordflow}{else}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_abd908009b1d9ff2bd21b6617964a061b}{cv2}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_a26e5df6e64632fc0de73bebf06e77bd4}{cv1}}(inputs))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00181}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv}{00181}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv}{TFCrossConv}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00182}00182\ \ \ \ \ \textcolor{comment}{\#\ Cross\ Convolution}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00183}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a7f67cc4ff34e9c505f730107789b12eb}{00183}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a7f67cc4ff34e9c505f730107789b12eb}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=3,\ s=1,\ g=1,\ e=1.0,\ shortcut=False,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a7f67cc4ff34e9c505f730107789b12eb}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ c\_\ =\ int(c2\ *\ e)\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00186}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a16c9da984bd4211bfb81c4f216d4ff24}{00186}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a16c9da984bd4211bfb81c4f216d4ff24}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ (1,\ k),\ (1,\ s),\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00187}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a0c5be0c6c672746268c9d0a3c3fb37ab}{00187}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a0c5be0c6c672746268c9d0a3c3fb37ab}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c\_,\ c2,\ (k,\ 1),\ (s,\ 1),\ g=g,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00188}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a6983940072a6759d41e4fb90497d04b4}{00188}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a6983940072a6759d41e4fb90497d04b4}{add}}\ =\ shortcut\ \textcolor{keywordflow}{and}\ c1\ ==\ c2}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00190}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a0b4fd388435fb19b1cea43ac903ad9b3}{00190}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a0b4fd388435fb19b1cea43ac903ad9b3}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ inputs\ +\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a0c5be0c6c672746268c9d0a3c3fb37ab}{cv2}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a16c9da984bd4211bfb81c4f216d4ff24}{cv1}}(inputs))\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a6983940072a6759d41e4fb90497d04b4}{add}}\ \textcolor{keywordflow}{else}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a0c5be0c6c672746268c9d0a3c3fb37ab}{cv2}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv_a16c9da984bd4211bfb81c4f216d4ff24}{cv1}}(inputs))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00194}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d}{00194}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d}{TFConv2d}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00195}00195\ \ \ \ \ \textcolor{comment}{\#\ Substitution\ for\ PyTorch\ nn.Conv2D}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00196}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_aae227b89b3719936b782ef9d3a869443}{00196}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_aae227b89b3719936b782ef9d3a869443}{\_\_init\_\_}}(self,\ c1,\ c2,\ k,\ s=1,\ g=1,\ bias=True,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_aae227b89b3719936b782ef9d3a869443}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ g\ ==\ 1,\ \textcolor{stringliteral}{"{}TF\ v2.2\ Conv2D\ does\ not\ support\ 'groups'\ argument"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00199}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_a4aca60680ce1486590d15cc6c9e6153e}{00199}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_a4aca60680ce1486590d15cc6c9e6153e}{conv}}\ =\ keras.layers.Conv2D(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ filters=c2,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_size=k,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ strides=s,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ padding=\textcolor{stringliteral}{"{}VALID"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ use\_bias=bias,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ kernel\_initializer=keras.initializers.Constant(w.weight.permute(2,\ 3,\ 1,\ 0).numpy()),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ bias\_initializer=keras.initializers.Constant(w.bias.numpy())\ \textcolor{keywordflow}{if}\ bias\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00209}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_a48bce30b2c11a444a2bb79e35e1e144a}{00209}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_a48bce30b2c11a444a2bb79e35e1e144a}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d_a4aca60680ce1486590d15cc6c9e6153e}{conv}}(inputs)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00213}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p}{00213}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p}{TFBottleneckCSP}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00214}00214\ \ \ \ \ \textcolor{comment}{\#\ CSP\ Bottleneck\ https://github.com/WongKinYiu/CrossStagePartialNetworks}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00215}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_ae315f769a802cbf53e9bbd06232e30ea}{00215}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_ae315f769a802cbf53e9bbd06232e30ea}{\_\_init\_\_}}(self,\ c1,\ c2,\ n=1,\ shortcut=True,\ g=1,\ e=0.5,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ number,\ shortcut,\ groups,\ expansion}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_ae315f769a802cbf53e9bbd06232e30ea}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ c\_\ =\ int(c2\ *\ e)\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00219}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a2945e5b20fe149ff8bace20445e09304}{00219}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a2945e5b20fe149ff8bace20445e09304}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00220}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_afe004b440d2f4aa78db32fac7c2b3eea}{00220}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_afe004b440d2f4aa78db32fac7c2b3eea}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d}{TFConv2d}}(c1,\ c\_,\ 1,\ 1,\ bias=\textcolor{keyword}{False},\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00221}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_aa3b45a69a76f4a3e3896ff188747dce6}{00221}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_aa3b45a69a76f4a3e3896ff188747dce6}{cv3}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d}{TFConv2d}}(c\_,\ c\_,\ 1,\ 1,\ bias=\textcolor{keyword}{False},\ w=w.cv3)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00222}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a1c895cf40c62ae05c34c9e0df9e771a1}{00222}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a1c895cf40c62ae05c34c9e0df9e771a1}{cv4}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(2\ *\ c\_,\ c2,\ 1,\ 1,\ w=w.cv4)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00223}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a6c12ceb0c40947c20745e8568968189c}{00223}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a6c12ceb0c40947c20745e8568968189c}{bn}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_b_n}{TFBN}}(w.bn)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00224}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_aa4485a58033d224584514c2791d1c58e}{00224}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_aa4485a58033d224584514c2791d1c58e}{act}}\ =\ \textcolor{keyword}{lambda}\ x:\ keras.activations.swish(x)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00225}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a4612015bb8d133d23f967e1b318cc331}{00225}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a4612015bb8d133d23f967e1b318cc331}{m}}\ =\ keras.Sequential([\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck}{TFBottleneck}}(c\_,\ c\_,\ shortcut,\ g,\ e=1.0,\ w=w.m[j])\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(n)])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00227}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a2b974ede44657a1bb9dfcd15ccff0ae8}{00227}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a2b974ede44657a1bb9dfcd15ccff0ae8}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ y1\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_aa3b45a69a76f4a3e3896ff188747dce6}{cv3}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a4612015bb8d133d23f967e1b318cc331}{m}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a2945e5b20fe149ff8bace20445e09304}{cv1}}(inputs)))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ y2\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_afe004b440d2f4aa78db32fac7c2b3eea}{cv2}}(inputs)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a1c895cf40c62ae05c34c9e0df9e771a1}{cv4}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_aa4485a58033d224584514c2791d1c58e}{act}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck_c_s_p_a6c12ceb0c40947c20745e8568968189c}{bn}}(tf.concat((y1,\ y2),\ axis=3))))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00233}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3}{00233}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3}{TFC3}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00234}00234\ \ \ \ \ \textcolor{comment}{\#\ CSP\ Bottleneck\ with\ 3\ convolutions}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00235}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_aef2d92fa14222f43b91c5216834962fb}{00235}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_aef2d92fa14222f43b91c5216834962fb}{\_\_init\_\_}}(self,\ c1,\ c2,\ n=1,\ shortcut=True,\ g=1,\ e=0.5,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ number,\ shortcut,\ groups,\ expansion}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_aef2d92fa14222f43b91c5216834962fb}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ c\_\ =\ int(c2\ *\ e)\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00239}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ade8f0f1c10351659715121abc97ec1fd}{00239}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ade8f0f1c10351659715121abc97ec1fd}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00240}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_aebbcaae0b1e8ce1d9b61fec2e27d4d1a}{00240}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_aebbcaae0b1e8ce1d9b61fec2e27d4d1a}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00241}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ac22f83bb664ef27536cfe577b181a632}{00241}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ac22f83bb664ef27536cfe577b181a632}{cv3}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(2\ *\ c\_,\ c2,\ 1,\ 1,\ w=w.cv3)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00242}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ac0a0b50d42baf29e1ff52eb8fcb09cfd}{00242}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ac0a0b50d42baf29e1ff52eb8fcb09cfd}{m}}\ =\ keras.Sequential([\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_bottleneck}{TFBottleneck}}(c\_,\ c\_,\ shortcut,\ g,\ e=1.0,\ w=w.m[j])\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(n)])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00244}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_a4261e6c057a65ad3f34088b89696ddc9}{00244}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_a4261e6c057a65ad3f34088b89696ddc9}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ac22f83bb664ef27536cfe577b181a632}{cv3}}(tf.concat((self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ac0a0b50d42baf29e1ff52eb8fcb09cfd}{m}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_ade8f0f1c10351659715121abc97ec1fd}{cv1}}(inputs)),\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3_aebbcaae0b1e8ce1d9b61fec2e27d4d1a}{cv2}}(inputs)),\ axis=3))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00248}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x}{00248}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x}{TFC3x}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00249}00249\ \ \ \ \ \textcolor{comment}{\#\ 3\ module\ with\ cross-\/convolutions}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00250}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_aaa20b23d9ebd6896ca7036fa4ad6c0ef}{00250}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_aaa20b23d9ebd6896ca7036fa4ad6c0ef}{\_\_init\_\_}}(self,\ c1,\ c2,\ n=1,\ shortcut=True,\ g=1,\ e=0.5,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ch\_in,\ ch\_out,\ number,\ shortcut,\ groups,\ expansion}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_aaa20b23d9ebd6896ca7036fa4ad6c0ef}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ c\_\ =\ int(c2\ *\ e)\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00254}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a8088af1e010bb74a536067c868fcd4c9}{00254}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a8088af1e010bb74a536067c868fcd4c9}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00255}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a846837f580f6069abecf6c56086b1ee1}{00255}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a846837f580f6069abecf6c56086b1ee1}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00256}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a1b2b62bbbbc98f4567e980fb3c2f35dd}{00256}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a1b2b62bbbbc98f4567e980fb3c2f35dd}{cv3}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(2\ *\ c\_,\ c2,\ 1,\ 1,\ w=w.cv3)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00257}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_ae72c2f487487c41a64bf34c4730080d0}{00257}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_ae72c2f487487c41a64bf34c4730080d0}{m}}\ =\ keras.Sequential(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ [\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_cross_conv}{TFCrossConv}}(c\_,\ c\_,\ k=3,\ s=1,\ g=g,\ e=1.0,\ shortcut=shortcut,\ w=w.m[j])\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(n)]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00261}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a051c76e3ad4267890b3ec3e710f799de}{00261}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a051c76e3ad4267890b3ec3e710f799de}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a1b2b62bbbbc98f4567e980fb3c2f35dd}{cv3}}(tf.concat((self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_ae72c2f487487c41a64bf34c4730080d0}{m}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a8088af1e010bb74a536067c868fcd4c9}{cv1}}(inputs)),\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_c3x_a846837f580f6069abecf6c56086b1ee1}{cv2}}(inputs)),\ axis=3))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00265}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p}{00265}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p}{TFSPP}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00266}00266\ \ \ \ \ \textcolor{comment}{\#\ Spatial\ pyramid\ pooling\ layer\ used\ in\ YOLOv3-\/SPP}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00267}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a98cd4df9b1bc98ed0fa76d7d18b7112c}{00267}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a98cd4df9b1bc98ed0fa76d7d18b7112c}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=(5,\ 9,\ 13),\ w=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a98cd4df9b1bc98ed0fa76d7d18b7112c}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ c\_\ =\ c1\ //\ 2\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00270}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a720b7900c48993e637b4d9be0930b94a}{00270}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a720b7900c48993e637b4d9be0930b94a}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00271}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_ad47abc0126b47ee42bf2601687a5c4d7}{00271}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_ad47abc0126b47ee42bf2601687a5c4d7}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c\_\ *\ (len(k)\ +\ 1),\ c2,\ 1,\ 1,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00272}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a59a3276d1bef570c9bc4a8115b270354}{00272}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a59a3276d1bef570c9bc4a8115b270354}{m}}\ =\ [keras.layers.MaxPool2D(pool\_size=x,\ strides=1,\ padding=\textcolor{stringliteral}{"{}SAME"{}})\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ k]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00274}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a10673eacc17fdf283f9bd87c89625b95}{00274}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a10673eacc17fdf283f9bd87c89625b95}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ x\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a720b7900c48993e637b4d9be0930b94a}{cv1}}(inputs)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_ad47abc0126b47ee42bf2601687a5c4d7}{cv2}}(tf.concat([x]\ +\ [\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a59a3276d1bef570c9bc4a8115b270354}{m}}(x)\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_a59a3276d1bef570c9bc4a8115b270354}{m}}],\ 3))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00279}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f}{00279}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f}{TFSPPF}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00280}00280\ \ \ \ \ \textcolor{comment}{\#\ Spatial\ pyramid\ pooling-\/Fast\ layer}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00281}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a4541b7c219a44ffcab09e70c417c4c8c}{00281}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a4541b7c219a44ffcab09e70c417c4c8c}{\_\_init\_\_}}(self,\ c1,\ c2,\ k=5,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a4541b7c219a44ffcab09e70c417c4c8c}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ c\_\ =\ c1\ //\ 2\ \ \textcolor{comment}{\#\ hidden\ channels}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00284}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_ad4a981b5c992d60cc21577e6342c8174}{00284}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_ad4a981b5c992d60cc21577e6342c8174}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ 1,\ 1,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00285}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_abe759605a0708ec3b37f34aa5d519322}{00285}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_abe759605a0708ec3b37f34aa5d519322}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c\_\ *\ 4,\ c2,\ 1,\ 1,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00286}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a429c29b1cab6b6f9f8d3728dd2a6006c}{00286}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a429c29b1cab6b6f9f8d3728dd2a6006c}{m}}\ =\ keras.layers.MaxPool2D(pool\_size=k,\ strides=1,\ padding=\textcolor{stringliteral}{"{}SAME"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00288}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a8f6c3d77d54f4a11cde06bd4b77bad1d}{00288}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a8f6c3d77d54f4a11cde06bd4b77bad1d}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ x\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_ad4a981b5c992d60cc21577e6342c8174}{cv1}}(inputs)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ y1\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a429c29b1cab6b6f9f8d3728dd2a6006c}{m}}(x)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ y2\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a429c29b1cab6b6f9f8d3728dd2a6006c}{m}}(y1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_abe759605a0708ec3b37f34aa5d519322}{cv2}}(tf.concat([x,\ y1,\ y2,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_s_p_p_f_a429c29b1cab6b6f9f8d3728dd2a6006c}{m}}(y2)],\ 3))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00295}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect}{00295}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect}{TFDetect}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00296}00296\ \ \ \ \ \textcolor{comment}{\#\ TF\ YOLOv5\ Detect\ layer}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00297}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_adce8aedf35df26e8495da6eb8a05205c}{00297}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_adce8aedf35df26e8495da6eb8a05205c}{\_\_init\_\_}}(self,\ nc=80,\ anchors=(),\ ch=(),\ imgsz=(640,\ 640),\ w=\textcolor{keywordtype}{None}):\ \ \textcolor{comment}{\#\ detection\ layer}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_adce8aedf35df26e8495da6eb8a05205c}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00299}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{00299}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}\ =\ tf.convert\_to\_tensor(w.stride.numpy(),\ dtype=tf.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00300}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}{00300}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}{nc}}\ =\ nc\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00301}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{00301}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}\ =\ nc\ +\ 5\ \ \textcolor{comment}{\#\ number\ of\ outputs\ per\ anchor}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00302}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{00302}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}}\ =\ len(anchors)\ \ \textcolor{comment}{\#\ number\ of\ detection\ layers}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00303}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{00303}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{na}}\ =\ len(anchors[0])\ //\ 2\ \ \textcolor{comment}{\#\ number\ of\ anchors}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00304}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046}{00304}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046}{grid}}\ =\ [tf.zeros(1)]\ *\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}}\ \ \textcolor{comment}{\#\ init\ grid}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00305}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a}{00305}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a}{anchors}}\ =\ tf.convert\_to\_tensor(w.anchors.numpy(),\ dtype=tf.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00306}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae86171114e0f7ffcb7221aad499522ff}{00306}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae86171114e0f7ffcb7221aad499522ff}{anchor\_grid}}\ =\ tf.reshape(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a}{anchors}}\ *\ tf.reshape(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}},\ [self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}},\ 1,\ 1]),\ [self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}},\ 1,\ -\/1,\ 1,\ 2])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00307}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31}{00307}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31}{m}}\ =\ [\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d}{TFConv2d}}(x,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}\ *\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{na}},\ 1,\ w=w.m[i])\ \textcolor{keywordflow}{for}\ i,\ x\ \textcolor{keywordflow}{in}\ enumerate(ch)]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00308}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}{00308}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}{training}}\ =\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ set\ to\ False\ after\ building\ model}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00309}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{00309}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}\ =\ imgsz}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}}):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ ny,\ nx\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[0]\ //\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}[i],\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[1]\ //\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}[i]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046}{grid}}[i]\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a982e6f0512fb408a7a0103af3d6348c5}{\_make\_grid}}(nx,\ ny)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00314}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a7990bd2a944f030f214772f87244697f}{00314}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a7990bd2a944f030f214772f87244697f}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ z\ =\ []\ \ \textcolor{comment}{\#\ inference\ output}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ x\ =\ []}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}}):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ x.append(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31}{m}}[i](inputs[i]))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ x(bs,20,20,255)\ to\ x(bs,3,20,20,85)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ ny,\ nx\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[0]\ //\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}[i],\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[1]\ //\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}[i]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ x[i]\ =\ tf.reshape(x[i],\ [-\/1,\ ny\ *\ nx,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{na}},\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}{training}}:\ \ \textcolor{comment}{\#\ inference}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ x[i]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\ =\ tf.transpose(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046}{grid}}[i],\ [0,\ 2,\ 1,\ 3])\ -\/\ 0.5}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ anchor\_grid\ =\ tf.transpose(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae86171114e0f7ffcb7221aad499522ff}{anchor\_grid}}[i],\ [0,\ 2,\ 1,\ 3])\ *\ 4}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ (tf.sigmoid(y[...,\ 0:2])\ *\ 2\ +\ grid)\ *\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}[i]\ \ \textcolor{comment}{\#\ xy}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wh\ =\ tf.sigmoid(y[...,\ 2:4])\ **\ 2\ *\ anchor\_grid}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ xywh\ to\ 0-\/1\ to\ reduce\ calibration\ error}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xy\ /=\ tf.constant([[self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[1],\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[0]]],\ dtype=tf.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wh\ /=\ tf.constant([[self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[1],\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}[0]]],\ dtype=tf.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ tf.concat([xy,\ wh,\ tf.sigmoid(y[...,\ 4\ :\ 5\ +\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}{nc}}]),\ y[...,\ 5\ +\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}{nc}}\ :]],\ -\/1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ z.append(tf.reshape(y,\ [-\/1,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{na}}\ *\ ny\ *\ nx,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}]))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.transpose(x,\ [0,\ 2,\ 1,\ 3])\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}{training}}\ \textcolor{keywordflow}{else}\ (tf.concat(z,\ 1),)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00337}00337\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00338}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a982e6f0512fb408a7a0103af3d6348c5}{00338}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a982e6f0512fb408a7a0103af3d6348c5}{\_make\_grid}}(nx=20,\ ny=20):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ yv,\ xv\ =\ torch.meshgrid([torch.arange(ny),\ torch.arange(nx)])}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ return\ torch.stack((xv,\ yv),\ 2).view((1,\ 1,\ ny,\ nx,\ 2)).float()}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ xv,\ yv\ =\ tf.meshgrid(tf.range(nx),\ tf.range(ny))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.cast(tf.reshape(tf.stack([xv,\ yv],\ 2),\ [1,\ 1,\ ny\ *\ nx,\ 2]),\ dtype=tf.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00345}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment}{00345}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment}{TFSegment}}(\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect}{TFDetect}}):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00346}00346\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Segment\ head\ for\ segmentation\ models}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00347}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aea15ffef1acbd6d7f10c0fa79bda16ec}{00347}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aea15ffef1acbd6d7f10c0fa79bda16ec}{\_\_init\_\_}}(self,\ nc=80,\ anchors=(),\ nm=32,\ npr=256,\ ch=(),\ imgsz=(640,\ 640),\ w=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aea15ffef1acbd6d7f10c0fa79bda16ec}{\_\_init\_\_}}(nc,\ anchors,\ ch,\ imgsz,\ w)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00349}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a404bb3e1b08865738ca73c76c55eb532}{00349}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a404bb3e1b08865738ca73c76c55eb532}{nm}}\ =\ nm\ \ \textcolor{comment}{\#\ number\ of\ masks}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00350}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a44b0aa07209643fb705e05b6306df5dc}{00350}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a44b0aa07209643fb705e05b6306df5dc}{npr}}\ =\ npr\ \ \textcolor{comment}{\#\ number\ of\ protos}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00351}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a2dc702682eece17c0521f2a16c5d6e1e}{00351}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a2dc702682eece17c0521f2a16c5d6e1e}{no}}\ =\ 5\ +\ nc\ +\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a404bb3e1b08865738ca73c76c55eb532}{nm}}\ \ \textcolor{comment}{\#\ number\ of\ outputs\ per\ anchor}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00352}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a3b550564ee40f477403a800bbb76cbc4}{00352}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31}{m}}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a3b550564ee40f477403a800bbb76cbc4}{m}}\ =\ [\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv2d}{TFConv2d}}(x,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a2dc702682eece17c0521f2a16c5d6e1e}{no}}\ *\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{na}},\ 1,\ w=w.m[i])\ \textcolor{keywordflow}{for}\ i,\ x\ \textcolor{keywordflow}{in}\ enumerate(ch)]\ \ \textcolor{comment}{\#\ output\ conv}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00353}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aad7f23a6a4faf85e6876d3fc03a24ba2}{00353}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aad7f23a6a4faf85e6876d3fc03a24ba2}{proto}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto}{TFProto}}(ch[0],\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a44b0aa07209643fb705e05b6306df5dc}{npr}},\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_a404bb3e1b08865738ca73c76c55eb532}{nm}},\ w=w.proto)\ \ \textcolor{comment}{\#\ protos}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00354}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_afa0e9682902f94c8253ddd7eff58b7bb}{00354}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_afa0e9682902f94c8253ddd7eff58b7bb}{detect}}\ =\ TFDetect.call}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00356}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_af811f879f6a093667bfba2f7a903896b}{00356}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_af811f879f6a093667bfba2f7a903896b}{call}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ p\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aad7f23a6a4faf85e6876d3fc03a24ba2}{proto}}(x[0])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ p\ =\ TFUpsample(None,\ scale\_factor=4,\ mode='nearest')(self.proto(x[0]))\ \ \#\ (optional)\ full-\/size\ protos}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ p\ =\ tf.transpose(p,\ [0,\ 3,\ 1,\ 2])\ \ \textcolor{comment}{\#\ from\ shape(1,160,160,32)\ to\ shape(1,32,160,160)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ x\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_afa0e9682902f94c8253ddd7eff58b7bb}{detect}}(self,\ x)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (x,\ p)\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}{training}}\ \textcolor{keywordflow}{else}\ (x[0],\ p)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00362}00362\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00363}00363\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00364}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto}{00364}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto}{TFProto}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00365}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a0dbfea016ce903792d5a20287c98b0e6}{00365}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a0dbfea016ce903792d5a20287c98b0e6}{\_\_init\_\_}}(self,\ c1,\ c\_=256,\ c2=32,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a0dbfea016ce903792d5a20287c98b0e6}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00367}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a632f7b7940dbb3008d6a1084fcfacc0d}{00367}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a632f7b7940dbb3008d6a1084fcfacc0d}{cv1}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c1,\ c\_,\ k=3,\ w=w.cv1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00368}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a1ee2d525d571f117d0108ce5725dfe9d}{00368}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a1ee2d525d571f117d0108ce5725dfe9d}{upsample}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample}{TFUpsample}}(\textcolor{keywordtype}{None},\ scale\_factor=2,\ mode=\textcolor{stringliteral}{"{}nearest"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00369}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a2b4dc6ddb14fe874c210f1a86af6cfcf}{00369}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a2b4dc6ddb14fe874c210f1a86af6cfcf}{cv2}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c\_,\ c\_,\ k=3,\ w=w.cv2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00370}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a74f504205c38801b5b304f958e3c0685}{00370}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a74f504205c38801b5b304f958e3c0685}{cv3}}\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_conv}{TFConv}}(c\_,\ c2,\ w=w.cv3)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00372}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_ac2adb31fb414ebb11d9ef3c7a26a4ac9}{00372}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_ac2adb31fb414ebb11d9ef3c7a26a4ac9}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a74f504205c38801b5b304f958e3c0685}{cv3}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a2b4dc6ddb14fe874c210f1a86af6cfcf}{cv2}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a1ee2d525d571f117d0108ce5725dfe9d}{upsample}}(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_proto_a632f7b7940dbb3008d6a1084fcfacc0d}{cv1}}(inputs))))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00374}00374\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00376}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample}{00376}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample}{TFUpsample}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00377}00377\ \ \ \ \ \textcolor{comment}{\#\ TF\ version\ of\ torch.nn.Upsample()}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00378}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a4e84776466b6a9541f84b0b00c143108}{00378}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a4e84776466b6a9541f84b0b00c143108}{\_\_init\_\_}}(self,\ size,\ scale\_factor,\ mode,\ w=None):\ \ \textcolor{comment}{\#\ warning:\ all\ arguments\ needed\ including\ 'w'}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a4e84776466b6a9541f84b0b00c143108}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ scale\_factor\ \%\ 2\ ==\ 0,\ \textcolor{stringliteral}{"{}scale\_factor\ must\ be\ multiple\ of\ 2"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00381}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a9732fc107b1721015af8e115c0862c6c}{00381}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a9732fc107b1721015af8e115c0862c6c}{upsample}}\ =\ \textcolor{keyword}{lambda}\ x:\ tf.image.resize(x,\ (x.shape[1]\ *\ scale\_factor,\ x.shape[2]\ *\ scale\_factor),\ mode)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.upsample\ =\ keras.layers.UpSampling2D(size=scale\_factor,\ interpolation=mode)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ with\ default\ arguments:\ align\_corners=False,\ half\_pixel\_centers=False}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.upsample\ =\ lambda\ x:\ tf.raw\_ops.ResizeNearestNeighbor(images=x,}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ size=(x.shape[1]\ *\ 2,\ x.shape[2]\ *\ 2))}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00386}00386\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00387}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a2de335d5d3683b4bae5c5a00036c9f06}{00387}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a2de335d5d3683b4bae5c5a00036c9f06}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_upsample_a9732fc107b1721015af8e115c0862c6c}{upsample}}(inputs)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00389}00389\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00391}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat}{00391}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat}{TFConcat}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00392}00392\ \ \ \ \ \textcolor{comment}{\#\ TF\ version\ of\ torch.concat()}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00393}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_addb18b37ada43ef3a2868bc7613200b3}{00393}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_addb18b37ada43ef3a2868bc7613200b3}{\_\_init\_\_}}(self,\ dimension=1,\ w=None):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_addb18b37ada43ef3a2868bc7613200b3}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ dimension\ ==\ 1,\ \textcolor{stringliteral}{"{}convert\ only\ NCHW\ to\ NHWC\ concat"{}}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00396}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_a9f811419f98da70f4d782f19d3c8a2aa}{00396}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_a9f811419f98da70f4d782f19d3c8a2aa}{d}}\ =\ 3}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00398}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_a276d9c657fef8b8e998a568ffee1b4a4}{00398}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_a276d9c657fef8b8e998a568ffee1b4a4}{call}}(self,\ inputs):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.concat(inputs,\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_concat_a9f811419f98da70f4d782f19d3c8a2aa}{d}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00402}\mbox{\hyperlink{namespacemodels_1_1tf_aa97cc362c1d21e495308ddb4a847f9bf}{00402}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1tf_aa97cc362c1d21e495308ddb4a847f9bf}{parse\_model}}(d,\ ch,\ model,\ imgsz):\ \ \textcolor{comment}{\#\ model\_dict,\ input\_channels(3)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00403}00403\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{'':>3\}\{'from':>18\}\{'n':>3\}\{'params':>10\}\ \ \{'module':<40\}\{'arguments':<30\}"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00404}00404\ \ \ \ \ anchors,\ nc,\ gd,\ gw,\ ch\_mul\ =\ (}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ d[\textcolor{stringliteral}{"{}anchors"{}}],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ d[\textcolor{stringliteral}{"{}nc"{}}],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ d[\textcolor{stringliteral}{"{}depth\_multiple"{}}],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ d[\textcolor{stringliteral}{"{}width\_multiple"{}}],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ d.get(\textcolor{stringliteral}{"{}channel\_multiple"{}}),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00410}00410\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00411}00411\ \ \ \ \ na\ =\ (len(anchors[0])\ //\ 2)\ \textcolor{keywordflow}{if}\ isinstance(anchors,\ list)\ \textcolor{keywordflow}{else}\ anchors\ \ \textcolor{comment}{\#\ number\ of\ anchors}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00412}00412\ \ \ \ \ no\ =\ na\ *\ (nc\ +\ 5)\ \ \textcolor{comment}{\#\ number\ of\ outputs\ =\ anchors\ *\ (classes\ +\ 5)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00413}00413\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ ch\_mul:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ ch\_mul\ =\ 8}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00415}00415\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00416}00416\ \ \ \ \ layers,\ save,\ c2\ =\ [],\ [],\ ch[-\/1]\ \ \textcolor{comment}{\#\ layers,\ savelist,\ ch\ out}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00417}00417\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ (f,\ n,\ m,\ args)\ \textcolor{keywordflow}{in}\ enumerate(d[\textcolor{stringliteral}{"{}backbone"{}}]\ +\ d[\textcolor{stringliteral}{"{}head"{}}]):\ \ \textcolor{comment}{\#\ from,\ number,\ module,\ args}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ m\_str\ =\ m}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ m\ =\ eval(m)\ \textcolor{keywordflow}{if}\ isinstance(m,\ str)\ \textcolor{keywordflow}{else}\ m\ \ \textcolor{comment}{\#\ eval\ strings}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j,\ a\ \textcolor{keywordflow}{in}\ enumerate(args):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ args[j]\ =\ eval(a)\ \textcolor{keywordflow}{if}\ isinstance(a,\ str)\ \textcolor{keywordflow}{else}\ a\ \ \textcolor{comment}{\#\ eval\ strings}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ NameError:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{pass}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00425}00425\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ n\ =\ max(round(n\ *\ gd),\ 1)\ \textcolor{keywordflow}{if}\ n\ >\ 1\ \textcolor{keywordflow}{else}\ n\ \ \textcolor{comment}{\#\ depth\ gain}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ m\ \textcolor{keywordflow}{in}\ [}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ nn.Conv2d,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ Conv,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ DWConv,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ DWConvTranspose2d,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ Bottleneck,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ SPP,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ SPPF,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ MixConv2d,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ Focus,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ CrossConv,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ BottleneckCSP,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ C3,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ C3x,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ ]:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ c1,\ c2\ =\ ch[f],\ args[0]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ c2\ =\ make\_divisible(c2\ *\ gw,\ ch\_mul)\ \textcolor{keywordflow}{if}\ c2\ !=\ no\ \textcolor{keywordflow}{else}\ c2}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00444}00444\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ args\ =\ [c1,\ c2,\ *args[1:]]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ m\ \textcolor{keywordflow}{in}\ [BottleneckCSP,\ C3,\ C3x]:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ args.insert(2,\ n)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n\ =\ 1}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ m\ \textcolor{keywordflow}{is}\ nn.BatchNorm2d:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ args\ =\ [ch[f]]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ m\ \textcolor{keywordflow}{is}\ Concat:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ c2\ =\ sum(ch[-\/1\ \textcolor{keywordflow}{if}\ x\ ==\ -\/1\ \textcolor{keywordflow}{else}\ x\ +\ 1]\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ f)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ m\ \textcolor{keywordflow}{in}\ [Detect,\ Segment]:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ args.append([ch[x\ +\ 1]\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ f])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(args[1],\ int):\ \ \textcolor{comment}{\#\ number\ of\ anchors}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ args[1]\ =\ [list(range(args[1]\ *\ 2))]\ *\ len(f)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ m\ \textcolor{keywordflow}{is}\ Segment:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ args[3]\ =\ make\_divisible(args[3]\ *\ gw,\ ch\_mul)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ args.append(imgsz)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ c2\ =\ ch[f]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00462}00462\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ tf\_m\ =\ eval(\textcolor{stringliteral}{"{}TF"{}}\ +\ m\_str.replace(\textcolor{stringliteral}{"{}nn."{}},\ \textcolor{stringliteral}{"{}"{}}))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ m\_\ =\ (}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ keras.Sequential([tf\_m(*args,\ w=model.model[i][j])\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(n)])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ n\ >\ 1}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ tf\_m(*args,\ w=model.model[i])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ module}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00469}00469\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ torch\_m\_\ =\ nn.Sequential(*(m(*args)\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(n)))\ \textcolor{keywordflow}{if}\ n\ >\ 1\ \textcolor{keywordflow}{else}\ m(*args)\ \ \textcolor{comment}{\#\ module}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ t\ =\ str(m)[8:-\/2].replace(\textcolor{stringliteral}{"{}\_\_main\_\_."{}},\ \textcolor{stringliteral}{"{}"{}})\ \ \textcolor{comment}{\#\ module\ type}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ np\ =\ sum(x.numel()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ torch\_m\_.parameters())\ \ \textcolor{comment}{\#\ number\ params}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ m\_.i,\ m\_.f,\ m\_.type,\ m\_.np\ =\ i,\ f,\ t,\ np\ \ \textcolor{comment}{\#\ attach\ index,\ 'from'\ index,\ type,\ number\ params}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{i:>3\}\{str(f):>18\}\{str(n):>3\}\{np:>10\}\ \ \{t:<40\}\{str(args):<30\}"{}})\ \ \textcolor{comment}{\#\ print}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ save.extend(x\ \%\ i\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ ([f]\ \textcolor{keywordflow}{if}\ isinstance(f,\ int)\ \textcolor{keywordflow}{else}\ f)\ \textcolor{keywordflow}{if}\ x\ !=\ -\/1)\ \ \textcolor{comment}{\#\ append\ to\ savelist}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ layers.append(m\_)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ ch.append(c2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00478}00478\ \ \ \ \ \textcolor{keywordflow}{return}\ keras.Sequential(layers),\ sorted(save)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00479}00479\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00481}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model}{00481}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model}{TFModel}}:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00482}00482\ \ \ \ \ \textcolor{comment}{\#\ TF\ YOLOv5\ model}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00483}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9258f894708897bee8e00dce24212360}{00483}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9258f894708897bee8e00dce24212360}{\_\_init\_\_}}(self,\ cfg="{}yolov5s.yaml"{},\ ch=3,\ nc=None,\ model=None,\ imgsz=(640,\ 640)):\ \ \textcolor{comment}{\#\ model,\ channels,\ classes}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9258f894708897bee8e00dce24212360}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(cfg,\ dict):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00486}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{00486}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{yaml}}\ =\ cfg\ \ \textcolor{comment}{\#\ model\ dict}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ is\ *.yaml}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ yaml\ \ \textcolor{comment}{\#\ for\ torch\ hub}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00489}00489\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00490}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_af84f3aff8815e1b87189496e583ba839}{00490}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_af84f3aff8815e1b87189496e583ba839}{yaml\_file}}\ =\ Path(cfg).name}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(cfg)\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{yaml}}\ =\ yaml.load(f,\ Loader=yaml.FullLoader)\ \ \textcolor{comment}{\#\ model\ dict}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Define\ model}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ nc\ \textcolor{keywordflow}{and}\ nc\ !=\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{yaml}}[\textcolor{stringliteral}{"{}nc"{}}]:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Overriding\ \{cfg\}\ nc=\{self.yaml['nc']\}\ with\ nc=\{nc\}"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{yaml}}[\textcolor{stringliteral}{"{}nc"{}}]\ =\ nc\ \ \textcolor{comment}{\#\ override\ yaml\ value}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00498}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1}{00498}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1}{model}},\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aabdf191b205917bb9e08347c17ff195d}{savelist}}\ =\ \mbox{\hyperlink{namespacemodels_1_1tf_aa97cc362c1d21e495308ddb4a847f9bf}{parse\_model}}(deepcopy(self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{yaml}}),\ ch=[ch],\ model=model,\ imgsz=imgsz)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00500}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aa742095b798f22b0b00065a060241ef4}{00500}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacepredict}{predict}}(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ inputs,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ tf\_nms=False,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ agnostic\_nms=False,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00505}00505\ \ \ \ \ \ \ \ \ topk\_per\_class=100,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ topk\_all=100,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ iou\_thres=0.45,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ conf\_thres=0.25,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00509}00509\ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ y\ =\ []\ \ \textcolor{comment}{\#\ outputs}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00511}00511\ \ \ \ \ \ \ \ \ x\ =\ inputs}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1}{model}}.layers:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ m.f\ !=\ -\/1:\ \ \textcolor{comment}{\#\ if\ not\ from\ previous\ layer}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ y[m.f]\ \textcolor{keywordflow}{if}\ isinstance(m.f,\ int)\ \textcolor{keywordflow}{else}\ [x\ \textcolor{keywordflow}{if}\ j\ ==\ -\/1\ \textcolor{keywordflow}{else}\ y[j]\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ m.f]\ \ \textcolor{comment}{\#\ from\ earlier\ layers}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ m(x)\ \ \textcolor{comment}{\#\ run}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ y.append(x\ \textcolor{keywordflow}{if}\ m.i\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aabdf191b205917bb9e08347c17ff195d}{savelist}}\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None})\ \ \textcolor{comment}{\#\ save\ output}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00518}00518\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ TensorFlow\ NMS}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ tf\_nms:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ boxes\ =\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aad1d0fe40bea4f8936018eff57ded2c5}{\_xywh2xyxy}}(x[0][...,\ :4])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ probs\ =\ x[0][:,\ :,\ 4:5]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ classes\ =\ x[0][:,\ :,\ 5:]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ scores\ =\ probs\ *\ classes}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ agnostic\_nms:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nms\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s}{AgnosticNMS}}()((boxes,\ classes,\ scores),\ topk\_all,\ iou\_thres,\ conf\_thres)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes\ =\ tf.expand\_dims(boxes,\ 2)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nms\ =\ tf.image.combined\_non\_max\_suppression(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes,\ scores,\ topk\_per\_class,\ topk\_all,\ iou\_thres,\ conf\_thres,\ clip\_boxes=\textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (nms,)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x\ \ \textcolor{comment}{\#\ output\ [1,6300,85]\ =\ [xywh,\ conf,\ class0,\ class1,\ ...]}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ x\ =\ x[0]\ \ \#\ [x(1,6300,85),\ ...]\ to\ x(6300,85)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ xywh\ =\ x[...,\ :4]\ \ \#\ x(6300,4)\ boxes}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ conf\ =\ x[...,\ 4:5]\ \ \#\ x(6300,1)\ confidences}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ cls\ =\ tf.reshape(tf.cast(tf.argmax(x[...,\ 5:],\ axis=1),\ tf.float32),\ (-\/1,\ 1))\ \ \#\ x(6300,1)\ \ classes}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ return\ tf.concat([conf,\ cls,\ xywh],\ 1)}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00539}00539\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00540}00540\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00541}\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aad1d0fe40bea4f8936018eff57ded2c5}{00541}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aad1d0fe40bea4f8936018eff57ded2c5}{\_xywh2xyxy}}(xywh):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ nx4\ boxes\ from\ [x,\ y,\ w,\ h]\ to\ [x1,\ y1,\ x2,\ y2]\ where\ xy1=top-\/left,\ xy2=bottom-\/right}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ x,\ y,\ w,\ h\ =\ tf.split(xywh,\ num\_or\_size\_splits=4,\ axis=-\/1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.concat([x\ -\/\ w\ /\ 2,\ y\ -\/\ h\ /\ 2,\ x\ +\ w\ /\ 2,\ y\ +\ h\ /\ 2],\ axis=-\/1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00545}00545\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00546}00546\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00547}\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s}{00547}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s}{AgnosticNMS}}(keras.layers.Layer):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00548}00548\ \ \ \ \ \textcolor{comment}{\#\ TF\ Agnostic\ NMS}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00549}\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s_a3fa11d4c0f0216c00164d4bb9eb3b296}{00549}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s_a3fa11d4c0f0216c00164d4bb9eb3b296}{call}}(self,\ input,\ topk\_all,\ iou\_thres,\ conf\_thres):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ wrap\ map\_fn\ to\ avoid\ TypeSpec\ related\ error\ https://stackoverflow.com/a/65809989/3036450}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tf.map\_fn(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{lambda}\ x:\ self.\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s_a0da2e287ecd4f183d12417f11f00e624}{\_nms}}(x,\ topk\_all,\ iou\_thres,\ conf\_thres),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ input,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ fn\_output\_signature=(tf.float32,\ tf.float32,\ tf.float32,\ tf.int32),}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ name=\textcolor{stringliteral}{"{}agnostic\_nms"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00556}00556\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00557}00557\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00558}00558\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00559}\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s_a0da2e287ecd4f183d12417f11f00e624}{00559}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classmodels_1_1tf_1_1_agnostic_n_m_s_a0da2e287ecd4f183d12417f11f00e624}{\_nms}}(x,\ topk\_all=100,\ iou\_thres=0.45,\ conf\_thres=0.25):\ \ \textcolor{comment}{\#\ agnostic\ NMS}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ boxes,\ classes,\ scores\ =\ x}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ class\_inds\ =\ tf.cast(tf.argmax(classes,\ axis=-\/1),\ tf.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ scores\_inp\ =\ tf.reduce\_max(scores,\ -\/1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ selected\_inds\ =\ tf.image.non\_max\_suppression(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ boxes,\ scores\_inp,\ max\_output\_size=topk\_all,\ iou\_threshold=iou\_thres,\ score\_threshold=conf\_thres}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ selected\_boxes\ =\ tf.gather(boxes,\ selected\_inds)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ padded\_boxes\ =\ tf.pad(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ selected\_boxes,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ paddings=[[0,\ topk\_all\ -\/\ tf.shape(selected\_boxes)[0]],\ [0,\ 0]],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ mode=\textcolor{stringliteral}{"{}CONSTANT"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ constant\_values=0.0,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ selected\_scores\ =\ tf.gather(scores\_inp,\ selected\_inds)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ padded\_scores\ =\ tf.pad(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ selected\_scores,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ paddings=[[0,\ topk\_all\ -\/\ tf.shape(selected\_boxes)[0]]],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ mode=\textcolor{stringliteral}{"{}CONSTANT"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ constant\_values=-\/1.0,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00580}00580\ \ \ \ \ \ \ \ \ selected\_classes\ =\ tf.gather(class\_inds,\ selected\_inds)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ padded\_classes\ =\ tf.pad(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ selected\_classes,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ paddings=[[0,\ topk\_all\ -\/\ tf.shape(selected\_boxes)[0]]],}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ mode=\textcolor{stringliteral}{"{}CONSTANT"{}},}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ constant\_values=-\/1.0,}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ valid\_detections\ =\ tf.shape(selected\_inds)[0]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ padded\_boxes,\ padded\_scores,\ padded\_classes,\ valid\_detections}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00590}00590\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00591}\mbox{\hyperlink{namespacemodels_1_1tf_aa75918dd4849c007e562b1abd138dab1}{00591}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1tf_aa75918dd4849c007e562b1abd138dab1}{activations}}(act=nn.SiLU):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00592}00592\ \ \ \ \ \textcolor{comment}{\#\ Returns\ TF\ activation\ from\ input\ PyTorch\ activation}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00593}00593\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(act,\ nn.LeakyReLU):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{lambda}\ x:\ keras.activations.relu(x,\ alpha=0.1)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00595}00595\ \ \ \ \ \textcolor{keywordflow}{elif}\ isinstance(act,\ nn.Hardswish):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{lambda}\ x:\ x\ *\ tf.nn.relu6(x\ +\ 3)\ *\ 0.166666667}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00597}00597\ \ \ \ \ \textcolor{keywordflow}{elif}\ isinstance(act,\ (nn.SiLU,\ SiLU)):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00598}00598\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{lambda}\ x:\ keras.activations.swish(x)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00599}00599\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ Exception(f\textcolor{stringliteral}{"{}no\ matching\ TensorFlow\ activation\ found\ for\ PyTorch\ activation\ \{act\}"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00601}00601\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00603}\mbox{\hyperlink{namespacemodels_1_1tf_a6b4d183b163bb963bcf4f5f4e92cfa8d}{00603}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1tf_a6b4d183b163bb963bcf4f5f4e92cfa8d}{representative\_dataset\_gen}}(dataset,\ ncalib=100):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00604}00604\ \ \ \ \ \textcolor{comment}{\#\ Representative\ dataset\ generator\ for\ use\ with\ converter.representative\_dataset,\ returns\ a\ generator\ of\ np\ arrays}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00605}00605\ \ \ \ \ \textcolor{keywordflow}{for}\ n,\ (path,\ img,\ im0s,\ vid\_cap,\ string)\ \textcolor{keywordflow}{in}\ enumerate(dataset):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ im\ =\ np.transpose(img,\ [1,\ 2,\ 0])}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00607}00607\ \ \ \ \ \ \ \ \ im\ =\ np.expand\_dims(im,\ axis=0).astype(np.float32)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00608}00608\ \ \ \ \ \ \ \ \ im\ /=\ 255}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{yield}\ [im]}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00610}00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ n\ >=\ ncalib:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00612}00612\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00613}00613\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00614}\mbox{\hyperlink{namespacemodels_1_1tf_a4af856719d78f6c52832d3bc48309337}{00614}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1tf_a4af856719d78f6c52832d3bc48309337}{run}}(}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00615}00615\ \ \ \ \ weights=ROOT\ /\ "{}yolov5s.pt"{},\ \ \textcolor{comment}{\#\ weights\ path}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00616}00616\ \ \ \ \ imgsz=(640,\ 640),\ \ \textcolor{comment}{\#\ inference\ size\ h,w}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00617}00617\ \ \ \ \ batch\_size=1,\ \ \textcolor{comment}{\#\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00618}00618\ \ \ \ \ dynamic=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ dynamic\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00619}00619\ ):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00620}00620\ \ \ \ \ \textcolor{comment}{\#\ PyTorch\ model}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00621}00621\ \ \ \ \ im\ =\ torch.zeros((batch\_size,\ 3,\ *imgsz))\ \ \textcolor{comment}{\#\ BCHW\ image}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00622}00622\ \ \ \ \ model\ =\ attempt\_load(weights,\ device=torch.device(\textcolor{stringliteral}{"{}cpu"{}}),\ inplace=\textcolor{keyword}{True},\ fuse=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00623}00623\ \ \ \ \ \_\ =\ model(im)\ \ \textcolor{comment}{\#\ inference}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00624}00624\ \ \ \ \ model.info()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00626}00626\ \ \ \ \ \textcolor{comment}{\#\ TensorFlow\ model}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00627}00627\ \ \ \ \ im\ =\ tf.zeros((batch\_size,\ *imgsz,\ 3))\ \ \textcolor{comment}{\#\ BHWC\ image}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00628}00628\ \ \ \ \ tf\_model\ =\ \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model}{TFModel}}(cfg=model.yaml,\ model=model,\ nc=model.nc,\ imgsz=imgsz)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00629}00629\ \ \ \ \ \_\ =\ tf\_model.predict(im)\ \ \textcolor{comment}{\#\ inference}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00630}00630\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00631}00631\ \ \ \ \ \textcolor{comment}{\#\ Keras\ model}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00632}00632\ \ \ \ \ im\ =\ keras.Input(shape=(*imgsz,\ 3),\ batch\_size=\textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ dynamic\ \textcolor{keywordflow}{else}\ batch\_size)}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00633}00633\ \ \ \ \ keras\_model\ =\ keras.Model(inputs=im,\ outputs=tf\_model.predict(im))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00634}00634\ \ \ \ \ keras\_model.summary()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00635}00635\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00636}00636\ \ \ \ \ LOGGER.info(\textcolor{stringliteral}{"{}PyTorch,\ TensorFlow\ and\ Keras\ models\ successfully\ verified.\(\backslash\)nUse\ export.py\ for\ TF\ model\ export."{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00637}00637\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00638}00638\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00639}\mbox{\hyperlink{namespacemodels_1_1tf_a8167f100dac29feaf5109bff2e6fb7e8}{00639}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1tf_a8167f100dac29feaf5109bff2e6fb7e8}{parse\_opt}}():}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00640}00640\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00641}00641\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s.pt"{}},\ help=\textcolor{stringliteral}{"{}weights\ path"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00642}00642\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=int,\ default=[640],\ help=\textcolor{stringliteral}{"{}inference\ size\ h,w"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00643}00643\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/batch-\/size"{}},\ type=int,\ default=1,\ help=\textcolor{stringliteral}{"{}batch\ size"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00644}00644\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/dynamic"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}dynamic\ batch\ size"{}})}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00645}00645\ \ \ \ \ opt\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00646}00646\ \ \ \ \ opt.imgsz\ *=\ 2\ \textcolor{keywordflow}{if}\ len(opt.imgsz)\ ==\ 1\ \textcolor{keywordflow}{else}\ 1\ \ \textcolor{comment}{\#\ expand}}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00647}00647\ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00648}00648\ \ \ \ \ \textcolor{keywordflow}{return}\ opt}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00650}00650\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00651}\mbox{\hyperlink{namespacemodels_1_1tf_a5f5536123929052ea594547270511fe0}{00651}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacemodels_1_1tf_a5f5536123929052ea594547270511fe0}{main}}(opt):}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00652}00652\ \ \ \ \ run(**vars(opt))}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00653}00653\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00654}00654\ }
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00655}00655\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00656}\mbox{\hyperlink{namespacemodels_1_1tf_a5719e16bcee13dc8bcc01fca4ce9626a}{00656}}\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespacemodels_1_1tf_a8167f100dac29feaf5109bff2e6fb7e8}{parse\_opt}}()}
+\DoxyCodeLine{\Hypertarget{tf_8py_source_l00657}00657\ \ \ \ \ \mbox{\hyperlink{namespacemodels_1_1tf_a5f5536123929052ea594547270511fe0}{main}}(opt)}
+
+\end{DoxyCode}

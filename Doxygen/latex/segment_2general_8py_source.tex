@@ -1,0 +1,165 @@
+\doxysection{general.\+py}
+\hypertarget{segment_2general_8py_source}{}\label{segment_2general_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/general.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/general.py}}
+\mbox{\hyperlink{segment_2general_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general}{00001}}\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00002}00002\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00003}00003\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00004}00004\ \textcolor{keyword}{import}\ torch.nn.functional\ \textcolor{keyword}{as}\ F}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00007}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a2076fee54b559476cf81e531d4c3aeac}{00007}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a2076fee54b559476cf81e531d4c3aeac}{crop\_mask}}(masks,\ boxes):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00008}00008\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00009}00009\ \textcolor{stringliteral}{\ \ \ \ "{}Crop"{}\ predicted\ masks\ by\ zeroing\ out\ everything\ not\ in\ the\ predicted\ bbox.\ Vectorized\ by\ Chong\ (thanks\ Chong).}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00010}00010\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ masks\ should\ be\ a\ size\ [n,\ h,\ w]\ tensor\ of\ masks}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ -\/\ boxes\ should\ be\ a\ size\ [n,\ 4]\ tensor\ of\ bbox\ coords\ in\ relative\ point\ form}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00016}00016\ \ \ \ \ n,\ h,\ w\ =\ masks.shape}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00017}00017\ \ \ \ \ x1,\ y1,\ x2,\ y2\ =\ torch.chunk(boxes[:,\ :,\ \textcolor{keywordtype}{None}],\ 4,\ 1)\ \ \textcolor{comment}{\#\ x1\ shape(1,1,n)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00018}00018\ \ \ \ \ r\ =\ torch.arange(w,\ device=masks.device,\ dtype=x1.dtype)[\textcolor{keywordtype}{None},\ \textcolor{keywordtype}{None},\ :]\ \ \textcolor{comment}{\#\ rows\ shape(1,w,1)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00019}00019\ \ \ \ \ c\ =\ torch.arange(h,\ device=masks.device,\ dtype=x1.dtype)[\textcolor{keywordtype}{None},\ :,\ \textcolor{keywordtype}{None}]\ \ \textcolor{comment}{\#\ cols\ shape(h,1,1)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00021}00021\ \ \ \ \ \textcolor{keywordflow}{return}\ masks\ *\ ((r\ >=\ x1)\ *\ (r\ <\ x2)\ *\ (c\ >=\ y1)\ *\ (c\ <\ y2))}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00024}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a2c79ba504c78d8c8855824c5702a4bc9}{00024}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a2c79ba504c78d8c8855824c5702a4bc9}{process\_mask\_upsample}}(protos,\ masks\_in,\ bboxes,\ shape):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00025}00025\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ Crop\ after\ upsample.}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ protos:\ [mask\_dim,\ mask\_h,\ mask\_w]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ masks\_in:\ [n,\ mask\_dim],\ n\ is\ number\ of\ masks\ after\ nms}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ bboxes:\ [n,\ 4],\ n\ is\ number\ of\ masks\ after\ nms}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ shape:\ input\_image\_size,\ (h,\ w)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00031}00031\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ return:\ h,\ w,\ n}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00035}00035\ \ \ \ \ c,\ mh,\ mw\ =\ protos.shape\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00036}00036\ \ \ \ \ masks\ =\ (masks\_in\ @\ protos.float().view(c,\ -\/1)).sigmoid().view(-\/1,\ mh,\ mw)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00037}00037\ \ \ \ \ masks\ =\ F.interpolate(masks[\textcolor{keywordtype}{None}],\ shape,\ mode=\textcolor{stringliteral}{"{}bilinear"{}},\ align\_corners=\textcolor{keyword}{False})[0]\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00038}00038\ \ \ \ \ masks\ =\ crop\_mask(masks,\ bboxes)\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{return}\ masks.gt\_(0.5)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00042}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_aa6bb34bfe462de4d93709359edbca405}{00042}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_aa6bb34bfe462de4d93709359edbca405}{process\_mask}}(protos,\ masks\_in,\ bboxes,\ shape,\ upsample=False):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00043}00043\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00044}00044\ \textcolor{stringliteral}{\ \ \ \ Crop\ before\ upsample.}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00045}00045\ \textcolor{stringliteral}{\ \ \ \ proto\_out:\ [mask\_dim,\ mask\_h,\ mask\_w]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00046}00046\ \textcolor{stringliteral}{\ \ \ \ out\_masks:\ [n,\ mask\_dim],\ n\ is\ number\ of\ masks\ after\ nms}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00047}00047\ \textcolor{stringliteral}{\ \ \ \ bboxes:\ [n,\ 4],\ n\ is\ number\ of\ masks\ after\ nms}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00048}00048\ \textcolor{stringliteral}{\ \ \ \ shape:input\_image\_size,\ (h,\ w)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00049}00049\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ return:\ h,\ w,\ n}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00051}00051\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00053}00053\ \ \ \ \ c,\ mh,\ mw\ =\ protos.shape\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00054}00054\ \ \ \ \ ih,\ iw\ =\ shape}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00055}00055\ \ \ \ \ masks\ =\ (masks\_in\ @\ protos.float().view(c,\ -\/1)).sigmoid().view(-\/1,\ mh,\ mw)\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00057}00057\ \ \ \ \ downsampled\_bboxes\ =\ bboxes.clone()}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00058}00058\ \ \ \ \ downsampled\_bboxes[:,\ 0]\ *=\ mw\ /\ iw}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00059}00059\ \ \ \ \ downsampled\_bboxes[:,\ 2]\ *=\ mw\ /\ iw}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00060}00060\ \ \ \ \ downsampled\_bboxes[:,\ 3]\ *=\ mh\ /\ ih}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00061}00061\ \ \ \ \ downsampled\_bboxes[:,\ 1]\ *=\ mh\ /\ ih}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00063}00063\ \ \ \ \ masks\ =\ crop\_mask(masks,\ downsampled\_bboxes)\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{if}\ upsample:}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ masks\ =\ F.interpolate(masks[\textcolor{keywordtype}{None}],\ shape,\ mode=\textcolor{stringliteral}{"{}bilinear"{}},\ align\_corners=\textcolor{keyword}{False})[0]\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{return}\ masks.gt\_(0.5)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00069}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_aca980d3c68b6a528ad692407cc82ab56}{00069}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_aca980d3c68b6a528ad692407cc82ab56}{process\_mask\_native}}(protos,\ masks\_in,\ bboxes,\ shape):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00070}00070\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ Crop\ after\ upsample.}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00072}00072\ \textcolor{stringliteral}{\ \ \ \ protos:\ [mask\_dim,\ mask\_h,\ mask\_w]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ masks\_in:\ [n,\ mask\_dim],\ n\ is\ number\ of\ masks\ after\ nms}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00074}00074\ \textcolor{stringliteral}{\ \ \ \ bboxes:\ [n,\ 4],\ n\ is\ number\ of\ masks\ after\ nms}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ shape:\ input\_image\_size,\ (h,\ w)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00076}00076\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ return:\ h,\ w,\ n}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00079}00079\ \ \ \ \ c,\ mh,\ mw\ =\ protos.shape\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00080}00080\ \ \ \ \ masks\ =\ (masks\_in\ @\ protos.float().view(c,\ -\/1)).sigmoid().view(-\/1,\ mh,\ mw)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00081}00081\ \ \ \ \ gain\ =\ min(mh\ /\ shape[0],\ mw\ /\ shape[1])\ \ \textcolor{comment}{\#\ gain\ \ =\ old\ /\ new}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00082}00082\ \ \ \ \ pad\ =\ (mw\ -\/\ shape[1]\ *\ gain)\ /\ 2,\ (mh\ -\/\ shape[0]\ *\ gain)\ /\ 2\ \ \textcolor{comment}{\#\ wh\ padding}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00083}00083\ \ \ \ \ top,\ left\ =\ int(pad[1]),\ int(pad[0])\ \ \textcolor{comment}{\#\ y,\ x}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00084}00084\ \ \ \ \ bottom,\ right\ =\ int(mh\ -\/\ pad[1]),\ int(mw\ -\/\ pad[0])}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00085}00085\ \ \ \ \ masks\ =\ masks[:,\ top:bottom,\ left:right]}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00087}00087\ \ \ \ \ masks\ =\ F.interpolate(masks[\textcolor{keywordtype}{None}],\ shape,\ mode=\textcolor{stringliteral}{"{}bilinear"{}},\ align\_corners=\textcolor{keyword}{False})[0]\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00088}00088\ \ \ \ \ masks\ =\ crop\_mask(masks,\ bboxes)\ \ \textcolor{comment}{\#\ CHW}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00089}00089\ \ \ \ \ \textcolor{keywordflow}{return}\ masks.gt\_(0.5)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00092}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a9cea086ff62fd89e25c3aa10bdaa5c6b}{00092}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a9cea086ff62fd89e25c3aa10bdaa5c6b}{scale\_image}}(im1\_shape,\ masks,\ im0\_shape,\ ratio\_pad=None):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00093}00093\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ img1\_shape:\ model\ input\ shape,\ [h,\ w]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ img0\_shape:\ origin\ pic\ shape,\ [h,\ w,\ 3]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00096}00096\ \textcolor{stringliteral}{\ \ \ \ masks:\ [h,\ w,\ num]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00098}00098\ \ \ \ \ \textcolor{comment}{\#\ Rescale\ coordinates\ (xyxy)\ from\ im1\_shape\ to\ im0\_shape}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{if}\ ratio\_pad\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:\ \ \textcolor{comment}{\#\ calculate\ from\ im0\_shape}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ gain\ =\ min(im1\_shape[0]\ /\ im0\_shape[0],\ im1\_shape[1]\ /\ im0\_shape[1])\ \ \textcolor{comment}{\#\ gain\ \ =\ old\ /\ new}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ pad\ =\ (im1\_shape[1]\ -\/\ im0\_shape[1]\ *\ gain)\ /\ 2,\ (im1\_shape[0]\ -\/\ im0\_shape[0]\ *\ gain)\ /\ 2\ \ \textcolor{comment}{\#\ wh\ padding}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00102}00102\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ pad\ =\ ratio\_pad[1]}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00104}00104\ \ \ \ \ top,\ left\ =\ int(pad[1]),\ int(pad[0])\ \ \textcolor{comment}{\#\ y,\ x}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00105}00105\ \ \ \ \ bottom,\ right\ =\ int(im1\_shape[0]\ -\/\ pad[1]),\ int(im1\_shape[1]\ -\/\ pad[0])}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{if}\ len(masks.shape)\ <\ 2:}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(f\textcolor{stringliteral}{'"{}len\ of\ masks\ shape"{}\ should\ be\ 2\ or\ 3,\ but\ got\ \{len(masks.shape)\}'})}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00109}00109\ \ \ \ \ masks\ =\ masks[top:bottom,\ left:right]}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00110}00110\ \ \ \ \ \textcolor{comment}{\#\ masks\ =\ masks.permute(2,\ 0,\ 1).contiguous()}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00111}00111\ \ \ \ \ \textcolor{comment}{\#\ masks\ =\ F.interpolate(masks[None],\ im0\_shape[:2],\ mode='bilinear',\ align\_corners=False)[0]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00112}00112\ \ \ \ \ \textcolor{comment}{\#\ masks\ =\ masks.permute(1,\ 2,\ 0).contiguous()}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00113}00113\ \ \ \ \ masks\ =\ cv2.resize(masks,\ (im0\_shape[1],\ im0\_shape[0]))}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00115}00115\ \ \ \ \ \textcolor{keywordflow}{if}\ len(masks.shape)\ ==\ 2:}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ masks\ =\ masks[:,\ :,\ \textcolor{keywordtype}{None}]}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00117}00117\ \ \ \ \ \textcolor{keywordflow}{return}\ masks}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00120}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a4c8983298bbd3c43f4139b648f9e3f02}{00120}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a4c8983298bbd3c43f4139b648f9e3f02}{mask\_iou}}(mask1,\ mask2,\ eps=1e-\/7):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00121}00121\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00122}00122\ \textcolor{stringliteral}{\ \ \ \ mask1:\ [N,\ n]\ m1\ means\ number\ of\ predicted\ objects}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ mask2:\ [M,\ n]\ m2\ means\ number\ of\ gt\ objects}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00124}00124\ \textcolor{stringliteral}{\ \ \ \ Note:\ n\ means\ image\_w\ x\ image\_h}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00125}00125\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00126}00126\ \textcolor{stringliteral}{\ \ \ \ return:\ masks\ iou,\ [N,\ M]}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00128}00128\ \ \ \ \ intersection\ =\ torch.matmul(mask1,\ mask2.t()).clamp(0)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00129}00129\ \ \ \ \ union\ =\ (mask1.sum(1)[:,\ \textcolor{keywordtype}{None}]\ +\ mask2.sum(1)[\textcolor{keywordtype}{None}])\ -\/\ intersection\ \ \textcolor{comment}{\#\ (area1\ +\ area2)\ -\/\ intersection}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{return}\ intersection\ /\ (union\ +\ eps)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00133}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a39ac6da032a29f505adb5f07f6e51e68}{00133}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a39ac6da032a29f505adb5f07f6e51e68}{masks\_iou}}(mask1,\ mask2,\ eps=1e-\/7):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00134}00134\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00135}00135\ \textcolor{stringliteral}{\ \ \ \ mask1:\ [N,\ n]\ m1\ means\ number\ of\ predicted\ objects}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00136}00136\ \textcolor{stringliteral}{\ \ \ \ mask2:\ [N,\ n]\ m2\ means\ number\ of\ gt\ objects}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00137}00137\ \textcolor{stringliteral}{\ \ \ \ Note:\ n\ means\ image\_w\ x\ image\_h}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00138}00138\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00139}00139\ \textcolor{stringliteral}{\ \ \ \ return:\ masks\ iou,\ (N,\ )}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00140}00140\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00141}00141\ \ \ \ \ intersection\ =\ (mask1\ *\ mask2).sum(1).clamp(0)\ \ \textcolor{comment}{\#\ (N,\ )}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00142}00142\ \ \ \ \ union\ =\ (mask1.sum(1)\ +\ mask2.sum(1))[\textcolor{keywordtype}{None}]\ -\/\ intersection\ \ \textcolor{comment}{\#\ (area1\ +\ area2)\ -\/\ intersection}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00143}00143\ \ \ \ \ \textcolor{keywordflow}{return}\ intersection\ /\ (union\ +\ eps)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00146}\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a3050e59ee358ae2303d4999e8486e61c}{00146}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a3050e59ee358ae2303d4999e8486e61c}{masks2segments}}(masks,\ strategy="{}largest"{}):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00147}00147\ \ \ \ \ \textcolor{comment}{\#\ Convert\ masks(n,160,160)\ into\ segments(n,xy)}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00148}00148\ \ \ \ \ segments\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00149}00149\ \ \ \ \ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ masks.int().cpu().numpy().astype(\textcolor{stringliteral}{"{}uint8"{}}):}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ c\ =\ cv2.findContours(x,\ cv2.RETR\_EXTERNAL,\ cv2.CHAIN\_APPROX\_SIMPLE)[0]}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ c:}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ strategy\ ==\ \textcolor{stringliteral}{"{}concat"{}}:\ \ \textcolor{comment}{\#\ concatenate\ all\ segments}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ np.concatenate([x.reshape(-\/1,\ 2)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ c])}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ strategy\ ==\ \textcolor{stringliteral}{"{}largest"{}}:\ \ \textcolor{comment}{\#\ select\ largest\ segment}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ np.array(c[np.array([len(x)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ c]).argmax()]).reshape(-\/1,\ 2)}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ np.zeros((0,\ 2))\ \ \textcolor{comment}{\#\ no\ segments\ found}}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ segments.append(c.astype(\textcolor{stringliteral}{"{}float32"{}}))}
+\DoxyCodeLine{\Hypertarget{segment_2general_8py_source_l00159}00159\ \ \ \ \ \textcolor{keywordflow}{return}\ segments}
+
+\end{DoxyCode}

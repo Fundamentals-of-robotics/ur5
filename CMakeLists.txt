@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   message_generation
   roslaunch
+  geometry_msgs
 )
 
 find_package(Eigen3 REQUIRED)
@@ -22,6 +23,7 @@ roslaunch_add_file_check(launch)
 add_service_files(
   FILES
   ServiceMessage.srv
+  VisionService.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -29,6 +31,7 @@ generate_messages(
   DEPENDENCIES
   std_msgs
   sensor_msgs
+  geometry_msgs  
 )
 
 ###################################
@@ -81,6 +84,10 @@ target_link_libraries(ur5_task_library ${catkin_LIBRARIES} Eigen3::Eigen)
 add_executable(motion_planner src/motion_planner.cpp)
 add_executable(task_planner src/task_planner.cpp)
 
+
+
+
+
 target_link_libraries(motion_planner
   ${catkin_LIBRARIES}
   ${Eigen_LIBRARIES}
@@ -92,3 +99,10 @@ target_link_libraries(task_planner
   ${Eigen_LIBRARIES}
   ur5_task_library
 )
+
+ catkin_install_python(PROGRAMS
+   src/vision_node.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
+
+

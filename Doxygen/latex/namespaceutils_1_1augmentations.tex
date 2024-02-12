@@ -1,0 +1,209 @@
+\doxysection{utils.\+augmentations Namespace Reference}
+\hypertarget{namespaceutils_1_1augmentations}{}\label{namespaceutils_1_1augmentations}\index{utils.augmentations@{utils.augmentations}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1augmentations_1_1_albumentations}{Albumentations}}
+\item 
+class \mbox{\hyperlink{classutils_1_1augmentations_1_1_center_crop}{Center\+Crop}}
+\item 
+class \mbox{\hyperlink{classutils_1_1augmentations_1_1_letter_box}{Letter\+Box}}
+\item 
+class \mbox{\hyperlink{classutils_1_1augmentations_1_1_to_tensor}{To\+Tensor}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_aab210a32ef79f647d1f6a0b47ef12100}{normalize}} (x, mean=\mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}}, std=\mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}}, inplace=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a5db660906462fa1c055e148269c6b7c8}{denormalize}} (x, mean=\mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}}, std=\mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a0e63d57359648db035f96a9433eb2c13}{augment\+\_\+hsv}} (im, hgain=0.\+5, sgain=0.\+5, vgain=0.\+5)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a25794957e944ff72759a06b10281b6dc}{hist\+\_\+equalize}} (im, clahe=True, bgr=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a4ebdc28ccd2e60fb4216d00a6e5a874d}{replicate}} (im, labels)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_ab93008816a4cd0a0d666edbf52443fd2}{letterbox}} (im, new\+\_\+shape=(640, 640), color=(114, 114, 114), auto=True, scale\+Fill=False, scaleup=True, stride=32)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a1b0ba033834493b5f1c0b321b3bb6053}{random\+\_\+perspective}} (im, targets=(), segments=(), degrees=10, translate=0.\+1, scale=0.\+1, shear=10, perspective=0.\+0, border=(0, 0))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a4ae23c4a9626ea32d10185ca744c038c}{copy\+\_\+paste}} (im, labels, segments, p=0.\+5)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_afbda8f950644c330cd0c509a8faf1c70}{cutout}} (im, labels, p=0.\+5)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a6e6136d7a9250923943ccf838356488e}{mixup}} (im, labels, im2, labels2)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_ac377e03317ff9ea3586e2de2c6312e9c}{box\+\_\+candidates}} (box1, box2, wh\+\_\+thr=2, ar\+\_\+thr=100, area\+\_\+thr=0.\+1, eps=1e-\/16)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_a9be26b805c8d395d9bd65b623816f314}{classify\+\_\+albumentations}} (augment=True, size=224, scale=(0.\+08, 1.\+0), ratio=(0.\+75, 1.\+0/0.\+75), hflip=0.\+5, vflip=0.\+0, jitter=0.\+4, mean=\mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}}, std=\mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}}, auto\+\_\+aug=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1augmentations_ab6de1426ae40c47757600692da011d91}{classify\+\_\+transforms}} (size=224)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}} = 0.\+485, 0.\+456, 0.\+406
+\item 
+float \mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}} = 0.\+229, 0.\+224, 0.\+225
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Image augmentation functions.\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1augmentations_a0e63d57359648db035f96a9433eb2c13}\label{namespaceutils_1_1augmentations_a0e63d57359648db035f96a9433eb2c13} 
+\index{utils.augmentations@{utils.augmentations}!augment\_hsv@{augment\_hsv}}
+\index{augment\_hsv@{augment\_hsv}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{augment\_hsv()}{augment\_hsv()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+augment\+\_\+hsv (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{hgain = {\ttfamily 0.5},  }\item[{}]{sgain = {\ttfamily 0.5},  }\item[{}]{vgain = {\ttfamily 0.5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00067}{67}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_ac377e03317ff9ea3586e2de2c6312e9c}\label{namespaceutils_1_1augmentations_ac377e03317ff9ea3586e2de2c6312e9c} 
+\index{utils.augmentations@{utils.augmentations}!box\_candidates@{box\_candidates}}
+\index{box\_candidates@{box\_candidates}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{box\_candidates()}{box\_candidates()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+box\+\_\+candidates (\begin{DoxyParamCaption}\item[{}]{box1,  }\item[{}]{box2,  }\item[{}]{wh\+\_\+thr = {\ttfamily 2},  }\item[{}]{ar\+\_\+thr = {\ttfamily 100},  }\item[{}]{area\+\_\+thr = {\ttfamily 0.1},  }\item[{}]{eps = {\ttfamily 1e-\/16} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00291}{291}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a9be26b805c8d395d9bd65b623816f314}\label{namespaceutils_1_1augmentations_a9be26b805c8d395d9bd65b623816f314} 
+\index{utils.augmentations@{utils.augmentations}!classify\_albumentations@{classify\_albumentations}}
+\index{classify\_albumentations@{classify\_albumentations}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{classify\_albumentations()}{classify\_albumentations()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+classify\+\_\+albumentations (\begin{DoxyParamCaption}\item[{}]{augment = {\ttfamily True},  }\item[{}]{size = {\ttfamily 224},  }\item[{}]{scale = {\ttfamily (0.08,~1.0)},  }\item[{}]{ratio = {\ttfamily (0.75,~1.0~/~0.75)},  }\item[{}]{hflip = {\ttfamily 0.5},  }\item[{}]{vflip = {\ttfamily 0.0},  }\item[{}]{jitter = {\ttfamily 0.4},  }\item[{}]{mean = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}}},  }\item[{}]{std = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}}},  }\item[{}]{auto\+\_\+aug = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00299}{299}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_ab6de1426ae40c47757600692da011d91}\label{namespaceutils_1_1augmentations_ab6de1426ae40c47757600692da011d91} 
+\index{utils.augmentations@{utils.augmentations}!classify\_transforms@{classify\_transforms}}
+\index{classify\_transforms@{classify\_transforms}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{classify\_transforms()}{classify\_transforms()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+classify\+\_\+transforms (\begin{DoxyParamCaption}\item[{}]{size = {\ttfamily 224} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00343}{343}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a4ae23c4a9626ea32d10185ca744c038c}\label{namespaceutils_1_1augmentations_a4ae23c4a9626ea32d10185ca744c038c} 
+\index{utils.augmentations@{utils.augmentations}!copy\_paste@{copy\_paste}}
+\index{copy\_paste@{copy\_paste}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{copy\_paste()}{copy\_paste()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+copy\+\_\+paste (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{labels,  }\item[{}]{segments,  }\item[{}]{p = {\ttfamily 0.5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00234}{234}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_afbda8f950644c330cd0c509a8faf1c70}\label{namespaceutils_1_1augmentations_afbda8f950644c330cd0c509a8faf1c70} 
+\index{utils.augmentations@{utils.augmentations}!cutout@{cutout}}
+\index{cutout@{cutout}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{cutout()}{cutout()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+cutout (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{labels,  }\item[{}]{p = {\ttfamily 0.5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00256}{256}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a5db660906462fa1c055e148269c6b7c8}\label{namespaceutils_1_1augmentations_a5db660906462fa1c055e148269c6b7c8} 
+\index{utils.augmentations@{utils.augmentations}!denormalize@{denormalize}}
+\index{denormalize@{denormalize}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{denormalize()}{denormalize()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+denormalize (\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{mean = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}}},  }\item[{}]{std = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00060}{60}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a25794957e944ff72759a06b10281b6dc}\label{namespaceutils_1_1augmentations_a25794957e944ff72759a06b10281b6dc} 
+\index{utils.augmentations@{utils.augmentations}!hist\_equalize@{hist\_equalize}}
+\index{hist\_equalize@{hist\_equalize}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{hist\_equalize()}{hist\_equalize()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+hist\+\_\+equalize (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{clahe = {\ttfamily True},  }\item[{}]{bgr = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00083}{83}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_ab93008816a4cd0a0d666edbf52443fd2}\label{namespaceutils_1_1augmentations_ab93008816a4cd0a0d666edbf52443fd2} 
+\index{utils.augmentations@{utils.augmentations}!letterbox@{letterbox}}
+\index{letterbox@{letterbox}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{letterbox()}{letterbox()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+letterbox (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{new\+\_\+shape = {\ttfamily (640,~640)},  }\item[{}]{color = {\ttfamily (114,~114,~114)},  }\item[{}]{auto = {\ttfamily True},  }\item[{}]{scale\+Fill = {\ttfamily False},  }\item[{}]{scaleup = {\ttfamily True},  }\item[{}]{stride = {\ttfamily 32} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00111}{111}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a6e6136d7a9250923943ccf838356488e}\label{namespaceutils_1_1augmentations_a6e6136d7a9250923943ccf838356488e} 
+\index{utils.augmentations@{utils.augmentations}!mixup@{mixup}}
+\index{mixup@{mixup}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{mixup()}{mixup()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+mixup (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{labels,  }\item[{}]{im2,  }\item[{}]{labels2 }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00283}{283}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_aab210a32ef79f647d1f6a0b47ef12100}\label{namespaceutils_1_1augmentations_aab210a32ef79f647d1f6a0b47ef12100} 
+\index{utils.augmentations@{utils.augmentations}!normalize@{normalize}}
+\index{normalize@{normalize}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{normalize()}{normalize()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+normalize (\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{mean = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}{IMAGENET\+\_\+\+MEAN}}},  }\item[{}]{std = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}{IMAGENET\+\_\+\+STD}}},  }\item[{}]{inplace = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00055}{55}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a1b0ba033834493b5f1c0b321b3bb6053}\label{namespaceutils_1_1augmentations_a1b0ba033834493b5f1c0b321b3bb6053} 
+\index{utils.augmentations@{utils.augmentations}!random\_perspective@{random\_perspective}}
+\index{random\_perspective@{random\_perspective}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{random\_perspective()}{random\_perspective()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+random\+\_\+perspective (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{targets = {\ttfamily ()},  }\item[{}]{segments = {\ttfamily ()},  }\item[{}]{degrees = {\ttfamily 10},  }\item[{}]{translate = {\ttfamily 0.1},  }\item[{}]{scale = {\ttfamily 0.1},  }\item[{}]{shear = {\ttfamily 10},  }\item[{}]{perspective = {\ttfamily 0.0},  }\item[{}]{border = {\ttfamily (0,~0)} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00144}{144}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a4ebdc28ccd2e60fb4216d00a6e5a874d}\label{namespaceutils_1_1augmentations_a4ebdc28ccd2e60fb4216d00a6e5a874d} 
+\index{utils.augmentations@{utils.augmentations}!replicate@{replicate}}
+\index{replicate@{replicate}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{replicate()}{replicate()}}
+{\footnotesize\ttfamily utils.\+augmentations.\+replicate (\begin{DoxyParamCaption}\item[{}]{im,  }\item[{}]{labels }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00094}{94}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46}\label{namespaceutils_1_1augmentations_a924d425f3ba4bf66f4941f7af1c39c46} 
+\index{utils.augmentations@{utils.augmentations}!IMAGENET\_MEAN@{IMAGENET\_MEAN}}
+\index{IMAGENET\_MEAN@{IMAGENET\_MEAN}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{IMAGENET\_MEAN}{IMAGENET\_MEAN}}
+{\footnotesize\ttfamily float utils.\+augmentations.\+IMAGENET\+\_\+\+MEAN = 0.\+485, 0.\+456, 0.\+406}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00016}{16}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+
+\Hypertarget{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76}\label{namespaceutils_1_1augmentations_a1ef11d5b4ea9708cd6ea1c9029ce5c76} 
+\index{utils.augmentations@{utils.augmentations}!IMAGENET\_STD@{IMAGENET\_STD}}
+\index{IMAGENET\_STD@{IMAGENET\_STD}!utils.augmentations@{utils.augmentations}}
+\doxysubsubsection{\texorpdfstring{IMAGENET\_STD}{IMAGENET\_STD}}
+{\footnotesize\ttfamily float utils.\+augmentations.\+IMAGENET\+\_\+\+STD = 0.\+229, 0.\+224, 0.\+225}
+
+
+
+Definition at line \mbox{\hyperlink{augmentations_8py_source_l00017}{17}} of file \mbox{\hyperlink{augmentations_8py_source}{augmentations.\+py}}.
+

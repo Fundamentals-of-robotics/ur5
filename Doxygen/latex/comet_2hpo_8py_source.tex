@@ -1,0 +1,126 @@
+\doxysection{hpo.\+py}
+\hypertarget{comet_2hpo_8py_source}{}\label{comet_2hpo_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/comet/hpo.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/comet/hpo.py}}
+\mbox{\hyperlink{comet_2hpo_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo}{00001}}\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00002}00002\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00003}00003\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00004}00004\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00005}00005\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00006}00006\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00008}00008\ \textcolor{keyword}{import}\ comet\_ml}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00010}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab44efc9cb8c627118701fea3103d348a}{00010}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00012}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_abaf41b8fce891cb83cdfd9a816a17594}{00012}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00013}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ae65acc551c89f864b4a6ee9f9ef98ffb}{00013}}\ ROOT\ =\ FILE.parents[3]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00014}00014\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00015}00015\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00017}00017\ \textcolor{keyword}{from}\ train\ \textcolor{keyword}{import}\ train}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00018}00018\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1callbacks}{utils.callbacks}}\ \textcolor{keyword}{import}\ Callbacks}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00019}00019\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ increment\_path}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00020}00020\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ select\_device}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00022}00022\ \textcolor{comment}{\#\ Project\ Configuration}}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00023}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a913cb9964c10e82220ea615750b5b3}{00023}}\ config\ =\ comet\_ml.config.get\_config()}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00024}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2a733549dcd2199cb134258cd5c3f6bd}{00024}}\ COMET\_PROJECT\_NAME\ =\ config.get\_string(os.getenv(\textcolor{stringliteral}{"{}COMET\_PROJECT\_NAME"{}}),\ \textcolor{stringliteral}{"{}comet.project\_name"{}},\ default=\textcolor{stringliteral}{"{}yolov5"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00027}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}{00027}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}{get\_args}}(known=False):}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00028}00028\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00029}00029\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s.pt"{}},\ help=\textcolor{stringliteral}{"{}initial\ weights\ path"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00030}00030\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/cfg"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}model.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00031}00031\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/data"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/coco128.yaml"{}},\ help=\textcolor{stringliteral}{"{}dataset.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00032}00032\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/hyp"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/hyps/hyp.scratch-\/low.yaml"{}},\ help=\textcolor{stringliteral}{"{}hyperparameters\ path"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00033}00033\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/epochs"{}},\ type=int,\ default=300,\ help=\textcolor{stringliteral}{"{}total\ training\ epochs"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00034}00034\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/batch-\/size"{}},\ type=int,\ default=16,\ help=\textcolor{stringliteral}{"{}total\ batch\ size\ for\ all\ GPUs,\ -\/1\ for\ autobatch"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00035}00035\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ type=int,\ default=640,\ help=\textcolor{stringliteral}{"{}train,\ val\ image\ size\ (pixels)"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00036}00036\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/rect"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}rectangular\ training"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00037}00037\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/resume"{}},\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=\textcolor{keyword}{True},\ default=\textcolor{keyword}{False},\ help=\textcolor{stringliteral}{"{}resume\ most\ recent\ training"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00038}00038\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/nosave"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}only\ save\ final\ checkpoint"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00039}00039\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/noval"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}only\ validate\ final\ epoch"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00040}00040\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/noautoanchor"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}disable\ AutoAnchor"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00041}00041\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/noplots"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ no\ plot\ files"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00042}00042\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/evolve"{}},\ type=int,\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=300,\ help=\textcolor{stringliteral}{"{}evolve\ hyperparameters\ for\ x\ generations"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00043}00043\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/bucket"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}gsutil\ bucket"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00044}00044\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/cache"{}},\ type=str,\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=\textcolor{stringliteral}{"{}ram"{}},\ help=\textcolor{stringliteral}{'-\/-\/cache\ images\ in\ "{}ram"{}\ (default)\ or\ "{}disk"{}'})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00045}00045\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/image-\/weights"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ weighted\ image\ selection\ for\ training"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00046}00046\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/device"{}},\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00047}00047\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/multi-\/scale"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}vary\ img-\/size\ +/-\/\ 50\%\%"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00048}00048\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/single-\/cls"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}train\ multi-\/class\ data\ as\ single-\/class"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00049}00049\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/optimizer"{}},\ type=str,\ choices=[\textcolor{stringliteral}{"{}SGD"{}},\ \textcolor{stringliteral}{"{}Adam"{}},\ \textcolor{stringliteral}{"{}AdamW"{}}],\ default=\textcolor{stringliteral}{"{}SGD"{}},\ help=\textcolor{stringliteral}{"{}optimizer"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00050}00050\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/sync-\/bn"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ SyncBatchNorm,\ only\ available\ in\ DDP\ mode"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00051}00051\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/workers"{}},\ type=int,\ default=8,\ help=\textcolor{stringliteral}{"{}max\ dataloader\ workers\ (per\ RANK\ in\ DDP\ mode)"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00052}00052\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/project"{}},\ default=ROOT\ /\ \textcolor{stringliteral}{"{}runs/train"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00053}00053\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/name"{}},\ default=\textcolor{stringliteral}{"{}exp"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00054}00054\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/exist-\/ok"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}existing\ project/name\ ok,\ do\ not\ increment"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00055}00055\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/quad"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}quad\ dataloader"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00056}00056\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/cos-\/lr"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}cosine\ LR\ scheduler"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00057}00057\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/label-\/smoothing"{}},\ type=float,\ default=0.0,\ help=\textcolor{stringliteral}{"{}Label\ smoothing\ epsilon"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00058}00058\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/patience"{}},\ type=int,\ default=100,\ help=\textcolor{stringliteral}{"{}EarlyStopping\ patience\ (epochs\ without\ improvement)"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00059}00059\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/freeze"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=int,\ default=[0],\ help=\textcolor{stringliteral}{"{}Freeze\ layers:\ backbone=10,\ first3=0\ 1\ 2"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00060}00060\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/period"{}},\ type=int,\ default=-\/1,\ help=\textcolor{stringliteral}{"{}Save\ checkpoint\ every\ x\ epochs\ (disabled\ if\ <\ 1)"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00061}00061\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/seed"{}},\ type=int,\ default=0,\ help=\textcolor{stringliteral}{"{}Global\ training\ seed"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00062}00062\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/local\_rank"{}},\ type=int,\ default=-\/1,\ help=\textcolor{stringliteral}{"{}Automatic\ DDP\ Multi-\/GPU\ argument,\ do\ not\ modify"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00064}00064\ \ \ \ \ \textcolor{comment}{\#\ Weights\ \&\ Biases\ arguments}}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00065}00065\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/entity"{}},\ default=\textcolor{keywordtype}{None},\ help=\textcolor{stringliteral}{"{}W\&B:\ Entity"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00066}00066\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/upload\_dataset"{}},\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=\textcolor{keyword}{True},\ default=\textcolor{keyword}{False},\ help=\textcolor{stringliteral}{'W\&B:\ Upload\ data,\ "{}val"{}\ option'})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00067}00067\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/bbox\_interval"{}},\ type=int,\ default=-\/1,\ help=\textcolor{stringliteral}{"{}W\&B:\ Set\ bounding-\/box\ image\ logging\ interval"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00068}00068\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/artifact\_alias"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}latest"{}},\ help=\textcolor{stringliteral}{"{}W\&B:\ Version\ of\ dataset\ artifact\ to\ use"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00070}00070\ \ \ \ \ \textcolor{comment}{\#\ Comet\ Arguments}}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00071}00071\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/comet\_optimizer\_config"{}},\ type=str,\ help=\textcolor{stringliteral}{"{}Comet:\ Path\ to\ a\ Comet\ Optimizer\ Config\ File."{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00072}00072\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/comet\_optimizer\_id"{}},\ type=str,\ help=\textcolor{stringliteral}{"{}Comet:\ ID\ of\ the\ Comet\ Optimizer\ sweep."{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00073}00073\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/comet\_optimizer\_objective"{}},\ type=str,\ help=\textcolor{stringliteral}{"{}Comet:\ Set\ to\ 'minimize'\ or\ 'maximize'."{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00074}00074\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/comet\_optimizer\_metric"{}},\ type=str,\ help=\textcolor{stringliteral}{"{}Comet:\ Metric\ to\ Optimize."{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00075}00075\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/comet\_optimizer\_workers"{}},}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ type=int,}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ default=1,}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}Comet:\ Number\ of\ Parallel\ Workers\ to\ use\ with\ the\ Comet\ Optimizer."{}},}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00080}00080\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{return}\ parser.parse\_known\_args()[0]\ \textcolor{keywordflow}{if}\ known\ \textcolor{keywordflow}{else}\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00085}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a8a27a0627b3481e941d6254c3d010faa}{00085}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a8a27a0627b3481e941d6254c3d010faa}{run}}(parameters,\ opt):}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00086}00086\ \ \ \ \ hyp\_dict\ =\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ parameters.items()\ \textcolor{keywordflow}{if}\ k\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}epochs"{}},\ \textcolor{stringliteral}{"{}batch\_size"{}}]\}}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00088}00088\ \ \ \ \ opt.save\_dir\ =\ str(increment\_path(Path(opt.project)\ /\ opt.name,\ exist\_ok=opt.exist\_ok\ \textcolor{keywordflow}{or}\ opt.evolve))}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00089}00089\ \ \ \ \ opt.batch\_size\ =\ parameters.get(\textcolor{stringliteral}{"{}batch\_size"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00090}00090\ \ \ \ \ opt.epochs\ =\ parameters.get(\textcolor{stringliteral}{"{}epochs"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00092}00092\ \ \ \ \ device\ =\ select\_device(opt.device,\ batch\_size=opt.batch\_size)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00093}00093\ \ \ \ \ train(hyp\_dict,\ opt,\ device,\ callbacks=\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}())}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00096}00096\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00097}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac8a9af86e3dd7d1300511858d836bc1e}{00097}}\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_aec9e3ed4a5a375b8c463db127e0e1d72}{get\_args}}(known=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00099}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ac10d2db6a5e0ce46c6484cff7630ce51}{00099}}\ \ \ \ \ opt.weights\ =\ str(opt.weights)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00100}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_ab5b8d64ca51137392517ada4d9ff65ce}{00100}}\ \ \ \ \ opt.cfg\ =\ str(opt.cfg)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00101}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a4aae7fed902cce44f02b746f4665141e}{00101}}\ \ \ \ \ opt.data\ =\ str(opt.data)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00102}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9f053a992ea51a2b9ca3c9a465182174}{00102}}\ \ \ \ \ opt.project\ =\ str(opt.project)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00104}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a9a554a99ccb843d668dd8deb7c91ffcd}{00104}}\ \ \ \ \ optimizer\_id\ =\ os.getenv(\textcolor{stringliteral}{"{}COMET\_OPTIMIZER\_ID"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{if}\ optimizer\_id\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(opt.comet\_optimizer\_config)\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00107}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_abee8a675f44bce30586ce140a750a05f}{00107}}\ \ \ \ \ \ \ \ \ \ \ \ \ optimizer\_config\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00108}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a20f4a9524975beeb98042b9f22eb81fc}{00108}}\ \ \ \ \ \ \ \ \ optimizer\ =\ comet\_ml.Optimizer(optimizer\_config)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ optimizer\ =\ comet\_ml.Optimizer(optimizer\_id)}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00112}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fe2787a292e3ac94805ffa895cfecf0}{00112}}\ \ \ \ \ opt.comet\_optimizer\_id\ =\ optimizer.id}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00113}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a739c17d2be9b5f4985cf4e07d19485f3}{00113}}\ \ \ \ \ status\ =\ optimizer.status()}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00115}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a3ba67a6658adc729570212b63000b47c}{00115}}\ \ \ \ \ opt.comet\_optimizer\_objective\ =\ status[\textcolor{stringliteral}{"{}spec"{}}][\textcolor{stringliteral}{"{}objective"{}}]}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00116}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_1_1hpo_a2fc2176644a382d39891bae06cfd7356}{00116}}\ \ \ \ \ opt.comet\_optimizer\_metric\ =\ status[\textcolor{stringliteral}{"{}spec"{}}][\textcolor{stringliteral}{"{}metric"{}}]}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00118}00118\ \ \ \ \ logger.info(\textcolor{stringliteral}{"{}COMET\ INFO:\ Starting\ Hyperparameter\ Sweep"{}})}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00119}00119\ \ \ \ \ \textcolor{keywordflow}{for}\ parameter\ \textcolor{keywordflow}{in}\ optimizer.get\_parameters():}
+\DoxyCodeLine{\Hypertarget{comet_2hpo_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ run(parameter[\textcolor{stringliteral}{"{}parameters"{}}],\ opt)}
+
+\end{DoxyCode}
