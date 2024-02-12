@@ -270,7 +270,7 @@ if __name__ ==  '__main__':
 
     # Path creation
     home_path = os.path.expanduser('~')
-    path_yolo = os.path.join(home_path, "ros_ws/src/ur5/vision/yolo")
+    path_yolo = os.path.join(home_path, "ros_ws/src/ur5/vision/yolov5")
     path_vision = os.path.join(home_path, "ros_ws/src/ur5/vision")
     path_weigths = os.path.join(path_vision, 'best.pt')
 

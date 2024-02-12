@@ -10,16 +10,25 @@ void stateHandler(State &state,ros::NodeHandle n){
             //ask the 3d cam for the blocks' position
             //at the moment, as there is no vision node, we manually
             //initialize the pose of each block
+        
+          
+
             ros::ServiceClient service2 = n.serviceClient<service_test::VisionService>("Vision");
             service_test::VisionService srv2;
 
             srv2.request.start=true;
             
+           
+            
+                
             while(!service2.call(srv2) && ros::ok()); 
+            
             
             for(int i=0;i<srv2.response.n_blocks;i++){            
                blockSet(srv2.response.block_position[i].x,srv2.response.block_position[i].y,srv2.response.block_position[i].z);    
             }
+            
+            
 
             //convert coordinates from world to robot frame
             for(int i=0;i<n_blocks;i++){
@@ -29,7 +38,8 @@ void stateHandler(State &state,ros::NodeHandle n){
                 cout<<"pos2 "<<class_of_block[i]<<":  "<< pos[i](0)<<" "<<  pos[i](1)<<" "<< pos[i](2)<<endl;
                 cout<<"phi2 "<<class_of_block[i]<<":  "<< phi[i](0)<<" "<<  phi[i](1)<<" "<< phi[i](2)<<endl<<endl;
             }
-                      
+            
+            
             ROS_INFO("block_request");
             state=block_request;
 
@@ -54,7 +64,7 @@ void stateHandler(State &state,ros::NodeHandle n){
                 GRASPING_HEIGHT=1.021;
 
                 phief_class<<0,0,M_PI/2;
-                xef_class<<0.1,0.32,GRASPING_HEIGHT;
+                xef_class<<0.1,0.30,GRASPING_HEIGHT;
                                                            
                     
             }
@@ -65,7 +75,7 @@ void stateHandler(State &state,ros::NodeHandle n){
                 GRASPING_HEIGHT=1.021;
 
                 phief_class<<0,0,M_PI/2;
-                xef_class<<0.1,0.40,GRASPING_HEIGHT;
+                xef_class<<0.1,0.38,GRASPING_HEIGHT;
                                        
                     
             }
@@ -93,12 +103,12 @@ void stateHandler(State &state,ros::NodeHandle n){
             }
             else if(class_of_block[k]=="X1-Y4-Z2"){
                 //X1-Y4-Z2
-                GRIPPER_CLOSE=-0.0665; 
-                GRIPPER_OPEN=0.35; 
+                GRIPPER_CLOSE=-0.064; 
+                GRIPPER_OPEN=0.3; 
                 GRASPING_HEIGHT=1.021;
 
                 phief_class<<0,0,M_PI/2;
-                xef_class<<0.1,0.48,GRASPING_HEIGHT;
+                xef_class<<0.1,0.44,GRASPING_HEIGHT;
                            
                     
             }
@@ -110,7 +120,7 @@ void stateHandler(State &state,ros::NodeHandle n){
                 GRASPING_HEIGHT=1.05;
 
                 phief_class<<0,0,M_PI/2;
-                xef_class<<0.1,0.56,GRASPING_HEIGHT;
+                xef_class<<0.1,0.54,GRASPING_HEIGHT;
 
                     
             }
@@ -150,7 +160,10 @@ void stateHandler(State &state,ros::NodeHandle n){
             srv.request.gripper=gripper;
             srv.request.end=final_end;
             srv.request.ack=0;
-              
+
+            
+            
+                
             while(!service.call(srv));//wait until response 
             error=srv.response.error;
 
@@ -601,4 +614,6 @@ void blockSet(double x,double y,double z){
         
     }
     
+
 }
+
