@@ -1,0 +1,78 @@
+\chapter{Flask REST API}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e}{}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e}\index{Flask REST API@{Flask REST API}}
+\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e_autotoc_md61}%
+\Hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e_autotoc_md61}%
+ \href{https://en.wikipedia.org/wiki/Representational_state_transfer}{\texttt{ REST}} \href{https://en.wikipedia.org/wiki/API}{\texttt{ API}}s are commonly used to expose Machine Learning (ML) models to other services. This folder contains an example REST API created using Flask to expose the YOLOv5s model from \href{https://pytorch.org/hub/ultralytics_yolov5/}{\texttt{ Py\+Torch Hub}}.\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e_autotoc_md62}{}\doxysection{\texorpdfstring{Requirements}{Requirements}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e_autotoc_md62}
+\href{https://palletsprojects.com/p/flask/}{\texttt{ Flask}} is required. Install with\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ pip\ install\ Flask}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e_autotoc_md63}{}\doxysection{\texorpdfstring{Run}{Run}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2flask__rest__api_2_r_e_a_d_m_e_autotoc_md63}
+After Flask installation run\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ python3\ restapi.py\ -\/-\/port\ 5000}
+
+\end{DoxyCode}
+
+
+Then use \href{https://curl.se/}{\texttt{ curl}} to perform a request\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ curl\ -\/X\ POST\ -\/F\ image=@zidane.jpg\ 'http://localhost:5000/v1/object-\/detection/yolov5s'}
+
+\end{DoxyCode}
+
+
+The model inference results are returned as a JSON response\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{[}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ "{}class"{}:\ 0,}
+\DoxyCodeLine{\ \ \ \ "{}confidence"{}:\ 0.8900438547,}
+\DoxyCodeLine{\ \ \ \ "{}height"{}:\ 0.9318675399,}
+\DoxyCodeLine{\ \ \ \ "{}name"{}:\ "{}person"{},}
+\DoxyCodeLine{\ \ \ \ "{}width"{}:\ 0.3264600933,}
+\DoxyCodeLine{\ \ \ \ "{}xcenter"{}:\ 0.7438579798,}
+\DoxyCodeLine{\ \ \ \ "{}ycenter"{}:\ 0.5207948685}
+\DoxyCodeLine{\ \ \},}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ "{}class"{}:\ 0,}
+\DoxyCodeLine{\ \ \ \ "{}confidence"{}:\ 0.8440024257,}
+\DoxyCodeLine{\ \ \ \ "{}height"{}:\ 0.7155083418,}
+\DoxyCodeLine{\ \ \ \ "{}name"{}:\ "{}person"{},}
+\DoxyCodeLine{\ \ \ \ "{}width"{}:\ 0.6546785235,}
+\DoxyCodeLine{\ \ \ \ "{}xcenter"{}:\ 0.427829951,}
+\DoxyCodeLine{\ \ \ \ "{}ycenter"{}:\ 0.6334488392}
+\DoxyCodeLine{\ \ \},}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ "{}class"{}:\ 27,}
+\DoxyCodeLine{\ \ \ \ "{}confidence"{}:\ 0.3771208823,}
+\DoxyCodeLine{\ \ \ \ "{}height"{}:\ 0.3902671337,}
+\DoxyCodeLine{\ \ \ \ "{}name"{}:\ "{}tie"{},}
+\DoxyCodeLine{\ \ \ \ "{}width"{}:\ 0.0696444362,}
+\DoxyCodeLine{\ \ \ \ "{}xcenter"{}:\ 0.3675483763,}
+\DoxyCodeLine{\ \ \ \ "{}ycenter"{}:\ 0.7991207838}
+\DoxyCodeLine{\ \ \},}
+\DoxyCodeLine{\ \ \{}
+\DoxyCodeLine{\ \ \ \ "{}class"{}:\ 27,}
+\DoxyCodeLine{\ \ \ \ "{}confidence"{}:\ 0.3527112305,}
+\DoxyCodeLine{\ \ \ \ "{}height"{}:\ 0.1540903747,}
+\DoxyCodeLine{\ \ \ \ "{}name"{}:\ "{}tie"{},}
+\DoxyCodeLine{\ \ \ \ "{}width"{}:\ 0.0336618312,}
+\DoxyCodeLine{\ \ \ \ "{}xcenter"{}:\ 0.7814827561,}
+\DoxyCodeLine{\ \ \ \ "{}ycenter"{}:\ 0.5065554976}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{]}
+
+\end{DoxyCode}
+
+
+An example python script to perform inference using \href{https://docs.python-requests.org/en/master/}{\texttt{ requests}} is given in {\ttfamily \doxylink{example__request_8py}{example\+\_\+request.\+py}} 

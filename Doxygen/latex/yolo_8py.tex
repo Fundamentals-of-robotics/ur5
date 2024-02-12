@@ -1,0 +1,70 @@
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/models/yolo.py File Reference}
+\hypertarget{yolo_8py}{}\label{yolo_8py}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/models/yolo.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/models/yolo.py}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classmodels_1_1yolo_1_1_detect}{models.\+yolo.\+Detect}}
+\item 
+class \mbox{\hyperlink{classmodels_1_1yolo_1_1_segment}{models.\+yolo.\+Segment}}
+\item 
+class \mbox{\hyperlink{classmodels_1_1yolo_1_1_base_model}{models.\+yolo.\+Base\+Model}}
+\item 
+class \mbox{\hyperlink{classmodels_1_1yolo_1_1_detection_model}{models.\+yolo.\+Detection\+Model}}
+\item 
+class \mbox{\hyperlink{classmodels_1_1yolo_1_1_segmentation_model}{models.\+yolo.\+Segmentation\+Model}}
+\item 
+class \mbox{\hyperlink{classmodels_1_1yolo_1_1_classification_model}{models.\+yolo.\+Classification\+Model}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacemodels}{models}}
+\item 
+namespace \mbox{\hyperlink{namespacemodels_1_1yolo}{models.\+yolo}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_aefa1f74c6cef6b61406774143aabec60}{models.\+yolo.\+parse\+\_\+model}} (d, ch)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a9de649dcfe5d12283cd07b8912aabe34}{models.\+yolo.\+FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a578285de03a2e37d5c98a5ea8667f4af}{models.\+yolo.\+ROOT}} = FILE.\+parents\mbox{[}1\mbox{]}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_ae38f82df39e05ba0d62b15fd284ccfc2}{models.\+yolo.\+thop}} = None
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a02934628371d5d1c0e7123b7c29a95c1}{models.\+yolo.\+Model}} = \mbox{\hyperlink{classmodels_1_1yolo_1_1_detection_model}{Detection\+Model}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_adb0e30ce0bd9c584c9af2fb61fd4d272}{models.\+yolo.\+parser}} = argparse.\+Argument\+Parser()
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_abe03f158928f030b05b7a9e0485ffdd1}{models.\+yolo.\+type}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a07bf90234e815429482e9ab37fd8790b}{models.\+yolo.\+str}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a3d29639c2e0f5a994f0b7bbdb5590d5d}{models.\+yolo.\+default}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_aaf8ba83b08d6b00c774cd4afe7a51c8f}{models.\+yolo.\+help}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a331306f13a4f0e6415c535f43c967f2a}{models.\+yolo.\+int}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a268aa218ba8d1d33b370723cf6e4d508}{models.\+yolo.\+action}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a40977ff2098d87652f0cd28d6f7d32db}{models.\+yolo.\+opt}} = parser.\+parse\+\_\+args()
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a8c1d0198d6f446d8ac2d5d0c971fc191}{models.\+yolo.\+cfg}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a9ff3f97b0dbcc18c34b88ea841425845}{models.\+yolo.\+device}} = select\+\_\+device(opt.\+device)
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a2059f9cff41439343483b687ac7edda7}{models.\+yolo.\+im}} = torch.\+rand(opt.\+batch\+\_\+size, 3, 640, 640).to(\mbox{\hyperlink{namespacemodels_1_1yolo_a9ff3f97b0dbcc18c34b88ea841425845}{device}})
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a9dbfb6dd8085fd58603217b6ba4cf73b}{models.\+yolo.\+model}} = \mbox{\hyperlink{namespacemodels_1_1yolo_a02934628371d5d1c0e7123b7c29a95c1}{Model}}(opt.\+cfg).to(\mbox{\hyperlink{namespacemodels_1_1yolo_a9ff3f97b0dbcc18c34b88ea841425845}{device}})
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a4b14e512181db7694c7fb2b46810326e}{models.\+yolo.\+profile}}
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a57fcfaeade402ba11a2aad9097e31c1e}{models.\+yolo.\+results}} = profile(input=\mbox{\hyperlink{namespacemodels_1_1yolo_a2059f9cff41439343483b687ac7edda7}{im}}, ops=\mbox{[}\mbox{\hyperlink{namespacemodels_1_1yolo_a9dbfb6dd8085fd58603217b6ba4cf73b}{model}}\mbox{]}, n=3)
+\item 
+\mbox{\hyperlink{namespacemodels_1_1yolo_a22ab624d6f2befb4e02a6d11780b6193}{models.\+yolo.\+\_\+}} = \mbox{\hyperlink{namespacemodels_1_1yolo_a02934628371d5d1c0e7123b7c29a95c1}{Model}}(\mbox{\hyperlink{namespacemodels_1_1yolo_a8c1d0198d6f446d8ac2d5d0c971fc191}{cfg}})
+\end{DoxyCompactItemize}

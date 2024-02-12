@@ -1,0 +1,1229 @@
+\doxysection{general.\+py}
+\hypertarget{general_8py_source}{}\label{general_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/general.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/general.py}}
+\mbox{\hyperlink{general_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1general}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}General\ utils."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00004}00004\ \textcolor{keyword}{import}\ contextlib}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00005}00005\ \textcolor{keyword}{import}\ glob}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00006}00006\ \textcolor{keyword}{import}\ inspect}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00007}00007\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00008}00008\ \textcolor{keyword}{import}\ logging.config}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00009}00009\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00010}00010\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00011}00011\ \textcolor{keyword}{import}\ platform}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00012}00012\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00013}00013\ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00014}00014\ \textcolor{keyword}{import}\ signal}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00015}00015\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00016}00016\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00017}00017\ \textcolor{keyword}{import}\ time}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00018}00018\ \textcolor{keyword}{import}\ urllib}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00019}00019\ \textcolor{keyword}{from}\ copy\ \textcolor{keyword}{import}\ deepcopy}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00020}00020\ \textcolor{keyword}{from}\ datetime\ \textcolor{keyword}{import}\ datetime}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00021}00021\ \textcolor{keyword}{from}\ itertools\ \textcolor{keyword}{import}\ repeat}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00022}00022\ \textcolor{keyword}{from}\ multiprocessing.pool\ \textcolor{keyword}{import}\ ThreadPool}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00023}00023\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00024}00024\ \textcolor{keyword}{from}\ subprocess\ \textcolor{keyword}{import}\ check\_output}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00025}00025\ \textcolor{keyword}{from}\ tarfile\ \textcolor{keyword}{import}\ is\_tarfile}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00026}00026\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Optional}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00027}00027\ \textcolor{keyword}{from}\ zipfile\ \textcolor{keyword}{import}\ ZipFile,\ is\_zipfile}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00029}00029\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00030}00030\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00031}00031\ \textcolor{keyword}{import}\ pandas\ \textcolor{keyword}{as}\ pd}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00032}00032\ \textcolor{keyword}{import}\ pkg\_resources\ \textcolor{keyword}{as}\ pkg}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00033}00033\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00034}00034\ \textcolor{keyword}{import}\ torchvision}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00035}00035\ \textcolor{keyword}{import}\ yaml}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00037}00037\ \textcolor{comment}{\#\ Import\ 'ultralytics'\ package\ or\ install\ if\ if\ missing}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00038}00038\ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{import}\ ultralytics}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{assert}\ hasattr(ultralytics,\ \textcolor{stringliteral}{"{}\_\_version\_\_"{}})\ \ \textcolor{comment}{\#\ verify\ package\ is\ not\ directory}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00042}00042\ \textcolor{keywordflow}{except}\ (ImportError,\ AssertionError):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00043}00043\ \ \ \ \ os.system(\textcolor{stringliteral}{"{}pip\ install\ -\/U\ ultralytics"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{import}\ ultralytics}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00046}00046\ \textcolor{keyword}{from}\ ultralytics.utils.checks\ \textcolor{keyword}{import}\ check\_requirements}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00048}00048\ \textcolor{keyword}{from}\ utils\ \textcolor{keyword}{import}\ TryExcept,\ emojis}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00049}00049\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1downloads}{utils.downloads}}\ \textcolor{keyword}{import}\ curl\_download,\ gsutil\_getsize}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00050}00050\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1metrics}{utils.metrics}}\ \textcolor{keyword}{import}\ box\_iou,\ fitness}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00052}\mbox{\hyperlink{namespaceutils_1_1general_a6908d0edbbf0d5afdf6b2f6ca4686b15}{00052}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00053}\mbox{\hyperlink{namespaceutils_1_1general_a76034cc50cd3d61c5867c240c00162dc}{00053}}\ ROOT\ =\ FILE.parents[1]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00054}\mbox{\hyperlink{namespaceutils_1_1general_a92b2c04a7821c2ef1145d1344e2822a2}{00054}}\ RANK\ =\ int(os.getenv(\textcolor{stringliteral}{"{}RANK"{}},\ -\/1))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00056}00056\ \textcolor{comment}{\#\ Settings}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00057}\mbox{\hyperlink{namespaceutils_1_1general_a97387ce67b736addbff64e5bc1c06597}{00057}}\ NUM\_THREADS\ =\ min(8,\ max(1,\ os.cpu\_count()\ -\/\ 1))\ \ \textcolor{comment}{\#\ number\ of\ YOLOv5\ multiprocessing\ threads}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00058}\mbox{\hyperlink{namespaceutils_1_1general_a80177133c39d35e8377a99381d7c1efa}{00058}}\ DATASETS\_DIR\ =\ Path(os.getenv(\textcolor{stringliteral}{"{}YOLOv5\_DATASETS\_DIR"{}},\ ROOT.parent\ /\ \textcolor{stringliteral}{"{}datasets"{}}))\ \ \textcolor{comment}{\#\ global\ datasets\ directory}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00059}\mbox{\hyperlink{namespaceutils_1_1general_ab05b7818b163fc1dbf3356ca6a69cd89}{00059}}\ AUTOINSTALL\ =\ str(os.getenv(\textcolor{stringliteral}{"{}YOLOv5\_AUTOINSTALL"{}},\ \textcolor{keyword}{True})).lower()\ ==\ \textcolor{stringliteral}{"{}true"{}}\ \ \textcolor{comment}{\#\ global\ auto-\/install\ mode}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00060}\mbox{\hyperlink{namespaceutils_1_1general_af6684a1b0b0634a8c68bc6b1060783e8}{00060}}\ VERBOSE\ =\ str(os.getenv(\textcolor{stringliteral}{"{}YOLOv5\_VERBOSE"{}},\ \textcolor{keyword}{True})).lower()\ ==\ \textcolor{stringliteral}{"{}true"{}}\ \ \textcolor{comment}{\#\ global\ verbose\ mode}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00061}\mbox{\hyperlink{namespaceutils_1_1general_af70b7c30bdf294f551b6413ff1987bea}{00061}}\ TQDM\_BAR\_FORMAT\ =\ \textcolor{stringliteral}{"{}\{l\_bar\}\{bar:10\}\{r\_bar\}"{}}\ \ \textcolor{comment}{\#\ tqdm\ bar\ format}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00062}\mbox{\hyperlink{namespaceutils_1_1general_a591d6a458d4be72f17b856800f9330f1}{00062}}\ FONT\ =\ \textcolor{stringliteral}{"{}Arial.ttf"{}}\ \ \textcolor{comment}{\#\ https://ultralytics.com/assets/Arial.ttf}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00064}\mbox{\hyperlink{namespaceutils_1_1general_afa824a829bd3b3568d10128abdc9e524}{00064}}\ torch.set\_printoptions(linewidth=320,\ precision=5,\ profile=\textcolor{stringliteral}{"{}long"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00065}\mbox{\hyperlink{namespaceutils_1_1general_a6ab7c4b39206f6774dfc96b6a687d0f3}{00065}}\ np.set\_printoptions(linewidth=320,\ formatter=\{\textcolor{stringliteral}{"{}float\_kind"{}}:\ \textcolor{stringliteral}{"{}\{:11.5g\}"{}}.format\})\ \ \textcolor{comment}{\#\ format\ short\ g,\ \%precision=5}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00066}\mbox{\hyperlink{namespaceutils_1_1general_a1e4709b274732e5262c584de53a3d450}{00066}}\ pd.options.display.max\_columns\ =\ 10}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00067}00067\ cv2.setNumThreads(0)\ \ \textcolor{comment}{\#\ prevent\ OpenCV\ from\ multithreading\ (incompatible\ with\ PyTorch\ DataLoader)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00068}00068\ os.environ[\textcolor{stringliteral}{"{}NUMEXPR\_MAX\_THREADS"{}}]\ =\ str(NUM\_THREADS)\ \ \textcolor{comment}{\#\ NumExpr\ max\ threads}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00069}00069\ os.environ[\textcolor{stringliteral}{"{}OMP\_NUM\_THREADS"{}}]\ =\ \textcolor{stringliteral}{"{}1"{}}\ \textcolor{keywordflow}{if}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}darwin"{}}\ \textcolor{keywordflow}{else}\ str(NUM\_THREADS)\ \ \textcolor{comment}{\#\ OpenMP\ (PyTorch\ and\ SciPy)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00070}00070\ os.environ[\textcolor{stringliteral}{"{}TF\_CPP\_MIN\_LOG\_LEVEL"{}}]\ =\ \textcolor{stringliteral}{"{}2"{}}\ \ \textcolor{comment}{\#\ suppress\ verbose\ TF\ compiler\ warnings\ in\ Colab}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00073}\mbox{\hyperlink{namespaceutils_1_1general_af8705dd37ad75b3447117c85927c0e49}{00073}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_af8705dd37ad75b3447117c85927c0e49}{is\_ascii}}(s="{}"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00074}00074\ \ \ \ \ \textcolor{comment}{\#\ Is\ string\ composed\ of\ all\ ASCII\ (no\ UTF)\ characters?\ (note\ str().isascii()\ introduced\ in\ python\ 3.7)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00075}00075\ \ \ \ \ s\ =\ str(s)\ \ \textcolor{comment}{\#\ convert\ list,\ tuple,\ None,\ etc.\ to\ str}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{return}\ len(s.encode().decode(\textcolor{stringliteral}{"{}ascii"{}},\ \textcolor{stringliteral}{"{}ignore"{}}))\ ==\ len(s)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00079}\mbox{\hyperlink{namespaceutils_1_1general_a0c3c690ada9ab6d74466360eef9eedac}{00079}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a0c3c690ada9ab6d74466360eef9eedac}{is\_chinese}}(s="{}人工智能"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00080}00080\ \ \ \ \ \textcolor{comment}{\#\ Is\ string\ composed\ of\ any\ Chinese\ characters?}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{return}\ bool(re.search(\textcolor{stringliteral}{"{}[\(\backslash\)u4e00-\/\(\backslash\)u9fff]"{}},\ str(s)))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00084}\mbox{\hyperlink{namespaceutils_1_1general_af19c7fdd964e04137f0c52c13cc5d025}{00084}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_af19c7fdd964e04137f0c52c13cc5d025}{is\_colab}}():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00085}00085\ \ \ \ \ \textcolor{comment}{\#\ Is\ environment\ a\ Google\ Colab\ instance?}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}google.colab"{}}\ \textcolor{keywordflow}{in}\ sys.modules}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00089}\mbox{\hyperlink{namespaceutils_1_1general_a37c673a40f95b817f8840675f0bc1599}{00089}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a37c673a40f95b817f8840675f0bc1599}{is\_jupyter}}():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00090}00090\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00091}00091\ \textcolor{stringliteral}{\ \ \ \ Check\ if\ the\ current\ script\ is\ running\ inside\ a\ Jupyter\ Notebook.\ Verified\ on\ Colab,\ Jupyterlab,\ Kaggle,\ Paperspace.}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00092}00092\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ bool:\ True\ if\ running\ inside\ a\ Jupyter\ Notebook,\ False\ otherwise.}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00096}00096\ \ \ \ \ \textcolor{keyword}{with}\ contextlib.suppress(Exception):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ IPython\ \textcolor{keyword}{import}\ get\_ipython}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ get\_ipython()\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00103}\mbox{\hyperlink{namespaceutils_1_1general_a9783fde2800ffc8751a1499f94efa4f2}{00103}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a9783fde2800ffc8751a1499f94efa4f2}{is\_kaggle}}():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00104}00104\ \ \ \ \ \textcolor{comment}{\#\ Is\ environment\ a\ Kaggle\ Notebook?}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{return}\ os.environ.get(\textcolor{stringliteral}{"{}PWD"{}})\ ==\ \textcolor{stringliteral}{"{}/kaggle/working"{}}\ \textcolor{keywordflow}{and}\ os.environ.get(\textcolor{stringliteral}{"{}KAGGLE\_URL\_BASE"{}})\ ==\ \textcolor{stringliteral}{"{}https://www.kaggle.com"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00108}\mbox{\hyperlink{namespaceutils_1_1general_abe4792dc89d09f46071a461a3402da9d}{00108}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_abe4792dc89d09f46071a461a3402da9d}{is\_docker}}()\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00109}00109\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Check\ if\ the\ process\ runs\ inside\ a\ docker\ container."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{if}\ Path(\textcolor{stringliteral}{"{}/.dockerenv"{}}).exists():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00112}00112\ \ \ \ \ \textcolor{keywordflow}{try}:\ \ \textcolor{comment}{\#\ check\ if\ docker\ is\ in\ control\ groups}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(\textcolor{stringliteral}{"{}/proc/self/cgroup"{}})\ \textcolor{keyword}{as}\ file:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ any(\textcolor{stringliteral}{"{}docker"{}}\ \textcolor{keywordflow}{in}\ line\ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ file)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00115}00115\ \ \ \ \ \textcolor{keywordflow}{except}\ OSError:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00119}\mbox{\hyperlink{namespaceutils_1_1general_a3fcd59caf4e15e4e50b1096e5b28a077}{00119}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a3fcd59caf4e15e4e50b1096e5b28a077}{is\_writeable}}(dir,\ test=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00120}00120\ \ \ \ \ \textcolor{comment}{\#\ Return\ True\ if\ directory\ has\ write\ permissions,\ test\ opening\ a\ file\ with\ write\ permissions\ if\ test=True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ test:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ os.access(dir,\ os.W\_OK)\ \ \textcolor{comment}{\#\ possible\ issues\ on\ Windows}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00123}00123\ \ \ \ \ file\ =\ Path(dir)\ /\ \textcolor{stringliteral}{"{}tmp.txt"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00124}00124\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(file,\ \textcolor{stringliteral}{"{}w"{}}):\ \ \textcolor{comment}{\#\ open\ file\ with\ write\ permissions}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{pass}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ file.unlink()\ \ \textcolor{comment}{\#\ remove\ file}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{except}\ OSError:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00133}\mbox{\hyperlink{namespaceutils_1_1general_a9388e3930cd72e26a0ec2030bf6a0dbc}{00133}}\ LOGGING\_NAME\ =\ \textcolor{stringliteral}{"{}yolov5"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00136}\mbox{\hyperlink{namespaceutils_1_1general_ae11c59d97950de4f0f4ef9a464eeb7bf}{00136}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ae11c59d97950de4f0f4ef9a464eeb7bf}{set\_logging}}(name=LOGGING\_NAME,\ verbose=True):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00137}00137\ \ \ \ \ \textcolor{comment}{\#\ sets\ up\ logging\ for\ the\ given\ name}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00138}00138\ \ \ \ \ rank\ =\ int(os.getenv(\textcolor{stringliteral}{"{}RANK"{}},\ -\/1))\ \ \textcolor{comment}{\#\ rank\ in\ world\ for\ Multi-\/GPU\ trainings}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00139}00139\ \ \ \ \ level\ =\ logging.INFO\ \textcolor{keywordflow}{if}\ verbose\ \textcolor{keywordflow}{and}\ rank\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}\ \textcolor{keywordflow}{else}\ logging.ERROR}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00140}00140\ \ \ \ \ logging.config.dictConfig(}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}version"{}}:\ 1,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}disable\_existing\_loggers"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}formatters"{}}:\ \{name:\ \{\textcolor{stringliteral}{"{}format"{}}:\ \textcolor{stringliteral}{"{}\%(message)s"{}}\}\},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}handlers"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name:\ \{}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}class"{}}:\ \textcolor{stringliteral}{"{}logging.StreamHandler"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}formatter"{}}:\ name,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}level"{}}:\ level,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loggers"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name:\ \{}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}level"{}}:\ level,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}handlers"{}}:\ [name],}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}propagate"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00160}00160\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00163}00163\ \mbox{\hyperlink{namespaceutils_1_1general_ae11c59d97950de4f0f4ef9a464eeb7bf}{set\_logging}}(LOGGING\_NAME)\ \ \textcolor{comment}{\#\ run\ before\ defining\ LOGGER}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00164}\mbox{\hyperlink{namespaceutils_1_1general_a45010d4247a8b9df795aac0f947cb445}{00164}}\ LOGGER\ =\ logging.getLogger(LOGGING\_NAME)\ \ \textcolor{comment}{\#\ define\ globally\ (used\ in\ train.py,\ val.py,\ detect.py,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00165}00165\ \textcolor{keywordflow}{if}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Windows"{}}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00166}00166\ \ \ \ \ \textcolor{keywordflow}{for}\ fn\ \textcolor{keywordflow}{in}\ LOGGER.info,\ LOGGER.warning:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ setattr(LOGGER,\ fn.\_\_name\_\_,\ \textcolor{keyword}{lambda}\ x:\ fn(emojis(x)))\ \ \textcolor{comment}{\#\ emoji\ safe\ logging}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00170}\mbox{\hyperlink{namespaceutils_1_1general_a7a8885bae0470add7258e183dabe20c4}{00170}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a7a8885bae0470add7258e183dabe20c4}{user\_config\_dir}}(dir="{}Ultralytics"{},\ env\_var="{}YOLOV5\_CONFIG\_DIR"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00171}00171\ \ \ \ \ \textcolor{comment}{\#\ Return\ path\ of\ user\ configuration\ directory.\ Prefer\ environment\ variable\ if\ exists.\ Make\ dir\ if\ required.}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00172}00172\ \ \ \ \ env\ =\ os.getenv(env\_var)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00173}00173\ \ \ \ \ \textcolor{keywordflow}{if}\ env:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ path\ =\ Path(env)\ \ \textcolor{comment}{\#\ use\ environment\ variable}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00175}00175\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ cfg\ =\ \{\textcolor{stringliteral}{"{}Windows"{}}:\ \textcolor{stringliteral}{"{}AppData/Roaming"{}},\ \textcolor{stringliteral}{"{}Linux"{}}:\ \textcolor{stringliteral}{"{}.config"{}},\ \textcolor{stringliteral}{"{}Darwin"{}}:\ \textcolor{stringliteral}{"{}Library/Application\ Support"{}}\}\ \ \textcolor{comment}{\#\ 3\ OS\ dirs}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ path\ =\ Path.home()\ /\ cfg.get(platform.system(),\ \textcolor{stringliteral}{"{}"{}})\ \ \textcolor{comment}{\#\ OS-\/specific\ config\ dir}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ path\ =\ (path\ \textcolor{keywordflow}{if}\ \mbox{\hyperlink{namespaceutils_1_1general_a3fcd59caf4e15e4e50b1096e5b28a077}{is\_writeable}}(path)\ \textcolor{keywordflow}{else}\ Path(\textcolor{stringliteral}{"{}/tmp"{}}))\ /\ dir\ \ \textcolor{comment}{\#\ GCP\ and\ AWS\ lambda\ fix,\ only\ /tmp\ is\ writeable}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00179}00179\ \ \ \ \ path.mkdir(exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ if\ required}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{return}\ path}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00183}\mbox{\hyperlink{namespaceutils_1_1general_a823ecce3fe58f9f193ea51e0ff45d4a4}{00183}}\ CONFIG\_DIR\ =\ \mbox{\hyperlink{namespaceutils_1_1general_a7a8885bae0470add7258e183dabe20c4}{user\_config\_dir}}()\ \ \textcolor{comment}{\#\ Ultralytics\ settings\ dir}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00186}\mbox{\hyperlink{classutils_1_1general_1_1_profile}{00186}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(contextlib.ContextDecorator):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00187}00187\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Profile\ class.\ Usage:\ @Profile()\ decorator\ or\ 'with\ Profile():'\ context\ manager}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00188}\mbox{\hyperlink{classutils_1_1general_1_1_profile_a60cb36da92549758ff23843364e3e231}{00188}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_profile_a60cb36da92549758ff23843364e3e231}{\_\_init\_\_}}(self,\ t=0.0,\ device:\ torch.device\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00189}\mbox{\hyperlink{classutils_1_1general_1_1_profile_ac94a2383df1da839819cd53451b46120}{00189}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_ac94a2383df1da839819cd53451b46120}{t}}\ =\ t}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00190}\mbox{\hyperlink{classutils_1_1general_1_1_profile_a3e1c80bfa8b1863fd72b6d0fb7508e7b}{00190}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_a3e1c80bfa8b1863fd72b6d0fb7508e7b}{device}}\ =\ device}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00191}\mbox{\hyperlink{classutils_1_1general_1_1_profile_ade0076e3215610b160f776177ef33308}{00191}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_ade0076e3215610b160f776177ef33308}{cuda}}\ =\ bool(device\ \textcolor{keywordflow}{and}\ str(device).startswith(\textcolor{stringliteral}{"{}cuda"{}}))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00193}\mbox{\hyperlink{classutils_1_1general_1_1_profile_acfbdc0771b30bd50aaf028fb8426fa54}{00193}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_profile_acfbdc0771b30bd50aaf028fb8426fa54}{\_\_enter\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00194}\mbox{\hyperlink{classutils_1_1general_1_1_profile_afc80f8b2e617b785d7f789f4a7b7e209}{00194}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_afc80f8b2e617b785d7f789f4a7b7e209}{start}}\ =\ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_ad6c2d5da276b8682902878f4b09b70f8}{time}}()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00197}\mbox{\hyperlink{classutils_1_1general_1_1_profile_a5df532f62590b0cdb9ecd7b5be910e0d}{00197}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_profile_a5df532f62590b0cdb9ecd7b5be910e0d}{\_\_exit\_\_}}(self,\ type,\ value,\ traceback):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00198}\mbox{\hyperlink{classutils_1_1general_1_1_profile_aa12a23e14e2f8f94409c773f1d9deba9}{00198}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_aa12a23e14e2f8f94409c773f1d9deba9}{dt}}\ =\ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_ad6c2d5da276b8682902878f4b09b70f8}{time}}()\ -\/\ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_afc80f8b2e617b785d7f789f4a7b7e209}{start}}\ \ \textcolor{comment}{\#\ delta-\/time}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_ac94a2383df1da839819cd53451b46120}{t}}\ +=\ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_aa12a23e14e2f8f94409c773f1d9deba9}{dt}}\ \ \textcolor{comment}{\#\ accumulate\ dt}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00201}\mbox{\hyperlink{classutils_1_1general_1_1_profile_ad6c2d5da276b8682902878f4b09b70f8}{00201}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_profile_ad6c2d5da276b8682902878f4b09b70f8}{time}}(self):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_ade0076e3215610b160f776177ef33308}{cuda}}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ torch.cuda.synchronize(self.\mbox{\hyperlink{classutils_1_1general_1_1_profile_a3e1c80bfa8b1863fd72b6d0fb7508e7b}{device}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ time.time()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00207}\mbox{\hyperlink{classutils_1_1general_1_1_timeout}{00207}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1general_1_1_timeout}{Timeout}}(contextlib.ContextDecorator):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00208}00208\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ Timeout\ class.\ Usage:\ @Timeout(seconds)\ decorator\ or\ 'with\ Timeout(seconds):'\ context\ manager}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00209}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a149728d4a7786b7b10d69d10b4dd97f0}{00209}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a149728d4a7786b7b10d69d10b4dd97f0}{\_\_init\_\_}}(self,\ seconds,\ *,\ timeout\_msg="{}"{},\ suppress\_timeout\_errors=True):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00210}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_af0ba2c3dd475bb7cbc5163e904b914a2}{00210}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_af0ba2c3dd475bb7cbc5163e904b914a2}{seconds}}\ =\ int(seconds)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00211}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_af3361ed85de63088d4c8543ef4bf8fb6}{00211}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_af3361ed85de63088d4c8543ef4bf8fb6}{timeout\_message}}\ =\ timeout\_msg}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00212}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a92b93eba05704c693ad5603e18b441f3}{00212}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a92b93eba05704c693ad5603e18b441f3}{suppress}}\ =\ bool(suppress\_timeout\_errors)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00214}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a5c056f83069ffb8db2b2d2b063a46733}{00214}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a2abb6d8be7de956e1e92d356f7027d18}{\_timeout\_handler}}(self,\ signum,\ frame):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ TimeoutError(self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_af3361ed85de63088d4c8543ef4bf8fb6}{timeout\_message}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00217}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a38e6cee5b209173aad898e3ef383d5db}{00217}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a38e6cee5b209173aad898e3ef383d5db}{\_\_enter\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ platform.system()\ !=\ \textcolor{stringliteral}{"{}Windows"{}}:\ \ \textcolor{comment}{\#\ not\ supported\ on\ Windows}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00219}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a2abb6d8be7de956e1e92d356f7027d18}{00219}}\ \ \ \ \ \ \ \ \ \ \ \ \ signal.signal(signal.SIGALRM,\ self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a2abb6d8be7de956e1e92d356f7027d18}{\_timeout\_handler}}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a5c056f83069ffb8db2b2d2b063a46733}{\_timeout\_handler}})\ \ \textcolor{comment}{\#\ Set\ handler\ for\ SIGALRM}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ signal.alarm(self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_af0ba2c3dd475bb7cbc5163e904b914a2}{seconds}})\ \ \textcolor{comment}{\#\ start\ countdown\ for\ SIGALRM\ to\ be\ raised}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00222}\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a796760ff42f6e6600472ed195ce58aa9}{00222}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a796760ff42f6e6600472ed195ce58aa9}{\_\_exit\_\_}}(self,\ exc\_type,\ exc\_val,\ exc\_tb):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ platform.system()\ !=\ \textcolor{stringliteral}{"{}Windows"{}}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ signal.alarm(0)\ \ \textcolor{comment}{\#\ Cancel\ SIGALRM\ if\ it's\ scheduled}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classutils_1_1general_1_1_timeout_a92b93eba05704c693ad5603e18b441f3}{suppress}}\ \textcolor{keywordflow}{and}\ exc\_type\ \textcolor{keywordflow}{is}\ TimeoutError:\ \ \textcolor{comment}{\#\ Suppress\ TimeoutError}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00229}\mbox{\hyperlink{classutils_1_1general_1_1_working_directory}{00229}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1general_1_1_working_directory}{WorkingDirectory}}(contextlib.ContextDecorator):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00230}00230\ \ \ \ \ \textcolor{comment}{\#\ Usage:\ @WorkingDirectory(dir)\ decorator\ or\ 'with\ WorkingDirectory(dir):'\ context\ manager}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00231}\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a43842d495fd6170c59cb961d29577f45}{00231}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a43842d495fd6170c59cb961d29577f45}{\_\_init\_\_}}(self,\ new\_dir):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00232}\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_ae55c8eaba69641146ba03a0556da246d}{00232}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_ae55c8eaba69641146ba03a0556da246d}{dir}}\ =\ new\_dir\ \ \textcolor{comment}{\#\ new\ dir}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00233}\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a1010b955824a8f4fc44eac040220392e}{00233}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a1010b955824a8f4fc44eac040220392e}{cwd}}\ =\ Path.cwd().resolve()\ \ \textcolor{comment}{\#\ current\ dir}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00235}\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a49fefbb924d7653655e6df4f2cdb2148}{00235}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a49fefbb924d7653655e6df4f2cdb2148}{\_\_enter\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ os.chdir(self.\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_ae55c8eaba69641146ba03a0556da246d}{dir}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00238}\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a6de32fdb702d0d2546c6a2004b5ad703}{00238}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a6de32fdb702d0d2546c6a2004b5ad703}{\_\_exit\_\_}}(self,\ exc\_type,\ exc\_val,\ exc\_tb):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ os.chdir(self.\mbox{\hyperlink{classutils_1_1general_1_1_working_directory_a1010b955824a8f4fc44eac040220392e}{cwd}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00242}\mbox{\hyperlink{namespaceutils_1_1general_a4eab80ba827895eec6f76da16b2d2dd9}{00242}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a4eab80ba827895eec6f76da16b2d2dd9}{methods}}(instance):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00243}00243\ \ \ \ \ \textcolor{comment}{\#\ Get\ class/instance\ methods}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00244}00244\ \ \ \ \ \textcolor{keywordflow}{return}\ [f\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ dir(instance)\ \textcolor{keywordflow}{if}\ callable(getattr(instance,\ f))\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ f.startswith(\textcolor{stringliteral}{"{}\_\_"{}})]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00247}\mbox{\hyperlink{namespaceutils_1_1general_a00d78479a6d7ddc3cb219bd1a40c24d1}{00247}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a00d78479a6d7ddc3cb219bd1a40c24d1}{print\_args}}(args:\ Optional[dict]\ =\ \textcolor{keywordtype}{None},\ show\_file=\textcolor{keyword}{True},\ show\_func=\textcolor{keyword}{False}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00248}00248\ \ \ \ \ \textcolor{comment}{\#\ Print\ function\ arguments\ (optional\ args\ dict)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00249}00249\ \ \ \ \ x\ =\ inspect.currentframe().f\_back\ \ \textcolor{comment}{\#\ previous\ frame}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00250}00250\ \ \ \ \ file,\ \_,\ func,\ \_,\ \_\ =\ inspect.getframeinfo(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00251}00251\ \ \ \ \ \textcolor{keywordflow}{if}\ args\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:\ \ \textcolor{comment}{\#\ get\ args\ automatically}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ args,\ \_,\ \_,\ frm\ =\ inspect.getargvalues(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ args\ =\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ frm.items()\ \textcolor{keywordflow}{if}\ k\ \textcolor{keywordflow}{in}\ args\}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00254}00254\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ file\ =\ Path(file).resolve().relative\_to(ROOT).with\_suffix(\textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{except}\ ValueError:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ file\ =\ Path(file).stem}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00258}00258\ \ \ \ \ s\ =\ (f\textcolor{stringliteral}{"{}\{file\}:\ "{}}\ \textcolor{keywordflow}{if}\ show\_file\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}})\ +\ (f\textcolor{stringliteral}{"{}\{func\}:\ "{}}\ \textcolor{keywordflow}{if}\ show\_func\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00259}00259\ \ \ \ \ LOGGER.info(colorstr(s)\ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{k\}=\{v\}"{}}\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ args.items()))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00262}\mbox{\hyperlink{namespaceutils_1_1general_ad47f806587ed846ba836758b1863f64a}{00262}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ad47f806587ed846ba836758b1863f64a}{init\_seeds}}(seed=0,\ deterministic=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00263}00263\ \ \ \ \ \textcolor{comment}{\#\ Initialize\ random\ number\ generator\ (RNG)\ seeds\ https://pytorch.org/docs/stable/notes/randomness.html}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00264}00264\ \ \ \ \ random.seed(seed)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00265}00265\ \ \ \ \ np.random.seed(seed)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00266}00266\ \ \ \ \ torch.manual\_seed(seed)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00267}00267\ \ \ \ \ torch.cuda.manual\_seed(seed)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00268}00268\ \ \ \ \ torch.cuda.manual\_seed\_all(seed)\ \ \textcolor{comment}{\#\ for\ Multi-\/GPU,\ exception\ safe}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00269}00269\ \ \ \ \ \textcolor{comment}{\#\ torch.backends.cudnn.benchmark\ =\ True\ \ \#\ AutoBatch\ problem\ https://github.com/ultralytics/yolov5/issues/9287}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00270}00270\ \ \ \ \ \textcolor{keywordflow}{if}\ deterministic\ \textcolor{keywordflow}{and}\ check\_version(torch.\_\_version\_\_,\ \textcolor{stringliteral}{"{}1.12.0"{}}):\ \ \textcolor{comment}{\#\ https://github.com/ultralytics/yolov5/pull/8213}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ torch.use\_deterministic\_algorithms(\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ torch.backends.cudnn.deterministic\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ os.environ[\textcolor{stringliteral}{"{}CUBLAS\_WORKSPACE\_CONFIG"{}}]\ =\ \textcolor{stringliteral}{"{}:4096:8"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ os.environ[\textcolor{stringliteral}{"{}PYTHONHASHSEED"{}}]\ =\ str(seed)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00277}\mbox{\hyperlink{namespaceutils_1_1general_af26692f6c4eb593b59a0474e87b6adff}{00277}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_af26692f6c4eb593b59a0474e87b6adff}{intersect\_dicts}}(da,\ db,\ exclude=()):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00278}00278\ \ \ \ \ \textcolor{comment}{\#\ Dictionary\ intersection\ of\ matching\ keys\ and\ shapes,\ omitting\ 'exclude'\ keys,\ using\ da\ values}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00279}00279\ \ \ \ \ \textcolor{keywordflow}{return}\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ da.items()\ \textcolor{keywordflow}{if}\ k\ \textcolor{keywordflow}{in}\ db\ \textcolor{keywordflow}{and}\ all(x\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ k\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ exclude)\ \textcolor{keywordflow}{and}\ v.shape\ ==\ db[k].shape\}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00282}\mbox{\hyperlink{namespaceutils_1_1general_af4aebaa0b73d7725955d20e88b81b8f7}{00282}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_af4aebaa0b73d7725955d20e88b81b8f7}{get\_default\_args}}(func):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00283}00283\ \ \ \ \ \textcolor{comment}{\#\ Get\ func()\ default\ arguments}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00284}00284\ \ \ \ \ signature\ =\ inspect.signature(func)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00285}00285\ \ \ \ \ \textcolor{keywordflow}{return}\ \{k:\ v.default\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ signature.parameters.items()\ \textcolor{keywordflow}{if}\ v.default\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ inspect.Parameter.empty\}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00288}\mbox{\hyperlink{namespaceutils_1_1general_aba91126dd2c420888ed8c689fa30f92f}{00288}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_aba91126dd2c420888ed8c689fa30f92f}{get\_latest\_run}}(search\_dir="{}."{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00289}00289\ \ \ \ \ \textcolor{comment}{\#\ Return\ path\ to\ most\ recent\ 'last.pt'\ in\ /runs\ (i.e.\ to\ -\/-\/resume\ from)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00290}00290\ \ \ \ \ last\_list\ =\ glob.glob(f\textcolor{stringliteral}{"{}\{search\_dir\}/**/last*.pt"{}},\ recursive=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00291}00291\ \ \ \ \ \textcolor{keywordflow}{return}\ max(last\_list,\ key=os.path.getctime)\ \textcolor{keywordflow}{if}\ last\_list\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00294}\mbox{\hyperlink{namespaceutils_1_1general_a3205527e9c10da195c74d33041b7c02c}{00294}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a3205527e9c10da195c74d33041b7c02c}{file\_age}}(path=\_\_file\_\_):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00295}00295\ \ \ \ \ \textcolor{comment}{\#\ Return\ days\ since\ last\ file\ update}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00296}00296\ \ \ \ \ dt\ =\ datetime.now()\ -\/\ datetime.fromtimestamp(Path(path).stat().st\_mtime)\ \ \textcolor{comment}{\#\ delta}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00297}00297\ \ \ \ \ \textcolor{keywordflow}{return}\ dt.days\ \ \textcolor{comment}{\#\ +\ dt.seconds\ /\ 86400\ \ \#\ fractional\ days}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00300}\mbox{\hyperlink{namespaceutils_1_1general_a57948cbef4d0aa6614b1ff0f45943eec}{00300}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a57948cbef4d0aa6614b1ff0f45943eec}{file\_date}}(path=\_\_file\_\_):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00301}00301\ \ \ \ \ \textcolor{comment}{\#\ Return\ human-\/readable\ file\ modification\ date,\ i.e.\ '2021-\/3-\/26'}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00302}00302\ \ \ \ \ t\ =\ datetime.fromtimestamp(Path(path).stat().st\_mtime)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00303}00303\ \ \ \ \ \textcolor{keywordflow}{return}\ f\textcolor{stringliteral}{"{}\{t.year\}-\/\{t.month\}-\/\{t.day\}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00306}\mbox{\hyperlink{namespaceutils_1_1general_a45517afe8f04108cde57607d892277cd}{00306}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a45517afe8f04108cde57607d892277cd}{file\_size}}(path):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00307}00307\ \ \ \ \ \textcolor{comment}{\#\ Return\ file/dir\ size\ (MB)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00308}00308\ \ \ \ \ mb\ =\ 1\ <<\ 20\ \ \textcolor{comment}{\#\ bytes\ to\ MiB\ (1024\ **\ 2)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00309}00309\ \ \ \ \ path\ =\ Path(path)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00310}00310\ \ \ \ \ \textcolor{keywordflow}{if}\ path.is\_file():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path.stat().st\_size\ /\ mb}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00312}00312\ \ \ \ \ \textcolor{keywordflow}{elif}\ path.is\_dir():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sum(f.stat().st\_size\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ path.glob(\textcolor{stringliteral}{"{}**/*"{}})\ \textcolor{keywordflow}{if}\ f.is\_file())\ /\ mb}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00314}00314\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00318}\mbox{\hyperlink{namespaceutils_1_1general_a2b6a3b1ee129c4eb840039a0d8ac18a0}{00318}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a2b6a3b1ee129c4eb840039a0d8ac18a0}{check\_online}}():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00319}00319\ \ \ \ \ \textcolor{comment}{\#\ Check\ internet\ connectivity}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00320}00320\ \ \ \ \ \textcolor{keyword}{import}\ socket}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00321}00321\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00322}00322\ \ \ \ \ \textcolor{keyword}{def\ }run\_once():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ once}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ socket.create\_connection((\textcolor{stringliteral}{"{}1.1.1.1"{}},\ 443),\ 5)\ \ \textcolor{comment}{\#\ check\ host\ accessibility}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ OSError:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00330}00330\ \ \ \ \ \textcolor{keywordflow}{return}\ run\_once()\ \textcolor{keywordflow}{or}\ run\_once()\ \ \textcolor{comment}{\#\ check\ twice\ to\ increase\ robustness\ to\ intermittent\ connectivity\ issues}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00333}\mbox{\hyperlink{namespaceutils_1_1general_a414b6070ec357f3383e8cae05974e118}{00333}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a414b6070ec357f3383e8cae05974e118}{git\_describe}}(path=ROOT):\ \ \textcolor{comment}{\#\ path\ must\ be\ a\ directory}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00334}00334\ \ \ \ \ \textcolor{comment}{\#\ Return\ human-\/readable\ git\ description,\ i.e.\ v5.0-\/5-\/g3e25f1e\ https://git-\/scm.com/docs/git-\/describe}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00335}00335\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ (Path(path)\ /\ \textcolor{stringliteral}{"{}.git"{}}).is\_dir()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ check\_output(f\textcolor{stringliteral}{"{}git\ -\/C\ \{path\}\ describe\ -\/-\/tags\ -\/-\/long\ -\/-\/always"{}},\ shell=\textcolor{keyword}{True}).decode()[:-\/1]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00338}00338\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00342}00342\ \textcolor{preprocessor}{@TryExcept()}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00343}00343\ \textcolor{preprocessor}{@WorkingDirectory(ROOT)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00344}\mbox{\hyperlink{namespaceutils_1_1general_acf9c10591596684fbe875f4426a08adf}{00344}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_acf9c10591596684fbe875f4426a08adf}{check\_git\_status}}(repo="{}ultralytics/yolov5"{},\ branch="{}master"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00345}00345\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ status\ check,\ recommend\ 'git\ pull'\ if\ code\ is\ out\ of\ date}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00346}00346\ \ \ \ \ url\ =\ f\textcolor{stringliteral}{"{}https://github.com/\{repo\}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00347}00347\ \ \ \ \ msg\ =\ f\textcolor{stringliteral}{"{},\ for\ updates\ see\ \{url\}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00348}00348\ \ \ \ \ s\ =\ colorstr(\textcolor{stringliteral}{"{}github:\ "{}})\ \ \textcolor{comment}{\#\ string}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00349}00349\ \ \ \ \ \textcolor{keyword}{assert}\ Path(\textcolor{stringliteral}{"{}.git"{}}).exists(),\ s\ +\ \textcolor{stringliteral}{"{}skipping\ check\ (not\ a\ git\ repository)"{}}\ +\ msg}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00350}00350\ \ \ \ \ \textcolor{keyword}{assert}\ \mbox{\hyperlink{namespaceutils_1_1general_a2b6a3b1ee129c4eb840039a0d8ac18a0}{check\_online}}(),\ s\ +\ \textcolor{stringliteral}{"{}skipping\ check\ (offline)"{}}\ +\ msg}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00352}00352\ \ \ \ \ splits\ =\ re.split(pattern=\textcolor{stringliteral}{r"{}\(\backslash\)s"{}},\ string=check\_output(\textcolor{stringliteral}{"{}git\ remote\ -\/v"{}},\ shell=\textcolor{keyword}{True}).decode())}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00353}00353\ \ \ \ \ matches\ =\ [repo\ \textcolor{keywordflow}{in}\ s\ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ splits]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00354}00354\ \ \ \ \ \textcolor{keywordflow}{if}\ any(matches):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ remote\ =\ splits[matches.index(\textcolor{keyword}{True})\ -\/\ 1]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00356}00356\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ remote\ =\ \textcolor{stringliteral}{"{}ultralytics"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ check\_output(f\textcolor{stringliteral}{"{}git\ remote\ add\ \{remote\}\ \{url\}"{}},\ shell=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00359}00359\ \ \ \ \ check\_output(f\textcolor{stringliteral}{"{}git\ fetch\ \{remote\}"{}},\ shell=\textcolor{keyword}{True},\ timeout=5)\ \ \textcolor{comment}{\#\ git\ fetch}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00360}00360\ \ \ \ \ local\_branch\ =\ check\_output(\textcolor{stringliteral}{"{}git\ rev-\/parse\ -\/-\/abbrev-\/ref\ HEAD"{}},\ shell=\textcolor{keyword}{True}).decode().strip()\ \ \textcolor{comment}{\#\ checked\ out}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00361}00361\ \ \ \ \ n\ =\ int(check\_output(f\textcolor{stringliteral}{"{}git\ rev-\/list\ \{local\_branch\}..\{remote\}/\{branch\}\ -\/-\/count"{}},\ shell=\textcolor{keyword}{True}))\ \ \textcolor{comment}{\#\ commits\ behind}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00362}00362\ \ \ \ \ \textcolor{keywordflow}{if}\ n\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ pull\ =\ \textcolor{stringliteral}{"{}git\ pull"{}}\ \textcolor{keywordflow}{if}\ remote\ ==\ \textcolor{stringliteral}{"{}origin"{}}\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}git\ pull\ \{remote\}\ \{branch\}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ s\ +=\ f\textcolor{stringliteral}{"{}⚠️\ YOLOv5\ is\ out\ of\ date\ by\ \{n\}\ commit\{'s'\ *\ (n\ >\ 1)\}.\ Use\ '\{pull\}'\ or\ 'git\ clone\ \{url\}'\ to\ update."{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00365}00365\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ s\ +=\ f\textcolor{stringliteral}{"{}up\ to\ date\ with\ \{url\}\ ✅"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00367}00367\ \ \ \ \ LOGGER.info(s)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00369}00369\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00370}00370\ \textcolor{preprocessor}{@WorkingDirectory(ROOT)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00371}\mbox{\hyperlink{namespaceutils_1_1general_ad1175f111ef9e17f6968ce9096617cfc}{00371}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ad1175f111ef9e17f6968ce9096617cfc}{check\_git\_info}}(path="{}."{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00372}00372\ \ \ \ \ \textcolor{comment}{\#\ YOLOv5\ git\ info\ check,\ return\ \{remote,\ branch,\ commit\}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00373}00373\ \ \ \ \ check\_requirements(\textcolor{stringliteral}{"{}gitpython"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00374}00374\ \ \ \ \ \textcolor{keyword}{import}\ git}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00376}00376\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ repo\ =\ git.Repo(path)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ remote\ =\ repo.remotes.origin.url.replace(\textcolor{stringliteral}{"{}.git"{}},\ \textcolor{stringliteral}{"{}"{}})\ \ \textcolor{comment}{\#\ i.e.\ 'https://github.com/ultralytics/yolov5'}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ commit\ =\ repo.head.commit.hexsha\ \ \textcolor{comment}{\#\ i.e.\ '3134699c73af83aac2a481435550b968d5792c0d'}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ branch\ =\ repo.active\_branch.name\ \ \textcolor{comment}{\#\ i.e.\ 'main'}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ TypeError:\ \ \textcolor{comment}{\#\ not\ on\ any\ branch}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ branch\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ i.e.\ 'detached\ HEAD'\ state}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}remote"{}}:\ remote,\ \textcolor{stringliteral}{"{}branch"{}}:\ branch,\ \textcolor{stringliteral}{"{}commit"{}}:\ commit\}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00385}00385\ \ \ \ \ \textcolor{keywordflow}{except}\ git.exc.InvalidGitRepositoryError:\ \ \textcolor{comment}{\#\ path\ is\ not\ a\ git\ dir}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}remote"{}}:\ \textcolor{keywordtype}{None},\ \textcolor{stringliteral}{"{}branch"{}}:\ \textcolor{keywordtype}{None},\ \textcolor{stringliteral}{"{}commit"{}}:\ \textcolor{keywordtype}{None}\}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00389}\mbox{\hyperlink{namespaceutils_1_1general_a046e65509b610b973635812489e4c833}{00389}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a046e65509b610b973635812489e4c833}{check\_python}}(minimum="{}3.8.0"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00390}00390\ \ \ \ \ \textcolor{comment}{\#\ Check\ current\ python\ version\ vs.\ required\ python\ version}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00391}00391\ \ \ \ \ check\_version(platform.python\_version(),\ minimum,\ name=\textcolor{stringliteral}{"{}Python\ "{}},\ hard=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00393}00393\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00394}\mbox{\hyperlink{namespaceutils_1_1general_a1bc8d7cf0287a572f9408e052d43ca03}{00394}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a1bc8d7cf0287a572f9408e052d43ca03}{check\_version}}(current="{}0.0.0"{},\ minimum="{}0.0.0"{},\ name="{}version\ "{},\ pinned=False,\ hard=False,\ verbose=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00395}00395\ \ \ \ \ \textcolor{comment}{\#\ Check\ version\ vs.\ required\ version}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00396}00396\ \ \ \ \ current,\ minimum\ =\ (pkg.parse\_version(x)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (current,\ minimum))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00397}00397\ \ \ \ \ result\ =\ (current\ ==\ minimum)\ \textcolor{keywordflow}{if}\ pinned\ \textcolor{keywordflow}{else}\ (current\ >=\ minimum)\ \ \textcolor{comment}{\#\ bool}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00398}00398\ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ \{name\}\{minimum\}\ is\ required\ by\ YOLOv5,\ but\ \{name\}\{current\}\ is\ currently\ installed"{}}\ \ \textcolor{comment}{\#\ string}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00399}00399\ \ \ \ \ \textcolor{keywordflow}{if}\ hard:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ result,\ emojis(s)\ \ \textcolor{comment}{\#\ assert\ min\ requirements\ met}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00401}00401\ \ \ \ \ \textcolor{keywordflow}{if}\ verbose\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ result:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ LOGGER.warning(s)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00403}00403\ \ \ \ \ \textcolor{keywordflow}{return}\ result}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00404}00404\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00405}00405\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00406}\mbox{\hyperlink{namespaceutils_1_1general_a8cd76a8596227a14f0ee9cdf255eda65}{00406}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a8cd76a8596227a14f0ee9cdf255eda65}{check\_img\_size}}(imgsz,\ s=32,\ floor=0):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00407}00407\ \ \ \ \ \textcolor{comment}{\#\ Verify\ image\ size\ is\ a\ multiple\ of\ stride\ s\ in\ each\ dimension}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00408}00408\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(imgsz,\ int):\ \ \textcolor{comment}{\#\ integer\ i.e.\ img\_size=640}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ new\_size\ =\ max(make\_divisible(imgsz,\ int(s)),\ floor)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00410}00410\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ list\ i.e.\ img\_size=[640,\ 480]}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ imgsz\ =\ list(imgsz)\ \ \textcolor{comment}{\#\ convert\ to\ list\ if\ tuple}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ new\_size\ =\ [max(make\_divisible(x,\ int(s)),\ floor)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ imgsz]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00413}00413\ \ \ \ \ \textcolor{keywordflow}{if}\ new\_size\ !=\ imgsz:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ -\/-\/img-\/size\ \{imgsz\}\ must\ be\ multiple\ of\ max\ stride\ \{s\},\ updating\ to\ \{new\_size\}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00415}00415\ \ \ \ \ \textcolor{keywordflow}{return}\ new\_size}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00418}\mbox{\hyperlink{namespaceutils_1_1general_aa885dc4380971da983a656f51cdec0bc}{00418}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_aa885dc4380971da983a656f51cdec0bc}{check\_imshow}}(warn=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00419}00419\ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ environment\ supports\ image\ displays}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00420}00420\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ is\_jupyter()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ \mbox{\hyperlink{namespaceutils_1_1general_abe4792dc89d09f46071a461a3402da9d}{is\_docker}}()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ cv2.imshow(\textcolor{stringliteral}{"{}test"{}},\ np.zeros((1,\ 1,\ 3)))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ cv2.waitKey(1)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ cv2.destroyAllWindows()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ cv2.waitKey(1)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00428}00428\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ warn:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ Environment\ does\ not\ support\ cv2.imshow()\ or\ PIL\ Image.show()\(\backslash\)n\{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00432}00432\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00433}00433\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00434}\mbox{\hyperlink{namespaceutils_1_1general_ab9e551c414716cf64ec3e98ac41f7043}{00434}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ab9e551c414716cf64ec3e98ac41f7043}{check\_suffix}}(file="{}yolov5s.pt"{},\ suffix=(\textcolor{stringliteral}{"{}.pt"{}},),\ msg=\textcolor{stringliteral}{"{}"{}}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00435}00435\ \ \ \ \ \textcolor{comment}{\#\ Check\ file(s)\ for\ acceptable\ suffix}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00436}00436\ \ \ \ \ \textcolor{keywordflow}{if}\ file\ \textcolor{keywordflow}{and}\ suffix:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(suffix,\ str):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ suffix\ =\ [suffix]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ file\ \textcolor{keywordflow}{if}\ isinstance(file,\ (list,\ tuple))\ \textcolor{keywordflow}{else}\ [file]:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ Path(f).suffix.lower()\ \ \textcolor{comment}{\#\ file\ suffix}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(s):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ s\ \textcolor{keywordflow}{in}\ suffix,\ f\textcolor{stringliteral}{"{}\{msg\}\{f\}\ acceptable\ suffix\ is\ \{suffix\}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00443}00443\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00444}00444\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00445}\mbox{\hyperlink{namespaceutils_1_1general_a2c071ec254484cdefebb9c3f00b68cee}{00445}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a2c071ec254484cdefebb9c3f00b68cee}{check\_yaml}}(file,\ suffix=(\textcolor{stringliteral}{"{}.yaml"{}},\ \textcolor{stringliteral}{"{}.yml"{}})):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00446}00446\ \ \ \ \ \textcolor{comment}{\#\ Search/download\ YAML\ file\ (if\ necessary)\ and\ return\ path,\ checking\ suffix}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00447}00447\ \ \ \ \ \textcolor{keywordflow}{return}\ check\_file(file,\ suffix)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00450}\mbox{\hyperlink{namespaceutils_1_1general_a42fc3c2d8cde1324d0b40e1010bf172a}{00450}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a42fc3c2d8cde1324d0b40e1010bf172a}{check\_file}}(file,\ suffix="{}"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00451}00451\ \ \ \ \ \textcolor{comment}{\#\ Search/download\ file\ (if\ necessary)\ and\ return\ path}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00452}00452\ \ \ \ \ check\_suffix(file,\ suffix)\ \ \textcolor{comment}{\#\ optional}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00453}00453\ \ \ \ \ file\ =\ str(file)\ \ \textcolor{comment}{\#\ convert\ to\ str()}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00454}00454\ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.isfile(file)\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ file:\ \ \textcolor{comment}{\#\ exists}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00456}00456\ \ \ \ \ \textcolor{keywordflow}{elif}\ file.startswith((\textcolor{stringliteral}{"{}http:/"{}},\ \textcolor{stringliteral}{"{}https:/"{}})):\ \ \textcolor{comment}{\#\ download}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ url\ =\ file\ \ \textcolor{comment}{\#\ warning:\ Pathlib\ turns\ ://\ -\/>\ :/}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ file\ =\ Path(urllib.parse.unquote(file).split(\textcolor{stringliteral}{"{}?"{}})[0]).name\ \ \textcolor{comment}{\#\ '\%2F'\ to\ '/',\ split\ https://url.com/file.txt?auth}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.isfile(file):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Found\ \{url\}\ locally\ at\ \{file\}"{}})\ \ \textcolor{comment}{\#\ file\ already\ exists}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Downloading\ \{url\}\ to\ \{file\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ torch.hub.download\_url\_to\_file(url,\ file)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ Path(file).exists()\ \textcolor{keywordflow}{and}\ Path(file).stat().st\_size\ >\ 0,\ f\textcolor{stringliteral}{"{}File\ download\ failed:\ \{url\}"{}}\ \ \textcolor{comment}{\#\ check}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00466}00466\ \ \ \ \ \textcolor{keywordflow}{elif}\ file.startswith(\textcolor{stringliteral}{"{}clearml://"{}}):\ \ \textcolor{comment}{\#\ ClearML\ Dataset\ ID}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ (}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}clearml"{}}\ \textcolor{keywordflow}{in}\ sys.modules}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ ),\ \textcolor{stringliteral}{"{}ClearML\ is\ not\ installed,\ so\ cannot\ use\ ClearML\ dataset.\ Try\ running\ 'pip\ install\ clearml'."{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00471}00471\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ search}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ files\ =\ []}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ d\ \textcolor{keywordflow}{in}\ \textcolor{stringliteral}{"{}data"{}},\ \textcolor{stringliteral}{"{}models"{}},\ \textcolor{stringliteral}{"{}utils"{}}:\ \ \textcolor{comment}{\#\ search\ directories}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ files.extend(glob.glob(str(ROOT\ /\ d\ /\ \textcolor{stringliteral}{"{}**"{}}\ /\ file),\ recursive=\textcolor{keyword}{True}))\ \ \textcolor{comment}{\#\ find\ file}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ len(files),\ f\textcolor{stringliteral}{"{}File\ not\ found:\ \{file\}"{}}\ \ \textcolor{comment}{\#\ assert\ file\ was\ found}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ len(files)\ ==\ 1,\ f\textcolor{stringliteral}{"{}Multiple\ files\ match\ '\{file\}',\ specify\ exact\ path:\ \{files\}"{}}\ \ \textcolor{comment}{\#\ assert\ unique}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ files[0]\ \ \textcolor{comment}{\#\ return\ file}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00478}00478\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00479}00479\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00480}\mbox{\hyperlink{namespaceutils_1_1general_af2a61fcb252e45f54ebf1838bae695ae}{00480}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_af2a61fcb252e45f54ebf1838bae695ae}{check\_font}}(font=FONT,\ progress=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00481}00481\ \ \ \ \ \textcolor{comment}{\#\ Download\ font\ to\ CONFIG\_DIR\ if\ necessary}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00482}00482\ \ \ \ \ font\ =\ Path(font)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00483}00483\ \ \ \ \ file\ =\ CONFIG\_DIR\ /\ font.name}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00484}00484\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ font.exists()\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ file.exists():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ url\ =\ f\textcolor{stringliteral}{"{}https://ultralytics.com/assets/\{font.name\}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Downloading\ \{url\}\ to\ \{file\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ torch.hub.download\_url\_to\_file(url,\ str(file),\ progress=progress)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00489}00489\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00490}\mbox{\hyperlink{namespaceutils_1_1general_a7bf83cec1d02d2a7c04d7f2cee0f475b}{00490}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a7bf83cec1d02d2a7c04d7f2cee0f475b}{check\_dataset}}(data,\ autodownload=True):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00491}00491\ \ \ \ \ \textcolor{comment}{\#\ Download,\ check\ and/or\ unzip\ dataset\ if\ not\ found\ locally}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00492}00492\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00493}00493\ \ \ \ \ \textcolor{comment}{\#\ Download\ (optional)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00494}00494\ \ \ \ \ extract\_dir\ =\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00495}00495\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data,\ (str,\ Path))\ \textcolor{keywordflow}{and}\ (is\_zipfile(data)\ \textcolor{keywordflow}{or}\ is\_tarfile(data)):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ download(data,\ dir=f\textcolor{stringliteral}{"{}\{DATASETS\_DIR\}/\{Path(data).stem\}"{}},\ unzip=\textcolor{keyword}{True},\ delete=\textcolor{keyword}{False},\ curl=\textcolor{keyword}{False},\ threads=1)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ data\ =\ next((DATASETS\_DIR\ /\ Path(data).stem).rglob(\textcolor{stringliteral}{"{}*.yaml"{}}))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ extract\_dir,\ autodownload\ =\ data.parent,\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00500}00500\ \ \ \ \ \textcolor{comment}{\#\ Read\ yaml\ (optional)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data,\ (str,\ Path)):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ data\ =\ yaml\_load(data)\ \ \textcolor{comment}{\#\ dictionary}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00504}00504\ \ \ \ \ \textcolor{comment}{\#\ Checks}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00505}00505\ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ \textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}val"{}},\ \textcolor{stringliteral}{"{}names"{}}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ k\ \textcolor{keywordflow}{in}\ data,\ emojis(f\textcolor{stringliteral}{"{}data.yaml\ '\{k\}:'\ field\ missing\ ❌"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00507}00507\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data[\textcolor{stringliteral}{"{}names"{}}],\ (list,\ tuple)):\ \ \textcolor{comment}{\#\ old\ array\ format}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ data[\textcolor{stringliteral}{"{}names"{}}]\ =\ dict(enumerate(data[\textcolor{stringliteral}{"{}names"{}}]))\ \ \textcolor{comment}{\#\ convert\ to\ dict}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00509}00509\ \ \ \ \ \textcolor{keyword}{assert}\ all(isinstance(k,\ int)\ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ data[\textcolor{stringliteral}{"{}names"{}}].keys()),\ \textcolor{stringliteral}{"{}data.yaml\ names\ keys\ must\ be\ integers,\ i.e.\ 2:\ car"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00510}00510\ \ \ \ \ data[\textcolor{stringliteral}{"{}nc"{}}]\ =\ len(data[\textcolor{stringliteral}{"{}names"{}}])}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00511}00511\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00512}00512\ \ \ \ \ \textcolor{comment}{\#\ Resolve\ paths}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00513}00513\ \ \ \ \ path\ =\ Path(extract\_dir\ \textcolor{keywordflow}{or}\ data.get(\textcolor{stringliteral}{"{}path"{}})\ \textcolor{keywordflow}{or}\ \textcolor{stringliteral}{"{}"{}})\ \ \textcolor{comment}{\#\ optional\ 'path'\ default\ to\ '.'}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00514}00514\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ path.is\_absolute():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ path\ =\ (ROOT\ /\ path).resolve()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ data[\textcolor{stringliteral}{"{}path"{}}]\ =\ path\ \ \textcolor{comment}{\#\ download\ scripts}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00517}00517\ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ \textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}val"{}},\ \textcolor{stringliteral}{"{}test"{}}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ data.get(k):\ \ \textcolor{comment}{\#\ prepend\ path}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data[k],\ str):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ (path\ /\ data[k]).resolve()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ x.exists()\ \textcolor{keywordflow}{and}\ data[k].startswith(\textcolor{stringliteral}{"{}../"{}}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ (path\ /\ data[k][3:]).resolve()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data[k]\ =\ str(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data[k]\ =\ [str((path\ /\ x).resolve())\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ data[k]]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00526}00526\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00527}00527\ \ \ \ \ \textcolor{comment}{\#\ Parse\ yaml}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00528}00528\ \ \ \ \ train,\ val,\ test,\ s\ =\ (data.get(x)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (\textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}val"{}},\ \textcolor{stringliteral}{"{}test"{}},\ \textcolor{stringliteral}{"{}download"{}}))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00529}00529\ \ \ \ \ \textcolor{keywordflow}{if}\ val:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ val\ =\ [Path(x).resolve()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (val\ \textcolor{keywordflow}{if}\ isinstance(val,\ list)\ \textcolor{keywordflow}{else}\ [val])]\ \ \textcolor{comment}{\#\ val\ path}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ all(x.exists()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ val):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(\textcolor{stringliteral}{"{}\(\backslash\)nDataset\ not\ found\ ⚠️,\ missing\ paths\ \%s"{}}\ \%\ [str(x)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ val\ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ x.exists()])}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ s\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ autodownload:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ Exception(\textcolor{stringliteral}{"{}Dataset\ not\ found\ ❌"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ s.startswith(\textcolor{stringliteral}{"{}http"{}})\ \textcolor{keywordflow}{and}\ s.endswith(\textcolor{stringliteral}{"{}.zip"{}}):\ \ \textcolor{comment}{\#\ URL}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\ =\ Path(s).name\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Downloading\ \{s\}\ to\ \{f\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ torch.hub.download\_url\_to\_file(s,\ f)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Path(DATASETS\_DIR).mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ create\ root}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unzip\_file(f,\ path=DATASETS\_DIR)\ \ \textcolor{comment}{\#\ unzip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Path(f).unlink()\ \ \textcolor{comment}{\#\ remove\ zip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ r\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ success}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ s.startswith(\textcolor{stringliteral}{"{}bash\ "{}}):\ \ \textcolor{comment}{\#\ bash\ script}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Running\ \{s\}\ ..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ r\ =\ subprocess.run(s,\ shell=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ python\ script}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ r\ =\ exec(s,\ \{\textcolor{stringliteral}{"{}yaml"{}}:\ data\})\ \ \textcolor{comment}{\#\ return\ None}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ dt\ =\ f\textcolor{stringliteral}{"{}(\{round(time.time()\ -\/\ t,\ 1)\}s)"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}success\ ✅\ \{dt\},\ saved\ to\ \{colorstr('bold',\ DATASETS\_DIR)\}"{}}\ \textcolor{keywordflow}{if}\ r\ \textcolor{keywordflow}{in}\ (0,\ \textcolor{keywordtype}{None})\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}failure\ \{dt\}\ ❌"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Dataset\ download\ \{s\}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00552}00552\ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1general_af2a61fcb252e45f54ebf1838bae695ae}{check\_font}}(\textcolor{stringliteral}{"{}Arial.ttf"{}}\ \textcolor{keywordflow}{if}\ \mbox{\hyperlink{namespaceutils_1_1general_af8705dd37ad75b3447117c85927c0e49}{is\_ascii}}(data[\textcolor{stringliteral}{"{}names"{}}])\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}Arial.Unicode.ttf"{}},\ progress=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ download\ fonts}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00553}00553\ \ \ \ \ \textcolor{keywordflow}{return}\ data\ \ \textcolor{comment}{\#\ dictionary}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00554}00554\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00555}00555\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00556}\mbox{\hyperlink{namespaceutils_1_1general_a30b86df409ad3d45d915260397a90976}{00556}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a30b86df409ad3d45d915260397a90976}{check\_amp}}(model):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00557}00557\ \ \ \ \ \textcolor{comment}{\#\ Check\ PyTorch\ Automatic\ Mixed\ Precision\ (AMP)\ functionality.\ Return\ True\ on\ correct\ operation}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00558}00558\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1common}{models.common}}\ \textcolor{keyword}{import}\ AutoShape,\ DetectMultiBackend}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00559}00559\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00560}00560\ \ \ \ \ \textcolor{keyword}{def\ }amp\_allclose(model,\ im):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ All\ close\ FP32\ vs\ AMP\ results}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ m\ =\ AutoShape(model,\ verbose=\textcolor{keyword}{False})\ \ \textcolor{comment}{\#\ model}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ a\ =\ m(im).xywhn[0]\ \ \textcolor{comment}{\#\ FP32\ inference}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ m.amp\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ b\ =\ m(im).xywhn[0]\ \ \textcolor{comment}{\#\ AMP\ inference}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.shape\ ==\ b.shape\ \textcolor{keywordflow}{and}\ torch.allclose(a,\ b,\ atol=0.1)\ \ \textcolor{comment}{\#\ close\ to\ 10\%\ absolute\ tolerance}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00567}00567\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00568}00568\ \ \ \ \ prefix\ =\ colorstr(\textcolor{stringliteral}{"{}AMP:\ "{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00569}00569\ \ \ \ \ device\ =\ next(model.parameters()).device\ \ \textcolor{comment}{\#\ get\ model\ device}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00570}00570\ \ \ \ \ \textcolor{keywordflow}{if}\ device.type\ \textcolor{keywordflow}{in}\ (\textcolor{stringliteral}{"{}cpu"{}},\ \textcolor{stringliteral}{"{}mps"{}}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ AMP\ only\ used\ on\ CUDA\ devices}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00572}00572\ \ \ \ \ f\ =\ ROOT\ /\ \textcolor{stringliteral}{"{}data"{}}\ /\ \textcolor{stringliteral}{"{}images"{}}\ /\ \textcolor{stringliteral}{"{}bus.jpg"{}}\ \ \textcolor{comment}{\#\ image\ to\ check}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00573}00573\ \ \ \ \ im\ =\ f\ \textcolor{keywordflow}{if}\ f.exists()\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}https://ultralytics.com/images/bus.jpg"{}}\ \textcolor{keywordflow}{if}\ \mbox{\hyperlink{namespaceutils_1_1general_a2b6a3b1ee129c4eb840039a0d8ac18a0}{check\_online}}()\ \textcolor{keywordflow}{else}\ np.ones((640,\ 640,\ 3))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00574}00574\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ amp\_allclose(deepcopy(model),\ im)\ \textcolor{keywordflow}{or}\ amp\_allclose(DetectMultiBackend(\textcolor{stringliteral}{"{}yolov5n.pt"{}},\ device),\ im)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{prefix\}checks\ passed\ ✅"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00578}00578\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ help\_url\ =\ \textcolor{stringliteral}{"{}https://github.com/ultralytics/yolov5/issues/7908"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00580}00580\ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}\{prefix\}checks\ failed\ ❌,\ disabling\ Automatic\ Mixed\ Precision.\ See\ \{help\_url\}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00582}00582\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00583}00583\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00584}\mbox{\hyperlink{namespaceutils_1_1general_ad06fc0da1ec202c6825078142c3aeec3}{00584}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ad06fc0da1ec202c6825078142c3aeec3}{yaml\_load}}(file="{}data.yaml"{}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00585}00585\ \ \ \ \ \textcolor{comment}{\#\ Single-\/line\ safe\ yaml\ loading}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00586}00586\ \ \ \ \ \textcolor{keyword}{with}\ open(file,\ errors=\textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ yaml.safe\_load(f)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00588}00588\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00590}\mbox{\hyperlink{namespaceutils_1_1general_ace7b8408ea7fa36590d1aeed2ed23676}{00590}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ace7b8408ea7fa36590d1aeed2ed23676}{yaml\_save}}(file="{}data.yaml"{},\ data=\{\}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00591}00591\ \ \ \ \ \textcolor{comment}{\#\ Single-\/line\ safe\ yaml\ saving}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00592}00592\ \ \ \ \ \textcolor{keyword}{with}\ open(file,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00593}00593\ \ \ \ \ \ \ \ \ yaml.safe\_dump(\{k:\ str(v)\ \textcolor{keywordflow}{if}\ isinstance(v,\ Path)\ \textcolor{keywordflow}{else}\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ data.items()\},\ f,\ sort\_keys=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00594}00594\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00596}\mbox{\hyperlink{namespaceutils_1_1general_a542fdf21f672aa23064bde606e4f67eb}{00596}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a542fdf21f672aa23064bde606e4f67eb}{unzip\_file}}(file,\ path=None,\ exclude=(\textcolor{stringliteral}{"{}.DS\_Store"{}},\ \textcolor{stringliteral}{"{}\_\_MACOSX"{}})):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00597}00597\ \ \ \ \ \textcolor{comment}{\#\ Unzip\ a\ *.zip\ file\ to\ path/,\ excluding\ files\ containing\ strings\ in\ exclude\ list}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00598}00598\ \ \ \ \ \textcolor{keywordflow}{if}\ path\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ path\ =\ Path(file).parent\ \ \textcolor{comment}{\#\ default\ path}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00600}00600\ \ \ \ \ \textcolor{keyword}{with}\ ZipFile(file)\ \textcolor{keyword}{as}\ zipObj:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ zipObj.namelist():\ \ \textcolor{comment}{\#\ list\ all\ archived\ filenames\ in\ the\ zip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ all(x\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ f\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ exclude):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ zipObj.extract(f,\ path=path)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00604}00604\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00605}00605\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00606}\mbox{\hyperlink{namespaceutils_1_1general_a7f5940b5986303cefa3ab78354957006}{00606}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a7f5940b5986303cefa3ab78354957006}{url2file}}(url):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00607}00607\ \ \ \ \ \textcolor{comment}{\#\ Convert\ URL\ to\ filename,\ i.e.\ https://url.com/file.txt?auth\ -\/>\ file.txt}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00608}00608\ \ \ \ \ url\ =\ str(Path(url)).replace(\textcolor{stringliteral}{"{}:/"{}},\ \textcolor{stringliteral}{"{}://"{}})\ \ \textcolor{comment}{\#\ Pathlib\ turns\ ://\ -\/>\ :/}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00609}00609\ \ \ \ \ \textcolor{keywordflow}{return}\ Path(urllib.parse.unquote(url)).name.split(\textcolor{stringliteral}{"{}?"{}})[0]\ \ \textcolor{comment}{\#\ '\%2F'\ to\ '/',\ split\ https://url.com/file.txt?auth}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00610}00610\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00612}\mbox{\hyperlink{namespaceutils_1_1general_ad9470acd0f3c5efef4dd7cf5cb80a76b}{00612}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ad9470acd0f3c5efef4dd7cf5cb80a76b}{download}}(url,\ dir="{}."{},\ unzip=True,\ delete=True,\ curl=False,\ threads=1,\ retry=3):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00613}00613\ \ \ \ \ \textcolor{comment}{\#\ Multithreaded\ file\ download\ and\ unzip\ function,\ used\ in\ data.yaml\ for\ autodownload}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00614}00614\ \ \ \ \ \textcolor{keyword}{def\ }download\_one(url,\ dir):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00615}00615\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Download\ 1\ file}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00616}00616\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00617}00617\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.isfile(url):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00618}00618\ \ \ \ \ \ \ \ \ \ \ \ \ f\ =\ Path(url)\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ does\ not\ exist}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00620}00620\ \ \ \ \ \ \ \ \ \ \ \ \ f\ =\ dir\ /\ Path(url).name}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Downloading\ \{url\}\ to\ \{f\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(retry\ +\ 1):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ curl:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ curl\_download(url,\ f,\ silent=(threads\ >\ 1))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00625}00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00626}00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ torch.hub.download\_url\_to\_file(url,\ f,\ progress=threads\ ==\ 1)\ \ \textcolor{comment}{\#\ torch\ download}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00627}00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ f.is\_file()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ success:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00630}00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ i\ <\ retry:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}⚠️\ Download\ failure,\ retrying\ \{i\ +\ 1\}/\{retry\}\ \{url\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00633}00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}❌\ Failed\ to\ download\ \{url\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00634}00634\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00635}00635\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ unzip\ \textcolor{keywordflow}{and}\ success\ \textcolor{keywordflow}{and}\ (f.suffix\ ==\ \textcolor{stringliteral}{"{}.gz"{}}\ \textcolor{keywordflow}{or}\ is\_zipfile(f)\ \textcolor{keywordflow}{or}\ is\_tarfile(f)):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00636}00636\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Unzipping\ \{f\}..."{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00637}00637\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ is\_zipfile(f):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unzip\_file(f,\ dir)\ \ \textcolor{comment}{\#\ unzip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00639}00639\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ is\_tarfile(f):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00640}00640\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run([\textcolor{stringliteral}{"{}tar"{}},\ \textcolor{stringliteral}{"{}xf"{}},\ f,\ \textcolor{stringliteral}{"{}-\/-\/directory"{}},\ f.parent],\ check=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ unzip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00641}00641\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ f.suffix\ ==\ \textcolor{stringliteral}{"{}.gz"{}}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00642}00642\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run([\textcolor{stringliteral}{"{}tar"{}},\ \textcolor{stringliteral}{"{}xfz"{}},\ f,\ \textcolor{stringliteral}{"{}-\/-\/directory"{}},\ f.parent],\ check=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ unzip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ delete:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00644}00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f.unlink()\ \ \textcolor{comment}{\#\ remove\ zip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00645}00645\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00646}00646\ \ \ \ \ dir\ =\ Path(dir)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00647}00647\ \ \ \ \ dir.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ directory}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00648}00648\ \ \ \ \ \textcolor{keywordflow}{if}\ threads\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00649}00649\ \ \ \ \ \ \ \ \ pool\ =\ ThreadPool(threads)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00650}00650\ \ \ \ \ \ \ \ \ pool.imap(\textcolor{keyword}{lambda}\ x:\ download\_one(*x),\ zip(url,\ repeat(dir)))\ \ \textcolor{comment}{\#\ multithreaded}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00651}00651\ \ \ \ \ \ \ \ \ pool.close()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00652}00652\ \ \ \ \ \ \ \ \ pool.join()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00653}00653\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00654}00654\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ u\ \textcolor{keywordflow}{in}\ [url]\ \textcolor{keywordflow}{if}\ isinstance(url,\ (str,\ Path))\ \textcolor{keywordflow}{else}\ url:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00655}00655\ \ \ \ \ \ \ \ \ \ \ \ \ download\_one(u,\ dir)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00656}00656\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00657}00657\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00658}\mbox{\hyperlink{namespaceutils_1_1general_a2ba872c7dcae7428769890f8f7d38e5d}{00658}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a2ba872c7dcae7428769890f8f7d38e5d}{make\_divisible}}(x,\ divisor):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00659}00659\ \ \ \ \ \textcolor{comment}{\#\ Returns\ nearest\ x\ divisible\ by\ divisor}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00660}00660\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(divisor,\ torch.Tensor):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00661}00661\ \ \ \ \ \ \ \ \ divisor\ =\ int(divisor.max())\ \ \textcolor{comment}{\#\ to\ int}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00662}00662\ \ \ \ \ \textcolor{keywordflow}{return}\ math.ceil(x\ /\ divisor)\ *\ divisor}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00663}00663\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00664}00664\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00665}\mbox{\hyperlink{namespaceutils_1_1general_afe42078754bce268a33ccd1c04ecdcd3}{00665}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_afe42078754bce268a33ccd1c04ecdcd3}{clean\_str}}(s):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00666}00666\ \ \ \ \ \textcolor{comment}{\#\ Cleans\ a\ string\ by\ replacing\ special\ characters\ with\ underscore\ \_}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00667}00667\ \ \ \ \ \textcolor{keywordflow}{return}\ re.sub(pattern=\textcolor{stringliteral}{"{}[|@\#!¡·\$€\%\&()=?¿\string^*;:,¨´><+]"{}},\ repl=\textcolor{stringliteral}{"{}\_"{}},\ string=s)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00668}00668\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00669}00669\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00670}\mbox{\hyperlink{namespaceutils_1_1general_a8e895d7e22999f4ae7a4577d1174e261}{00670}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a8e895d7e22999f4ae7a4577d1174e261}{one\_cycle}}(y1=0.0,\ y2=1.0,\ steps=100):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00671}00671\ \ \ \ \ \textcolor{comment}{\#\ lambda\ function\ for\ sinusoidal\ ramp\ from\ y1\ to\ y2\ https://arxiv.org/pdf/1812.01187.pdf}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00672}00672\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{lambda}\ x:\ ((1\ -\/\ math.cos(x\ *\ math.pi\ /\ steps))\ /\ 2)\ *\ (y2\ -\/\ y1)\ +\ y1}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00673}00673\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00674}00674\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00675}\mbox{\hyperlink{namespaceutils_1_1general_ac6b7ca7fa7f01c37d50de777ece2c1df}{00675}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ac6b7ca7fa7f01c37d50de777ece2c1df}{colorstr}}(*input):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00676}00676\ \ \ \ \ \textcolor{comment}{\#\ Colors\ a\ string\ https://en.wikipedia.org/wiki/ANSI\_escape\_code,\ i.e.\ \ colorstr('blue',\ 'hello\ world')}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00677}00677\ \ \ \ \ *args,\ string\ =\ input\ \textcolor{keywordflow}{if}\ len(input)\ >\ 1\ \textcolor{keywordflow}{else}\ (\textcolor{stringliteral}{"{}blue"{}},\ \textcolor{stringliteral}{"{}bold"{}},\ input[0])\ \ \textcolor{comment}{\#\ color\ arguments,\ string}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00678}00678\ \ \ \ \ colors\ =\ \{}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00679}00679\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}black"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[30m"{}},\ \ \textcolor{comment}{\#\ basic\ colors}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00680}00680\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}red"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[31m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00681}00681\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}green"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[32m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00682}00682\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}yellow"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[33m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00683}00683\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}blue"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[34m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00684}00684\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}magenta"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[35m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00685}00685\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cyan"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[36m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00686}00686\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}white"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[37m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00687}00687\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_black"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[90m"{}},\ \ \textcolor{comment}{\#\ bright\ colors}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00688}00688\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_red"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[91m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00689}00689\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_green"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[92m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00690}00690\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_yellow"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[93m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00691}00691\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_blue"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[94m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00692}00692\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_magenta"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[95m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00693}00693\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_cyan"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[96m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00694}00694\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bright\_white"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[97m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00695}00695\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}end"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[0m"{}},\ \ \textcolor{comment}{\#\ misc}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00696}00696\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bold"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[1m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00697}00697\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}underline"{}}:\ \textcolor{stringliteral}{"{}\(\backslash\)033[4m"{}},}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00698}00698\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00699}00699\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}}.join(colors[x]\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ args)\ +\ f\textcolor{stringliteral}{"{}\{string\}"{}}\ +\ colors[\textcolor{stringliteral}{"{}end"{}}]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00700}00700\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00701}00701\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00702}\mbox{\hyperlink{namespaceutils_1_1general_ac88756120b16a78328ce3756cc0e0254}{00702}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ac88756120b16a78328ce3756cc0e0254}{labels\_to\_class\_weights}}(labels,\ nc=80):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00703}00703\ \ \ \ \ \textcolor{comment}{\#\ Get\ class\ weights\ (inverse\ frequency)\ from\ training\ labels}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00704}00704\ \ \ \ \ \textcolor{keywordflow}{if}\ labels[0]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:\ \ \textcolor{comment}{\#\ no\ labels\ loaded}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00705}00705\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ torch.Tensor()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00706}00706\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00707}00707\ \ \ \ \ labels\ =\ np.concatenate(labels,\ 0)\ \ \textcolor{comment}{\#\ labels.shape\ =\ (866643,\ 5)\ for\ COCO}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00708}00708\ \ \ \ \ classes\ =\ labels[:,\ 0].astype(int)\ \ \textcolor{comment}{\#\ labels\ =\ [class\ xywh]}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00709}00709\ \ \ \ \ weights\ =\ np.bincount(classes,\ minlength=nc)\ \ \textcolor{comment}{\#\ occurrences\ per\ class}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00710}00710\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00711}00711\ \ \ \ \ \textcolor{comment}{\#\ Prepend\ gridpoint\ count\ (for\ uCE\ training)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00712}00712\ \ \ \ \ \textcolor{comment}{\#\ gpi\ =\ ((320\ /\ 32\ *\ np.array([1,\ 2,\ 4]))\ **\ 2\ *\ 3).sum()\ \ \#\ gridpoints\ per\ image}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00713}00713\ \ \ \ \ \textcolor{comment}{\#\ weights\ =\ np.hstack([gpi\ *\ len(labels)\ \ -\/\ weights.sum()\ *\ 9,\ weights\ *\ 9])\ **\ 0.5\ \ \#\ prepend\ gridpoints\ to\ start}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00714}00714\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00715}00715\ \ \ \ \ weights[weights\ ==\ 0]\ =\ 1\ \ \textcolor{comment}{\#\ replace\ empty\ bins\ with\ 1}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00716}00716\ \ \ \ \ weights\ =\ 1\ /\ weights\ \ \textcolor{comment}{\#\ number\ of\ targets\ per\ class}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00717}00717\ \ \ \ \ weights\ /=\ weights.sum()\ \ \textcolor{comment}{\#\ normalize}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00718}00718\ \ \ \ \ \textcolor{keywordflow}{return}\ torch.from\_numpy(weights).float()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00719}00719\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00720}00720\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00721}\mbox{\hyperlink{namespaceutils_1_1general_a36317aa57f14e948b480d6e096dc4095}{00721}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a36317aa57f14e948b480d6e096dc4095}{labels\_to\_image\_weights}}(labels,\ nc=80,\ class\_weights=np.ones(80)):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00722}00722\ \ \ \ \ \textcolor{comment}{\#\ Produces\ image\ weights\ based\ on\ class\_weights\ and\ image\ contents}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00723}00723\ \ \ \ \ \textcolor{comment}{\#\ Usage:\ index\ =\ random.choices(range(n),\ weights=image\_weights,\ k=1)\ \ \#\ weighted\ image\ sample}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00724}00724\ \ \ \ \ class\_counts\ =\ np.array([np.bincount(x[:,\ 0].astype(int),\ minlength=nc)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ labels])}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00725}00725\ \ \ \ \ \textcolor{keywordflow}{return}\ (class\_weights.reshape(1,\ nc)\ *\ class\_counts).sum(1)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00726}00726\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00727}00727\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00728}\mbox{\hyperlink{namespaceutils_1_1general_ac3e1d08bb0cb869e74cff20744341bd5}{00728}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ac3e1d08bb0cb869e74cff20744341bd5}{coco80\_to\_coco91\_class}}():\ \ \textcolor{comment}{\#\ converts\ 80-\/index\ (val2014)\ to\ 91-\/index\ (paper)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00729}00729\ \ \ \ \ \textcolor{comment}{\#\ https://tech.amikelive.com/node-\/718/what-\/object-\/categories-\/labels-\/are-\/in-\/coco-\/dataset/}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00730}00730\ \ \ \ \ \textcolor{comment}{\#\ a\ =\ np.loadtxt('data/coco.names',\ dtype='str',\ delimiter='\(\backslash\)n')}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00731}00731\ \ \ \ \ \textcolor{comment}{\#\ b\ =\ np.loadtxt('data/coco\_paper.names',\ dtype='str',\ delimiter='\(\backslash\)n')}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00732}00732\ \ \ \ \ \textcolor{comment}{\#\ x1\ =\ [list(a[i]\ ==\ b).index(True)\ +\ 1\ for\ i\ in\ range(80)]\ \ \#\ darknet\ to\ coco}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00733}00733\ \ \ \ \ \textcolor{comment}{\#\ x2\ =\ [list(b[i]\ ==\ a).index(True)\ if\ any(b[i]\ ==\ a)\ else\ None\ for\ i\ in\ range(91)]\ \ \#\ coco\ to\ darknet}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00734}00734\ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00735}00735\ \ \ \ \ \ \ \ \ 1,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00736}00736\ \ \ \ \ \ \ \ \ 2,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00737}00737\ \ \ \ \ \ \ \ \ 3,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00738}00738\ \ \ \ \ \ \ \ \ 4,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00739}00739\ \ \ \ \ \ \ \ \ 5,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00740}00740\ \ \ \ \ \ \ \ \ 6,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00741}00741\ \ \ \ \ \ \ \ \ 7,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00742}00742\ \ \ \ \ \ \ \ \ 8,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00743}00743\ \ \ \ \ \ \ \ \ 9,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00744}00744\ \ \ \ \ \ \ \ \ 10,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00745}00745\ \ \ \ \ \ \ \ \ 11,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00746}00746\ \ \ \ \ \ \ \ \ 13,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00747}00747\ \ \ \ \ \ \ \ \ 14,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00748}00748\ \ \ \ \ \ \ \ \ 15,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00749}00749\ \ \ \ \ \ \ \ \ 16,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00750}00750\ \ \ \ \ \ \ \ \ 17,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00751}00751\ \ \ \ \ \ \ \ \ 18,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00752}00752\ \ \ \ \ \ \ \ \ 19,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00753}00753\ \ \ \ \ \ \ \ \ 20,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00754}00754\ \ \ \ \ \ \ \ \ 21,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00755}00755\ \ \ \ \ \ \ \ \ 22,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00756}00756\ \ \ \ \ \ \ \ \ 23,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00757}00757\ \ \ \ \ \ \ \ \ 24,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00758}00758\ \ \ \ \ \ \ \ \ 25,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00759}00759\ \ \ \ \ \ \ \ \ 27,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00760}00760\ \ \ \ \ \ \ \ \ 28,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00761}00761\ \ \ \ \ \ \ \ \ 31,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00762}00762\ \ \ \ \ \ \ \ \ 32,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00763}00763\ \ \ \ \ \ \ \ \ 33,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00764}00764\ \ \ \ \ \ \ \ \ 34,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00765}00765\ \ \ \ \ \ \ \ \ 35,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00766}00766\ \ \ \ \ \ \ \ \ 36,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00767}00767\ \ \ \ \ \ \ \ \ 37,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00768}00768\ \ \ \ \ \ \ \ \ 38,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00769}00769\ \ \ \ \ \ \ \ \ 39,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00770}00770\ \ \ \ \ \ \ \ \ 40,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00771}00771\ \ \ \ \ \ \ \ \ 41,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00772}00772\ \ \ \ \ \ \ \ \ 42,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00773}00773\ \ \ \ \ \ \ \ \ 43,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00774}00774\ \ \ \ \ \ \ \ \ 44,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00775}00775\ \ \ \ \ \ \ \ \ 46,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00776}00776\ \ \ \ \ \ \ \ \ 47,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00777}00777\ \ \ \ \ \ \ \ \ 48,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00778}00778\ \ \ \ \ \ \ \ \ 49,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00779}00779\ \ \ \ \ \ \ \ \ 50,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00780}00780\ \ \ \ \ \ \ \ \ 51,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00781}00781\ \ \ \ \ \ \ \ \ 52,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00782}00782\ \ \ \ \ \ \ \ \ 53,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00783}00783\ \ \ \ \ \ \ \ \ 54,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00784}00784\ \ \ \ \ \ \ \ \ 55,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00785}00785\ \ \ \ \ \ \ \ \ 56,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00786}00786\ \ \ \ \ \ \ \ \ 57,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00787}00787\ \ \ \ \ \ \ \ \ 58,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00788}00788\ \ \ \ \ \ \ \ \ 59,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00789}00789\ \ \ \ \ \ \ \ \ 60,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00790}00790\ \ \ \ \ \ \ \ \ 61,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00791}00791\ \ \ \ \ \ \ \ \ 62,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00792}00792\ \ \ \ \ \ \ \ \ 63,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00793}00793\ \ \ \ \ \ \ \ \ 64,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00794}00794\ \ \ \ \ \ \ \ \ 65,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00795}00795\ \ \ \ \ \ \ \ \ 67,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00796}00796\ \ \ \ \ \ \ \ \ 70,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00797}00797\ \ \ \ \ \ \ \ \ 72,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00798}00798\ \ \ \ \ \ \ \ \ 73,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00799}00799\ \ \ \ \ \ \ \ \ 74,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00800}00800\ \ \ \ \ \ \ \ \ 75,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00801}00801\ \ \ \ \ \ \ \ \ 76,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00802}00802\ \ \ \ \ \ \ \ \ 77,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00803}00803\ \ \ \ \ \ \ \ \ 78,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00804}00804\ \ \ \ \ \ \ \ \ 79,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00805}00805\ \ \ \ \ \ \ \ \ 80,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00806}00806\ \ \ \ \ \ \ \ \ 81,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00807}00807\ \ \ \ \ \ \ \ \ 82,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00808}00808\ \ \ \ \ \ \ \ \ 84,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00809}00809\ \ \ \ \ \ \ \ \ 85,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00810}00810\ \ \ \ \ \ \ \ \ 86,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00811}00811\ \ \ \ \ \ \ \ \ 87,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00812}00812\ \ \ \ \ \ \ \ \ 88,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00813}00813\ \ \ \ \ \ \ \ \ 89,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00814}00814\ \ \ \ \ \ \ \ \ 90,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00815}00815\ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00816}00816\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00817}00817\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00818}\mbox{\hyperlink{namespaceutils_1_1general_a24fc474122a509acc6592786980c13d7}{00818}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a24fc474122a509acc6592786980c13d7}{xyxy2xywh}}(x):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00819}00819\ \ \ \ \ \textcolor{comment}{\#\ Convert\ nx4\ boxes\ from\ [x1,\ y1,\ x2,\ y2]\ to\ [x,\ y,\ w,\ h]\ where\ xy1=top-\/left,\ xy2=bottom-\/right}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00820}00820\ \ \ \ \ y\ =\ x.clone()\ \textcolor{keywordflow}{if}\ isinstance(x,\ torch.Tensor)\ \textcolor{keywordflow}{else}\ np.copy(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00821}00821\ \ \ \ \ y[...,\ 0]\ =\ (x[...,\ 0]\ +\ x[...,\ 2])\ /\ 2\ \ \textcolor{comment}{\#\ x\ center}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00822}00822\ \ \ \ \ y[...,\ 1]\ =\ (x[...,\ 1]\ +\ x[...,\ 3])\ /\ 2\ \ \textcolor{comment}{\#\ y\ center}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00823}00823\ \ \ \ \ y[...,\ 2]\ =\ x[...,\ 2]\ -\/\ x[...,\ 0]\ \ \textcolor{comment}{\#\ width}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00824}00824\ \ \ \ \ y[...,\ 3]\ =\ x[...,\ 3]\ -\/\ x[...,\ 1]\ \ \textcolor{comment}{\#\ height}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00825}00825\ \ \ \ \ \textcolor{keywordflow}{return}\ y}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00826}00826\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00827}00827\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00828}\mbox{\hyperlink{namespaceutils_1_1general_ace5378567f42672b1fd0964a427af60e}{00828}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ace5378567f42672b1fd0964a427af60e}{xywh2xyxy}}(x):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00829}00829\ \ \ \ \ \textcolor{comment}{\#\ Convert\ nx4\ boxes\ from\ [x,\ y,\ w,\ h]\ to\ [x1,\ y1,\ x2,\ y2]\ where\ xy1=top-\/left,\ xy2=bottom-\/right}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00830}00830\ \ \ \ \ y\ =\ x.clone()\ \textcolor{keywordflow}{if}\ isinstance(x,\ torch.Tensor)\ \textcolor{keywordflow}{else}\ np.copy(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00831}00831\ \ \ \ \ y[...,\ 0]\ =\ x[...,\ 0]\ -\/\ x[...,\ 2]\ /\ 2\ \ \textcolor{comment}{\#\ top\ left\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00832}00832\ \ \ \ \ y[...,\ 1]\ =\ x[...,\ 1]\ -\/\ x[...,\ 3]\ /\ 2\ \ \textcolor{comment}{\#\ top\ left\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00833}00833\ \ \ \ \ y[...,\ 2]\ =\ x[...,\ 0]\ +\ x[...,\ 2]\ /\ 2\ \ \textcolor{comment}{\#\ bottom\ right\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00834}00834\ \ \ \ \ y[...,\ 3]\ =\ x[...,\ 1]\ +\ x[...,\ 3]\ /\ 2\ \ \textcolor{comment}{\#\ bottom\ right\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00835}00835\ \ \ \ \ \textcolor{keywordflow}{return}\ y}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00836}00836\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00837}00837\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00838}\mbox{\hyperlink{namespaceutils_1_1general_a2a4d1dbf97be92e91bdefdb27eea2b37}{00838}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a2a4d1dbf97be92e91bdefdb27eea2b37}{xywhn2xyxy}}(x,\ w=640,\ h=640,\ padw=0,\ padh=0):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00839}00839\ \ \ \ \ \textcolor{comment}{\#\ Convert\ nx4\ boxes\ from\ [x,\ y,\ w,\ h]\ normalized\ to\ [x1,\ y1,\ x2,\ y2]\ where\ xy1=top-\/left,\ xy2=bottom-\/right}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00840}00840\ \ \ \ \ y\ =\ x.clone()\ \textcolor{keywordflow}{if}\ isinstance(x,\ torch.Tensor)\ \textcolor{keywordflow}{else}\ np.copy(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00841}00841\ \ \ \ \ y[...,\ 0]\ =\ w\ *\ (x[...,\ 0]\ -\/\ x[...,\ 2]\ /\ 2)\ +\ padw\ \ \textcolor{comment}{\#\ top\ left\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00842}00842\ \ \ \ \ y[...,\ 1]\ =\ h\ *\ (x[...,\ 1]\ -\/\ x[...,\ 3]\ /\ 2)\ +\ padh\ \ \textcolor{comment}{\#\ top\ left\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00843}00843\ \ \ \ \ y[...,\ 2]\ =\ w\ *\ (x[...,\ 0]\ +\ x[...,\ 2]\ /\ 2)\ +\ padw\ \ \textcolor{comment}{\#\ bottom\ right\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00844}00844\ \ \ \ \ y[...,\ 3]\ =\ h\ *\ (x[...,\ 1]\ +\ x[...,\ 3]\ /\ 2)\ +\ padh\ \ \textcolor{comment}{\#\ bottom\ right\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00845}00845\ \ \ \ \ \textcolor{keywordflow}{return}\ y}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00846}00846\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00847}00847\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00848}\mbox{\hyperlink{namespaceutils_1_1general_a6881eac12de2beb370118bce220d69b7}{00848}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a6881eac12de2beb370118bce220d69b7}{xyxy2xywhn}}(x,\ w=640,\ h=640,\ clip=False,\ eps=0.0):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00849}00849\ \ \ \ \ \textcolor{comment}{\#\ Convert\ nx4\ boxes\ from\ [x1,\ y1,\ x2,\ y2]\ to\ [x,\ y,\ w,\ h]\ normalized\ where\ xy1=top-\/left,\ xy2=bottom-\/right}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00850}00850\ \ \ \ \ \textcolor{keywordflow}{if}\ clip:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00851}00851\ \ \ \ \ \ \ \ \ clip\_boxes(x,\ (h\ -\/\ eps,\ w\ -\/\ eps))\ \ \textcolor{comment}{\#\ warning:\ inplace\ clip}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00852}00852\ \ \ \ \ y\ =\ x.clone()\ \textcolor{keywordflow}{if}\ isinstance(x,\ torch.Tensor)\ \textcolor{keywordflow}{else}\ np.copy(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00853}00853\ \ \ \ \ y[...,\ 0]\ =\ ((x[...,\ 0]\ +\ x[...,\ 2])\ /\ 2)\ /\ w\ \ \textcolor{comment}{\#\ x\ center}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00854}00854\ \ \ \ \ y[...,\ 1]\ =\ ((x[...,\ 1]\ +\ x[...,\ 3])\ /\ 2)\ /\ h\ \ \textcolor{comment}{\#\ y\ center}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00855}00855\ \ \ \ \ y[...,\ 2]\ =\ (x[...,\ 2]\ -\/\ x[...,\ 0])\ /\ w\ \ \textcolor{comment}{\#\ width}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00856}00856\ \ \ \ \ y[...,\ 3]\ =\ (x[...,\ 3]\ -\/\ x[...,\ 1])\ /\ h\ \ \textcolor{comment}{\#\ height}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00857}00857\ \ \ \ \ \textcolor{keywordflow}{return}\ y}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00858}00858\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00859}00859\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00860}\mbox{\hyperlink{namespaceutils_1_1general_a49dc8d3630939121369d30f63ac78dac}{00860}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a49dc8d3630939121369d30f63ac78dac}{xyn2xy}}(x,\ w=640,\ h=640,\ padw=0,\ padh=0):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00861}00861\ \ \ \ \ \textcolor{comment}{\#\ Convert\ normalized\ segments\ into\ pixel\ segments,\ shape\ (n,2)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00862}00862\ \ \ \ \ y\ =\ x.clone()\ \textcolor{keywordflow}{if}\ isinstance(x,\ torch.Tensor)\ \textcolor{keywordflow}{else}\ np.copy(x)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00863}00863\ \ \ \ \ y[...,\ 0]\ =\ w\ *\ x[...,\ 0]\ +\ padw\ \ \textcolor{comment}{\#\ top\ left\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00864}00864\ \ \ \ \ y[...,\ 1]\ =\ h\ *\ x[...,\ 1]\ +\ padh\ \ \textcolor{comment}{\#\ top\ left\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00865}00865\ \ \ \ \ \textcolor{keywordflow}{return}\ y}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00866}00866\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00867}00867\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00868}\mbox{\hyperlink{namespaceutils_1_1general_abc63df8781fe6355d5640da24a89bbd3}{00868}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_abc63df8781fe6355d5640da24a89bbd3}{segment2box}}(segment,\ width=640,\ height=640):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00869}00869\ \ \ \ \ \textcolor{comment}{\#\ Convert\ 1\ segment\ label\ to\ 1\ box\ label,\ applying\ inside-\/image\ constraint,\ i.e.\ (xy1,\ xy2,\ ...)\ to\ (xyxy)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00870}00870\ \ \ \ \ x,\ y\ =\ segment.T\ \ \textcolor{comment}{\#\ segment\ xy}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00871}00871\ \ \ \ \ inside\ =\ (x\ >=\ 0)\ \&\ (y\ >=\ 0)\ \&\ (x\ <=\ width)\ \&\ (y\ <=\ height)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00872}00872\ \ \ \ \ (}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00873}00873\ \ \ \ \ \ \ \ \ x,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00874}00874\ \ \ \ \ \ \ \ \ y,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00875}00875\ \ \ \ \ )\ =\ x[inside],\ y[inside]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00876}00876\ \ \ \ \ \textcolor{keywordflow}{return}\ np.array([x.min(),\ y.min(),\ x.max(),\ y.max()])\ \textcolor{keywordflow}{if}\ any(x)\ \textcolor{keywordflow}{else}\ np.zeros((1,\ 4))\ \ \textcolor{comment}{\#\ xyxy}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00877}00877\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00878}00878\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00879}\mbox{\hyperlink{namespaceutils_1_1general_a8bd756762c8a01a44a291e3391edf0bc}{00879}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a8bd756762c8a01a44a291e3391edf0bc}{segments2boxes}}(segments):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00880}00880\ \ \ \ \ \textcolor{comment}{\#\ Convert\ segment\ labels\ to\ box\ labels,\ i.e.\ (cls,\ xy1,\ xy2,\ ...)\ to\ (cls,\ xywh)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00881}00881\ \ \ \ \ boxes\ =\ []}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00882}00882\ \ \ \ \ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ segments:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00883}00883\ \ \ \ \ \ \ \ \ x,\ y\ =\ s.T\ \ \textcolor{comment}{\#\ segment\ xy}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00884}00884\ \ \ \ \ \ \ \ \ boxes.append([x.min(),\ y.min(),\ x.max(),\ y.max()])\ \ \textcolor{comment}{\#\ cls,\ xyxy}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00885}00885\ \ \ \ \ \textcolor{keywordflow}{return}\ xyxy2xywh(np.array(boxes))\ \ \textcolor{comment}{\#\ cls,\ xywh}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00886}00886\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00887}00887\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00888}\mbox{\hyperlink{namespaceutils_1_1general_aa6316724f84b05f98a35b1652d71b983}{00888}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_aa6316724f84b05f98a35b1652d71b983}{resample\_segments}}(segments,\ n=1000):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00889}00889\ \ \ \ \ \textcolor{comment}{\#\ Up-\/sample\ an\ (n,2)\ segment}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00890}00890\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ s\ \textcolor{keywordflow}{in}\ enumerate(segments):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00891}00891\ \ \ \ \ \ \ \ \ s\ =\ np.concatenate((s,\ s[0:1,\ :]),\ axis=0)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00892}00892\ \ \ \ \ \ \ \ \ x\ =\ np.linspace(0,\ len(s)\ -\/\ 1,\ n)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00893}00893\ \ \ \ \ \ \ \ \ xp\ =\ np.arange(len(s))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00894}00894\ \ \ \ \ \ \ \ \ segments[i]\ =\ np.concatenate([np.interp(x,\ xp,\ s[:,\ i])\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(2)]).reshape(2,\ -\/1).T\ \ \textcolor{comment}{\#\ segment\ xy}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00895}00895\ \ \ \ \ \textcolor{keywordflow}{return}\ segments}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00896}00896\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00897}00897\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00898}\mbox{\hyperlink{namespaceutils_1_1general_ae74bcd8481725922a5bf2f1331d62e8d}{00898}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_ae74bcd8481725922a5bf2f1331d62e8d}{scale\_boxes}}(img1\_shape,\ boxes,\ img0\_shape,\ ratio\_pad=None):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00899}00899\ \ \ \ \ \textcolor{comment}{\#\ Rescale\ boxes\ (xyxy)\ from\ img1\_shape\ to\ img0\_shape}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00900}00900\ \ \ \ \ \textcolor{keywordflow}{if}\ ratio\_pad\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:\ \ \textcolor{comment}{\#\ calculate\ from\ img0\_shape}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00901}00901\ \ \ \ \ \ \ \ \ gain\ =\ min(img1\_shape[0]\ /\ img0\_shape[0],\ img1\_shape[1]\ /\ img0\_shape[1])\ \ \textcolor{comment}{\#\ gain\ \ =\ old\ /\ new}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00902}00902\ \ \ \ \ \ \ \ \ pad\ =\ (img1\_shape[1]\ -\/\ img0\_shape[1]\ *\ gain)\ /\ 2,\ (img1\_shape[0]\ -\/\ img0\_shape[0]\ *\ gain)\ /\ 2\ \ \textcolor{comment}{\#\ wh\ padding}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00903}00903\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00904}00904\ \ \ \ \ \ \ \ \ gain\ =\ ratio\_pad[0][0]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00905}00905\ \ \ \ \ \ \ \ \ pad\ =\ ratio\_pad[1]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00906}00906\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00907}00907\ \ \ \ \ boxes[...,\ [0,\ 2]]\ -\/=\ pad[0]\ \ \textcolor{comment}{\#\ x\ padding}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00908}00908\ \ \ \ \ boxes[...,\ [1,\ 3]]\ -\/=\ pad[1]\ \ \textcolor{comment}{\#\ y\ padding}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00909}00909\ \ \ \ \ boxes[...,\ :4]\ /=\ gain}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00910}00910\ \ \ \ \ clip\_boxes(boxes,\ img0\_shape)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00911}00911\ \ \ \ \ \textcolor{keywordflow}{return}\ boxes}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00912}00912\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00913}00913\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00914}\mbox{\hyperlink{namespaceutils_1_1general_a6ce49297f7991b5206310a2276fc075b}{00914}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a6ce49297f7991b5206310a2276fc075b}{scale\_segments}}(img1\_shape,\ segments,\ img0\_shape,\ ratio\_pad=None,\ normalize=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00915}00915\ \ \ \ \ \textcolor{comment}{\#\ Rescale\ coords\ (xyxy)\ from\ img1\_shape\ to\ img0\_shape}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00916}00916\ \ \ \ \ \textcolor{keywordflow}{if}\ ratio\_pad\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:\ \ \textcolor{comment}{\#\ calculate\ from\ img0\_shape}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00917}00917\ \ \ \ \ \ \ \ \ gain\ =\ min(img1\_shape[0]\ /\ img0\_shape[0],\ img1\_shape[1]\ /\ img0\_shape[1])\ \ \textcolor{comment}{\#\ gain\ \ =\ old\ /\ new}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00918}00918\ \ \ \ \ \ \ \ \ pad\ =\ (img1\_shape[1]\ -\/\ img0\_shape[1]\ *\ gain)\ /\ 2,\ (img1\_shape[0]\ -\/\ img0\_shape[0]\ *\ gain)\ /\ 2\ \ \textcolor{comment}{\#\ wh\ padding}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00919}00919\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00920}00920\ \ \ \ \ \ \ \ \ gain\ =\ ratio\_pad[0][0]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00921}00921\ \ \ \ \ \ \ \ \ pad\ =\ ratio\_pad[1]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00922}00922\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00923}00923\ \ \ \ \ segments[:,\ 0]\ -\/=\ pad[0]\ \ \textcolor{comment}{\#\ x\ padding}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00924}00924\ \ \ \ \ segments[:,\ 1]\ -\/=\ pad[1]\ \ \textcolor{comment}{\#\ y\ padding}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00925}00925\ \ \ \ \ segments\ /=\ gain}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00926}00926\ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1general_acb8183c2606acb419b10c72ece095a40}{clip\_segments}}(segments,\ img0\_shape)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00927}00927\ \ \ \ \ \textcolor{keywordflow}{if}\ normalize:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00928}00928\ \ \ \ \ \ \ \ \ segments[:,\ 0]\ /=\ img0\_shape[1]\ \ \textcolor{comment}{\#\ width}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00929}00929\ \ \ \ \ \ \ \ \ segments[:,\ 1]\ /=\ img0\_shape[0]\ \ \textcolor{comment}{\#\ height}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00930}00930\ \ \ \ \ \textcolor{keywordflow}{return}\ segments}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00931}00931\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00932}00932\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00933}\mbox{\hyperlink{namespaceutils_1_1general_a7973e4e45a588b63556a97fcfca624e2}{00933}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a7973e4e45a588b63556a97fcfca624e2}{clip\_boxes}}(boxes,\ shape):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00934}00934\ \ \ \ \ \textcolor{comment}{\#\ Clip\ boxes\ (xyxy)\ to\ image\ shape\ (height,\ width)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00935}00935\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(boxes,\ torch.Tensor):\ \ \textcolor{comment}{\#\ faster\ individually}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00936}00936\ \ \ \ \ \ \ \ \ boxes[...,\ 0].clamp\_(0,\ shape[1])\ \ \textcolor{comment}{\#\ x1}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00937}00937\ \ \ \ \ \ \ \ \ boxes[...,\ 1].clamp\_(0,\ shape[0])\ \ \textcolor{comment}{\#\ y1}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00938}00938\ \ \ \ \ \ \ \ \ boxes[...,\ 2].clamp\_(0,\ shape[1])\ \ \textcolor{comment}{\#\ x2}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00939}00939\ \ \ \ \ \ \ \ \ boxes[...,\ 3].clamp\_(0,\ shape[0])\ \ \textcolor{comment}{\#\ y2}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00940}00940\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ np.array\ (faster\ grouped)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00941}00941\ \ \ \ \ \ \ \ \ boxes[...,\ [0,\ 2]]\ =\ boxes[...,\ [0,\ 2]].clip(0,\ shape[1])\ \ \textcolor{comment}{\#\ x1,\ x2}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00942}00942\ \ \ \ \ \ \ \ \ boxes[...,\ [1,\ 3]]\ =\ boxes[...,\ [1,\ 3]].clip(0,\ shape[0])\ \ \textcolor{comment}{\#\ y1,\ y2}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00943}00943\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00944}00944\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00945}\mbox{\hyperlink{namespaceutils_1_1general_acb8183c2606acb419b10c72ece095a40}{00945}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_acb8183c2606acb419b10c72ece095a40}{clip\_segments}}(segments,\ shape):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00946}00946\ \ \ \ \ \textcolor{comment}{\#\ Clip\ segments\ (xy1,xy2,...)\ to\ image\ shape\ (height,\ width)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00947}00947\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(segments,\ torch.Tensor):\ \ \textcolor{comment}{\#\ faster\ individually}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00948}00948\ \ \ \ \ \ \ \ \ segments[:,\ 0].clamp\_(0,\ shape[1])\ \ \textcolor{comment}{\#\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00949}00949\ \ \ \ \ \ \ \ \ segments[:,\ 1].clamp\_(0,\ shape[0])\ \ \textcolor{comment}{\#\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00950}00950\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ np.array\ (faster\ grouped)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00951}00951\ \ \ \ \ \ \ \ \ segments[:,\ 0]\ =\ segments[:,\ 0].clip(0,\ shape[1])\ \ \textcolor{comment}{\#\ x}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00952}00952\ \ \ \ \ \ \ \ \ segments[:,\ 1]\ =\ segments[:,\ 1].clip(0,\ shape[0])\ \ \textcolor{comment}{\#\ y}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00953}00953\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00954}00954\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00955}\mbox{\hyperlink{namespaceutils_1_1general_a2b0c1c3292de97c9f9abbff66a753632}{00955}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a2b0c1c3292de97c9f9abbff66a753632}{non\_max\_suppression}}(}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00956}00956\ \ \ \ \ prediction,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00957}00957\ \ \ \ \ conf\_thres=0.25,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00958}00958\ \ \ \ \ iou\_thres=0.45,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00959}00959\ \ \ \ \ classes=None,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00960}00960\ \ \ \ \ agnostic=False,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00961}00961\ \ \ \ \ multi\_label=False,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00962}00962\ \ \ \ \ labels=(),}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00963}00963\ \ \ \ \ max\_det=300,}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00964}00964\ \ \ \ \ nm=0,\ \ \textcolor{comment}{\#\ number\ of\ masks}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00965}00965\ ):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00966}00966\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00967}00967\ \textcolor{stringliteral}{\ \ \ \ Non-\/Maximum\ Suppression\ (NMS)\ on\ inference\ results\ to\ reject\ overlapping\ detections.}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00968}00968\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00969}00969\ \textcolor{stringliteral}{\ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00970}00970\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ list\ of\ detections,\ on\ (n,6)\ tensor\ per\ image\ [xyxy,\ conf,\ cls]}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00971}00971\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00972}00972\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00973}00973\ \ \ \ \ \textcolor{comment}{\#\ Checks}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00974}00974\ \ \ \ \ \textcolor{keyword}{assert}\ 0\ <=\ conf\_thres\ <=\ 1,\ f\textcolor{stringliteral}{"{}Invalid\ Confidence\ threshold\ \{conf\_thres\},\ valid\ values\ are\ between\ 0.0\ and\ 1.0"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00975}00975\ \ \ \ \ \textcolor{keyword}{assert}\ 0\ <=\ iou\_thres\ <=\ 1,\ f\textcolor{stringliteral}{"{}Invalid\ IoU\ \{iou\_thres\},\ valid\ values\ are\ between\ 0.0\ and\ 1.0"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00976}00976\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(prediction,\ (list,\ tuple)):\ \ \textcolor{comment}{\#\ YOLOv5\ model\ in\ validation\ model,\ output\ =\ (inference\_out,\ loss\_out)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00977}00977\ \ \ \ \ \ \ \ \ prediction\ =\ prediction[0]\ \ \textcolor{comment}{\#\ select\ only\ inference\ output}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00978}00978\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00979}00979\ \ \ \ \ device\ =\ prediction.device}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00980}00980\ \ \ \ \ mps\ =\ \textcolor{stringliteral}{"{}mps"{}}\ \textcolor{keywordflow}{in}\ device.type\ \ \textcolor{comment}{\#\ Apple\ MPS}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00981}00981\ \ \ \ \ \textcolor{keywordflow}{if}\ mps:\ \ \textcolor{comment}{\#\ MPS\ not\ fully\ supported\ yet,\ convert\ tensors\ to\ CPU\ before\ NMS}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00982}00982\ \ \ \ \ \ \ \ \ prediction\ =\ prediction.cpu()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00983}00983\ \ \ \ \ bs\ =\ prediction.shape[0]\ \ \textcolor{comment}{\#\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00984}00984\ \ \ \ \ nc\ =\ prediction.shape[2]\ -\/\ nm\ -\/\ 5\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00985}00985\ \ \ \ \ xc\ =\ prediction[...,\ 4]\ >\ conf\_thres\ \ \textcolor{comment}{\#\ candidates}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00986}00986\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00987}00987\ \ \ \ \ \textcolor{comment}{\#\ Settings}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00988}00988\ \ \ \ \ \textcolor{comment}{\#\ min\_wh\ =\ 2\ \ \#\ (pixels)\ minimum\ box\ width\ and\ height}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00989}00989\ \ \ \ \ max\_wh\ =\ 7680\ \ \textcolor{comment}{\#\ (pixels)\ maximum\ box\ width\ and\ height}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00990}00990\ \ \ \ \ max\_nms\ =\ 30000\ \ \textcolor{comment}{\#\ maximum\ number\ of\ boxes\ into\ torchvision.ops.nms()}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00991}00991\ \ \ \ \ time\_limit\ =\ 0.5\ +\ 0.05\ *\ bs\ \ \textcolor{comment}{\#\ seconds\ to\ quit\ after}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00992}00992\ \ \ \ \ redundant\ =\ \textcolor{keyword}{True}\ \ \textcolor{comment}{\#\ require\ redundant\ detections}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00993}00993\ \ \ \ \ multi\_label\ \&=\ nc\ >\ 1\ \ \textcolor{comment}{\#\ multiple\ labels\ per\ box\ (adds\ 0.5ms/img)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00994}00994\ \ \ \ \ merge\ =\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ use\ merge-\/NMS}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00995}00995\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00996}00996\ \ \ \ \ t\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00997}00997\ \ \ \ \ mi\ =\ 5\ +\ nc\ \ \textcolor{comment}{\#\ mask\ start\ index}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00998}00998\ \ \ \ \ output\ =\ [torch.zeros((0,\ 6\ +\ nm),\ device=prediction.device)]\ *\ bs}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l00999}00999\ \ \ \ \ \textcolor{keywordflow}{for}\ xi,\ x\ \textcolor{keywordflow}{in}\ enumerate(prediction):\ \ \textcolor{comment}{\#\ image\ index,\ image\ inference}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01000}01000\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ constraints}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01001}01001\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ x[((x[...,\ 2:4]\ <\ min\_wh)\ |\ (x[...,\ 2:4]\ >\ max\_wh)).any(1),\ 4]\ =\ 0\ \ \#\ width-\/height}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01002}01002\ \ \ \ \ \ \ \ \ x\ =\ x[xc[xi]]\ \ \textcolor{comment}{\#\ confidence}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01003}01003\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01004}01004\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Cat\ apriori\ labels\ if\ autolabelling}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01005}01005\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{and}\ len(labels[xi]):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01006}01006\ \ \ \ \ \ \ \ \ \ \ \ \ lb\ =\ labels[xi]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01007}01007\ \ \ \ \ \ \ \ \ \ \ \ \ v\ =\ torch.zeros((len(lb),\ nc\ +\ nm\ +\ 5),\ device=x.device)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01008}01008\ \ \ \ \ \ \ \ \ \ \ \ \ v[:,\ :4]\ =\ lb[:,\ 1:5]\ \ \textcolor{comment}{\#\ box}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01009}01009\ \ \ \ \ \ \ \ \ \ \ \ \ v[:,\ 4]\ =\ 1.0\ \ \textcolor{comment}{\#\ conf}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01010}01010\ \ \ \ \ \ \ \ \ \ \ \ \ v[range(len(lb)),\ lb[:,\ 0].long()\ +\ 5]\ =\ 1.0\ \ \textcolor{comment}{\#\ cls}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01011}01011\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ torch.cat((x,\ v),\ 0)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01012}01012\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01013}01013\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ none\ remain\ process\ next\ image}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01014}01014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ x.shape[0]:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01015}01015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01016}01016\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01017}01017\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Compute\ conf}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01018}01018\ \ \ \ \ \ \ \ \ x[:,\ 5:]\ *=\ x[:,\ 4:5]\ \ \textcolor{comment}{\#\ conf\ =\ obj\_conf\ *\ cls\_conf}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01019}01019\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01020}01020\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Box/Mask}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01021}01021\ \ \ \ \ \ \ \ \ box\ =\ xywh2xyxy(x[:,\ :4])\ \ \textcolor{comment}{\#\ center\_x,\ center\_y,\ width,\ height)\ to\ (x1,\ y1,\ x2,\ y2)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01022}01022\ \ \ \ \ \ \ \ \ mask\ =\ x[:,\ mi:]\ \ \textcolor{comment}{\#\ zero\ columns\ if\ no\ masks}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01023}01023\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01024}01024\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Detections\ matrix\ nx6\ (xyxy,\ conf,\ cls)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01025}01025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ multi\_label:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01026}01026\ \ \ \ \ \ \ \ \ \ \ \ \ i,\ j\ =\ (x[:,\ 5:mi]\ >\ conf\_thres).nonzero(as\_tuple=\textcolor{keyword}{False}).T}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01027}01027\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ torch.cat((box[i],\ x[i,\ 5\ +\ j,\ \textcolor{keywordtype}{None}],\ j[:,\ \textcolor{keywordtype}{None}].float(),\ mask[i]),\ 1)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01028}01028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ best\ class\ only}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01029}01029\ \ \ \ \ \ \ \ \ \ \ \ \ conf,\ j\ =\ x[:,\ 5:mi].max(1,\ keepdim=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01030}01030\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ torch.cat((box,\ conf,\ j.float(),\ mask),\ 1)[conf.view(-\/1)\ >\ conf\_thres]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01031}01031\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01032}01032\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ by\ class}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01033}01033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ classes\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01034}01034\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ x[(x[:,\ 5:6]\ ==\ torch.tensor(classes,\ device=x.device)).any(1)]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01035}01035\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01036}01036\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ finite\ constraint}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01037}01037\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ not\ torch.isfinite(x).all():}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01038}01038\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ x\ =\ x[torch.isfinite(x).all(1)]}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01039}01039\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01040}01040\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ shape}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01041}01041\ \ \ \ \ \ \ \ \ n\ =\ x.shape[0]\ \ \textcolor{comment}{\#\ number\ of\ boxes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01042}01042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ n:\ \ \textcolor{comment}{\#\ no\ boxes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01043}01043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01044}01044\ \ \ \ \ \ \ \ \ x\ =\ x[x[:,\ 4].argsort(descending=\textcolor{keyword}{True})[:max\_nms]]\ \ \textcolor{comment}{\#\ sort\ by\ confidence\ and\ remove\ excess\ boxes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01045}01045\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01046}01046\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Batched\ NMS}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01047}01047\ \ \ \ \ \ \ \ \ c\ =\ x[:,\ 5:6]\ *\ (0\ \textcolor{keywordflow}{if}\ agnostic\ \textcolor{keywordflow}{else}\ max\_wh)\ \ \textcolor{comment}{\#\ classes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01048}01048\ \ \ \ \ \ \ \ \ boxes,\ scores\ =\ x[:,\ :4]\ +\ c,\ x[:,\ 4]\ \ \textcolor{comment}{\#\ boxes\ (offset\ by\ class),\ scores}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01049}01049\ \ \ \ \ \ \ \ \ i\ =\ torchvision.ops.nms(boxes,\ scores,\ iou\_thres)\ \ \textcolor{comment}{\#\ NMS}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01050}01050\ \ \ \ \ \ \ \ \ i\ =\ i[:max\_det]\ \ \textcolor{comment}{\#\ limit\ detections}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01051}01051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ merge\ \textcolor{keywordflow}{and}\ (1\ <\ n\ <\ 3e3):\ \ \textcolor{comment}{\#\ Merge\ NMS\ (boxes\ merged\ using\ weighted\ mean)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01052}01052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ update\ boxes\ as\ boxes(i,4)\ =\ weights(i,n)\ *\ boxes(n,4)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01053}01053\ \ \ \ \ \ \ \ \ \ \ \ \ iou\ =\ box\_iou(boxes[i],\ boxes)\ >\ iou\_thres\ \ \textcolor{comment}{\#\ iou\ matrix}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01054}01054\ \ \ \ \ \ \ \ \ \ \ \ \ weights\ =\ iou\ *\ scores[\textcolor{keywordtype}{None}]\ \ \textcolor{comment}{\#\ box\ weights}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01055}01055\ \ \ \ \ \ \ \ \ \ \ \ \ x[i,\ :4]\ =\ torch.mm(weights,\ x[:,\ :4]).float()\ /\ weights.sum(1,\ keepdim=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ merged\ boxes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01056}01056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ redundant:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01057}01057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ =\ i[iou.sum(1)\ >\ 1]\ \ \textcolor{comment}{\#\ require\ redundancy}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01058}01058\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01059}01059\ \ \ \ \ \ \ \ \ output[xi]\ =\ x[i]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01060}01060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ mps:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01061}01061\ \ \ \ \ \ \ \ \ \ \ \ \ output[xi]\ =\ output[xi].to(device)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01062}01062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (time.time()\ -\/\ t)\ >\ time\_limit:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01063}01063\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}WARNING\ ⚠️\ NMS\ time\ limit\ \{time\_limit:.3f\}s\ exceeded"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01064}01064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}\ \ \textcolor{comment}{\#\ time\ limit\ exceeded}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01065}01065\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01066}01066\ \ \ \ \ \textcolor{keywordflow}{return}\ output}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01067}01067\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01068}01068\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01069}\mbox{\hyperlink{namespaceutils_1_1general_a8ed5b29ecc01ea3144da2bcf24452745}{01069}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a8ed5b29ecc01ea3144da2bcf24452745}{strip\_optimizer}}(f="{}best.pt"{},\ s="{}"{}):\ \ \textcolor{comment}{\#\ from\ utils.general\ import\ *;\ strip\_optimizer()}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01070}01070\ \ \ \ \ \textcolor{comment}{\#\ Strip\ optimizer\ from\ 'f'\ to\ finalize\ training,\ optionally\ save\ as\ 's'}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01071}01071\ \ \ \ \ x\ =\ torch.load(f,\ map\_location=torch.device(\textcolor{stringliteral}{"{}cpu"{}}))}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01072}01072\ \ \ \ \ \textcolor{keywordflow}{if}\ x.get(\textcolor{stringliteral}{"{}ema"{}}):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01073}01073\ \ \ \ \ \ \ \ \ x[\textcolor{stringliteral}{"{}model"{}}]\ =\ x[\textcolor{stringliteral}{"{}ema"{}}]\ \ \textcolor{comment}{\#\ replace\ model\ with\ ema}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01074}01074\ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ \textcolor{stringliteral}{"{}optimizer"{}},\ \textcolor{stringliteral}{"{}best\_fitness"{}},\ \textcolor{stringliteral}{"{}ema"{}},\ \textcolor{stringliteral}{"{}updates"{}}:\ \ \textcolor{comment}{\#\ keys}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01075}01075\ \ \ \ \ \ \ \ \ x[k]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01076}01076\ \ \ \ \ x[\textcolor{stringliteral}{"{}epoch"{}}]\ =\ -\/1}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01077}01077\ \ \ \ \ x[\textcolor{stringliteral}{"{}model"{}}].half()\ \ \textcolor{comment}{\#\ to\ FP16}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01078}01078\ \ \ \ \ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ x[\textcolor{stringliteral}{"{}model"{}}].parameters():}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01079}01079\ \ \ \ \ \ \ \ \ p.requires\_grad\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01080}01080\ \ \ \ \ torch.save(x,\ s\ \textcolor{keywordflow}{or}\ f)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01081}01081\ \ \ \ \ mb\ =\ os.path.getsize(s\ \textcolor{keywordflow}{or}\ f)\ /\ 1e6\ \ \textcolor{comment}{\#\ filesize}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01082}01082\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Optimizer\ stripped\ from\ \{f\},\{f'\ saved\ as\ \{s\},'\ if\ s\ else\ ''\}\ \{mb:.1f\}MB"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01083}01083\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01084}01084\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01085}\mbox{\hyperlink{namespaceutils_1_1general_af03d8c0bae27401aedc5f6477a478ebc}{01085}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_af03d8c0bae27401aedc5f6477a478ebc}{print\_mutation}}(keys,\ results,\ hyp,\ save\_dir,\ bucket,\ prefix=colorstr(\textcolor{stringliteral}{"{}evolve:\ "{}})):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01086}01086\ \ \ \ \ evolve\_csv\ =\ save\_dir\ /\ \textcolor{stringliteral}{"{}evolve.csv"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01087}01087\ \ \ \ \ evolve\_yaml\ =\ save\_dir\ /\ \textcolor{stringliteral}{"{}hyp\_evolve.yaml"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01088}01088\ \ \ \ \ keys\ =\ tuple(keys)\ +\ tuple(hyp.keys())\ \ \textcolor{comment}{\#\ [results\ +\ hyps]}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01089}01089\ \ \ \ \ keys\ =\ tuple(x.strip()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ keys)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01090}01090\ \ \ \ \ vals\ =\ results\ +\ tuple(hyp.values())}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01091}01091\ \ \ \ \ n\ =\ len(keys)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01092}01092\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01093}01093\ \ \ \ \ \textcolor{comment}{\#\ Download\ (optional)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01094}01094\ \ \ \ \ \textcolor{keywordflow}{if}\ bucket:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01095}01095\ \ \ \ \ \ \ \ \ url\ =\ f\textcolor{stringliteral}{"{}gs://\{bucket\}/evolve.csv"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01096}01096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ gsutil\_getsize(url)\ >\ (evolve\_csv.stat().st\_size\ \textcolor{keywordflow}{if}\ evolve\_csv.exists()\ \textcolor{keywordflow}{else}\ 0):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01097}01097\ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run([\textcolor{stringliteral}{"{}gsutil"{}},\ \textcolor{stringliteral}{"{}cp"{}},\ f\textcolor{stringliteral}{"{}\{url\}"{}},\ f\textcolor{stringliteral}{"{}\{save\_dir\}"{}}])\ \ \textcolor{comment}{\#\ download\ evolve.csv\ if\ larger\ than\ local}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01098}01098\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01099}01099\ \ \ \ \ \textcolor{comment}{\#\ Log\ to\ evolve.csv}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01100}01100\ \ \ \ \ s\ =\ \textcolor{stringliteral}{"{}"{}}\ \textcolor{keywordflow}{if}\ evolve\_csv.exists()\ \textcolor{keywordflow}{else}\ ((\textcolor{stringliteral}{"{}\%20s,"{}}\ *\ n\ \%\ keys).rstrip(\textcolor{stringliteral}{"{},"{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})\ \ \textcolor{comment}{\#\ add\ header}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01101}01101\ \ \ \ \ \textcolor{keyword}{with}\ open(evolve\_csv,\ \textcolor{stringliteral}{"{}a"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01102}01102\ \ \ \ \ \ \ \ \ f.write(s\ +\ (\textcolor{stringliteral}{"{}\%20.5g,"{}}\ *\ n\ \%\ vals).rstrip(\textcolor{stringliteral}{"{},"{}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01103}01103\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01104}01104\ \ \ \ \ \textcolor{comment}{\#\ Save\ yaml}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01105}01105\ \ \ \ \ \textcolor{keyword}{with}\ open(evolve\_yaml,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01106}01106\ \ \ \ \ \ \ \ \ data\ =\ pd.read\_csv(evolve\_csv,\ skipinitialspace=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01107}01107\ \ \ \ \ \ \ \ \ data\ =\ data.rename(columns=\textcolor{keyword}{lambda}\ x:\ x.strip())\ \ \textcolor{comment}{\#\ strip\ keys}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01108}01108\ \ \ \ \ \ \ \ \ i\ =\ np.argmax(fitness(data.values[:,\ :4]))\ \ \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01109}01109\ \ \ \ \ \ \ \ \ generations\ =\ len(data)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01110}01110\ \ \ \ \ \ \ \ \ f.write(}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01111}01111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\#\ YOLOv5\ Hyperparameter\ Evolution\ Results\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01112}01112\ \ \ \ \ \ \ \ \ \ \ \ \ +\ f\textcolor{stringliteral}{"{}\#\ Best\ generation:\ \{i\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01113}01113\ \ \ \ \ \ \ \ \ \ \ \ \ +\ f\textcolor{stringliteral}{"{}\#\ Last\ generation:\ \{generations\ -\/\ 1\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01114}01114\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\#\ "{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01115}01115\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{x.strip():>20s\}"{}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ keys[:7])}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01116}01116\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01117}01117\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\#\ "{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01118}01118\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{x:>20.5g\}"{}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ data.values[i,\ :7])}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01119}01119\ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01120}01120\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01121}01121\ \ \ \ \ \ \ \ \ yaml.safe\_dump(data.loc[i][7:].to\_dict(),\ f,\ sort\_keys=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01122}01122\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01123}01123\ \ \ \ \ \textcolor{comment}{\#\ Print\ to\ screen}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01124}01124\ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01125}01125\ \ \ \ \ \ \ \ \ prefix}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01126}01126\ \ \ \ \ \ \ \ \ +\ f\textcolor{stringliteral}{"{}\{generations\}\ generations\ finished,\ current\ result:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01127}01127\ \ \ \ \ \ \ \ \ +\ prefix}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01128}01128\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{x.strip():>20s\}"{}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ keys)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01129}01129\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01130}01130\ \ \ \ \ \ \ \ \ +\ prefix}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01131}01131\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{x:20.5g\}"{}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ vals)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01132}01132\ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01133}01133\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01134}01134\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01135}01135\ \ \ \ \ \textcolor{keywordflow}{if}\ bucket:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01136}01136\ \ \ \ \ \ \ \ \ subprocess.run([\textcolor{stringliteral}{"{}gsutil"{}},\ \textcolor{stringliteral}{"{}cp"{}},\ f\textcolor{stringliteral}{"{}\{evolve\_csv\}"{}},\ f\textcolor{stringliteral}{"{}\{evolve\_yaml\}"{}},\ f\textcolor{stringliteral}{"{}gs://\{bucket\}"{}}])\ \ \textcolor{comment}{\#\ upload}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01137}01137\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01138}01138\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01139}\mbox{\hyperlink{namespaceutils_1_1general_a9c388ead64863ba91ff7b77fbc5c3ebc}{01139}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a9c388ead64863ba91ff7b77fbc5c3ebc}{apply\_classifier}}(x,\ model,\ img,\ im0):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01140}01140\ \ \ \ \ \textcolor{comment}{\#\ Apply\ a\ second\ stage\ classifier\ to\ YOLO\ outputs}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01141}01141\ \ \ \ \ \textcolor{comment}{\#\ Example\ model\ =\ torchvision.models.\_\_dict\_\_['efficientnet\_b0'](pretrained=True).to(device).eval()}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01142}01142\ \ \ \ \ im0\ =\ [im0]\ \textcolor{keywordflow}{if}\ isinstance(im0,\ np.ndarray)\ \textcolor{keywordflow}{else}\ im0}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01143}01143\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ d\ \textcolor{keywordflow}{in}\ enumerate(x):\ \ \textcolor{comment}{\#\ per\ image}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01144}01144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ d\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{and}\ len(d):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01145}01145\ \ \ \ \ \ \ \ \ \ \ \ \ d\ =\ d.clone()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01146}01146\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01147}01147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reshape\ and\ pad\ cutouts}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01148}01148\ \ \ \ \ \ \ \ \ \ \ \ \ b\ =\ xyxy2xywh(d[:,\ :4])\ \ \textcolor{comment}{\#\ boxes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01149}01149\ \ \ \ \ \ \ \ \ \ \ \ \ b[:,\ 2:]\ =\ b[:,\ 2:].max(1)[0].unsqueeze(1)\ \ \textcolor{comment}{\#\ rectangle\ to\ square}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01150}01150\ \ \ \ \ \ \ \ \ \ \ \ \ b[:,\ 2:]\ =\ b[:,\ 2:]\ *\ 1.3\ +\ 30\ \ \textcolor{comment}{\#\ pad}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01151}01151\ \ \ \ \ \ \ \ \ \ \ \ \ d[:,\ :4]\ =\ xywh2xyxy(b).long()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01152}01152\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01153}01153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Rescale\ boxes\ from\ img\_size\ to\ im0\ size}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01154}01154\ \ \ \ \ \ \ \ \ \ \ \ \ scale\_boxes(img.shape[2:],\ d[:,\ :4],\ im0[i].shape)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01155}01155\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01156}01156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Classes}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01157}01157\ \ \ \ \ \ \ \ \ \ \ \ \ pred\_cls1\ =\ d[:,\ 5].long()}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01158}01158\ \ \ \ \ \ \ \ \ \ \ \ \ ims\ =\ []}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01159}01159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ d:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01160}01160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cutout\ =\ im0[i][int(a[1])\ :\ int(a[3]),\ int(a[0])\ :\ int(a[2])]}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01161}01161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ cv2.resize(cutout,\ (224,\ 224))\ \ \textcolor{comment}{\#\ BGR}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01162}01162\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01163}01163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ im[:,\ :,\ ::-\/1].transpose(2,\ 0,\ 1)\ \ \textcolor{comment}{\#\ BGR\ to\ RGB,\ to\ 3x416x416}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01164}01164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ np.ascontiguousarray(im,\ dtype=np.float32)\ \ \textcolor{comment}{\#\ uint8\ to\ float32}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01165}01165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ /=\ 255\ \ \textcolor{comment}{\#\ 0\ -\/\ 255\ to\ 0.0\ -\/\ 1.0}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01166}01166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ims.append(im)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01167}01167\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01168}01168\ \ \ \ \ \ \ \ \ \ \ \ \ pred\_cls2\ =\ model(torch.Tensor(ims).to(d.device)).argmax(1)\ \ \textcolor{comment}{\#\ classifier\ prediction}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01169}01169\ \ \ \ \ \ \ \ \ \ \ \ \ x[i]\ =\ x[i][pred\_cls1\ ==\ pred\_cls2]\ \ \textcolor{comment}{\#\ retain\ matching\ class\ detections}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01170}01170\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01171}01171\ \ \ \ \ \textcolor{keywordflow}{return}\ x}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01172}01172\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01173}01173\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01174}\mbox{\hyperlink{namespaceutils_1_1general_a9f601fd8b12fbf7dadd36d0cd04d5dcd}{01174}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a9f601fd8b12fbf7dadd36d0cd04d5dcd}{increment\_path}}(path,\ exist\_ok=False,\ sep="{}"{},\ mkdir=False):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01175}01175\ \ \ \ \ \textcolor{comment}{\#\ Increment\ file\ or\ directory\ path,\ i.e.\ runs/exp\ -\/-\/>\ runs/exp\{sep\}2,\ runs/exp\{sep\}3,\ ...\ etc.}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01176}01176\ \ \ \ \ path\ =\ Path(path)\ \ \textcolor{comment}{\#\ os-\/agnostic}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01177}01177\ \ \ \ \ \textcolor{keywordflow}{if}\ path.exists()\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ exist\_ok:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01178}01178\ \ \ \ \ \ \ \ \ path,\ suffix\ =\ (path.with\_suffix(\textcolor{stringliteral}{"{}"{}}),\ path.suffix)\ \textcolor{keywordflow}{if}\ path.is\_file()\ \textcolor{keywordflow}{else}\ (path,\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01179}01179\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01180}01180\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Method\ 1}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01181}01181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ n\ \textcolor{keywordflow}{in}\ range(2,\ 9999):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01182}01182\ \ \ \ \ \ \ \ \ \ \ \ \ p\ =\ f\textcolor{stringliteral}{"{}\{path\}\{sep\}\{n\}\{suffix\}"{}}\ \ \textcolor{comment}{\#\ increment\ path}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01183}01183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ os.path.exists(p):\ \ \textcolor{comment}{\#}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01184}01184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01185}01185\ \ \ \ \ \ \ \ \ path\ =\ Path(p)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01186}01186\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01187}01187\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Method\ 2\ (deprecated)}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01188}01188\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ dirs\ =\ glob.glob(f"{}\{path\}\{sep\}*"{})\ \ \#\ similar\ paths}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01189}01189\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ matches\ =\ [re.search(rf"{}\{path.stem\}\{sep\}(\(\backslash\)d+)"{},\ d)\ for\ d\ in\ dirs]}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01190}01190\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ i\ =\ [int(m.groups()[0])\ for\ m\ in\ matches\ if\ m]\ \ \#\ indices}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01191}01191\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ n\ =\ max(i)\ +\ 1\ if\ i\ else\ 2\ \ \#\ increment\ number}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01192}01192\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ path\ =\ Path(f"{}\{path\}\{sep\}\{n\}\{suffix\}"{})\ \ \#\ increment\ path}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01193}01193\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01194}01194\ \ \ \ \ \textcolor{keywordflow}{if}\ mkdir:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01195}01195\ \ \ \ \ \ \ \ \ path.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ directory}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01196}01196\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01197}01197\ \ \ \ \ \textcolor{keywordflow}{return}\ path}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01198}01198\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01199}01199\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01200}01200\ \textcolor{comment}{\#\ OpenCV\ Multilanguage-\/friendly\ functions\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01201}\mbox{\hyperlink{namespaceutils_1_1general_ab633cbcf3ce476c28cdd3b44864dac05}{01201}}\ imshow\_\ =\ cv2.imshow\ \ \textcolor{comment}{\#\ copy\ to\ avoid\ recursion\ errors}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01202}01202\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01203}01203\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01204}\mbox{\hyperlink{namespaceutils_1_1general_a17473381beaf86ee3c6f69b1ba45ad34}{01204}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a17473381beaf86ee3c6f69b1ba45ad34}{imread}}(filename,\ flags=cv2.IMREAD\_COLOR):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01205}01205\ \ \ \ \ \textcolor{keywordflow}{return}\ cv2.imdecode(np.fromfile(filename,\ np.uint8),\ flags)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01206}01206\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01207}01207\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01208}\mbox{\hyperlink{namespaceutils_1_1general_afd940c3d432741eb370a4c65566b2110}{01208}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_afd940c3d432741eb370a4c65566b2110}{imwrite}}(filename,\ img):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01209}01209\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01210}01210\ \ \ \ \ \ \ \ \ cv2.imencode(Path(filename).suffix,\ img)[1].tofile(filename)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01211}01211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01212}01212\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01213}01213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01214}01214\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01215}01215\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01216}\mbox{\hyperlink{namespaceutils_1_1general_a52d92ba293b92af108c44df9cad5e9a3}{01216}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1general_a7e431a1cf0c91d76448f5b4aeb70ae94}{imshow}}(path,\ im):}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01217}01217\ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1general_ab633cbcf3ce476c28cdd3b44864dac05}{imshow\_}}(path.encode(\textcolor{stringliteral}{"{}unicode\_escape"{}}).decode(),\ im)}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01218}01218\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01219}01219\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01220}01220\ \textcolor{keywordflow}{if}\ Path(inspect.stack()[0].filename).parent.parent.as\_posix()\ \textcolor{keywordflow}{in}\ inspect.stack()[-\/1].filename:}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01221}\mbox{\hyperlink{namespaceutils_1_1general_a7e431a1cf0c91d76448f5b4aeb70ae94}{01221}}\ \ \ \ \ cv2.imread,\ cv2.imwrite,\ cv2.imshow\ =\ imread,\ imwrite,\ imshow\ \ \textcolor{comment}{\#\ redefine}}
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01222}01222\ }
+\DoxyCodeLine{\Hypertarget{general_8py_source_l01223}01223\ \textcolor{comment}{\#\ Variables\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+
+\end{DoxyCode}

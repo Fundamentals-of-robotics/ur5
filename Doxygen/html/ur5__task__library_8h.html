@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ur5: include/ur5/ur5_task_library.h File Reference</title>
+<title>ur5: C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5_task_library.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -87,61 +87,78 @@ $(function() {
 <code>#include &lt;Eigen/Dense&gt;</code><br />
 <code>#include &lt;Eigen/Geometry&gt;</code><br />
 <code>#include &quot;ur5/ServiceMessage.h&quot;</code><br />
+<code>#include &quot;service_test/VisionService.h&quot;</code><br />
+<code>#include &quot;geometry_msgs/Point.h&quot;</code><br />
+<code>#include &quot;geometry_msgs/Vector3.h&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;list&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for ur5_task_library.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="ur5__task__library_8h__incl.png" border="0" usemap="#a_c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2include_2ur5_2ur5__task__library_8h" alt=""/></div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="ur5__task__library_8h__dep__incl.png" border="0" usemap="#a_c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2include_2ur5_2ur5__task__library_8hdep" alt=""/></div>
+</div>
 </div>
 <p><a href="ur5__task__library_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:adf0495c10459753cfa2d2238827ecb2f" id="r_adf0495c10459753cfa2d2238827ecb2f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a> { <br />
-&#160;&#160;<a class="el" href="#adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc">start</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82">block_take</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26">high_block_take</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968">high_block_release</a>
+<tr class="memitem:a5d74787dedbc4e11c1ab15bf487e61f8" id="r_a5d74787dedbc4e11c1ab15bf487e61f8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> { <br />
+&#160;&#160;<a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc">start</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82">block_take</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26">high_block_take</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968">high_block_release</a>
 , <br />
-&#160;&#160;<a class="el" href="#adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7">high_class_take</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7">high_class_release</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded">class_release</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53">motion_error</a>
+&#160;&#160;<a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7">high_class_take</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7">high_class_release</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded">class_release</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53">motion_error</a>
 , <br />
-&#160;&#160;<a class="el" href="#adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a">block_request</a>
-, <a class="el" href="#adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae">no_more_blocks</a>
+&#160;&#160;<a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a">block_request</a>
+, <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae">no_more_blocks</a>
 <br />
  }</td></tr>
-<tr class="separator:adf0495c10459753cfa2d2238827ecb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a5d74787dedbc4e11c1ab15bf487e61f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a27322d3e02e036a55a58ff0a38785621" id="r_a27322d3e02e036a55a58ff0a38785621"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27322d3e02e036a55a58ff0a38785621">gestisciStato</a> (<a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a> &amp;<a class="el" href="#aa82f6310c6e199f26af6e40639da040a">state</a>, ros::NodeHandle n)</td></tr>
-<tr class="separator:a27322d3e02e036a55a58ff0a38785621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a314d65e5c6b186779332124fa865880a" id="r_a314d65e5c6b186779332124fa865880a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a314d65e5c6b186779332124fa865880a">stateHandler</a> (<a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> &amp;<a class="el" href="#a876b486d3a5241a126bd5751c5f70f79">state</a>, ros::NodeHandle n)</td></tr>
+<tr class="separator:a314d65e5c6b186779332124fa865880a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce87af21aae2b76f8cab5b9a81f8e8e" id="r_a7ce87af21aae2b76f8cab5b9a81f8e8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ce87af21aae2b76f8cab5b9a81f8e8e">blockSet</a> (double x, double y, double z)</td></tr>
+<tr class="separator:a7ce87af21aae2b76f8cab5b9a81f8e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac39bbcc8e833973995ae031a60a5923e" id="r_ac39bbcc8e833973995ae031a60a5923e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac39bbcc8e833973995ae031a60a5923e">worldToRobotFrame</a> (Eigen::Vector3d &amp;coords, Eigen::Vector3d &amp;euler)</td></tr>
+<tr class="separator:ac39bbcc8e833973995ae031a60a5923e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab5203a40998207ae1afdf91b3a325cf4" id="r_ab5203a40998207ae1afdf91b3a325cf4"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5203a40998207ae1afdf91b3a325cf4">GRIPPER_CLOSURE</a> =-0.0639</td></tr>
-<tr class="memdesc:ab5203a40998207ae1afdf91b3a325cf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">value of closed gripper  <br /></td></tr>
-<tr class="separator:ab5203a40998207ae1afdf91b3a325cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fc29c7b4b95d7eca8b66069599a227a" id="r_a5fc29c7b4b95d7eca8b66069599a227a"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fc29c7b4b95d7eca8b66069599a227a">GRIPPER_OPEN</a> = 0.3</td></tr>
-<tr class="memdesc:a5fc29c7b4b95d7eca8b66069599a227a"><td class="mdescLeft">&#160;</td><td class="mdescRight">value of open gripper  <br /></td></tr>
-<tr class="separator:a5fc29c7b4b95d7eca8b66069599a227a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acac020f932f1543dc657904ff69a623c" id="r_acac020f932f1543dc657904ff69a623c"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acac020f932f1543dc657904ff69a623c">GRASPING_HEIGHT</a> =1.02</td></tr>
-<tr class="memdesc:acac020f932f1543dc657904ff69a623c"><td class="mdescLeft">&#160;</td><td class="mdescRight">safe height to take the block  <br /></td></tr>
-<tr class="separator:acac020f932f1543dc657904ff69a623c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fae586b9258ff311bd869779579dd54" id="r_a7fae586b9258ff311bd869779579dd54"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7fae586b9258ff311bd869779579dd54">SAFE_Z_MOTION</a> = 1.35</td></tr>
+<tr class="memitem:a5cae29ae105be209054f4bb0df7ccb59" id="r_a5cae29ae105be209054f4bb0df7ccb59"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cae29ae105be209054f4bb0df7ccb59">GRIPPER_CLOSE</a></td></tr>
+<tr class="memdesc:a5cae29ae105be209054f4bb0df7ccb59"><td class="mdescLeft">&#160;</td><td class="mdescRight">value of closed gripper  <br /></td></tr>
+<tr class="separator:a5cae29ae105be209054f4bb0df7ccb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af052e24256f82da2f8258aac7680dd03" id="r_af052e24256f82da2f8258aac7680dd03"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af052e24256f82da2f8258aac7680dd03">GRIPPER_OPEN</a></td></tr>
+<tr class="separator:af052e24256f82da2f8258aac7680dd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f78089287f45156a052f26ad11bafba" id="r_a7f78089287f45156a052f26ad11bafba"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f78089287f45156a052f26ad11bafba">GRASPING_HEIGHT</a></td></tr>
+<tr class="memdesc:a7f78089287f45156a052f26ad11bafba"><td class="mdescLeft">&#160;</td><td class="mdescRight">safe height to take the block  <br /></td></tr>
+<tr class="separator:a7f78089287f45156a052f26ad11bafba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fae586b9258ff311bd869779579dd54" id="r_a7fae586b9258ff311bd869779579dd54"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7fae586b9258ff311bd869779579dd54">SAFE_Z_MOTION</a> = 0.55</td></tr>
 <tr class="memdesc:a7fae586b9258ff311bd869779579dd54"><td class="mdescLeft">&#160;</td><td class="mdescRight">used for the intermediate movement between initial and final position  <br /></td></tr>
 <tr class="separator:a7fae586b9258ff311bd869779579dd54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a902ea9d67d166f593a8b3631fc1d4b8f" id="r_a902ea9d67d166f593a8b3631fc1d4b8f"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a902ea9d67d166f593a8b3631fc1d4b8f">euler</a></td></tr>
-<tr class="separator:a902ea9d67d166f593a8b3631fc1d4b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55e78da50a013252924928eaa2720258" id="r_a55e78da50a013252924928eaa2720258"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55e78da50a013252924928eaa2720258">position</a></td></tr>
-<tr class="separator:a55e78da50a013252924928eaa2720258"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5da4436e7c4e6be3d8e1f430f7e3617" id="r_aa5da4436e7c4e6be3d8e1f430f7e3617"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5da4436e7c4e6be3d8e1f430f7e3617">pos</a> [5]</td></tr>
-<tr class="separator:aa5da4436e7c4e6be3d8e1f430f7e3617"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80ff9c74d8dc57a434fa155bae2cd1f0" id="r_a80ff9c74d8dc57a434fa155bae2cd1f0"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80ff9c74d8dc57a434fa155bae2cd1f0">phi</a> [5]</td></tr>
-<tr class="separator:a80ff9c74d8dc57a434fa155bae2cd1f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5e1855c9ca0ed1e7379c13bacc9e56d" id="r_af5e1855c9ca0ed1e7379c13bacc9e56d"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5e1855c9ca0ed1e7379c13bacc9e56d">SCALAR_FACTOR</a> = 1.0</td></tr>
+<tr class="separator:af5e1855c9ca0ed1e7379c13bacc9e56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bc66a5e7720438561fb81f6d83833db" id="r_a6bc66a5e7720438561fb81f6d83833db"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6bc66a5e7720438561fb81f6d83833db">pos</a> [6]</td></tr>
+<tr class="separator:a6bc66a5e7720438561fb81f6d83833db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5be4a83d2f17bc8b5f5971d65222090" id="r_ae5be4a83d2f17bc8b5f5971d65222090"><td class="memItemLeft" align="right" valign="top">Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5be4a83d2f17bc8b5f5971d65222090">phi</a> [6]</td></tr>
+<tr class="separator:ae5be4a83d2f17bc8b5f5971d65222090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af65a0b3650763093124953b0f9b70cfc" id="r_af65a0b3650763093124953b0f9b70cfc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af65a0b3650763093124953b0f9b70cfc">blocks</a> [6] ={0,0,0,0,0,0}</td></tr>
+<tr class="memdesc:af65a0b3650763093124953b0f9b70cfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">array used for the calibration function  <br /></td></tr>
+<tr class="separator:af65a0b3650763093124953b0f9b70cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a52964f20392bf3350d7cd2211935f5" id="r_a8a52964f20392bf3350d7cd2211935f5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a52964f20392bf3350d7cd2211935f5">xef</a> [3]</td></tr>
 <tr class="memdesc:a8a52964f20392bf3350d7cd2211935f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">position end effector to give to the motion  <br /></td></tr>
 <tr class="separator:a8a52964f20392bf3350d7cd2211935f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,11 +174,11 @@ Variables</h2></td></tr>
 <tr class="memitem:a13a2b9a30eb24814999f0625b4c05dd9" id="r_a13a2b9a30eb24814999f0625b4c05dd9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13a2b9a30eb24814999f0625b4c05dd9">gripper</a></td></tr>
 <tr class="memdesc:a13a2b9a30eb24814999f0625b4c05dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">actual value of the gripper  <br /></td></tr>
 <tr class="separator:a13a2b9a30eb24814999f0625b4c05dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa43f798d01b3737cb995df3d06d6245c" id="r_aa43f798d01b3737cb995df3d06d6245c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa43f798d01b3737cb995df3d06d6245c">n_classes</a></td></tr>
-<tr class="memdesc:aa43f798d01b3737cb995df3d06d6245c"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of blocks to grab  <br /></td></tr>
-<tr class="separator:aa43f798d01b3737cb995df3d06d6245c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d47d9729682e869b1de1959de9330d1" id="r_a0d47d9729682e869b1de1959de9330d1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d47d9729682e869b1de1959de9330d1">class_of_block</a> [5]</td></tr>
-<tr class="separator:a0d47d9729682e869b1de1959de9330d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a58bedf8cfbb7823aae3d9d767b82ea" id="r_a9a58bedf8cfbb7823aae3d9d767b82ea"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a58bedf8cfbb7823aae3d9d767b82ea">n_blocks</a> =0</td></tr>
+<tr class="memdesc:a9a58bedf8cfbb7823aae3d9d767b82ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of blocks to grab  <br /></td></tr>
+<tr class="separator:a9a58bedf8cfbb7823aae3d9d767b82ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab51f0f999782855047c0275e1e2420cc" id="r_ab51f0f999782855047c0275e1e2420cc"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab51f0f999782855047c0275e1e2420cc">class_of_block</a> [6]</td></tr>
+<tr class="separator:ab51f0f999782855047c0275e1e2420cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab66ed8e0098c0a86b458672a55a9cca9" id="r_ab66ed8e0098c0a86b458672a55a9cca9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab66ed8e0098c0a86b458672a55a9cca9">k</a> =0</td></tr>
 <tr class="separator:ab66ed8e0098c0a86b458672a55a9cca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11614f44ef4d939bdd984953346a7572" id="r_a11614f44ef4d939bdd984953346a7572"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11614f44ef4d939bdd984953346a7572">error</a></td></tr>
@@ -169,72 +186,112 @@ Variables</h2></td></tr>
 <tr class="separator:a11614f44ef4d939bdd984953346a7572"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3921f14b7cbdefd359cafd58fe292434" id="r_a3921f14b7cbdefd359cafd58fe292434"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3921f14b7cbdefd359cafd58fe292434">ack</a> =0</td></tr>
 <tr class="separator:a3921f14b7cbdefd359cafd58fe292434"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d322e936096e92e82370aaa60ad4b5c" id="r_a9d322e936096e92e82370aaa60ad4b5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d322e936096e92e82370aaa60ad4b5c">actual_ack</a> =0</td></tr>
-<tr class="separator:a9d322e936096e92e82370aaa60ad4b5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6371382c6b4224e577e14ea610ab9a9" id="r_aa6371382c6b4224e577e14ea610ab9a9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6371382c6b4224e577e14ea610ab9a9">iteration</a></td></tr>
-<tr class="separator:aa6371382c6b4224e577e14ea610ab9a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52bb2966f0988211ed5cef6ed0d16196" id="r_a52bb2966f0988211ed5cef6ed0d16196"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52bb2966f0988211ed5cef6ed0d16196">actual_iteration</a></td></tr>
-<tr class="separator:a52bb2966f0988211ed5cef6ed0d16196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa82f6310c6e199f26af6e40639da040a" id="r_aa82f6310c6e199f26af6e40639da040a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa82f6310c6e199f26af6e40639da040a">state</a></td></tr>
-<tr class="memdesc:aa82f6310c6e199f26af6e40639da040a"><td class="mdescLeft">&#160;</td><td class="mdescRight">current state  <br /></td></tr>
-<tr class="separator:aa82f6310c6e199f26af6e40639da040a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add295c51b5d0d8b27caa8b017e22aa10" id="r_add295c51b5d0d8b27caa8b017e22aa10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add295c51b5d0d8b27caa8b017e22aa10">next_state</a></td></tr>
-<tr class="memdesc:add295c51b5d0d8b27caa8b017e22aa10"><td class="mdescLeft">&#160;</td><td class="mdescRight">next state used if some problems arrises  <br /></td></tr>
-<tr class="separator:add295c51b5d0d8b27caa8b017e22aa10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a876b486d3a5241a126bd5751c5f70f79" id="r_a876b486d3a5241a126bd5751c5f70f79"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a876b486d3a5241a126bd5751c5f70f79">state</a></td></tr>
+<tr class="memdesc:a876b486d3a5241a126bd5751c5f70f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">current state  <br /></td></tr>
+<tr class="separator:a876b486d3a5241a126bd5751c5f70f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbe9d5f03e7dcbf80e7f559bb46b8b63" id="r_adbe9d5f03e7dcbf80e7f559bb46b8b63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adbe9d5f03e7dcbf80e7f559bb46b8b63">next_state</a></td></tr>
+<tr class="memdesc:adbe9d5f03e7dcbf80e7f559bb46b8b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">next state used if some problems arrises  <br /></td></tr>
+<tr class="separator:adbe9d5f03e7dcbf80e7f559bb46b8b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeae4d406288c2fdf02069967071d8ca3" id="r_aeae4d406288c2fdf02069967071d8ca3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeae4d406288c2fdf02069967071d8ca3">final_end</a> =0</td></tr>
 <tr class="separator:aeae4d406288c2fdf02069967071d8ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8579272c1629ca4ab59827303c42f2f7" id="r_a8579272c1629ca4ab59827303c42f2f7"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8579272c1629ca4ab59827303c42f2f7">WORLD_TO_ROBOT_X</a> = -0.5</td></tr>
+<tr class="separator:a8579272c1629ca4ab59827303c42f2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7372396aaf2993e0c39b0f6350c4a9f" id="r_af7372396aaf2993e0c39b0f6350c4a9f"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7372396aaf2993e0c39b0f6350c4a9f">WORLD_TO_ROBOT_Y</a> = 0.35</td></tr>
+<tr class="separator:af7372396aaf2993e0c39b0f6350c4a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31199c37d026000a5030df9198976b74" id="r_a31199c37d026000a5030df9198976b74"><td class="memItemLeft" align="right" valign="top">const double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31199c37d026000a5030df9198976b74">WORLD_TO_ROBOT_Z</a> = 1.75</td></tr>
+<tr class="separator:a31199c37d026000a5030df9198976b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a746c3d4c60c58fb15b07a917b8fd72b3" id="r_a746c3d4c60c58fb15b07a917b8fd72b3"><td class="memItemLeft" align="right" valign="top">Matrix4d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a746c3d4c60c58fb15b07a917b8fd72b3">WORLD_TO_ROBOT</a></td></tr>
+<tr class="memdesc:a746c3d4c60c58fb15b07a917b8fd72b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">rotation matrix to convert the coordinates of the world frame into robot frame  <br /></td></tr>
+<tr class="separator:a746c3d4c60c58fb15b07a917b8fd72b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="adf0495c10459753cfa2d2238827ecb2f" name="adf0495c10459753cfa2d2238827ecb2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf0495c10459753cfa2d2238827ecb2f">&#9670;&#160;</a></span>stato</h2>
+<a id="a5d74787dedbc4e11c1ab15bf487e61f8" name="a5d74787dedbc4e11c1ab15bf487e61f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d74787dedbc4e11c1ab15bf487e61f8">&#9670;&#160;</a></span>State</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a></td>
+          <td class="memname">enum <a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>define all the possible states in which the robot can be </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc" name="adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc"></a>start&#160;</td><td class="fielddoc"><p>ask vision node to scan for blocks </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc" name="a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc"></a>start&#160;</td><td class="fielddoc"><p>ask vision node to scan for blocks </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82" name="adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82"></a>block_take&#160;</td><td class="fielddoc"><p>get a block </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82" name="a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82"></a>block_take&#160;</td><td class="fielddoc"><p>get a block </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26" name="adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26"></a>high_block_take&#160;</td><td class="fielddoc"><p>going to take the block in elevated z </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26" name="a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26"></a>high_block_take&#160;</td><td class="fielddoc"><p>going to take the block in elevated z </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968" name="adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968"></a>high_block_release&#160;</td><td class="fielddoc"><p>block released and moving away on z </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968" name="a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968"></a>high_block_release&#160;</td><td class="fielddoc"><p>block released and moving away on z </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7" name="adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7"></a>high_class_take&#160;</td><td class="fielddoc"><p>block took and moving away on z </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7" name="a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7"></a>high_class_take&#160;</td><td class="fielddoc"><p>block took and moving away on z </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7" name="adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7"></a>high_class_release&#160;</td><td class="fielddoc"><p>going to release point but on higher z </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7" name="a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7"></a>high_class_release&#160;</td><td class="fielddoc"><p>going to release point but on higher z </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded" name="adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded"></a>class_release&#160;</td><td class="fielddoc"><p>point of release of the block </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded" name="a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded"></a>class_release&#160;</td><td class="fielddoc"><p>point of release of the block </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53" name="adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53"></a>motion_error&#160;</td><td class="fielddoc"><p>in case of error, use a intermediate safe point </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53" name="a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53"></a>motion_error&#160;</td><td class="fielddoc"><p>in case of error, use a intermediate safe point </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a" name="adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a"></a>block_request&#160;</td><td class="fielddoc"><p>ask next block </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a" name="a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a"></a>block_request&#160;</td><td class="fielddoc"><p>ask next block </p>
 </td></tr>
-<tr><td class="fieldname"><a id="adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae" name="adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae"></a>no_more_blocks&#160;</td><td class="fielddoc"><p>no more blocks, terminate </p>
+<tr><td class="fieldname"><a id="a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae" name="a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae"></a>no_more_blocks&#160;</td><td class="fielddoc"><p>no more blocks, terminate </p>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00027">27</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00030">30</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a27322d3e02e036a55a58ff0a38785621" name="a27322d3e02e036a55a58ff0a38785621"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27322d3e02e036a55a58ff0a38785621">&#9670;&#160;</a></span>gestisciStato()</h2>
+<a id="a7ce87af21aae2b76f8cab5b9a81f8e8e" name="a7ce87af21aae2b76f8cab5b9a81f8e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce87af21aae2b76f8cab5b9a81f8e8e">&#9670;&#160;</a></span>blockSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void gestisciStato </td>
+          <td class="memname">void blockSet </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>state</em>, </span></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>x</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>y</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>z</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>the function implements a calibration of the values received by the vision node. We need this function for the precision required by the motion planner</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>x position received by the vision node </td></tr>
+    <tr><td class="paramname">y</td><td>y position received by the vision node </td></tr>
+    <tr><td class="paramname">z</td><td>z position received by the vision node </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8cpp_source.html#l00528">528</a> of file <a class="el" href="ur5__task__library_8cpp_source.html">ur5_task_library.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a314d65e5c6b186779332124fa865880a" name="a314d65e5c6b186779332124fa865880a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a314d65e5c6b186779332124fa865880a">&#9670;&#160;</a></span>stateHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stateHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>state</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -257,6 +314,37 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ac39bbcc8e833973995ae031a60a5923e" name="ac39bbcc8e833973995ae031a60a5923e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac39bbcc8e833973995ae031a60a5923e">&#9670;&#160;</a></span>worldToRobotFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void worldToRobotFrame </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::Vector3d &amp;</td>          <td class="paramname"><span class="paramname"><em>coords</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Vector3d &amp;</td>          <td class="paramname"><span class="paramname"><em>euler</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>given the pose of a block in the world frame, return the pose of the same block in the robot frame.</p>
+<p>The coordinates and orientation has the same unit of gazebo (in meters and radiants)</p>
+<p>Useful when specifing the block pose w.r.t world frame</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">coords</td><td>vector containing the xyz coordinates </td></tr>
+    <tr><td class="paramname">euler</td><td>vector containing the xyz orientation values </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="a3921f14b7cbdefd359cafd58fe292434" name="a3921f14b7cbdefd359cafd58fe292434"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3921f14b7cbdefd359cafd58fe292434">&#9670;&#160;</a></span>ack</h2>
@@ -270,55 +358,41 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00059">59</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00064">64</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="a9d322e936096e92e82370aaa60ad4b5c" name="a9d322e936096e92e82370aaa60ad4b5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d322e936096e92e82370aaa60ad4b5c">&#9670;&#160;</a></span>actual_ack</h2>
+<a id="af65a0b3650763093124953b0f9b70cfc" name="af65a0b3650763093124953b0f9b70cfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af65a0b3650763093124953b0f9b70cfc">&#9670;&#160;</a></span>blocks</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int actual_ack =0</td>
+          <td class="memname">double blocks[6] ={0,0,0,0,0,0}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>array used for the calibration function </p>
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00052">52</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+
+</div>
+</div>
+<a id="ab51f0f999782855047c0275e1e2420cc" name="ab51f0f999782855047c0275e1e2420cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab51f0f999782855047c0275e1e2420cc">&#9670;&#160;</a></span>class_of_block</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string class_of_block[6]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00060">60</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
-
-</div>
-</div>
-<a id="a52bb2966f0988211ed5cef6ed0d16196" name="a52bb2966f0988211ed5cef6ed0d16196"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52bb2966f0988211ed5cef6ed0d16196">&#9670;&#160;</a></span>actual_iteration</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int actual_iteration</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00062">62</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
-
-</div>
-</div>
-<a id="a0d47d9729682e869b1de1959de9330d1" name="a0d47d9729682e869b1de1959de9330d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d47d9729682e869b1de1959de9330d1">&#9670;&#160;</a></span>class_of_block</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int class_of_block[5]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00055">55</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -336,23 +410,7 @@ Variables</h2></td></tr>
 
 <p>0:successfull motion &ndash; 1:unreachable block &ndash; 2:error in motion </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00057">57</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
-
-</div>
-</div>
-<a id="a902ea9d67d166f593a8b3631fc1d4b8f" name="a902ea9d67d166f593a8b3631fc1d4b8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a902ea9d67d166f593a8b3631fc1d4b8f">&#9670;&#160;</a></span>euler</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3d euler</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00045">45</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00062">62</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -368,25 +426,25 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00066">66</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00070">70</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="acac020f932f1543dc657904ff69a623c" name="acac020f932f1543dc657904ff69a623c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acac020f932f1543dc657904ff69a623c">&#9670;&#160;</a></span>GRASPING_HEIGHT</h2>
+<a id="a7f78089287f45156a052f26ad11bafba" name="a7f78089287f45156a052f26ad11bafba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f78089287f45156a052f26ad11bafba">&#9670;&#160;</a></span>GRASPING_HEIGHT</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double GRASPING_HEIGHT =1.02</td>
+          <td class="memname">double GRASPING_HEIGHT</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>safe height to take the block </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00042">42</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00045">45</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -404,59 +462,41 @@ Variables</h2></td></tr>
 
 <p>actual value of the gripper </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00052">52</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00057">57</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="ab5203a40998207ae1afdf91b3a325cf4" name="ab5203a40998207ae1afdf91b3a325cf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5203a40998207ae1afdf91b3a325cf4">&#9670;&#160;</a></span>GRIPPER_CLOSURE</h2>
+<a id="a5cae29ae105be209054f4bb0df7ccb59" name="a5cae29ae105be209054f4bb0df7ccb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cae29ae105be209054f4bb0df7ccb59">&#9670;&#160;</a></span>GRIPPER_CLOSE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double GRIPPER_CLOSURE =-0.0639</td>
+          <td class="memname">double GRIPPER_CLOSE</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>value of closed gripper </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00040">40</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00043">43</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="a5fc29c7b4b95d7eca8b66069599a227a" name="a5fc29c7b4b95d7eca8b66069599a227a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fc29c7b4b95d7eca8b66069599a227a">&#9670;&#160;</a></span>GRIPPER_OPEN</h2>
+<a id="af052e24256f82da2f8258aac7680dd03" name="af052e24256f82da2f8258aac7680dd03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af052e24256f82da2f8258aac7680dd03">&#9670;&#160;</a></span>GRIPPER_OPEN</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double GRIPPER_OPEN = 0.3</td>
+          <td class="memname">double GRIPPER_OPEN</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>value of open gripper </p>
-
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00041">41</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
-
-</div>
-</div>
-<a id="aa6371382c6b4224e577e14ea610ab9a9" name="aa6371382c6b4224e577e14ea610ab9a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6371382c6b4224e577e14ea610ab9a9">&#9670;&#160;</a></span>iteration</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int iteration</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00061">61</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00044">44</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -472,59 +512,59 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00056">56</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00061">61</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="aa43f798d01b3737cb995df3d06d6245c" name="aa43f798d01b3737cb995df3d06d6245c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa43f798d01b3737cb995df3d06d6245c">&#9670;&#160;</a></span>n_classes</h2>
+<a id="a9a58bedf8cfbb7823aae3d9d767b82ea" name="a9a58bedf8cfbb7823aae3d9d767b82ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a58bedf8cfbb7823aae3d9d767b82ea">&#9670;&#160;</a></span>n_blocks</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int n_classes</td>
+          <td class="memname">int n_blocks =0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>number of blocks to grab </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00054">54</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00059">59</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="add295c51b5d0d8b27caa8b017e22aa10" name="add295c51b5d0d8b27caa8b017e22aa10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add295c51b5d0d8b27caa8b017e22aa10">&#9670;&#160;</a></span>next_state</h2>
+<a id="adbe9d5f03e7dcbf80e7f559bb46b8b63" name="adbe9d5f03e7dcbf80e7f559bb46b8b63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbe9d5f03e7dcbf80e7f559bb46b8b63">&#9670;&#160;</a></span>next_state</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a> next_state</td>
+          <td class="memname"><a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> next_state</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>next state used if some problems arrises </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00065">65</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00069">69</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="a80ff9c74d8dc57a434fa155bae2cd1f0" name="a80ff9c74d8dc57a434fa155bae2cd1f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80ff9c74d8dc57a434fa155bae2cd1f0">&#9670;&#160;</a></span>phi</h2>
+<a id="ae5be4a83d2f17bc8b5f5971d65222090" name="ae5be4a83d2f17bc8b5f5971d65222090"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5be4a83d2f17bc8b5f5971d65222090">&#9670;&#160;</a></span>phi</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Vector3d phi[5]</td>
+          <td class="memname">Vector3d phi[6]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00047">47</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00051">51</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -542,7 +582,7 @@ Variables</h2></td></tr>
 
 <p>phi end effector to give to the motion </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00050">50</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00055">55</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -560,39 +600,23 @@ Variables</h2></td></tr>
 
 <p>phi vector used for the class </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00051">51</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00056">56</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="aa5da4436e7c4e6be3d8e1f430f7e3617" name="aa5da4436e7c4e6be3d8e1f430f7e3617"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5da4436e7c4e6be3d8e1f430f7e3617">&#9670;&#160;</a></span>pos</h2>
+<a id="a6bc66a5e7720438561fb81f6d83833db" name="a6bc66a5e7720438561fb81f6d83833db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bc66a5e7720438561fb81f6d83833db">&#9670;&#160;</a></span>pos</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Vector3d pos[5]</td>
+          <td class="memname">Vector3d pos[6]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00046">46</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
-
-</div>
-</div>
-<a id="a55e78da50a013252924928eaa2720258" name="a55e78da50a013252924928eaa2720258"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55e78da50a013252924928eaa2720258">&#9670;&#160;</a></span>position</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Vector3d position</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00045">45</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00050">50</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -603,32 +627,115 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const double SAFE_Z_MOTION = 1.35</td>
+          <td class="memname">const double SAFE_Z_MOTION = 0.55</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>used for the intermediate movement between initial and final position </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00043">43</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00046">46</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
-<a id="aa82f6310c6e199f26af6e40639da040a" name="aa82f6310c6e199f26af6e40639da040a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa82f6310c6e199f26af6e40639da040a">&#9670;&#160;</a></span>state</h2>
+<a id="af5e1855c9ca0ed1e7379c13bacc9e56d" name="af5e1855c9ca0ed1e7379c13bacc9e56d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5e1855c9ca0ed1e7379c13bacc9e56d">&#9670;&#160;</a></span>SCALAR_FACTOR</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#adf0495c10459753cfa2d2238827ecb2f">stato</a> state</td>
+          <td class="memname">const double SCALAR_FACTOR = 1.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00047">47</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+
+</div>
+</div>
+<a id="a876b486d3a5241a126bd5751c5f70f79" name="a876b486d3a5241a126bd5751c5f70f79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a876b486d3a5241a126bd5751c5f70f79">&#9670;&#160;</a></span>state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> state</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>current state </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00064">64</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00068">68</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+
+</div>
+</div>
+<a id="a746c3d4c60c58fb15b07a917b8fd72b3" name="a746c3d4c60c58fb15b07a917b8fd72b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a746c3d4c60c58fb15b07a917b8fd72b3">&#9670;&#160;</a></span>WORLD_TO_ROBOT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Matrix4d WORLD_TO_ROBOT</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>rotation matrix to convert the coordinates of the world frame into robot frame </p>
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00078">78</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+
+</div>
+</div>
+<a id="a8579272c1629ca4ab59827303c42f2f7" name="a8579272c1629ca4ab59827303c42f2f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8579272c1629ca4ab59827303c42f2f7">&#9670;&#160;</a></span>WORLD_TO_ROBOT_X</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double WORLD_TO_ROBOT_X = -0.5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>transformation from world to robot frame </p>
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00075">75</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+
+</div>
+</div>
+<a id="af7372396aaf2993e0c39b0f6350c4a9f" name="af7372396aaf2993e0c39b0f6350c4a9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7372396aaf2993e0c39b0f6350c4a9f">&#9670;&#160;</a></span>WORLD_TO_ROBOT_Y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double WORLD_TO_ROBOT_Y = 0.35</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00076">76</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+
+</div>
+</div>
+<a id="a31199c37d026000a5030df9198976b74" name="a31199c37d026000a5030df9198976b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31199c37d026000a5030df9198976b74">&#9670;&#160;</a></span>WORLD_TO_ROBOT_Z</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const double WORLD_TO_ROBOT_Z = 1.75</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00077">77</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -646,7 +753,7 @@ Variables</h2></td></tr>
 
 <p>position end effector to give to the motion </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00048">48</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00053">53</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>
@@ -664,7 +771,7 @@ Variables</h2></td></tr>
 
 <p>position vector used for the class </p>
 
-<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00049">49</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8h_source.html#l00054">54</a> of file <a class="el" href="ur5__task__library_8h_source.html">ur5_task_library.h</a>.</p>
 
 </div>
 </div>

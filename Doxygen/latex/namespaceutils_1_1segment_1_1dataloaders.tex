@@ -1,0 +1,95 @@
+\doxysection{utils.\+segment.\+dataloaders Namespace Reference}
+\hypertarget{namespaceutils_1_1segment_1_1dataloaders}{}\label{namespaceutils_1_1segment_1_1dataloaders}\index{utils.segment.dataloaders@{utils.segment.dataloaders}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks}{Load\+Images\+And\+Labels\+And\+Masks}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a8d1d501197357a576d2a5b371cf92161}{create\+\_\+dataloader}} (path, imgsz, batch\+\_\+size, stride, single\+\_\+cls=False, hyp=None, augment=False, cache=False, pad=0.\+0, rect=False, rank=-\/1, workers=8, image\+\_\+weights=False, quad=False, prefix="{}"{}, shuffle=False, mask\+\_\+downsample\+\_\+ratio=1, overlap\+\_\+mask=False, seed=0)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851}{polygon2mask}} (img\+\_\+size, polygons, color=1, downsample\+\_\+ratio=1)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_af7dd8ba0f2f2a8cd62d444ebdfcdd7da}{polygons2masks}} (img\+\_\+size, polygons, color, downsample\+\_\+ratio=1)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_ab312b88ccebc965e85a17ab92a9573c1}{polygons2masks\+\_\+overlap}} (img\+\_\+size, segments, downsample\+\_\+ratio=1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders_ab8bc6f344c88acf2f5e72f5562b05596}{RANK}} = int(os.\+getenv("{}RANK"{}, -\/1))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Dataloaders.\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1segment_1_1dataloaders_a8d1d501197357a576d2a5b371cf92161}\label{namespaceutils_1_1segment_1_1dataloaders_a8d1d501197357a576d2a5b371cf92161} 
+\index{utils.segment.dataloaders@{utils.segment.dataloaders}!create\_dataloader@{create\_dataloader}}
+\index{create\_dataloader@{create\_dataloader}!utils.segment.dataloaders@{utils.segment.dataloaders}}
+\doxysubsubsection{\texorpdfstring{create\_dataloader()}{create\_dataloader()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+create\+\_\+dataloader (\begin{DoxyParamCaption}\item[{}]{path,  }\item[{}]{imgsz,  }\item[{}]{batch\+\_\+size,  }\item[{}]{stride,  }\item[{}]{single\+\_\+cls = {\ttfamily False},  }\item[{}]{hyp = {\ttfamily None},  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{cache = {\ttfamily False},  }\item[{}]{pad = {\ttfamily 0.0},  }\item[{}]{rect = {\ttfamily False},  }\item[{}]{rank = {\ttfamily -\/1},  }\item[{}]{workers = {\ttfamily 8},  }\item[{}]{image\+\_\+weights = {\ttfamily False},  }\item[{}]{quad = {\ttfamily False},  }\item[{}]{prefix = {\ttfamily "{}"{}},  }\item[{}]{shuffle = {\ttfamily False},  }\item[{}]{mask\+\_\+downsample\+\_\+ratio = {\ttfamily 1},  }\item[{}]{overlap\+\_\+mask = {\ttfamily False},  }\item[{}]{seed = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00021}{21}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851}\label{namespaceutils_1_1segment_1_1dataloaders_a59d37bc1228a88057a18028a92ce0851} 
+\index{utils.segment.dataloaders@{utils.segment.dataloaders}!polygon2mask@{polygon2mask}}
+\index{polygon2mask@{polygon2mask}!utils.segment.dataloaders@{utils.segment.dataloaders}}
+\doxysubsubsection{\texorpdfstring{polygon2mask()}{polygon2mask()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+polygon2mask (\begin{DoxyParamCaption}\item[{}]{img\+\_\+size,  }\item[{}]{polygons,  }\item[{}]{color = {\ttfamily 1},  }\item[{}]{downsample\+\_\+ratio = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Args:
+    img_size (tuple): The image size.
+    polygons (np.ndarray): [N, M], N is the number of polygons,
+        M is the number of points(Be divided by 2).
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00301}{301}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1dataloaders_af7dd8ba0f2f2a8cd62d444ebdfcdd7da}\label{namespaceutils_1_1segment_1_1dataloaders_af7dd8ba0f2f2a8cd62d444ebdfcdd7da} 
+\index{utils.segment.dataloaders@{utils.segment.dataloaders}!polygons2masks@{polygons2masks}}
+\index{polygons2masks@{polygons2masks}!utils.segment.dataloaders@{utils.segment.dataloaders}}
+\doxysubsubsection{\texorpdfstring{polygons2masks()}{polygons2masks()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+polygons2masks (\begin{DoxyParamCaption}\item[{}]{img\+\_\+size,  }\item[{}]{polygons,  }\item[{}]{color,  }\item[{}]{downsample\+\_\+ratio = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Args:
+    img_size (tuple): The image size.
+    polygons (list[np.ndarray]): each polygon is [N, M],
+        N is the number of polygons,
+        M is the number of points(Be divided by 2).
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00321}{321}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1dataloaders_ab312b88ccebc965e85a17ab92a9573c1}\label{namespaceutils_1_1segment_1_1dataloaders_ab312b88ccebc965e85a17ab92a9573c1} 
+\index{utils.segment.dataloaders@{utils.segment.dataloaders}!polygons2masks\_overlap@{polygons2masks\_overlap}}
+\index{polygons2masks\_overlap@{polygons2masks\_overlap}!utils.segment.dataloaders@{utils.segment.dataloaders}}
+\doxysubsubsection{\texorpdfstring{polygons2masks\_overlap()}{polygons2masks\_overlap()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+polygons2masks\+\_\+overlap (\begin{DoxyParamCaption}\item[{}]{img\+\_\+size,  }\item[{}]{segments,  }\item[{}]{downsample\+\_\+ratio = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return a (640, 640) overlap mask.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00336}{336}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1segment_1_1dataloaders_ab8bc6f344c88acf2f5e72f5562b05596}\label{namespaceutils_1_1segment_1_1dataloaders_ab8bc6f344c88acf2f5e72f5562b05596} 
+\index{utils.segment.dataloaders@{utils.segment.dataloaders}!RANK@{RANK}}
+\index{RANK@{RANK}!utils.segment.dataloaders@{utils.segment.dataloaders}}
+\doxysubsubsection{\texorpdfstring{RANK}{RANK}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+RANK = int(os.\+getenv("{}RANK"{}, -\/1))}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00018}{18}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+

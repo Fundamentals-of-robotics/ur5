@@ -1,0 +1,94 @@
+\doxysection{hpo.\+py}
+\hypertarget{clearml_2hpo_8py_source}{}\label{clearml_2hpo_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/clearml/hpo.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/clearml/hpo.py}}
+\mbox{\hyperlink{clearml_2hpo_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1hpo}{00001}}\ \textcolor{keyword}{from}\ clearml\ \textcolor{keyword}{import}\ Task}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00003}00003\ \textcolor{comment}{\#\ Connecting\ ClearML\ with\ the\ current\ process,}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00004}00004\ \textcolor{comment}{\#\ from\ here\ on\ everything\ is\ logged\ automatically}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00005}00005\ \textcolor{keyword}{from}\ clearml.automation\ \textcolor{keyword}{import}\ HyperParameterOptimizer,\ UniformParameterRange}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00006}00006\ \textcolor{keyword}{from}\ clearml.automation.optuna\ \textcolor{keyword}{import}\ OptimizerOptuna}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00008}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1hpo_a5dff80779e094427b1a41df92f52b753}{00008}}\ task\ =\ Task.init(}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00009}00009\ \ \ \ \ project\_name=\textcolor{stringliteral}{"{}Hyper-\/Parameter\ Optimization"{}},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00010}00010\ \ \ \ \ task\_name=\textcolor{stringliteral}{"{}YOLOv5"{}},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00011}00011\ \ \ \ \ task\_type=Task.TaskTypes.optimizer,}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00012}00012\ \ \ \ \ reuse\_last\_task\_id=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00013}00013\ )}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00015}00015\ \textcolor{comment}{\#\ Example\ use\ case:}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00016}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1hpo_ad87aee18e9293b9f9216123a457acf6e}{00016}}\ optimizer\ =\ HyperParameterOptimizer(}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00017}00017\ \ \ \ \ \textcolor{comment}{\#\ This\ is\ the\ experiment\ we\ want\ to\ optimize}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00018}00018\ \ \ \ \ base\_task\_id=\textcolor{stringliteral}{"{}<your\_template\_task\_id>"{}},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00019}00019\ \ \ \ \ \textcolor{comment}{\#\ here\ we\ define\ the\ hyper-\/parameters\ to\ optimize}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00020}00020\ \ \ \ \ \textcolor{comment}{\#\ Notice:\ The\ parameter\ name\ should\ exactly\ match\ what\ you\ see\ in\ the\ UI:\ <section\_name>/<parameter>}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00021}00021\ \ \ \ \ \textcolor{comment}{\#\ For\ Example,\ here\ we\ see\ in\ the\ base\ experiment\ a\ section\ Named:\ "{}General"{}}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00022}00022\ \ \ \ \ \textcolor{comment}{\#\ under\ it\ a\ parameter\ named\ "{}batch\_size"{},\ this\ becomes\ "{}General/batch\_size"{}}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00023}00023\ \ \ \ \ \textcolor{comment}{\#\ If\ you\ have\ \`{}argparse`\ for\ example,\ then\ arguments\ will\ appear\ under\ the\ "{}Args"{}\ section,}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00024}00024\ \ \ \ \ \textcolor{comment}{\#\ and\ you\ should\ instead\ pass\ "{}Args/batch\_size"{}}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00025}00025\ \ \ \ \ hyper\_parameters=[}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/lr0"{}},\ min\_value=1e-\/5,\ max\_value=1e-\/1),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/lrf"{}},\ min\_value=0.01,\ max\_value=1.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/momentum"{}},\ min\_value=0.6,\ max\_value=0.98),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/weight\_decay"{}},\ min\_value=0.0,\ max\_value=0.001),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/warmup\_epochs"{}},\ min\_value=0.0,\ max\_value=5.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/warmup\_momentum"{}},\ min\_value=0.0,\ max\_value=0.95),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/warmup\_bias\_lr"{}},\ min\_value=0.0,\ max\_value=0.2),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/box"{}},\ min\_value=0.02,\ max\_value=0.2),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/cls"{}},\ min\_value=0.2,\ max\_value=4.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/cls\_pw"{}},\ min\_value=0.5,\ max\_value=2.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/obj"{}},\ min\_value=0.2,\ max\_value=4.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/obj\_pw"{}},\ min\_value=0.5,\ max\_value=2.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/iou\_t"{}},\ min\_value=0.1,\ max\_value=0.7),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/anchor\_t"{}},\ min\_value=2.0,\ max\_value=8.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/fl\_gamma"{}},\ min\_value=0.0,\ max\_value=4.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/hsv\_h"{}},\ min\_value=0.0,\ max\_value=0.1),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/hsv\_s"{}},\ min\_value=0.0,\ max\_value=0.9),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/hsv\_v"{}},\ min\_value=0.0,\ max\_value=0.9),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/degrees"{}},\ min\_value=0.0,\ max\_value=45.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/translate"{}},\ min\_value=0.0,\ max\_value=0.9),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/scale"{}},\ min\_value=0.0,\ max\_value=0.9),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/shear"{}},\ min\_value=0.0,\ max\_value=10.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/perspective"{}},\ min\_value=0.0,\ max\_value=0.001),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/flipud"{}},\ min\_value=0.0,\ max\_value=1.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/fliplr"{}},\ min\_value=0.0,\ max\_value=1.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/mosaic"{}},\ min\_value=0.0,\ max\_value=1.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/mixup"{}},\ min\_value=0.0,\ max\_value=1.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ UniformParameterRange(\textcolor{stringliteral}{"{}Hyperparameters/copy\_paste"{}},\ min\_value=0.0,\ max\_value=1.0),}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00054}00054\ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00055}00055\ \ \ \ \ \textcolor{comment}{\#\ this\ is\ the\ objective\ metric\ we\ want\ to\ maximize/minimize}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00056}00056\ \ \ \ \ objective\_metric\_title=\textcolor{stringliteral}{"{}metrics"{}},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00057}00057\ \ \ \ \ objective\_metric\_series=\textcolor{stringliteral}{"{}mAP\_0.5"{}},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00058}00058\ \ \ \ \ \textcolor{comment}{\#\ now\ we\ decide\ if\ we\ want\ to\ maximize\ it\ or\ minimize\ it\ (accuracy\ we\ maximize)}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00059}00059\ \ \ \ \ objective\_metric\_sign=\textcolor{stringliteral}{"{}max"{}},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00060}00060\ \ \ \ \ \textcolor{comment}{\#\ let\ us\ limit\ the\ number\ of\ concurrent\ experiments,}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00061}00061\ \ \ \ \ \textcolor{comment}{\#\ this\ in\ turn\ will\ make\ sure\ we\ do\ dont\ bombard\ the\ scheduler\ with\ experiments.}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00062}00062\ \ \ \ \ \textcolor{comment}{\#\ if\ we\ have\ an\ auto-\/scaler\ connected,\ this,\ by\ proxy,\ will\ limit\ the\ number\ of\ machine}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00063}00063\ \ \ \ \ max\_number\_of\_concurrent\_tasks=1,}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00064}00064\ \ \ \ \ \textcolor{comment}{\#\ this\ is\ the\ optimizer\ class\ (actually\ doing\ the\ optimization)}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00065}00065\ \ \ \ \ \textcolor{comment}{\#\ Currently,\ we\ can\ choose\ from\ GridSearch,\ RandomSearch\ or\ OptimizerBOHB\ (Bayesian\ optimization\ Hyper-\/Band)}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00066}00066\ \ \ \ \ optimizer\_class=OptimizerOptuna,}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00067}00067\ \ \ \ \ \textcolor{comment}{\#\ If\ specified\ only\ the\ top\ K\ performing\ Tasks\ will\ be\ kept,\ the\ others\ will\ be\ automatically\ archived}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00068}00068\ \ \ \ \ save\_top\_k\_tasks\_only=5,\ \ \textcolor{comment}{\#\ 5,}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00069}00069\ \ \ \ \ compute\_time\_limit=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00070}00070\ \ \ \ \ total\_max\_jobs=20,}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00071}00071\ \ \ \ \ min\_iteration\_per\_job=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00072}00072\ \ \ \ \ max\_iteration\_per\_job=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00073}00073\ )}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00075}00075\ \textcolor{comment}{\#\ report\ every\ 10\ seconds,\ this\ is\ way\ too\ often,\ but\ we\ are\ testing\ here}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00076}00076\ optimizer.set\_report\_period(10\ /\ 60)}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00077}00077\ \textcolor{comment}{\#\ You\ can\ also\ use\ the\ line\ below\ instead\ to\ run\ all\ the\ optimizer\ tasks\ locally,\ without\ using\ queues\ or\ agent}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00078}00078\ \textcolor{comment}{\#\ an\_optimizer.start\_locally(job\_complete\_callback=job\_complete\_callback)}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00079}00079\ \textcolor{comment}{\#\ set\ the\ time\ limit\ for\ the\ optimization\ process\ (2\ hours)}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00080}\mbox{\hyperlink{namespaceutils_1_1loggers_1_1clearml_1_1hpo_abe52678e78e11b914cf3e2f91b63f0da}{00080}}\ optimizer.set\_time\_limit(in\_minutes=120.0)}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00081}00081\ \textcolor{comment}{\#\ Start\ the\ optimization\ process\ in\ the\ local\ environment}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00082}00082\ optimizer.start\_locally()}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00083}00083\ \textcolor{comment}{\#\ wait\ until\ process\ is\ done\ (notice\ we\ are\ controlling\ the\ optimization\ process\ in\ the\ background)}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00084}00084\ optimizer.wait()}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00085}00085\ \textcolor{comment}{\#\ make\ sure\ background\ optimization\ stopped}}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00086}00086\ optimizer.stop()}
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{clearml_2hpo_8py_source_l00088}00088\ print(\textcolor{stringliteral}{"{}We\ are\ done,\ good\ bye"{}})}
+
+\end{DoxyCode}

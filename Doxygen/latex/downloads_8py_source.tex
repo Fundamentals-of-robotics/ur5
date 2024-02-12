@@ -1,0 +1,132 @@
+\doxysection{downloads.\+py}
+\hypertarget{downloads_8py_source}{}\label{downloads_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/downloads.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/downloads.py}}
+\mbox{\hyperlink{downloads_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1downloads}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Download\ utils."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00004}00004\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00005}00005\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00006}00006\ \textcolor{keyword}{import}\ urllib}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00007}00007\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00009}00009\ \textcolor{keyword}{import}\ requests}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00010}00010\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00013}\mbox{\hyperlink{namespaceutils_1_1downloads_a9cbc5e95cdb36fbdb88fa514b8f1ea2d}{00013}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1downloads_a9cbc5e95cdb36fbdb88fa514b8f1ea2d}{is\_url}}(url,\ check=True):}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00014}00014\ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ string\ is\ URL\ and\ check\ if\ URL\ exists}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00015}00015\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00016}00016\ \ \ \ \ \ \ \ \ url\ =\ str(url)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00017}00017\ \ \ \ \ \ \ \ \ result\ =\ urllib.parse.urlparse(url)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ all([result.scheme,\ result.netloc])\ \ \textcolor{comment}{\#\ check\ if\ is\ url}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (urllib.request.urlopen(url).getcode()\ ==\ 200)\ \textcolor{keywordflow}{if}\ check\ \textcolor{keywordflow}{else}\ \textcolor{keyword}{True}\ \ \textcolor{comment}{\#\ check\ if\ exists\ online}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{except}\ (AssertionError,\ urllib.request.HTTPError):}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00024}\mbox{\hyperlink{namespaceutils_1_1downloads_abe75d4aa6e65a6a7841723dee875ce10}{00024}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1downloads_abe75d4aa6e65a6a7841723dee875ce10}{gsutil\_getsize}}(url="{}"{}):}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00025}00025\ \ \ \ \ \textcolor{comment}{\#\ gs://bucket/file\ size\ https://cloud.google.com/storage/docs/gsutil/commands/du}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00026}00026\ \ \ \ \ output\ =\ subprocess.check\_output([\textcolor{stringliteral}{"{}gsutil"{}},\ \textcolor{stringliteral}{"{}du"{}},\ url],\ shell=\textcolor{keyword}{True},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00027}00027\ \ \ \ \ \textcolor{keywordflow}{return}\ int(output.split()[0])\ \textcolor{keywordflow}{if}\ output\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00030}\mbox{\hyperlink{namespaceutils_1_1downloads_af1c700702c8a64768c07f6908b097183}{00030}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1downloads_af1c700702c8a64768c07f6908b097183}{url\_getsize}}(url="{}https://ultralytics.com/images/bus.jpg\textcolor{stringliteral}{"{}):}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ }\textcolor{comment}{\#\ Return\ downloadable\ file\ size\ in\ bytes}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00032}00032\ \ \ \ \ response\ =\ requests.head(url,\ allow\_redirects=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00033}00033\ \ \ \ \ \textcolor{keywordflow}{return}\ int(response.headers.get(\textcolor{stringliteral}{"{}content-\/length"{}},\ -\/1))}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00036}\mbox{\hyperlink{namespaceutils_1_1downloads_ac759d007fe80cf3e30f4dc5aa4b32897}{00036}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1downloads_ac759d007fe80cf3e30f4dc5aa4b32897}{curl\_download}}(url,\ filename,\ *,\ silent:\ bool\ =\ \textcolor{keyword}{False})\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00037}00037\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Download\ a\ file\ from\ a\ url\ to\ a\ filename\ using\ curl."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00038}00038\ \ \ \ \ silent\_option\ =\ \textcolor{stringliteral}{"{}sS"{}}\ \textcolor{keywordflow}{if}\ silent\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}\ \ \textcolor{comment}{\#\ silent}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00039}00039\ \ \ \ \ proc\ =\ subprocess.run(}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}curl"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/\#"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}-\/\{silent\_option\}L"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ url,}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/output"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ filename,}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/retry"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}9"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/C"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00052}00052\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{return}\ proc.returncode\ ==\ 0}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00056}\mbox{\hyperlink{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96}{00056}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96}{safe\_download}}(file,\ url,\ url2=None,\ min\_bytes=1e0,\ error\_msg="{}"{}):}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00057}00057\ \ \ \ \ \textcolor{comment}{\#\ Attempts\ to\ download\ file\ from\ url\ or\ url2,\ checks\ and\ removes\ incomplete\ downloads\ <\ min\_bytes}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00060}00060\ \ \ \ \ file\ =\ Path(file)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00061}00061\ \ \ \ \ assert\_msg\ =\ f\textcolor{stringliteral}{"{}Downloaded\ file\ '\{file\}'\ does\ not\ exist\ or\ size\ is\ <\ min\_bytes=\{min\_bytes\}"{}}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{try}:\ \ \textcolor{comment}{\#\ url1}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Downloading\ \{url\}\ to\ \{file\}..."{}})}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ torch.hub.download\_url\_to\_file(url,\ str(file),\ progress=LOGGER.level\ <=\ logging.INFO)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ file.exists()\ \textcolor{keywordflow}{and}\ file.stat().st\_size\ >\ min\_bytes,\ assert\_msg\ \ \textcolor{comment}{\#\ check}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:\ \ \textcolor{comment}{\#\ url2}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ file.exists():}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ file.unlink()\ \ \textcolor{comment}{\#\ remove\ partial\ downloads}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}ERROR:\ \{e\}\(\backslash\)nRe-\/attempting\ \{url2\ or\ url\}\ to\ \{file\}..."{}})}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ curl\ download,\ retry\ and\ resume\ on\ fail}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ curl\_download(url2\ \textcolor{keywordflow}{or}\ url,\ file)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00072}00072\ \ \ \ \ \textcolor{keywordflow}{finally}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ file.exists()\ \textcolor{keywordflow}{or}\ file.stat().st\_size\ <\ min\_bytes:\ \ \textcolor{comment}{\#\ check}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ file.exists():}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file.unlink()\ \ \textcolor{comment}{\#\ remove\ partial\ downloads}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}ERROR:\ \{assert\_msg\}\(\backslash\)n\{error\_msg\}"{}})}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ LOGGER.info(\textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00080}\mbox{\hyperlink{namespaceutils_1_1downloads_a93bd4a24688a2b87c2dff41eed45d2dc}{00080}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1downloads_a93bd4a24688a2b87c2dff41eed45d2dc}{attempt\_download}}(file,\ repo="{}ultralytics/yolov5"{},\ release="{}v7.0"{}):}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00081}00081\ \ \ \ \ \textcolor{comment}{\#\ Attempt\ file\ download\ from\ GitHub\ release\ assets\ if\ not\ found\ locally.\ release\ =\ 'latest',\ 'v7.0',\ etc.}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00082}00082\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00084}00084\ \ \ \ \ \textcolor{keyword}{def\ }github\_assets(repository,\ version="{}latest"{}):}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ GitHub\ repo\ tag\ (i.e.\ 'v7.0')\ and\ assets\ (i.e.\ ['yolov5s.pt',\ 'yolov5m.pt',\ ...])}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ version\ !=\ \textcolor{stringliteral}{"{}latest"{}}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ version\ =\ f\textcolor{stringliteral}{"{}tags/\{version\}"{}}\ \ \textcolor{comment}{\#\ i.e.\ tags/v7.0}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ response\ =\ requests.get(f\textcolor{stringliteral}{"{}https://api.github.com/repos/\{repository\}/releases/\{version\}"{}}).json()\ \ \textcolor{comment}{\#\ github\ api}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ response[\textcolor{stringliteral}{"{}tag\_name"{}}],\ [x[\textcolor{stringliteral}{"{}name"{}}]\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ response[\textcolor{stringliteral}{"{}assets"{}}]]\ \ \textcolor{comment}{\#\ tag,\ assets}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00091}00091\ \ \ \ \ file\ =\ Path(str(file).strip().replace(\textcolor{stringliteral}{"{}'"{}},\ \textcolor{stringliteral}{"{}"{}}))}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ file.exists():}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ URL\ specified}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ name\ =\ Path(urllib.parse.unquote(str(file))).name\ \ \textcolor{comment}{\#\ decode\ '\%2F'\ to\ '/'\ etc.}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ str(file).startswith((\textcolor{stringliteral}{"{}http:/"{}},\ \textcolor{stringliteral}{"{}https:/"{}})):\ \ \textcolor{comment}{\#\ download}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ url\ =\ str(file).replace(\textcolor{stringliteral}{"{}:/"{}},\ \textcolor{stringliteral}{"{}://"{}})\ \ \textcolor{comment}{\#\ Pathlib\ turns\ ://\ -\/>\ :/}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ file\ =\ name.split(\textcolor{stringliteral}{"{}?"{}})[0]\ \ \textcolor{comment}{\#\ parse\ authentication\ https://url.com/file.txt?auth...}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ Path(file).is\_file():}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Found\ \{url\}\ locally\ at\ \{file\}"{}})\ \ \textcolor{comment}{\#\ file\ already\ exists}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96}{safe\_download}}(file=file,\ url=url,\ min\_bytes=1e5)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ GitHub\ assets}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ assets\ =\ [f\textcolor{stringliteral}{"{}yolov5\{size\}\{suffix\}.pt"{}}\ \textcolor{keywordflow}{for}\ size\ \textcolor{keywordflow}{in}\ \textcolor{stringliteral}{"{}nsmlx"{}}\ \textcolor{keywordflow}{for}\ suffix\ \textcolor{keywordflow}{in}\ (\textcolor{stringliteral}{"{}"{}},\ \textcolor{stringliteral}{"{}6"{}},\ \textcolor{stringliteral}{"{}-\/cls"{}},\ \textcolor{stringliteral}{"{}-\/seg"{}})]\ \ \textcolor{comment}{\#\ default}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ tag,\ assets\ =\ github\_assets(repo,\ release)}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tag,\ assets\ =\ github\_assets(repo)\ \ \textcolor{comment}{\#\ latest\ release}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tag\ =\ subprocess.check\_output(\textcolor{stringliteral}{"{}git\ tag"{}},\ shell=\textcolor{keyword}{True},\ stderr=subprocess.STDOUT).decode().split()[-\/1]}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tag\ =\ release}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ name\ \textcolor{keywordflow}{in}\ assets:}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ file.parent.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ parent\ dir\ (if\ required)}}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespaceutils_1_1downloads_aa2030a32c00c5fa3ef117c6c5cefab96}{safe\_download}}(}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ url=f\textcolor{stringliteral}{"{}https://github.com/\{repo\}/releases/download/\{tag\}/\{name\}"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min\_bytes=1e5,}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_msg=f\textcolor{stringliteral}{"{}\{file\}\ missing,\ try\ downloading\ from\ https://github.com/\{repo\}/releases/\{tag\}"{}},}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{downloads_8py_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{return}\ str(file)}
+
+\end{DoxyCode}

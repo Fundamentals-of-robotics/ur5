@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['safe_5fz_5fmotion_0',['SAFE_Z_MOTION',['../ur5__task__library_8h.html#a7fae586b9258ff311bd869779579dd54',1,'ur5_task_library.h']]],
-  ['send_5fdes_5fjstate_1',['send_des_jstate',['../class_inverse_differential.html#a31f22bfe451d12429ebf8485fa2312b1',1,'InverseDifferential']]],
-  ['start_2',['start',['../ur5__task__library_8h.html#adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc',1,'ur5_task_library.h']]],
-  ['state_3',['state',['../ur5__task__library_8h.html#aa82f6310c6e199f26af6e40639da040a',1,'ur5_task_library.h']]],
-  ['stato_4',['stato',['../ur5__task__library_8h.html#adf0495c10459753cfa2d2238827ecb2f',1,'ur5_task_library.h']]]
+  ['job_5ftype_0',['job_type',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#aa4c052e69df6c20232683fd10076486f',1,'utils.loggers.comet.CometLogger.job_type'],['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#a9a6dc7636680a13ee6ed2eba53b5a51b',1,'utils.loggers.wandb.wandb_utils.WandbLogger.job_type']]],
+  ['join_5fthreads_1',['join_threads',['../namespaceutils.html#a89b83818793853a4c9eeab0bf04a6a3e',1,'utils']]]
 ];

@@ -1,0 +1,152 @@
+\doxysection{plots.\+py}
+\hypertarget{segment_2plots_8py_source}{}\label{segment_2plots_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/plots.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/plots.py}}
+\mbox{\hyperlink{segment_2plots_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1segment_1_1plots}{00001}}\ \textcolor{keyword}{import}\ contextlib}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00002}00002\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00003}00003\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00005}00005\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00006}00006\ \textcolor{keyword}{import}\ matplotlib.pyplot\ \textcolor{keyword}{as}\ plt}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00007}00007\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00008}00008\ \textcolor{keyword}{import}\ pandas\ \textcolor{keyword}{as}\ pd}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00009}00009\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00011}00011\ \textcolor{keyword}{from}\ ..\ \textcolor{keyword}{import}\ threaded}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00012}00012\ \textcolor{keyword}{from}\ ..general\ \textcolor{keyword}{import}\ xywh2xyxy}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00013}00013\ \textcolor{keyword}{from}\ ..plots\ \textcolor{keyword}{import}\ Annotator,\ colors}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00016}00016\ \textcolor{preprocessor}{@threaded}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00017}\mbox{\hyperlink{namespaceutils_1_1segment_1_1plots_a4558d83190deadf5004c8f3b45dbc02b}{00017}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1plots_a4558d83190deadf5004c8f3b45dbc02b}{plot\_images\_and\_masks}}(images,\ targets,\ masks,\ paths=None,\ fname="{}images.jpg"{},\ names=None):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00018}00018\ \ \ \ \ \textcolor{comment}{\#\ Plot\ image\ grid\ with\ labels}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00019}00019\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(images,\ torch.Tensor):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ images\ =\ images.cpu().float().numpy()}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00021}00021\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(targets,\ torch.Tensor):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00022}00022\ \ \ \ \ \ \ \ \ targets\ =\ targets.cpu().numpy()}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(masks,\ torch.Tensor):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ masks\ =\ masks.cpu().numpy().astype(int)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00026}00026\ \ \ \ \ max\_size\ =\ 1920\ \ \textcolor{comment}{\#\ max\ image\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00027}00027\ \ \ \ \ max\_subplots\ =\ 16\ \ \textcolor{comment}{\#\ max\ image\ subplots,\ i.e.\ 4x4}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00028}00028\ \ \ \ \ bs,\ \_,\ h,\ w\ =\ images.shape\ \ \textcolor{comment}{\#\ batch\ size,\ \_,\ height,\ width}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00029}00029\ \ \ \ \ bs\ =\ min(bs,\ max\_subplots)\ \ \textcolor{comment}{\#\ limit\ plot\ images}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00030}00030\ \ \ \ \ ns\ =\ np.ceil(bs**0.5)\ \ \textcolor{comment}{\#\ number\ of\ subplots\ (square)}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00031}00031\ \ \ \ \ \textcolor{keywordflow}{if}\ np.max(images[0])\ <=\ 1:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ images\ *=\ 255\ \ \textcolor{comment}{\#\ de-\/normalise\ (optional)}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00034}00034\ \ \ \ \ \textcolor{comment}{\#\ Build\ Image}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00035}00035\ \ \ \ \ mosaic\ =\ np.full((int(ns\ *\ h),\ int(ns\ *\ w),\ 3),\ 255,\ dtype=np.uint8)\ \ \textcolor{comment}{\#\ init}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00036}00036\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ im\ \textcolor{keywordflow}{in}\ enumerate(images):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ ==\ max\_subplots:\ \ \textcolor{comment}{\#\ if\ last\ batch\ has\ fewer\ images\ than\ we\ expect}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ x,\ y\ =\ int(w\ *\ (i\ //\ ns)),\ int(h\ *\ (i\ \%\ ns))\ \ \textcolor{comment}{\#\ block\ origin}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ im\ =\ im.transpose(1,\ 2,\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ mosaic[y\ :\ y\ +\ h,\ x\ :\ x\ +\ w,\ :]\ =\ im}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00043}00043\ \ \ \ \ \textcolor{comment}{\#\ Resize\ (optional)}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00044}00044\ \ \ \ \ scale\ =\ max\_size\ /\ ns\ /\ max(h,\ w)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{if}\ scale\ <\ 1:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ h\ =\ math.ceil(scale\ *\ h)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ w\ =\ math.ceil(scale\ *\ w)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ mosaic\ =\ cv2.resize(mosaic,\ tuple(int(x\ *\ ns)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (w,\ h)))}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00050}00050\ \ \ \ \ \textcolor{comment}{\#\ Annotate}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00051}00051\ \ \ \ \ fs\ =\ int((h\ +\ w)\ *\ ns\ *\ 0.01)\ \ \textcolor{comment}{\#\ font\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00052}00052\ \ \ \ \ annotator\ =\ Annotator(mosaic,\ line\_width=round(fs\ /\ 10),\ font\_size=fs,\ pil=\textcolor{keyword}{True},\ example=names)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(i\ +\ 1):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ x,\ y\ =\ int(w\ *\ (i\ //\ ns)),\ int(h\ *\ (i\ \%\ ns))\ \ \textcolor{comment}{\#\ block\ origin}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ annotator.rectangle([x,\ y,\ x\ +\ w,\ y\ +\ h],\ \textcolor{keywordtype}{None},\ (255,\ 255,\ 255),\ width=2)\ \ \textcolor{comment}{\#\ borders}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ paths:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ annotator.text([x\ +\ 5,\ y\ +\ 5],\ text=Path(paths[i]).name[:40],\ txt\_color=(220,\ 220,\ 220))\ \ \textcolor{comment}{\#\ filenames}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(targets)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ idx\ =\ targets[:,\ 0]\ ==\ i}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ ti\ =\ targets[idx]\ \ \textcolor{comment}{\#\ image\ targets}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ boxes\ =\ xywh2xyxy(ti[:,\ 2:6]).T}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ classes\ =\ ti[:,\ 1].astype(\textcolor{stringliteral}{"{}int"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ ti.shape[1]\ ==\ 6\ \ \textcolor{comment}{\#\ labels\ if\ no\ conf\ column}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ conf\ =\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{else}\ ti[:,\ 6]\ \ \textcolor{comment}{\#\ check\ for\ confidence\ presence\ (label\ vs\ pred)}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ boxes.shape[1]:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ boxes.max()\ <=\ 1.01:\ \ \textcolor{comment}{\#\ if\ normalized\ with\ tolerance\ 0.01}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[0,\ 2]]\ *=\ w\ \ \textcolor{comment}{\#\ scale\ to\ pixels}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[1,\ 3]]\ *=\ h}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ scale\ <\ 1:\ \ \textcolor{comment}{\#\ absolute\ coords\ need\ scale\ if\ image\ scales}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes\ *=\ scale}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[0,\ 2]]\ +=\ x}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[1,\ 3]]\ +=\ y}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j,\ box\ \textcolor{keywordflow}{in}\ enumerate(boxes.T.tolist()):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cls\ =\ classes[j]}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color\ =\ colors(cls)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cls\ =\ names[cls]\ \textcolor{keywordflow}{if}\ names\ \textcolor{keywordflow}{else}\ cls}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{or}\ conf[j]\ >\ 0.25:\ \ \textcolor{comment}{\#\ 0.25\ conf\ thresh}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ label\ =\ f\textcolor{stringliteral}{"{}\{cls\}"{}}\ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}\{cls\}\ \{conf[j]:.1f\}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ annotator.box\_label(box,\ label,\ color=color)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Plot\ masks}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(masks):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ masks.max()\ >\ 1.0:\ \ \textcolor{comment}{\#\ mean\ that\ masks\ are\ overlap}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ image\_masks\ =\ masks[[i]]\ \ \textcolor{comment}{\#\ (1,\ 640,\ 640)}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nl\ =\ len(ti)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ np.arange(nl).reshape(nl,\ 1,\ 1)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ image\_masks\ =\ np.repeat(image\_masks,\ nl,\ axis=0)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ image\_masks\ =\ np.where(image\_masks\ ==\ index,\ 1.0,\ 0.0)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ image\_masks\ =\ masks[idx]}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ np.asarray(annotator.im).copy()}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j,\ box\ \textcolor{keywordflow}{in}\ enumerate(boxes.T.tolist()):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{or}\ conf[j]\ >\ 0.25:\ \ \textcolor{comment}{\#\ 0.25\ conf\ thresh}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color\ =\ colors(classes[j])}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mh,\ mw\ =\ image\_masks[j].shape}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ mh\ !=\ h\ \textcolor{keywordflow}{or}\ mw\ !=\ w:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\ =\ image\_masks[j].astype(np.uint8)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\ =\ cv2.resize(mask,\ (w,\ h))}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\ =\ mask.astype(bool)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\ =\ image\_masks[j].astype(bool)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ contextlib.suppress(Exception):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im[y\ :\ y\ +\ h,\ x\ :\ x\ +\ w,\ :][mask]\ =\ (}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im[y\ :\ y\ +\ h,\ x\ :\ x\ +\ w,\ :][mask]\ *\ 0.4\ +\ np.array(color)\ *\ 0.6}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ annotator.fromarray(im)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00110}00110\ \ \ \ \ annotator.im.save(fname)\ \ \textcolor{comment}{\#\ save}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00113}\mbox{\hyperlink{namespaceutils_1_1segment_1_1plots_a2628db931633115664a31ec4c4b884c8}{00113}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1plots_a2628db931633115664a31ec4c4b884c8}{plot\_results\_with\_masks}}(file="{}path/to/results.csv"{},\ dir="{}"{},\ best=True):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00114}00114\ \ \ \ \ \textcolor{comment}{\#\ Plot\ training\ results.csv.\ Usage:\ from\ utils.plots\ import\ *;\ plot\_results('path/to/results.csv')}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00115}00115\ \ \ \ \ save\_dir\ =\ Path(file).parent\ \textcolor{keywordflow}{if}\ file\ \textcolor{keywordflow}{else}\ Path(dir)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00116}00116\ \ \ \ \ fig,\ ax\ =\ plt.subplots(2,\ 8,\ figsize=(18,\ 6),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00117}00117\ \ \ \ \ ax\ =\ ax.ravel()}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00118}00118\ \ \ \ \ files\ =\ list(save\_dir.glob(\textcolor{stringliteral}{"{}results*.csv"{}}))}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00119}00119\ \ \ \ \ \textcolor{keyword}{assert}\ len(files),\ f\textcolor{stringliteral}{"{}No\ results.csv\ files\ found\ in\ \{save\_dir.resolve()\},\ nothing\ to\ plot."{}}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ files:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ data\ =\ pd.read\_csv(f)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ np.argmax(}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0.9\ *\ data.values[:,\ 8]\ +\ 0.1\ *\ data.values[:,\ 7]\ +\ 0.9\ *\ data.values[:,\ 12]\ +\ 0.1\ *\ data.values[:,\ 11]}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ [x.strip()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ data.columns]}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ data.values[:,\ 0]}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ j\ \textcolor{keywordflow}{in}\ enumerate([1,\ 2,\ 3,\ 4,\ 5,\ 6,\ 9,\ 10,\ 13,\ 14,\ 15,\ 16,\ 7,\ 8,\ 11,\ 12]):}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ data.values[:,\ j]}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ y[y\ ==\ 0]\ =\ np.nan\ \ \#\ don't\ show\ zero\ values}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].plot(x,\ y,\ marker=\textcolor{stringliteral}{"{}."{}},\ label=f.stem,\ linewidth=2,\ markersize=2)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ best}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].scatter(index,\ y[index],\ color=\textcolor{stringliteral}{"{}r"{}},\ label=f\textcolor{stringliteral}{"{}best:\{index\}"{}},\ marker=\textcolor{stringliteral}{"{}*"{}},\ linewidth=3)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].set\_title(s[j]\ +\ f\textcolor{stringliteral}{"{}\(\backslash\)n\{round(y[index],\ 5)\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ last}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].scatter(x[-\/1],\ y[-\/1],\ color=\textcolor{stringliteral}{"{}r"{}},\ label=\textcolor{stringliteral}{"{}last"{}},\ marker=\textcolor{stringliteral}{"{}*"{}},\ linewidth=3)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].set\_title(s[j]\ +\ f\textcolor{stringliteral}{"{}\(\backslash\)n\{round(y[-\/1],\ 5)\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ j\ in\ [8,\ 9,\ 10]:\ \ \#\ share\ train\ and\ val\ loss\ y\ axes}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ ax[i].get\_shared\_y\_axes().join(ax[i],\ ax[i\ -\/\ 5])}}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Warning:\ Plotting\ error\ for\ \{f\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00144}00144\ \ \ \ \ ax[1].legend()}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00145}00145\ \ \ \ \ fig.savefig(save\_dir\ /\ \textcolor{stringliteral}{"{}results.png"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{segment_2plots_8py_source_l00146}00146\ \ \ \ \ plt.close()}
+
+\end{DoxyCode}

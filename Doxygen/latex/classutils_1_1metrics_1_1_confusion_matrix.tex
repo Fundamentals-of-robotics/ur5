@@ -1,0 +1,146 @@
+\doxysection{utils.\+metrics.\+Confusion\+Matrix Class Reference}
+\hypertarget{classutils_1_1metrics_1_1_confusion_matrix}{}\label{classutils_1_1metrics_1_1_confusion_matrix}\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a57428ede891ce392abd375322ba8e09f}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a16156a61830be779c26d10d8e0a4c6d0}{nc}}, \mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a2dcff73edf46d4f7a2da22b4bb601f58}{conf}}=0.\+25, \mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a1fcbd29ef0a9c2ac7e8fa992b668be60}{iou\+\_\+thres}}=0.\+45)
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_ab85496355f30ad2115839b2e05baf826}{process\+\_\+batch}} (self, detections, labels)
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_ae9438e93a5714423b5b0f4ee42b2934b}{tp\+\_\+fp}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a6dfc1f6201784c6afdc23c9f838bd8a7}{plot}} (self, normalize=True, save\+\_\+dir="{}"{}, names=())
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_ac830ddf67f9e968c0c0a5ae2c0cd3d76}{print}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a35a1d67070041abfa9d9722c04a86b17}{matrix}}
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a16156a61830be779c26d10d8e0a4c6d0}{nc}}
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a2dcff73edf46d4f7a2da22b4bb601f58}{conf}}
+\item 
+\mbox{\hyperlink{classutils_1_1metrics_1_1_confusion_matrix_a1fcbd29ef0a9c2ac7e8fa992b668be60}{iou\+\_\+thres}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00126}{126}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_a57428ede891ce392abd375322ba8e09f}\label{classutils_1_1metrics_1_1_confusion_matrix_a57428ede891ce392abd375322ba8e09f} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{nc,  }\item[{}]{conf = {\ttfamily 0.25},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.45} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00128}{128}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_a6dfc1f6201784c6afdc23c9f838bd8a7}\label{classutils_1_1metrics_1_1_confusion_matrix_a6dfc1f6201784c6afdc23c9f838bd8a7} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!plot@{plot}}
+\index{plot@{plot}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{plot()}{plot()}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{normalize = {\ttfamily True},  }\item[{}]{save\+\_\+dir = {\ttfamily "{}"{}},  }\item[{}]{names = {\ttfamily ()} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00188}{188}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_ac830ddf67f9e968c0c0a5ae2c0cd3d76}\label{classutils_1_1metrics_1_1_confusion_matrix_ac830ddf67f9e968c0c0a5ae2c0cd3d76} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!print@{print}}
+\index{print@{print}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+print (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00219}{219}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_ab85496355f30ad2115839b2e05baf826}\label{classutils_1_1metrics_1_1_confusion_matrix_ab85496355f30ad2115839b2e05baf826} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{detections,  }\item[{}]{labels }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return intersection-over-union (Jaccard index) of boxes.
+
+Both sets of boxes are expected to be in (x1, y1, x2, y2) format.
+Arguments:
+    detections (Array[N, 6]), x1, y1, x2, y2, conf, class
+    labels (Array[M, 5]), class, x1, y1, x2, y2
+Returns:
+    None, updates confusion matrix accordingly
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00134}{134}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_ae9438e93a5714423b5b0f4ee42b2934b}\label{classutils_1_1metrics_1_1_confusion_matrix_ae9438e93a5714423b5b0f4ee42b2934b} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!tp\_fp@{tp\_fp}}
+\index{tp\_fp@{tp\_fp}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{tp\_fp()}{tp\_fp()}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+tp\+\_\+fp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00181}{181}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_a2dcff73edf46d4f7a2da22b4bb601f58}\label{classutils_1_1metrics_1_1_confusion_matrix_a2dcff73edf46d4f7a2da22b4bb601f58} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!conf@{conf}}
+\index{conf@{conf}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{conf}{conf}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+conf}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00131}{131}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_a1fcbd29ef0a9c2ac7e8fa992b668be60}\label{classutils_1_1metrics_1_1_confusion_matrix_a1fcbd29ef0a9c2ac7e8fa992b668be60} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!iou\_thres@{iou\_thres}}
+\index{iou\_thres@{iou\_thres}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{iou\_thres}{iou\_thres}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+iou\+\_\+thres}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00132}{132}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_a35a1d67070041abfa9d9722c04a86b17}\label{classutils_1_1metrics_1_1_confusion_matrix_a35a1d67070041abfa9d9722c04a86b17} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!matrix@{matrix}}
+\index{matrix@{matrix}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{matrix}{matrix}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+matrix}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00129}{129}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classutils_1_1metrics_1_1_confusion_matrix_a16156a61830be779c26d10d8e0a4c6d0}\label{classutils_1_1metrics_1_1_confusion_matrix_a16156a61830be779c26d10d8e0a4c6d0} 
+\index{utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}!nc@{nc}}
+\index{nc@{nc}!utils.metrics.ConfusionMatrix@{utils.metrics.ConfusionMatrix}}
+\doxysubsubsection{\texorpdfstring{nc}{nc}}
+{\footnotesize\ttfamily utils.\+metrics.\+Confusion\+Matrix.\+nc}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00130}{130}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/\mbox{\hyperlink{metrics_8py}{metrics.\+py}}\end{DoxyCompactItemize}

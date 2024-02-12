@@ -1,0 +1,315 @@
+\doxysection{detect.\+py}
+\hypertarget{detect_8py_source}{}\label{detect_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/detect.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/detect.py}}
+\mbox{\hyperlink{detect_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00001}\mbox{\hyperlink{namespacedetect}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00003}00003\ \textcolor{stringliteral}{Run\ YOLOv5\ detection\ inference\ on\ images,\ videos,\ directories,\ globs,\ YouTube,\ webcam,\ streams,\ etc.}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00005}00005\ \textcolor{stringliteral}{Usage\ -\/\ sources:}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00006}00006\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ detect.py\ -\/-\/weights\ yolov5s.pt\ -\/-\/source\ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ webcam}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ img.jpg\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ image}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00008}00008\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vid.mp4\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ video}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00009}00009\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ screen\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ screenshot}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ directory}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ list.txt\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ list\ of\ images}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ list.streams\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ list\ of\ streams}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'path/*.jpg'\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ glob}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'https://youtu.be/LNwODJXcvt4'\ \ \#\ YouTube}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'rtsp://example.com/media.mp4'\ \ \#\ RTSP,\ RTMP,\ HTTP\ stream}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00016}00016\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00017}00017\ \textcolor{stringliteral}{Usage\ -\/\ formats:}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ detect.py\ -\/-\/weights\ yolov5s.pt\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ PyTorch}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.torchscript\ \ \ \ \ \ \ \ \#\ TorchScript}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.onnx\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ ONNX\ Runtime\ or\ OpenCV\ DNN\ with\ -\/-\/dnn}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_openvino\_model\ \ \ \ \ \#\ OpenVINO}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.engine\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorRT}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00023}00023\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.mlmodel\ \ \ \ \ \ \ \ \ \ \ \ \#\ CoreML\ (macOS-\/only)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_saved\_model\ \ \ \ \ \ \ \ \#\ TensorFlow\ SavedModel}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.pb\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ GraphDef}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s.tflite\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ Lite}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_edgetpu.tflite\ \ \ \ \ \#\ TensorFlow\ Edge\ TPU}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s\_paddle\_model\ \ \ \ \ \ \ \#\ PaddlePaddle}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00029}00029\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00031}00031\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00032}00032\ \textcolor{keyword}{import}\ csv}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00033}00033\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00034}00034\ \textcolor{keyword}{import}\ platform}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00035}00035\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00036}00036\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00038}00038\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00040}\mbox{\hyperlink{namespacedetect_ac6dcac1d77a6882663b313e008e31c0e}{00040}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00041}\mbox{\hyperlink{namespacedetect_a4ec3f78b7049a79cc5c3653514ca9e8b}{00041}}\ ROOT\ =\ FILE.parents[0]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00042}00042\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00043}00043\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00044}00044\ ROOT\ =\ Path(os.path.relpath(ROOT,\ Path.cwd()))\ \ \textcolor{comment}{\#\ relative}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00046}00046\ \textcolor{keyword}{from}\ ultralytics.utils.plotting\ \textcolor{keyword}{import}\ Annotator,\ colors,\ save\_one\_box}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00048}00048\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1common}{models.common}}\ \textcolor{keyword}{import}\ DetectMultiBackend}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00049}00049\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1dataloaders}{utils.dataloaders}}\ \textcolor{keyword}{import}\ IMG\_FORMATS,\ VID\_FORMATS,\ LoadImages,\ LoadScreenshots,\ LoadStreams}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00050}00050\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00051}00051\ \ \ \ \ LOGGER,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00052}00052\ \ \ \ \ Profile,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00053}00053\ \ \ \ \ check\_file,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00054}00054\ \ \ \ \ check\_img\_size,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00055}00055\ \ \ \ \ check\_imshow,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00056}00056\ \ \ \ \ check\_requirements,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00057}00057\ \ \ \ \ colorstr,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00058}00058\ \ \ \ \ cv2,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00059}00059\ \ \ \ \ increment\_path,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00060}00060\ \ \ \ \ non\_max\_suppression,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00061}00061\ \ \ \ \ print\_args,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00062}00062\ \ \ \ \ scale\_boxes,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00063}00063\ \ \ \ \ strip\_optimizer,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00064}00064\ \ \ \ \ xyxy2xywh,}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00065}00065\ )}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00066}00066\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ select\_device,\ smart\_inference\_mode}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00069}00069\ \textcolor{preprocessor}{@smart\_inference\_mode()}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00070}\mbox{\hyperlink{namespacedetect_abe563e997679578e2cbb3ba94256c4e5}{00070}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacedetect_abe563e997679578e2cbb3ba94256c4e5}{run}}(}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00071}00071\ \ \ \ \ weights=ROOT\ /\ "{}yolov5s.pt"{},\ \ \textcolor{comment}{\#\ model\ path\ or\ triton\ URL}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00072}00072\ \ \ \ \ source=ROOT\ /\ "{}data/images"{},\ \ \textcolor{comment}{\#\ file/dir/URL/glob/screen/0(webcam)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00073}00073\ \ \ \ \ data=ROOT\ /\ "{}data/coco128.yaml"{},\ \ \textcolor{comment}{\#\ dataset.yaml\ path}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00074}00074\ \ \ \ \ imgsz=(640,\ 640),\ \ \textcolor{comment}{\#\ inference\ size\ (height,\ width)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00075}00075\ \ \ \ \ conf\_thres=0.25,\ \ \textcolor{comment}{\#\ confidence\ threshold}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00076}00076\ \ \ \ \ iou\_thres=0.45,\ \ \textcolor{comment}{\#\ NMS\ IOU\ threshold}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00077}00077\ \ \ \ \ max\_det=1000,\ \ \textcolor{comment}{\#\ maximum\ detections\ per\ image}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00078}00078\ \ \ \ \ device=\textcolor{stringliteral}{"{}"{}},\ \ \textcolor{comment}{\#\ cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00079}00079\ \ \ \ \ view\_img=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ show\ results}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00080}00080\ \ \ \ \ save\_txt=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ save\ results\ to\ *.txt}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00081}00081\ \ \ \ \ save\_csv=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ save\ results\ in\ CSV\ format}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00082}00082\ \ \ \ \ save\_conf=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ save\ confidences\ in\ -\/-\/save-\/txt\ labels}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00083}00083\ \ \ \ \ save\_crop=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ save\ cropped\ prediction\ boxes}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00084}00084\ \ \ \ \ nosave=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ do\ not\ save\ images/videos}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00085}00085\ \ \ \ \ classes=\textcolor{keywordtype}{None},\ \ \textcolor{comment}{\#\ filter\ by\ class:\ -\/-\/class\ 0,\ or\ -\/-\/class\ 0\ 2\ 3}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00086}00086\ \ \ \ \ agnostic\_nms=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ class-\/agnostic\ NMS}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00087}00087\ \ \ \ \ augment=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ augmented\ inference}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00088}00088\ \ \ \ \ visualize=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ visualize\ features}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00089}00089\ \ \ \ \ update=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ update\ all\ models}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00090}00090\ \ \ \ \ project=ROOT\ /\ \textcolor{stringliteral}{"{}runs/detect"{}},\ \ \textcolor{comment}{\#\ save\ results\ to\ project/name}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00091}00091\ \ \ \ \ name=\textcolor{stringliteral}{"{}exp"{}},\ \ \textcolor{comment}{\#\ save\ results\ to\ project/name}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00092}00092\ \ \ \ \ exist\_ok=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ existing\ project/name\ ok,\ do\ not\ increment}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00093}00093\ \ \ \ \ line\_thickness=3,\ \ \textcolor{comment}{\#\ bounding\ box\ thickness\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00094}00094\ \ \ \ \ hide\_labels=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ hide\ labels}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00095}00095\ \ \ \ \ hide\_conf=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ hide\ confidences}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00096}00096\ \ \ \ \ half=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ use\ FP16\ half-\/precision\ inference}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00097}00097\ \ \ \ \ dnn=\textcolor{keyword}{False},\ \ \textcolor{comment}{\#\ use\ OpenCV\ DNN\ for\ ONNX\ inference}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00098}00098\ \ \ \ \ vid\_stride=1,\ \ \textcolor{comment}{\#\ video\ frame-\/rate\ stride}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00099}00099\ ):}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00100}00100\ \ \ \ \ source\ =\ str(source)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00101}00101\ \ \ \ \ save\_img\ =\ \textcolor{keywordflow}{not}\ nosave\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ source.endswith(\textcolor{stringliteral}{"{}.txt"{}})\ \ \textcolor{comment}{\#\ save\ inference\ images}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00102}00102\ \ \ \ \ is\_file\ =\ Path(source).suffix[1:]\ \textcolor{keywordflow}{in}\ (IMG\_FORMATS\ +\ VID\_FORMATS)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00103}00103\ \ \ \ \ is\_url\ =\ source.lower().startswith((\textcolor{stringliteral}{"{}rtsp://"{}},\ \textcolor{stringliteral}{"{}rtmp://"{}},\ \textcolor{stringliteral}{"{}http://"{}},\ \textcolor{stringliteral}{"{}https://"{}}))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00104}00104\ \ \ \ \ webcam\ =\ source.isnumeric()\ \textcolor{keywordflow}{or}\ source.endswith(\textcolor{stringliteral}{"{}.streams"{}})\ \textcolor{keywordflow}{or}\ (is\_url\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ is\_file)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00105}00105\ \ \ \ \ screenshot\ =\ source.lower().startswith(\textcolor{stringliteral}{"{}screen"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{if}\ is\_url\ \textcolor{keywordflow}{and}\ is\_file:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ source\ =\ check\_file(source)\ \ \textcolor{comment}{\#\ download}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00109}00109\ \ \ \ \ \textcolor{comment}{\#\ Directories}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00110}00110\ \ \ \ \ save\_dir\ =\ increment\_path(Path(project)\ /\ name,\ exist\_ok=exist\_ok)\ \ \textcolor{comment}{\#\ increment\ run}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00111}00111\ \ \ \ \ (save\_dir\ /\ \textcolor{stringliteral}{"{}labels"{}}\ \textcolor{keywordflow}{if}\ save\_txt\ \textcolor{keywordflow}{else}\ save\_dir).mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ dir}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00113}00113\ \ \ \ \ \textcolor{comment}{\#\ Load\ model}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00114}00114\ \ \ \ \ device\ =\ select\_device(device)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00115}00115\ \ \ \ \ model\ =\ \mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend}{DetectMultiBackend}}(weights,\ device=device,\ dnn=dnn,\ data=data,\ fp16=half)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00116}00116\ \ \ \ \ stride,\ names,\ pt\ =\ model.stride,\ model.names,\ model.pt}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00117}00117\ \ \ \ \ imgsz\ =\ check\_img\_size(imgsz,\ s=stride)\ \ \textcolor{comment}{\#\ check\ image\ size}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00119}00119\ \ \ \ \ \textcolor{comment}{\#\ Dataloader}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00120}00120\ \ \ \ \ bs\ =\ 1\ \ \textcolor{comment}{\#\ batch\_size}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{if}\ webcam:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ view\_img\ =\ check\_imshow(warn=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ dataset\ =\ \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_streams}{LoadStreams}}(source,\ img\_size=imgsz,\ stride=stride,\ auto=pt,\ vid\_stride=vid\_stride)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ bs\ =\ len(dataset)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{elif}\ screenshot:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ dataset\ =\ \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_screenshots}{LoadScreenshots}}(source,\ img\_size=imgsz,\ stride=stride,\ auto=pt)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00127}00127\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ dataset\ =\ \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images}{LoadImages}}(source,\ img\_size=imgsz,\ stride=stride,\ auto=pt,\ vid\_stride=vid\_stride)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00129}00129\ \ \ \ \ vid\_path,\ vid\_writer\ =\ [\textcolor{keywordtype}{None}]\ *\ bs,\ [\textcolor{keywordtype}{None}]\ *\ bs}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00131}00131\ \ \ \ \ \textcolor{comment}{\#\ Run\ inference}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00132}00132\ \ \ \ \ model.warmup(imgsz=(1\ \textcolor{keywordflow}{if}\ pt\ \textcolor{keywordflow}{or}\ model.triton\ \textcolor{keywordflow}{else}\ bs,\ 3,\ *imgsz))\ \ \textcolor{comment}{\#\ warmup}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00133}00133\ \ \ \ \ seen,\ windows,\ dt\ =\ 0,\ [],\ (\mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device),\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device),\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{for}\ path,\ im,\ im0s,\ vid\_cap,\ s\ \textcolor{keywordflow}{in}\ dataset:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[0]:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ torch.from\_numpy(im).to(model.device)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ im.half()\ \textcolor{keywordflow}{if}\ model.fp16\ \textcolor{keywordflow}{else}\ im.float()\ \ \textcolor{comment}{\#\ uint8\ to\ fp16/32}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ im\ /=\ 255\ \ \textcolor{comment}{\#\ 0\ -\/\ 255\ to\ 0.0\ -\/\ 1.0}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(im.shape)\ ==\ 3:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ im[\textcolor{keywordtype}{None}]\ \ \textcolor{comment}{\#\ expand\ for\ batch\ dim}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model.xml\ \textcolor{keywordflow}{and}\ im.shape[0]\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ims\ =\ torch.chunk(im,\ im.shape[0],\ 0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Inference}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[1]:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ visualize\ =\ increment\_path(save\_dir\ /\ Path(path).stem,\ mkdir=\textcolor{keyword}{True})\ \textcolor{keywordflow}{if}\ visualize\ \textcolor{keywordflow}{else}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model.xml\ \textcolor{keywordflow}{and}\ im.shape[0]\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ image\ \textcolor{keywordflow}{in}\ ims:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pred\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ model(image,\ augment=augment,\ visualize=visualize).unsqueeze(0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ torch.cat((pred,\ model(image,\ augment=augment,\ visualize=visualize).unsqueeze(0)),\ dim=0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ [pred,\ \textcolor{keywordtype}{None}]}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ model(im,\ augment=augment,\ visualize=visualize)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ NMS}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[2]:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ non\_max\_suppression(pred,\ conf\_thres,\ iou\_thres,\ classes,\ agnostic\_nms,\ max\_det=max\_det)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Second-\/stage\ classifier\ (optional)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ pred\ =\ utils.general.apply\_classifier(pred,\ classifier\_model,\ im,\ im0s)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Define\ the\ path\ for\ the\ CSV\ file}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ csv\_path\ =\ save\_dir\ /\ \textcolor{stringliteral}{"{}predictions.csv"{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ or\ append\ to\ the\ CSV\ file}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }write\_to\_csv(image\_name,\ prediction,\ confidence):}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ data\ =\ \{\textcolor{stringliteral}{"{}Image\ Name"{}}:\ image\_name,\ \textcolor{stringliteral}{"{}Prediction"{}}:\ prediction,\ \textcolor{stringliteral}{"{}Confidence"{}}:\ confidence\}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(csv\_path,\ mode=\textcolor{stringliteral}{"{}a"{}},\ newline=\textcolor{stringliteral}{"{}"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writer\ =\ csv.DictWriter(f,\ fieldnames=data.keys())}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ csv\_path.is\_file():}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writer.writeheader()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writer.writerow(data)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Process\ predictions}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ det\ \textcolor{keywordflow}{in}\ enumerate(pred):\ \ \textcolor{comment}{\#\ per\ image}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ seen\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ webcam:\ \ \textcolor{comment}{\#\ batch\_size\ >=\ 1}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p,\ im0,\ frame\ =\ path[i],\ im0s[i].copy(),\ dataset.count}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ +=\ f\textcolor{stringliteral}{"{}\{i\}:\ "{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p,\ im0,\ frame\ =\ path,\ im0s.copy(),\ getattr(dataset,\ \textcolor{stringliteral}{"{}frame"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ p\ =\ Path(p)\ \ \textcolor{comment}{\#\ to\ Path}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ save\_path\ =\ str(save\_dir\ /\ p.name)\ \ \textcolor{comment}{\#\ im.jpg}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ txt\_path\ =\ str(save\_dir\ /\ \textcolor{stringliteral}{"{}labels"{}}\ /\ p.stem)\ +\ (\textcolor{stringliteral}{"{}"{}}\ \textcolor{keywordflow}{if}\ dataset.mode\ ==\ \textcolor{stringliteral}{"{}image"{}}\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}\_\{frame\}"{}})\ \ \textcolor{comment}{\#\ im.txt}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ s\ +=\ \textcolor{stringliteral}{"{}\%gx\%g\ "{}}\ \%\ im.shape[2:]\ \ \textcolor{comment}{\#\ print\ string}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ gn\ =\ torch.tensor(im0.shape)[[1,\ 0,\ 1,\ 0]]\ \ \textcolor{comment}{\#\ normalization\ gain\ whwh}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ imc\ =\ im0.copy()\ \textcolor{keywordflow}{if}\ save\_crop\ \textcolor{keywordflow}{else}\ im0\ \ \textcolor{comment}{\#\ for\ save\_crop}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ annotator\ =\ Annotator(im0,\ line\_width=line\_thickness,\ example=str(names))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(det):}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Rescale\ boxes\ from\ img\_size\ to\ im0\ size}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ det[:,\ :4]\ =\ scale\_boxes(im.shape[2:],\ det[:,\ :4],\ im0.shape).round()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ results}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ det[:,\ 5].unique():}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n\ =\ (det[:,\ 5]\ ==\ c).sum()\ \ \textcolor{comment}{\#\ detections\ per\ class}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s\ +=\ f\textcolor{stringliteral}{"{}\{n\}\ \{names[int(c)]\}\{'s'\ *\ (n\ >\ 1)\},\ "{}}\ \ \textcolor{comment}{\#\ add\ to\ string}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Write\ results}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ *xyxy,\ conf,\ cls\ \textcolor{keywordflow}{in}\ reversed(det):}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ int(cls)\ \ \textcolor{comment}{\#\ integer\ class}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ label\ =\ names[c]\ \textcolor{keywordflow}{if}\ hide\_conf\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}\{names[c]\}"{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ confidence\ =\ float(conf)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ confidence\_str\ =\ f\textcolor{stringliteral}{"{}\{confidence:.2f\}"{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_csv:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ write\_to\_csv(p.name,\ label,\ confidence\_str)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_txt:\ \ \textcolor{comment}{\#\ Write\ to\ file}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xywh\ =\ (xyxy2xywh(torch.tensor(xyxy).view(1,\ 4))\ /\ gn).view(-\/1).tolist()\ \ \textcolor{comment}{\#\ normalized\ xywh}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ line\ =\ (cls,\ *xywh,\ conf)\ \textcolor{keywordflow}{if}\ save\_conf\ \textcolor{keywordflow}{else}\ (cls,\ *xywh)\ \ \textcolor{comment}{\#\ label\ format}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(f\textcolor{stringliteral}{"{}\{txt\_path\}.txt"{}},\ \textcolor{stringliteral}{"{}a"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f.write((\textcolor{stringliteral}{"{}\%g\ "{}}\ *\ len(line)).rstrip()\ \%\ line\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_img\ \textcolor{keywordflow}{or}\ save\_crop\ \textcolor{keywordflow}{or}\ view\_img:\ \ \textcolor{comment}{\#\ Add\ bbox\ to\ image}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\ =\ int(cls)\ \ \textcolor{comment}{\#\ integer\ class}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ label\ =\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ hide\_labels\ \textcolor{keywordflow}{else}\ (names[c]\ \textcolor{keywordflow}{if}\ hide\_conf\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}\{names[c]\}\ \{conf:.2f\}"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ annotator.box\_label(xyxy,\ label,\ color=colors(c,\ \textcolor{keyword}{True}))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_crop:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ save\_one\_box(xyxy,\ imc,\ file=save\_dir\ /\ \textcolor{stringliteral}{"{}crops"{}}\ /\ names[c]\ /\ f\textcolor{stringliteral}{"{}\{p.stem\}.jpg"{}},\ BGR=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Stream\ results}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ im0\ =\ annotator.result()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ view\_img:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ platform.system()\ ==\ \textcolor{stringliteral}{"{}Linux"{}}\ \textcolor{keywordflow}{and}\ p\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ windows:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ windows.append(p)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cv2.namedWindow(str(p),\ cv2.WINDOW\_NORMAL\ |\ cv2.WINDOW\_KEEPRATIO)\ \ \textcolor{comment}{\#\ allow\ window\ resize\ (Linux)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cv2.resizeWindow(str(p),\ im0.shape[1],\ im0.shape[0])}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cv2.imshow(str(p),\ im0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cv2.waitKey(1)\ \ \textcolor{comment}{\#\ 1\ millisecond}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ results\ (image\ with\ detections)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_img:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ dataset.mode\ ==\ \textcolor{stringliteral}{"{}image"{}}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cv2.imwrite(save\_path,\ im0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ 'video'\ or\ 'stream'}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ vid\_path[i]\ !=\ save\_path:\ \ \textcolor{comment}{\#\ new\ video}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vid\_path[i]\ =\ save\_path}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(vid\_writer[i],\ cv2.VideoWriter):}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vid\_writer[i].release()\ \ \textcolor{comment}{\#\ release\ previous\ video\ writer}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ vid\_cap:\ \ \textcolor{comment}{\#\ video}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fps\ =\ vid\_cap.get(cv2.CAP\_PROP\_FPS)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w\ =\ int(vid\_cap.get(cv2.CAP\_PROP\_FRAME\_WIDTH))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h\ =\ int(vid\_cap.get(cv2.CAP\_PROP\_FRAME\_HEIGHT))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ stream}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fps,\ w,\ h\ =\ 30,\ im0.shape[1],\ im0.shape[0]}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ save\_path\ =\ str(Path(save\_path).with\_suffix(\textcolor{stringliteral}{"{}.mp4"{}}))\ \ \textcolor{comment}{\#\ force\ *.mp4\ suffix\ on\ results\ videos}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vid\_writer[i]\ =\ cv2.VideoWriter(save\_path,\ cv2.VideoWriter\_fourcc(*\textcolor{stringliteral}{"{}mp4v"{}}),\ fps,\ (w,\ h))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vid\_writer[i].write(im0)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ time\ (inference-\/only)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{s\}\{''\ if\ len(det)\ else\ '(no\ detections),\ '\}\{dt[1].dt\ *\ 1E3:.1f\}ms"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00256}00256\ \ \ \ \ \textcolor{comment}{\#\ Print\ results}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00257}00257\ \ \ \ \ t\ =\ tuple(x.t\ /\ seen\ *\ 1e3\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ dt)\ \ \textcolor{comment}{\#\ speeds\ per\ image}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00258}00258\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Speed:\ \%.1fms\ pre-\/process,\ \%.1fms\ inference,\ \%.1fms\ NMS\ per\ image\ at\ shape\ \{(1,\ 3,\ *imgsz)\}"{}}\ \%\ t)}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00259}00259\ \ \ \ \ \textcolor{keywordflow}{if}\ save\_txt\ \textcolor{keywordflow}{or}\ save\_img:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}\(\backslash\)n\{len(list(save\_dir.glob('labels/*.txt')))\}\ labels\ saved\ to\ \{save\_dir\ /\ 'labels'\}"{}}\ \textcolor{keywordflow}{if}\ save\_txt\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Results\ saved\ to\ \{colorstr('bold',\ save\_dir)\}\{s\}"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00262}00262\ \ \ \ \ \textcolor{keywordflow}{if}\ update:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ strip\_optimizer(weights[0])\ \ \textcolor{comment}{\#\ update\ model\ (to\ fix\ SourceChangeWarning)}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00266}\mbox{\hyperlink{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}{00266}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}{parse\_opt}}():}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00267}00267\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00268}00268\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s.pt"{}},\ help=\textcolor{stringliteral}{"{}model\ path\ or\ triton\ URL"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00269}00269\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/source"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/images"{}},\ help=\textcolor{stringliteral}{"{}file/dir/URL/glob/screen/0(webcam)"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00270}00270\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/data"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/coco128.yaml"{}},\ help=\textcolor{stringliteral}{"{}(optional)\ dataset.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00271}00271\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=int,\ default=[640],\ help=\textcolor{stringliteral}{"{}inference\ size\ h,w"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00272}00272\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/conf-\/thres"{}},\ type=float,\ default=0.25,\ help=\textcolor{stringliteral}{"{}confidence\ threshold"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00273}00273\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/iou-\/thres"{}},\ type=float,\ default=0.45,\ help=\textcolor{stringliteral}{"{}NMS\ IoU\ threshold"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00274}00274\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/max-\/det"{}},\ type=int,\ default=1000,\ help=\textcolor{stringliteral}{"{}maximum\ detections\ per\ image"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00275}00275\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/device"{}},\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00276}00276\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/view-\/img"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}show\ results"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00277}00277\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/txt"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ results\ to\ *.txt"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00278}00278\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/csv"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ results\ in\ CSV\ format"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00279}00279\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/conf"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ confidences\ in\ -\/-\/save-\/txt\ labels"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00280}00280\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/crop"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ cropped\ prediction\ boxes"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00281}00281\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/nosave"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}do\ not\ save\ images/videos"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00282}00282\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/classes"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=int,\ help=\textcolor{stringliteral}{"{}filter\ by\ class:\ -\/-\/classes\ 0,\ or\ -\/-\/classes\ 0\ 2\ 3"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00283}00283\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/agnostic-\/nms"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}class-\/agnostic\ NMS"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00284}00284\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/augment"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}augmented\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00285}00285\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/visualize"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}visualize\ features"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00286}00286\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/update"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}update\ all\ models"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00287}00287\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/project"{}},\ default=ROOT\ /\ \textcolor{stringliteral}{"{}runs/detect"{}},\ help=\textcolor{stringliteral}{"{}save\ results\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00288}00288\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/name"{}},\ default=\textcolor{stringliteral}{"{}exp"{}},\ help=\textcolor{stringliteral}{"{}save\ results\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00289}00289\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/exist-\/ok"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}existing\ project/name\ ok,\ do\ not\ increment"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00290}00290\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/line-\/thickness"{}},\ default=3,\ type=int,\ help=\textcolor{stringliteral}{"{}bounding\ box\ thickness\ (pixels)"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00291}00291\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/hide-\/labels"{}},\ default=\textcolor{keyword}{False},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}hide\ labels"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00292}00292\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/hide-\/conf"{}},\ default=\textcolor{keyword}{False},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}hide\ confidences"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00293}00293\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/half"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ FP16\ half-\/precision\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00294}00294\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/dnn"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ OpenCV\ DNN\ for\ ONNX\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00295}00295\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/vid-\/stride"{}},\ type=int,\ default=1,\ help=\textcolor{stringliteral}{"{}video\ frame-\/rate\ stride"{}})}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00296}00296\ \ \ \ \ opt\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00297}00297\ \ \ \ \ opt.imgsz\ *=\ 2\ \textcolor{keywordflow}{if}\ len(opt.imgsz)\ ==\ 1\ \textcolor{keywordflow}{else}\ 1\ \ \textcolor{comment}{\#\ expand}}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00298}00298\ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00299}00299\ \ \ \ \ \textcolor{keywordflow}{return}\ opt}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00302}\mbox{\hyperlink{namespacedetect_a78df8c9b4ed14e1489354cb52c250524}{00302}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacedetect_a78df8c9b4ed14e1489354cb52c250524}{main}}(opt):}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00303}00303\ \ \ \ \ check\_requirements(ROOT\ /\ \textcolor{stringliteral}{"{}requirements.txt"{}},\ exclude=(\textcolor{stringliteral}{"{}tensorboard"{}},\ \textcolor{stringliteral}{"{}thop"{}}))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00304}00304\ \ \ \ \ run(**vars(opt))}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00307}00307\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00308}\mbox{\hyperlink{namespacedetect_ad255d3adc8eed13a28e6b2870fe69067}{00308}}\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespacedetect_aa3017f92c25b4de25d05580d88518b1a}{parse\_opt}}()}
+\DoxyCodeLine{\Hypertarget{detect_8py_source_l00309}00309\ \ \ \ \ \mbox{\hyperlink{namespacedetect_a78df8c9b4ed14e1489354cb52c250524}{main}}(opt)}
+
+\end{DoxyCode}

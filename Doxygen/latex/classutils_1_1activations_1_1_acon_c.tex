@@ -1,0 +1,101 @@
+\doxysection{utils.\+activations.\+AconC Class Reference}
+\hypertarget{classutils_1_1activations_1_1_acon_c}{}\label{classutils_1_1activations_1_1_acon_c}\index{utils.activations.AconC@{utils.activations.AconC}}
+
+
+Inheritance diagram for utils.\+activations.\+AconC\+:
+% FIG 0
+
+
+Collaboration diagram for utils.\+activations.\+AconC\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a54925e923f82a61d3c945eb0d5a542f5}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, c1)
+\item 
+\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ae87faa6dd7e065efede6e73b5bd71723}{forward}} (self, x)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a4cd3602e4b4680dcca52e827d20eaa24}{p1}}
+\item 
+\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707}{p2}}
+\item 
+\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ac19cf98f6f113e6c5be46ab694be8a18}{beta}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}ACON activation (activate or not)
+AconC: (p1*x-p2*x) * sigmoid(beta*(p1*x-p2*x)) + p2*x, beta is a learnable parameter
+according to "Activate or Not: Learning Customized Activation" <https://arxiv.org/pdf/2009.04759.pdf>.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{activations_8py_source_l00061}{61}} of file \mbox{\hyperlink{activations_8py_source}{activations.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1activations_1_1_acon_c_a54925e923f82a61d3c945eb0d5a542f5}\label{classutils_1_1activations_1_1_acon_c_a54925e923f82a61d3c945eb0d5a542f5} 
+\index{utils.activations.AconC@{utils.activations.AconC}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.activations.AconC@{utils.activations.AconC}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+activations.\+Acon\+C.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{c1 }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{activations_8py_source_l00067}{67}} of file \mbox{\hyperlink{activations_8py_source}{activations.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1activations_1_1_acon_c_ae87faa6dd7e065efede6e73b5bd71723}\label{classutils_1_1activations_1_1_acon_c_ae87faa6dd7e065efede6e73b5bd71723} 
+\index{utils.activations.AconC@{utils.activations.AconC}!forward@{forward}}
+\index{forward@{forward}!utils.activations.AconC@{utils.activations.AconC}}
+\doxysubsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily utils.\+activations.\+Acon\+C.\+forward (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{x }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{activations_8py_source_l00073}{73}} of file \mbox{\hyperlink{activations_8py_source}{activations.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1activations_1_1_acon_c_ac19cf98f6f113e6c5be46ab694be8a18}\label{classutils_1_1activations_1_1_acon_c_ac19cf98f6f113e6c5be46ab694be8a18} 
+\index{utils.activations.AconC@{utils.activations.AconC}!beta@{beta}}
+\index{beta@{beta}!utils.activations.AconC@{utils.activations.AconC}}
+\doxysubsubsection{\texorpdfstring{beta}{beta}}
+{\footnotesize\ttfamily utils.\+activations.\+Acon\+C.\+beta}
+
+
+
+Definition at line \mbox{\hyperlink{activations_8py_source_l00071}{71}} of file \mbox{\hyperlink{activations_8py_source}{activations.\+py}}.
+
+\Hypertarget{classutils_1_1activations_1_1_acon_c_a4cd3602e4b4680dcca52e827d20eaa24}\label{classutils_1_1activations_1_1_acon_c_a4cd3602e4b4680dcca52e827d20eaa24} 
+\index{utils.activations.AconC@{utils.activations.AconC}!p1@{p1}}
+\index{p1@{p1}!utils.activations.AconC@{utils.activations.AconC}}
+\doxysubsubsection{\texorpdfstring{p1}{p1}}
+{\footnotesize\ttfamily utils.\+activations.\+Acon\+C.\+p1}
+
+
+
+Definition at line \mbox{\hyperlink{activations_8py_source_l00069}{69}} of file \mbox{\hyperlink{activations_8py_source}{activations.\+py}}.
+
+\Hypertarget{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707}\label{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707} 
+\index{utils.activations.AconC@{utils.activations.AconC}!p2@{p2}}
+\index{p2@{p2}!utils.activations.AconC@{utils.activations.AconC}}
+\doxysubsubsection{\texorpdfstring{p2}{p2}}
+{\footnotesize\ttfamily utils.\+activations.\+Acon\+C.\+p2}
+
+
+
+Definition at line \mbox{\hyperlink{activations_8py_source_l00070}{70}} of file \mbox{\hyperlink{activations_8py_source}{activations.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/\mbox{\hyperlink{activations_8py}{activations.\+py}}\end{DoxyCompactItemize}

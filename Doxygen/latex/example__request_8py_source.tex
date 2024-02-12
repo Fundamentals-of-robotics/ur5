@@ -1,0 +1,23 @@
+\doxysection{example\+\_\+request.\+py}
+\hypertarget{example__request_8py_source}{}\label{example__request_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/flask\_rest\_api/example\_request.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/flask\_rest\_api/example\_request.py}}
+\mbox{\hyperlink{example__request_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00001}\mbox{\hyperlink{namespaceexample__request}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Perform\ test\ request."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00004}00004\ \textcolor{keyword}{import}\ pprint}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00006}00006\ \textcolor{keyword}{import}\ requests}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00008}\mbox{\hyperlink{namespaceexample__request_a1ca30d50071b54d5869d5d9f2dd4017b}{00008}}\ DETECTION\_URL\ =\ \textcolor{stringliteral}{"{}http://localhost:5000/v1/object-\/detection/yolov5s"{}}}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00009}\mbox{\hyperlink{namespaceexample__request_a82efc3cbd19123d1cfe2a18de2419ef9}{00009}}\ IMAGE\ =\ \textcolor{stringliteral}{"{}zidane.jpg"{}}}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00011}00011\ \textcolor{comment}{\#\ Read\ image}}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00012}00012\ \textcolor{keyword}{with}\ open(IMAGE,\ \textcolor{stringliteral}{"{}rb"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00013}\mbox{\hyperlink{namespaceexample__request_ac314f2afb947e1fda6b7ef4fa6eac76b}{00013}}\ \ \ \ \ image\_data\ =\ f.read()}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00015}\mbox{\hyperlink{namespaceexample__request_a3cf6fb92d0e0606172ab7127ba4e597c}{00015}}\ response\ =\ requests.post(DETECTION\_URL,\ files=\{\textcolor{stringliteral}{"{}image"{}}:\ image\_data\}).json()}
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{example__request_8py_source_l00017}00017\ pprint.pprint(response)}
+
+\end{DoxyCode}

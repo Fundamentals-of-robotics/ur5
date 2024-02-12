@@ -1,0 +1,72 @@
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/dataloaders.py File Reference}
+\hypertarget{dataloaders_8py}{}\label{dataloaders_8py}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/dataloaders.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/dataloaders.py}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_smart_distributed_sampler}{utils.\+dataloaders.\+Smart\+Distributed\+Sampler}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_infinite_data_loader}{utils.\+dataloaders.\+Infinite\+Data\+Loader}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1___repeat_sampler}{utils.\+dataloaders.\+\_\+\+Repeat\+Sampler}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_screenshots}{utils.\+dataloaders.\+Load\+Screenshots}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images}{utils.\+dataloaders.\+Load\+Images}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_streams}{utils.\+dataloaders.\+Load\+Streams}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats}{utils.\+dataloaders.\+HUBDataset\+Stats}}
+\item 
+class \mbox{\hyperlink{classutils_1_1dataloaders_1_1_classification_dataset}{utils.\+dataloaders.\+Classification\+Dataset}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceutils}{utils}}
+\item 
+namespace \mbox{\hyperlink{namespaceutils_1_1dataloaders}{utils.\+dataloaders}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a040e2e64822c6005809f7923a69f9df6}{utils.\+dataloaders.\+get\+\_\+hash}} (paths)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_ade261da3ecb2c5b735ec54bbf44c8272}{utils.\+dataloaders.\+exif\+\_\+size}} (img)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a8f7e5e1057932e74cb53b21366c7fe7a}{utils.\+dataloaders.\+exif\+\_\+transpose}} (image)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_adfbf8914f42064b736671168ee028a46}{utils.\+dataloaders.\+seed\+\_\+worker}} (worker\+\_\+id)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a3ad607bbbe46da322b8a78479e5c9d8e}{utils.\+dataloaders.\+create\+\_\+dataloader}} (path, imgsz, batch\+\_\+size, stride, single\+\_\+cls=False, hyp=None, augment=False, cache=False, pad=0.\+0, rect=False, rank=-\/1, workers=8, image\+\_\+weights=False, quad=False, prefix="{}"{}, shuffle=False, seed=0)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_acd133514ba80d553e414b3cd37522292}{utils.\+dataloaders.\+img2label\+\_\+paths}} (img\+\_\+paths)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a023a59d249d15081cd60ea57c6fa2650}{utils.\+dataloaders.\+flatten\+\_\+recursive}} (path=DATASETS\+\_\+\+DIR/"{}coco128"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_ace9543a13aae6b453128cb0ef4d2e64b}{utils.\+dataloaders.\+extract\+\_\+boxes}} (path=DATASETS\+\_\+\+DIR/"{}coco128"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_abf4d95bb29771f56a14ee0d6c4008572}{utils.\+dataloaders.\+autosplit}} (path=DATASETS\+\_\+\+DIR/"{}coco128/images"{}, weights=(0.\+9, 0.\+1, 0.\+0), annotated\+\_\+only=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a91b90a548edecf858a0036853efdc6a1}{utils.\+dataloaders.\+verify\+\_\+image\+\_\+label}} (args)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a813b8a6adeedae49966c09e7cb877b24}{utils.\+dataloaders.\+create\+\_\+classification\+\_\+dataloader}} (path, imgsz=224, batch\+\_\+size=16, augment=True, cache=False, rank=-\/1, workers=8, shuffle=True)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1dataloaders_a76e968ffeb2a34459334cabbe6398f49}{utils.\+dataloaders.\+HELP\+\_\+\+URL}} = "{}See https\+://docs.\+ultralytics.\+com/yolov5/tutorials/train\+\_\+custom\+\_\+data"{}
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1dataloaders_a6acfaffc64df638399f94571364a9b18}{utils.\+dataloaders.\+IMG\+\_\+\+FORMATS}} = "{}bmp"{}, "{}dng"{}, "{}jpeg"{}, "{}jpg"{}, "{}mpo"{}, "{}png"{}, "{}tif"{}, "{}tiff"{}, "{}webp"{}, "{}pfm"{}
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1dataloaders_aac23467e6cef2723bd11999244a053a5}{utils.\+dataloaders.\+VID\+\_\+\+FORMATS}} = "{}asf"{}, "{}avi"{}, "{}gif"{}, "{}m4v"{}, "{}mkv"{}, "{}mov"{}, "{}mp4"{}, "{}mpeg"{}, "{}mpg"{}, "{}ts"{}, "{}wmv"{}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_aeeca508603811db48e02cceaa25c8ac2}{utils.\+dataloaders.\+LOCAL\+\_\+\+RANK}} = int(os.\+getenv("{}LOCAL\+\_\+\+RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_a40c7b24e4d43d768cc17b711eb7e8aea}{utils.\+dataloaders.\+RANK}} = int(os.\+getenv("{}RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1dataloaders_ab36bf2f08141111d0205a73ea38b9971}{utils.\+dataloaders.\+WORLD\+\_\+\+SIZE}} = int(os.\+getenv("{}WORLD\+\_\+\+SIZE"{}, 1))
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1dataloaders_a1a750bb6de07858417bb2a0692014a50}{utils.\+dataloaders.\+PIN\+\_\+\+MEMORY}} = "{}true"{}
+\end{DoxyCompactItemize}

@@ -1,0 +1,102 @@
+\doxysection{augmentations.\+py}
+\hypertarget{segment_2augmentations_8py_source}{}\label{segment_2augmentations_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/augmentations.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/segment/augmentations.py}}
+\mbox{\hyperlink{segment_2augmentations_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1segment}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Image\ augmentation\ functions."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00004}00004\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00005}00005\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00007}00007\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00008}00008\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00010}00010\ \textcolor{keyword}{from}\ ..augmentations\ \textcolor{keyword}{import}\ box\_candidates}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00011}00011\ \textcolor{keyword}{from}\ ..general\ \textcolor{keyword}{import}\ resample\_segments,\ segment2box}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00014}\mbox{\hyperlink{namespaceutils_1_1segment_1_1augmentations_a5e87d32b688b04c9199f905a578c9230}{00014}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1augmentations_a5e87d32b688b04c9199f905a578c9230}{mixup}}(im,\ labels,\ segments,\ im2,\ labels2,\ segments2):}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00015}00015\ \ \ \ \ \textcolor{comment}{\#\ Applies\ MixUp\ augmentation\ https://arxiv.org/pdf/1710.09412.pdf}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00016}00016\ \ \ \ \ r\ =\ np.random.beta(32.0,\ 32.0)\ \ \textcolor{comment}{\#\ mixup\ ratio,\ alpha=beta=32.0}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00017}00017\ \ \ \ \ im\ =\ (im\ *\ r\ +\ im2\ *\ (1\ -\/\ r)).astype(np.uint8)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00018}00018\ \ \ \ \ labels\ =\ np.concatenate((labels,\ labels2),\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00019}00019\ \ \ \ \ segments\ =\ np.concatenate((segments,\ segments2),\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ labels,\ segments}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00023}\mbox{\hyperlink{namespaceutils_1_1segment_1_1augmentations_a03edb460a775740e9df50ed89bfeff7c}{00023}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1segment_1_1augmentations_a03edb460a775740e9df50ed89bfeff7c}{random\_perspective}}(}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00024}00024\ \ \ \ \ im,\ targets=(),\ segments=(),\ degrees=10,\ translate=0.1,\ scale=0.1,\ shear=10,\ perspective=0.0,\ border=(0,\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00025}00025\ ):}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00026}00026\ \ \ \ \ \textcolor{comment}{\#\ torchvision.transforms.RandomAffine(degrees=(-\/10,\ 10),\ translate=(.1,\ .1),\ scale=(.9,\ 1.1),\ shear=(-\/10,\ 10))}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00027}00027\ \ \ \ \ \textcolor{comment}{\#\ targets\ =\ [cls,\ xyxy]}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00029}00029\ \ \ \ \ height\ =\ im.shape[0]\ +\ border[0]\ *\ 2\ \ \textcolor{comment}{\#\ shape(h,w,c)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00030}00030\ \ \ \ \ width\ =\ im.shape[1]\ +\ border[1]\ *\ 2}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00032}00032\ \ \ \ \ \textcolor{comment}{\#\ Center}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00033}00033\ \ \ \ \ C\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00034}00034\ \ \ \ \ C[0,\ 2]\ =\ -\/im.shape[1]\ /\ 2\ \ \textcolor{comment}{\#\ x\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00035}00035\ \ \ \ \ C[1,\ 2]\ =\ -\/im.shape[0]\ /\ 2\ \ \textcolor{comment}{\#\ y\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00037}00037\ \ \ \ \ \textcolor{comment}{\#\ Perspective}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00038}00038\ \ \ \ \ P\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00039}00039\ \ \ \ \ P[2,\ 0]\ =\ random.uniform(-\/perspective,\ perspective)\ \ \textcolor{comment}{\#\ x\ perspective\ (about\ y)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00040}00040\ \ \ \ \ P[2,\ 1]\ =\ random.uniform(-\/perspective,\ perspective)\ \ \textcolor{comment}{\#\ y\ perspective\ (about\ x)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00042}00042\ \ \ \ \ \textcolor{comment}{\#\ Rotation\ and\ Scale}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00043}00043\ \ \ \ \ R\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00044}00044\ \ \ \ \ a\ =\ random.uniform(-\/degrees,\ degrees)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00045}00045\ \ \ \ \ \textcolor{comment}{\#\ a\ +=\ random.choice([-\/180,\ -\/90,\ 0,\ 90])\ \ \#\ add\ 90deg\ rotations\ to\ small\ rotations}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00046}00046\ \ \ \ \ s\ =\ random.uniform(1\ -\/\ scale,\ 1\ +\ scale)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00047}00047\ \ \ \ \ \textcolor{comment}{\#\ s\ =\ 2\ **\ random.uniform(-\/scale,\ scale)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00048}00048\ \ \ \ \ R[:2]\ =\ cv2.getRotationMatrix2D(angle=a,\ center=(0,\ 0),\ scale=s)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00050}00050\ \ \ \ \ \textcolor{comment}{\#\ Shear}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00051}00051\ \ \ \ \ S\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00052}00052\ \ \ \ \ S[0,\ 1]\ =\ math.tan(random.uniform(-\/shear,\ shear)\ *\ math.pi\ /\ 180)\ \ \textcolor{comment}{\#\ x\ shear\ (deg)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00053}00053\ \ \ \ \ S[1,\ 0]\ =\ math.tan(random.uniform(-\/shear,\ shear)\ *\ math.pi\ /\ 180)\ \ \textcolor{comment}{\#\ y\ shear\ (deg)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00055}00055\ \ \ \ \ \textcolor{comment}{\#\ Translation}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00056}00056\ \ \ \ \ T\ =\ np.eye(3)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00057}00057\ \ \ \ \ T[0,\ 2]\ =\ random.uniform(0.5\ -\/\ translate,\ 0.5\ +\ translate)\ *\ width\ \ \textcolor{comment}{\#\ x\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00058}00058\ \ \ \ \ T[1,\ 2]\ =\ random.uniform(0.5\ -\/\ translate,\ 0.5\ +\ translate)\ *\ height\ \ \textcolor{comment}{\#\ y\ translation\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00060}00060\ \ \ \ \ \textcolor{comment}{\#\ Combined\ rotation\ matrix}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00061}00061\ \ \ \ \ M\ =\ T\ @\ S\ @\ R\ @\ P\ @\ C\ \ \textcolor{comment}{\#\ order\ of\ operations\ (right\ to\ left)\ is\ IMPORTANT}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (border[0]\ !=\ 0)\ \textcolor{keywordflow}{or}\ (border[1]\ !=\ 0)\ \textcolor{keywordflow}{or}\ (M\ !=\ np.eye(3)).any():\ \ \textcolor{comment}{\#\ image\ changed}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ perspective:}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ cv2.warpPerspective(im,\ M,\ dsize=(width,\ height),\ borderValue=(114,\ 114,\ 114))}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ affine}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ im\ =\ cv2.warpAffine(im,\ M[:2],\ dsize=(width,\ height),\ borderValue=(114,\ 114,\ 114))}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00068}00068\ \ \ \ \ \textcolor{comment}{\#\ Visualize}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00069}00069\ \ \ \ \ \textcolor{comment}{\#\ import\ matplotlib.pyplot\ as\ plt}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00070}00070\ \ \ \ \ \textcolor{comment}{\#\ ax\ =\ plt.subplots(1,\ 2,\ figsize=(12,\ 6))[1].ravel()}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00071}00071\ \ \ \ \ \textcolor{comment}{\#\ ax[0].imshow(im[:,\ :,\ ::-\/1])\ \ \#\ base}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00072}00072\ \ \ \ \ \textcolor{comment}{\#\ ax[1].imshow(im2[:,\ :,\ ::-\/1])\ \ \#\ warped}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00074}00074\ \ \ \ \ \textcolor{comment}{\#\ Transform\ label\ coordinates}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00075}00075\ \ \ \ \ n\ =\ len(targets)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00076}00076\ \ \ \ \ new\_segments\ =\ []}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{if}\ n:}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ new\ =\ np.zeros((n,\ 4))}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ segments\ =\ resample\_segments(segments)\ \ \textcolor{comment}{\#\ upsample}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ segment\ \textcolor{keywordflow}{in}\ enumerate(segments):}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ np.ones((len(segment),\ 3))}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ xy[:,\ :2]\ =\ segment}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ xy\ @\ M.T\ \ \textcolor{comment}{\#\ transform}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ xy\ =\ xy[:,\ :2]\ /\ xy[:,\ 2:3]\ \textcolor{keywordflow}{if}\ perspective\ \textcolor{keywordflow}{else}\ xy[:,\ :2]\ \ \textcolor{comment}{\#\ perspective\ rescale\ or\ affine}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ clip}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ new[i]\ =\ segment2box(xy,\ width,\ height)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ new\_segments.append(xy)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ filter\ candidates}}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ i\ =\ box\_candidates(box1=targets[:,\ 1:5].T\ *\ s,\ box2=new.T,\ area\_thr=0.01)}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ targets\ =\ targets[i]}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ targets[:,\ 1:5]\ =\ new[i]}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ new\_segments\ =\ np.array(new\_segments)[i]}
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{segment_2augmentations_8py_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{return}\ im,\ targets,\ new\_segments}
+
+\end{DoxyCode}

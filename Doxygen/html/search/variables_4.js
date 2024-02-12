@@ -1,7 +1,23 @@
 var searchData=
 [
-  ['grasping_5fheight_0',['GRASPING_HEIGHT',['../ur5__task__library_8h.html#acac020f932f1543dc657904ff69a623c',1,'ur5_task_library.h']]],
-  ['gripper_1',['gripper',['../ur5__task__library_8h.html#a13a2b9a30eb24814999f0625b4c05dd9',1,'ur5_task_library.h']]],
-  ['gripper_5fclosure_2',['GRIPPER_CLOSURE',['../ur5__task__library_8h.html#ab5203a40998207ae1afdf91b3a325cf4',1,'ur5_task_library.h']]],
-  ['gripper_5fopen_3',['GRIPPER_OPEN',['../ur5__task__library_8h.html#a5fc29c7b4b95d7eca8b66069599a227a',1,'ur5_task_library.h']]]
+  ['d_0',['d',['../classmodels_1_1common_1_1_concat.html#aba40c68e29f694dd5a83e26e1f253d89',1,'models.common.Concat.d'],['../classmodels_1_1tf_1_1_t_f_concat.html#a9f811419f98da70f4d782f19d3c8a2aa',1,'models.tf.TFConcat.d'],['../namespaceutils_1_1aws_1_1resume.html#afc173aae6aa494c45768d2efb49591ac',1,'utils.aws.resume.d']]],
+  ['data_1',['data',['../classutils_1_1dataloaders_1_1_h_u_b_dataset_stats.html#ae9f7f5ae568ef863dc434607f3fd17d7',1,'utils.dataloaders.HUBDatasetStats.data'],['../namespaceutils_1_1loggers_1_1comet_1_1hpo.html#a4aae7fed902cce44f02b746f4665141e',1,'utils.loggers.comet.hpo.data']]],
+  ['data_5fdict_2',['data_dict',['../classutils_1_1loggers_1_1clearml_1_1clearml__utils_1_1_clearml_logger.html#ae7f0778446ae13c0f324f9a48c211a62',1,'utils.loggers.clearml.clearml_utils.ClearmlLogger.data_dict'],['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#a2ce85d347ff76641484a54fc3e6cac91',1,'utils.loggers.comet.CometLogger.data_dict'],['../classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger.html#a899bc3aa8e09967a2e5181fa73eb7a0d',1,'utils.loggers.wandb.wandb_utils.WandbLogger.data_dict']]],
+  ['datasets_5fdir_3',['DATASETS_DIR',['../namespaceutils_1_1general.html#a80177133c39d35e8377a99381d7c1efa',1,'utils::general']]],
+  ['ddp_4',['ddp',['../namespaceutils_1_1aws_1_1resume.html#a5d8381d92d3d3c4b878b8346ae7fcb14',1,'utils::aws::resume']]],
+  ['decay_5',['decay',['../classutils_1_1torch__utils_1_1_model_e_m_a.html#a214d2ea83a1b125d95ee917357d551a5',1,'utils::torch_utils::ModelEMA']]],
+  ['default_6',['default',['../namespacehubconf.html#a695f0a9ddf0d81caf5cc07310bb3c0e5',1,'hubconf.default'],['../namespacemodels_1_1yolo.html#a3d29639c2e0f5a994f0b7bbdb5590d5d',1,'models.yolo.default'],['../namespacerestapi.html#a4c0e625ca8c34606cb87b26cd4a4f990',1,'restapi.default']]],
+  ['default_5fact_7',['default_act',['../classmodels_1_1common_1_1_conv.html#abd42d41a48aaa24eff18614fbdaedf9b',1,'models::common::Conv']]],
+  ['default_5fexperiment_5fkwargs_8',['default_experiment_kwargs',['../classutils_1_1loggers_1_1comet_1_1_comet_logger.html#a8bccc171c0e6bb157fd18bbd52ed4646',1,'utils::loggers::comet::CometLogger']]],
+  ['deprecation_5fwarning_9',['DEPRECATION_WARNING',['../namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils.html#a19048ffe6010969d79d124f819437f8a',1,'utils::loggers::wandb::wandb_utils']]],
+  ['detect_10',['detect',['../classmodels_1_1tf_1_1_t_f_segment.html#afa0e9682902f94c8253ddd7eff58b7bb',1,'models.tf.TFSegment.detect'],['../classmodels_1_1yolo_1_1_segment.html#a9b50bddc94f9fcf66ad80ae803994f1e',1,'models.yolo.Segment.detect']]],
+  ['detection_5furl_11',['DETECTION_URL',['../namespaceexample__request.html#a1ca30d50071b54d5869d5d9f2dd4017b',1,'example_request.DETECTION_URL'],['../namespacerestapi.html#ac731cfb6b52686ce829f4b250c24e8cf',1,'restapi.DETECTION_URL']]],
+  ['device_12',['device',['../classmodels_1_1common_1_1_detect_multi_backend.html#a064f4f675f84aeda2af1e1bfff425e91',1,'models.common.DetectMultiBackend.device'],['../classutils_1_1general_1_1_profile.html#a3e1c80bfa8b1863fd72b6d0fb7508e7b',1,'utils.general.Profile.device'],['../classutils_1_1loss_1_1_compute_loss.html#a664a32257d01d4771995665c7eae7e73',1,'utils.loss.ComputeLoss.device'],['../classutils_1_1segment_1_1loss_1_1_compute_loss.html#a5a48ac520a54100c616825dcb0d4e637',1,'utils.segment.loss.ComputeLoss.device'],['../namespacemodels_1_1yolo.html#a9ff3f97b0dbcc18c34b88ea841425845',1,'models.yolo.device']]],
+  ['dir_13',['dir',['../classutils_1_1general_1_1_working_directory.html#ae55c8eaba69641146ba03a0556da246d',1,'utils::general::WorkingDirectory']]],
+  ['distance_5ferror_14',['distance_error',['../namespacevision__node.html#a08184610e854712aa57975fbd3f709c1',1,'vision_node']]],
+  ['dmb_15',['dmb',['../classmodels_1_1common_1_1_auto_shape.html#aacc1ad2da4954afe209d99ad3a0bef00',1,'models::common::AutoShape']]],
+  ['downsample_5fratio_16',['downsample_ratio',['../classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks.html#a3b694bc313d58538bfa905774b995bad',1,'utils::segment::dataloaders::LoadImagesAndLabelsAndMasks']]],
+  ['drop_17',['drop',['../classmodels_1_1common_1_1_classify.html#afc61a8c56393da7dc8b46f23014e7bd7',1,'models::common::Classify']]],
+  ['dt_18',['dt',['../classutils_1_1general_1_1_profile.html#aa12a23e14e2f8f94409c773f1d9deba9',1,'utils::general::Profile']]],
+  ['dynamic_19',['dynamic',['../classmodels_1_1yolo_1_1_detect.html#ab464fc6105ac76488224abbe98c10109',1,'models::yolo::Detect']]]
 ];

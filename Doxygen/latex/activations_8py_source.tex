@@ -1,0 +1,106 @@
+\doxysection{activations.\+py}
+\hypertarget{activations_8py_source}{}\label{activations_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/activations.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/activations.py}}
+\mbox{\hyperlink{activations_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1activations}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Activation\ functions."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00004}00004\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00005}00005\ \textcolor{keyword}{import}\ \mbox{\hyperlink{namespacetorch_1_1nn}{torch.nn}}\ \textcolor{keyword}{as}\ nn}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00006}00006\ \textcolor{keyword}{import}\ torch.nn.functional\ \textcolor{keyword}{as}\ F}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00009}\mbox{\hyperlink{classutils_1_1activations_1_1_si_l_u}{00009}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_si_l_u}{SiLU}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00010}00010\ \ \ \ \ \textcolor{comment}{\#\ SiLU\ activation\ https://arxiv.org/pdf/1606.08415.pdf}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00011}00011\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00012}\mbox{\hyperlink{classutils_1_1activations_1_1_si_l_u_afbf2278b6b8e6cbce0db63a208112d62}{00012}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_si_l_u_afbf2278b6b8e6cbce0db63a208112d62}{forward}}(x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x\ *\ torch.sigmoid(x)}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00016}\mbox{\hyperlink{classutils_1_1activations_1_1_hardswish}{00016}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_hardswish}{Hardswish}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00017}00017\ \ \ \ \ \textcolor{comment}{\#\ Hard-\/SiLU\ activation}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00018}00018\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00019}\mbox{\hyperlink{classutils_1_1activations_1_1_hardswish_a08ceaaf219afe51bdd27e14ab8946894}{00019}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_hardswish_a08ceaaf219afe51bdd27e14ab8946894}{forward}}(x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ return\ x\ *\ F.hardsigmoid(x)\ \ \#\ for\ TorchScript\ and\ CoreML}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x\ *\ F.hardtanh(x\ +\ 3,\ 0.0,\ 6.0)\ /\ 6.0\ \ \textcolor{comment}{\#\ for\ TorchScript,\ CoreML\ and\ ONNX}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00024}\mbox{\hyperlink{classutils_1_1activations_1_1_mish}{00024}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_mish}{Mish}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00025}00025\ \ \ \ \ \textcolor{comment}{\#\ Mish\ activation\ https://github.com/digantamisra98/Mish}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00026}00026\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00027}\mbox{\hyperlink{classutils_1_1activations_1_1_mish_a3224df8d84f8fe329c00c027a4e0370a}{00027}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_mish_a3224df8d84f8fe329c00c027a4e0370a}{forward}}(x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x\ *\ F.softplus(x).tanh()}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00031}\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish}{00031}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish}{MemoryEfficientMish}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00032}00032\ \ \ \ \ \textcolor{comment}{\#\ Mish\ activation\ memory-\/efficient}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00033}\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f}{00033}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f}{F}}(torch.autograd.Function):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00035}\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f_a0fe1c670396f67215a12353413f5ce45}{00035}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f_a0fe1c670396f67215a12353413f5ce45}{forward}}(ctx,\ x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ ctx.save\_for\_backward(x)}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x.mul(torch.tanh(F.softplus(x)))\ \ \textcolor{comment}{\#\ x\ *\ tanh(ln(1\ +\ exp(x)))}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00040}\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f_a52cfb1aaa6bbdfc3a1619d7be05c870c}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f_a52cfb1aaa6bbdfc3a1619d7be05c870c}{backward}}(ctx,\ grad\_output):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ ctx.saved\_tensors[0]}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ sx\ =\ torch.sigmoid(x)}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ fx\ =\ F.softplus(x).tanh()}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ grad\_output\ *\ (fx\ +\ x\ *\ sx\ *\ (1\ -\/\ fx\ *\ fx))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00046}\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_a35cf67f80e059567f539761d9035a8b1}{00046}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_a35cf67f80e059567f539761d9035a8b1}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classutils_1_1activations_1_1_memory_efficient_mish_1_1_f}{F}}.apply(x)}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00050}\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u}{00050}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u}{FReLU}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00051}00051\ \ \ \ \ \textcolor{comment}{\#\ FReLU\ activation\ https://arxiv.org/abs/2007.11824}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00052}\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_a9e4ff399a1aa26ddc1e6393f0db838d4}{00052}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_a9e4ff399a1aa26ddc1e6393f0db838d4}{\_\_init\_\_}}(self,\ c1,\ k=3):\ \ \textcolor{comment}{\#\ ch\_in,\ kernel}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_a9e4ff399a1aa26ddc1e6393f0db838d4}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00054}\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_a418adaddb1150b6b07c48f50997f1b66}{00054}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_a418adaddb1150b6b07c48f50997f1b66}{conv}}\ =\ nn.Conv2d(c1,\ c1,\ k,\ 1,\ 1,\ groups=c1,\ bias=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00055}\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_ac489e2d8300e7aa75bc3942d1f114d90}{00055}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_ac489e2d8300e7aa75bc3942d1f114d90}{bn}}\ =\ nn.BatchNorm2d(c1)}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00057}\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_aae15d99040688e73160e17dbfec109cf}{00057}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_aae15d99040688e73160e17dbfec109cf}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ torch.max(x,\ self.\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_ac489e2d8300e7aa75bc3942d1f114d90}{bn}}(self.\mbox{\hyperlink{classutils_1_1activations_1_1_f_re_l_u_a418adaddb1150b6b07c48f50997f1b66}{conv}}(x)))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00061}\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c}{00061}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c}{AconC}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00062}00062\ \ \ \ \ \textcolor{stringliteral}{r"{}"{}"{}ACON\ activation\ (activate\ or\ not)}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ AconC:\ (p1*x-\/p2*x)\ *\ sigmoid(beta*(p1*x-\/p2*x))\ +\ p2*x,\ beta\ is\ a\ learnable\ parameter}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ according\ to\ "{}Activate\ or\ Not:\ Learning\ Customized\ Activation"{}\ <https://arxiv.org/pdf/2009.04759.pdf>.}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00067}\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a54925e923f82a61d3c945eb0d5a542f5}{00067}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a54925e923f82a61d3c945eb0d5a542f5}{\_\_init\_\_}}(self,\ c1):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a54925e923f82a61d3c945eb0d5a542f5}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00069}\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a4cd3602e4b4680dcca52e827d20eaa24}{00069}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a4cd3602e4b4680dcca52e827d20eaa24}{p1}}\ =\ nn.Parameter(torch.randn(1,\ c1,\ 1,\ 1))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00070}\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707}{00070}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707}{p2}}\ =\ nn.Parameter(torch.randn(1,\ c1,\ 1,\ 1))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00071}\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ac19cf98f6f113e6c5be46ab694be8a18}{00071}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ac19cf98f6f113e6c5be46ab694be8a18}{beta}}\ =\ nn.Parameter(torch.ones(1,\ c1,\ 1,\ 1))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00073}\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ae87faa6dd7e065efede6e73b5bd71723}{00073}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ae87faa6dd7e065efede6e73b5bd71723}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ dpx\ =\ (self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a4cd3602e4b4680dcca52e827d20eaa24}{p1}}\ -\/\ self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707}{p2}})\ *\ x}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ dpx\ *\ torch.sigmoid(self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_ac19cf98f6f113e6c5be46ab694be8a18}{beta}}\ *\ dpx)\ +\ self.\mbox{\hyperlink{classutils_1_1activations_1_1_acon_c_a929ecfa2a1208396c98493f733efb707}{p2}}\ *\ x}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00078}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c}{00078}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c}{MetaAconC}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00079}00079\ \ \ \ \ \textcolor{stringliteral}{r"{}"{}"{}ACON\ activation\ (activate\ or\ not)}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ MetaAconC:\ (p1*x-\/p2*x)\ *\ sigmoid(beta*(p1*x-\/p2*x))\ +\ p2*x,\ beta\ is\ generated\ by\ a\ small\ network}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ according\ to\ "{}Activate\ or\ Not:\ Learning\ Customized\ Activation"{}\ <https://arxiv.org/pdf/2009.04759.pdf>.}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00084}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a52a77ff3c6855d63e86c1d56bb5a0c22}{00084}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a52a77ff3c6855d63e86c1d56bb5a0c22}{\_\_init\_\_}}(self,\ c1,\ k=1,\ s=1,\ r=16):\ \ \textcolor{comment}{\#\ ch\_in,\ kernel,\ stride,\ r}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a52a77ff3c6855d63e86c1d56bb5a0c22}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ c2\ =\ max(r,\ c1\ //\ r)}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00087}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_af51fa8d4baaba246afbbdfa09b97db50}{00087}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_af51fa8d4baaba246afbbdfa09b97db50}{p1}}\ =\ nn.Parameter(torch.randn(1,\ c1,\ 1,\ 1))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00088}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a16fe1f9cc97a9e756ae2c7b13ba9204d}{00088}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a16fe1f9cc97a9e756ae2c7b13ba9204d}{p2}}\ =\ nn.Parameter(torch.randn(1,\ c1,\ 1,\ 1))}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00089}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_ae39d09e72a2ed0e096fe222941229d36}{00089}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_ae39d09e72a2ed0e096fe222941229d36}{fc1}}\ =\ nn.Conv2d(c1,\ c2,\ k,\ s,\ bias=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00090}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_ad6d2535dca29df6daee87219a3d36ac3}{00090}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_ad6d2535dca29df6daee87219a3d36ac3}{fc2}}\ =\ nn.Conv2d(c2,\ c1,\ k,\ s,\ bias=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.bn1\ =\ nn.BatchNorm2d(c2)}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.bn2\ =\ nn.BatchNorm2d(c1)}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00094}\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a4661d1b9bc89476b0f019541e3364f0f}{00094}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a4661d1b9bc89476b0f019541e3364f0f}{forward}}(self,\ x):}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ y\ =\ x.mean(dim=2,\ keepdims=\textcolor{keyword}{True}).mean(dim=3,\ keepdims=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ batch-\/size\ 1\ bug/instabilities\ https://github.com/ultralytics/yolov5/issues/2891}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ beta\ =\ torch.sigmoid(self.bn2(self.fc2(self.bn1(self.fc1(y)))))\ \ \#\ bug/unstable}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ beta\ =\ torch.sigmoid(self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_ad6d2535dca29df6daee87219a3d36ac3}{fc2}}(self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_ae39d09e72a2ed0e096fe222941229d36}{fc1}}(y)))\ \ \textcolor{comment}{\#\ bug\ patch\ BN\ layers\ removed}}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ dpx\ =\ (self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_af51fa8d4baaba246afbbdfa09b97db50}{p1}}\ -\/\ self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a16fe1f9cc97a9e756ae2c7b13ba9204d}{p2}})\ *\ x}
+\DoxyCodeLine{\Hypertarget{activations_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ dpx\ *\ torch.sigmoid(beta\ *\ dpx)\ +\ self.\mbox{\hyperlink{classutils_1_1activations_1_1_meta_acon_c_a16fe1f9cc97a9e756ae2c7b13ba9204d}{p2}}\ *\ x}
+
+\end{DoxyCode}

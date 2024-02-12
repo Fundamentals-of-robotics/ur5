@@ -1,0 +1,216 @@
+\doxysection{models.\+tf.\+TFDetect Class Reference}
+\hypertarget{classmodels_1_1tf_1_1_t_f_detect}{}\label{classmodels_1_1tf_1_1_t_f_detect}\index{models.tf.TFDetect@{models.tf.TFDetect}}
+
+
+Inheritance diagram for models.\+tf.\+TFDetect\+:
+% FIG 0
+
+
+Collaboration diagram for models.\+tf.\+TFDetect\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_adce8aedf35df26e8495da6eb8a05205c}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}{nc}}=80, \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a}{anchors}}=(), ch=(), \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}=(640, 640), w=None)
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a7990bd2a944f030f214772f87244697f}{call}} (self, inputs)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}{stride}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}{nc}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}{no}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}{nl}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}{na}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046}{grid}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a}{anchors}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ae86171114e0f7ffcb7221aad499522ff}{anchor\+\_\+grid}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31}{m}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}{training}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}{imgsz}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_detect_a982e6f0512fb408a7a0103af3d6348c5}{\+\_\+make\+\_\+grid}} (nx=20, ny=20)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00295}{295}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_adce8aedf35df26e8495da6eb8a05205c}\label{classmodels_1_1tf_1_1_t_f_detect_adce8aedf35df26e8495da6eb8a05205c} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{nc = {\ttfamily 80},  }\item[{}]{anchors = {\ttfamily ()},  }\item[{}]{ch = {\ttfamily ()},  }\item[{}]{imgsz = {\ttfamily (640,~640)},  }\item[{}]{w = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Reimplemented in \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_aea15ffef1acbd6d7f10c0fa79bda16ec}{models.\+tf.\+TFSegment}}.
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00297}{297}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a982e6f0512fb408a7a0103af3d6348c5}\label{classmodels_1_1tf_1_1_t_f_detect_a982e6f0512fb408a7a0103af3d6348c5} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!\_make\_grid@{\_make\_grid}}
+\index{\_make\_grid@{\_make\_grid}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{\_make\_grid()}{\_make\_grid()}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+\_\+make\+\_\+grid (\begin{DoxyParamCaption}\item[{}]{nx = {\ttfamily 20},  }\item[{}]{ny = {\ttfamily 20} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00338}{338}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a7990bd2a944f030f214772f87244697f}\label{classmodels_1_1tf_1_1_t_f_detect_a7990bd2a944f030f214772f87244697f} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!call@{call}}
+\index{call@{call}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{call()}{call()}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+call (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{inputs }\end{DoxyParamCaption})}
+
+
+
+Reimplemented in \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_segment_af811f879f6a093667bfba2f7a903896b}{models.\+tf.\+TFSegment}}.
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00314}{314}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_ae86171114e0f7ffcb7221aad499522ff}\label{classmodels_1_1tf_1_1_t_f_detect_ae86171114e0f7ffcb7221aad499522ff} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!anchor\_grid@{anchor\_grid}}
+\index{anchor\_grid@{anchor\_grid}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{anchor\_grid}{anchor\_grid}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+anchor\+\_\+grid}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00306}{306}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a}\label{classmodels_1_1tf_1_1_t_f_detect_a002bb2a6abcdb2a9d8bfe6bf50c0433a} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!anchors@{anchors}}
+\index{anchors@{anchors}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{anchors}{anchors}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+anchors}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00305}{305}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046}\label{classmodels_1_1tf_1_1_t_f_detect_a34b6a68f9254398f24ffe8ed6c215046} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!grid@{grid}}
+\index{grid@{grid}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{grid}{grid}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+grid}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00304}{304}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0}\label{classmodels_1_1tf_1_1_t_f_detect_ab874f0fef9050a25f69a04283b37dfd0} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!imgsz@{imgsz}}
+\index{imgsz@{imgsz}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{imgsz}{imgsz}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+imgsz}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00309}{309}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31}\label{classmodels_1_1tf_1_1_t_f_detect_a8c69bb588db9f9d2d23d037449782f31} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!m@{m}}
+\index{m@{m}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{m}{m}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+m}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00307}{307}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb}\label{classmodels_1_1tf_1_1_t_f_detect_a14003eaa7ebb2bd6fc11ad59ba5fdbeb} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!na@{na}}
+\index{na@{na}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{na}{na}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+na}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00303}{303}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf}\label{classmodels_1_1tf_1_1_t_f_detect_af83f616f1c6abf9a9d56bd1244c8c1bf} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!nc@{nc}}
+\index{nc@{nc}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{nc}{nc}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+nc}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00300}{300}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0}\label{classmodels_1_1tf_1_1_t_f_detect_ae805940568e6a90030ce3b4597e597d0} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!nl@{nl}}
+\index{nl@{nl}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{nl}{nl}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+nl}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00302}{302}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b}\label{classmodels_1_1tf_1_1_t_f_detect_a72db2bf83161dd0c77b39cd9dea4924b} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!no@{no}}
+\index{no@{no}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{no}{no}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+no}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00301}{301}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088}\label{classmodels_1_1tf_1_1_t_f_detect_a3dd22b02aadc49294d7d234591e4d088} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!stride@{stride}}
+\index{stride@{stride}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{stride}{stride}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+stride}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00299}{299}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6}\label{classmodels_1_1tf_1_1_t_f_detect_a62e8e69178d5c1af2dd4b32c3a3987f6} 
+\index{models.tf.TFDetect@{models.tf.TFDetect}!training@{training}}
+\index{training@{training}!models.tf.TFDetect@{models.tf.TFDetect}}
+\doxysubsubsection{\texorpdfstring{training}{training}}
+{\footnotesize\ttfamily models.\+tf.\+TFDetect.\+training}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00308}{308}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/models/\mbox{\hyperlink{tf_8py}{tf.\+py}}\end{DoxyCompactItemize}

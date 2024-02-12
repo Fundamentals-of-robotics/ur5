@@ -1,0 +1,181 @@
+\doxysection{val.\+py}
+\hypertarget{classify_2val_8py_source}{}\label{classify_2val_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/classify/val.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/classify/val.py}}
+\mbox{\hyperlink{classify_2val_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00001}\mbox{\hyperlink{namespaceval}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00003}00003\ \textcolor{stringliteral}{Validate\ a\ trained\ YOLOv5\ classification\ model\ on\ a\ classification\ dataset.}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00005}00005\ \textcolor{stringliteral}{Usage:}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00006}00006\ \textcolor{stringliteral}{\ \ \ \ \$\ bash\ data/scripts/get\_imagenet.sh\ -\/-\/val\ \ \#\ download\ ImageNet\ val\ split\ (6.3G,\ 50000\ images)}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ classify/val.py\ -\/-\/weights\ yolov5m-\/cls.pt\ -\/-\/data\ ../datasets/imagenet\ -\/-\/img\ 224\ \ \#\ validate\ ImageNet}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00008}00008\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00009}00009\ \textcolor{stringliteral}{Usage\ -\/\ formats:}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ classify/val.py\ -\/-\/weights\ yolov5s-\/cls.pt\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ PyTorch}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls.torchscript\ \ \ \ \ \ \ \ \#\ TorchScript}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls.onnx\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ ONNX\ Runtime\ or\ OpenCV\ DNN\ with\ -\/-\/dnn}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls\_openvino\_model\ \ \ \ \ \#\ OpenVINO}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls.engine\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorRT}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00015}00015\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls.mlmodel\ \ \ \ \ \ \ \ \ \ \ \ \#\ CoreML\ (macOS-\/only)}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00016}00016\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls\_saved\_model\ \ \ \ \ \ \ \ \#\ TensorFlow\ SavedModel}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls.pb\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ GraphDef}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls.tflite\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ TensorFlow\ Lite}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls\_edgetpu.tflite\ \ \ \ \ \#\ TensorFlow\ Edge\ TPU}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yolov5s-\/cls\_paddle\_model\ \ \ \ \ \ \ \#\ PaddlePaddle}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00021}00021\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00023}00023\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00024}00024\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00025}00025\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00026}00026\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00028}00028\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00029}00029\ \textcolor{keyword}{from}\ tqdm\ \textcolor{keyword}{import}\ tqdm}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00031}\mbox{\hyperlink{namespaceval_a9572b46935104dab1c3fd617b1414f17}{00031}}\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00032}\mbox{\hyperlink{namespaceval_a481b90651ac652c0165cbd271448a5af}{00032}}\ ROOT\ =\ FILE.parents[1]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00033}00033\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00034}00034\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00035}00035\ ROOT\ =\ Path(os.path.relpath(ROOT,\ Path.cwd()))\ \ \textcolor{comment}{\#\ relative}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00037}00037\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1common}{models.common}}\ \textcolor{keyword}{import}\ DetectMultiBackend}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00038}00038\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1dataloaders}{utils.dataloaders}}\ \textcolor{keyword}{import}\ create\_classification\_dataloader}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00039}00039\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00040}00040\ \ \ \ \ LOGGER,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00041}00041\ \ \ \ \ TQDM\_BAR\_FORMAT,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00042}00042\ \ \ \ \ Profile,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00043}00043\ \ \ \ \ check\_img\_size,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00044}00044\ \ \ \ \ check\_requirements,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00045}00045\ \ \ \ \ colorstr,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00046}00046\ \ \ \ \ increment\_path,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00047}00047\ \ \ \ \ print\_args,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00048}00048\ )}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00049}00049\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ select\_device,\ smart\_inference\_mode}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00052}00052\ \textcolor{preprocessor}{@smart\_inference\_mode()}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00053}\mbox{\hyperlink{namespaceval_a68d1b6a8c7f3f4c30afe14a7f2492a8e}{00053}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_a68d1b6a8c7f3f4c30afe14a7f2492a8e}{run}}(}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00054}00054\ \ \ \ \ data=ROOT\ /\ "{}../datasets/mnist"{},\ \ \textcolor{comment}{\#\ dataset\ dir}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00055}00055\ \ \ \ \ weights=ROOT\ /\ "{}yolov5s-\/cls.pt"{},\ \ \textcolor{comment}{\#\ model.pt\ path(s)}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00056}00056\ \ \ \ \ batch\_size=128,\ \ \textcolor{comment}{\#\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00057}00057\ \ \ \ \ imgsz=224,\ \ \textcolor{comment}{\#\ inference\ size\ (pixels)}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00058}00058\ \ \ \ \ device="{}"{},\ \ \textcolor{comment}{\#\ cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00059}00059\ \ \ \ \ workers=8,\ \ \textcolor{comment}{\#\ max\ dataloader\ workers\ (per\ RANK\ in\ DDP\ mode)}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00060}00060\ \ \ \ \ verbose=False,\ \ \textcolor{comment}{\#\ verbose\ output}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00061}00061\ \ \ \ \ project=ROOT\ /\ "{}runs/val-\/cls"{},\ \ \textcolor{comment}{\#\ save\ to\ project/name}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00062}00062\ \ \ \ \ name="{}exp"{},\ \ \textcolor{comment}{\#\ save\ to\ project/name}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00063}00063\ \ \ \ \ exist\_ok=False,\ \ \textcolor{comment}{\#\ existing\ project/name\ ok,\ do\ not\ increment}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00064}00064\ \ \ \ \ half=False,\ \ \textcolor{comment}{\#\ use\ FP16\ half-\/precision\ inference}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00065}00065\ \ \ \ \ dnn=False,\ \ \textcolor{comment}{\#\ use\ OpenCV\ DNN\ for\ ONNX\ inference}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00066}00066\ \ \ \ \ model=None,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00067}00067\ \ \ \ \ dataloader=None,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00068}00068\ \ \ \ \ criterion=None,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00069}00069\ \ \ \ \ pbar=None,}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00070}00070\ ):}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00071}00071\ \ \ \ \ \textcolor{comment}{\#\ Initialize/load\ model\ and\ set\ device}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00072}00072\ \ \ \ \ training\ =\ model\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00073}00073\ \ \ \ \ \textcolor{keywordflow}{if}\ training:\ \ \textcolor{comment}{\#\ called\ by\ train.py}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ device,\ pt,\ jit,\ engine\ =\ next(model.parameters()).device,\ \textcolor{keyword}{True},\ \textcolor{keyword}{False},\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ get\ model\ device,\ PyTorch\ model}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ half\ \&=\ device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}}\ \ \textcolor{comment}{\#\ half\ precision\ only\ supported\ on\ CUDA}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ model.half()\ \textcolor{keywordflow}{if}\ half\ \textcolor{keywordflow}{else}\ model.float()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \textcolor{comment}{\#\ called\ directly}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ device\ =\ select\_device(device,\ batch\_size=batch\_size)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Directories}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ save\_dir\ =\ increment\_path(Path(project)\ /\ name,\ exist\_ok=exist\_ok)\ \ \textcolor{comment}{\#\ increment\ run}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ save\_dir.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ dir}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ model}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ model\ =\ \mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend}{DetectMultiBackend}}(weights,\ device=device,\ dnn=dnn,\ fp16=half)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ stride,\ pt,\ jit,\ engine\ =\ model.stride,\ model.pt,\ model.jit,\ model.engine}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ imgsz\ =\ check\_img\_size(imgsz,\ s=stride)\ \ \textcolor{comment}{\#\ check\ image\ size}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ half\ =\ model.fp16\ \ \textcolor{comment}{\#\ FP16\ supported\ on\ limited\ backends\ with\ CUDA}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ engine:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ =\ model.batch\_size}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ device\ =\ model.device}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (pt\ \textcolor{keywordflow}{or}\ jit):}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ =\ 1\ \ \textcolor{comment}{\#\ export.py\ models\ default\ to\ batch-\/size\ 1}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Forcing\ -\/-\/batch-\/size\ 1\ square\ inference\ (1,3,\{imgsz\},\{imgsz\})\ for\ non-\/PyTorch\ models"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Dataloader}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ data\ =\ Path(data)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ test\_dir\ =\ data\ /\ \textcolor{stringliteral}{"{}test"{}}\ \textcolor{keywordflow}{if}\ (data\ /\ \textcolor{stringliteral}{"{}test"{}}).exists()\ \textcolor{keywordflow}{else}\ data\ /\ \textcolor{stringliteral}{"{}val"{}}\ \ \textcolor{comment}{\#\ data/test\ or\ data/val}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ dataloader\ =\ create\_classification\_dataloader(}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ path=test\_dir,\ imgsz=imgsz,\ batch\_size=batch\_size,\ augment=\textcolor{keyword}{False},\ rank=-\/1,\ workers=workers}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00104}00104\ \ \ \ \ model.eval()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00105}00105\ \ \ \ \ pred,\ targets,\ loss,\ dt\ =\ [],\ [],\ 0,\ (\mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device),\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device),\ \mbox{\hyperlink{classutils_1_1general_1_1_profile}{Profile}}(device=device))}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00106}00106\ \ \ \ \ n\ =\ len(dataloader)\ \ \textcolor{comment}{\#\ number\ of\ batches}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00107}00107\ \ \ \ \ action\ =\ \textcolor{stringliteral}{"{}validating"{}}\ \textcolor{keywordflow}{if}\ dataloader.dataset.root.stem\ ==\ \textcolor{stringliteral}{"{}val"{}}\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}testing"{}}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00108}00108\ \ \ \ \ desc\ =\ f\textcolor{stringliteral}{"{}\{pbar.desc[:-\/36]\}\{action:>36\}"{}}\ \textcolor{keywordflow}{if}\ pbar\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}\{action\}"{}}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00109}00109\ \ \ \ \ bar\ =\ tqdm(dataloader,\ desc,\ n,\ \textcolor{keywordflow}{not}\ training,\ bar\_format=TQDM\_BAR\_FORMAT,\ position=0)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00110}00110\ \ \ \ \ \textcolor{keyword}{with}\ torch.cuda.amp.autocast(enabled=device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}}):}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ images,\ labels\ \textcolor{keywordflow}{in}\ bar:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[0]:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ images,\ labels\ =\ images.to(device,\ non\_blocking=\textcolor{keyword}{True}),\ labels.to(device)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[1]:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ model(images)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ dt[2]:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred.append(y.argsort(1,\ descending=\textcolor{keyword}{True})[:,\ :5])}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targets.append(labels)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ criterion:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loss\ +=\ criterion(y,\ labels)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00124}00124\ \ \ \ \ loss\ /=\ n}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00125}00125\ \ \ \ \ pred,\ targets\ =\ torch.cat(pred),\ torch.cat(targets)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00126}00126\ \ \ \ \ correct\ =\ (targets[:,\ \textcolor{keywordtype}{None}]\ ==\ pred).float()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00127}00127\ \ \ \ \ acc\ =\ torch.stack((correct[:,\ 0],\ correct.max(1).values),\ dim=1)\ \ \textcolor{comment}{\#\ (top1,\ top5)\ accuracy}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00128}00128\ \ \ \ \ top1,\ top5\ =\ acc.mean(0).tolist()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{if}\ pbar:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ pbar.desc\ =\ f\textcolor{stringliteral}{"{}\{pbar.desc[:-\/36]\}\{loss:>12.3g\}\{top1:>12.3g\}\{top5:>12.3g\}"{}}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:\ \ \textcolor{comment}{\#\ all\ classes}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{'Class':>24\}\{'Images':>12\}\{'top1\_acc':>12\}\{'top5\_acc':>12\}"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{'all':>24\}\{targets.shape[0]:>12\}\{top1:>12.3g\}\{top5:>12.3g\}"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ c\ \textcolor{keywordflow}{in}\ model.names.items():}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ acc\_i\ =\ acc[targets\ ==\ i]}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ top1i,\ top5i\ =\ acc\_i.mean(0).tolist()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{c:>24\}\{acc\_i.shape[0]:>12\}\{top1i:>12.3g\}\{top5i:>12.3g\}"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ results}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ t\ =\ tuple(x.t\ /\ len(dataloader.dataset.samples)\ *\ 1e3\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ dt)\ \ \textcolor{comment}{\#\ speeds\ per\ image}}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ shape\ =\ (1,\ 3,\ imgsz,\ imgsz)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Speed:\ \%.1fms\ pre-\/process,\ \%.1fms\ inference,\ \%.1fms\ post-\/process\ per\ image\ at\ shape\ \{shape\}"{}}\ \%\ t)}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Results\ saved\ to\ \{colorstr('bold',\ save\_dir)\}"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00146}00146\ \ \ \ \ \textcolor{keywordflow}{return}\ top1,\ top5,\ loss}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00149}\mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{00149}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\_opt}}():}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00150}00150\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00151}00151\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/data"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}../datasets/mnist"{}},\ help=\textcolor{stringliteral}{"{}dataset\ path"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00152}00152\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s-\/cls.pt"{}},\ help=\textcolor{stringliteral}{"{}model.pt\ path(s)"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00153}00153\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/batch-\/size"{}},\ type=int,\ default=128,\ help=\textcolor{stringliteral}{"{}batch\ size"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00154}00154\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ type=int,\ default=224,\ help=\textcolor{stringliteral}{"{}inference\ size\ (pixels)"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00155}00155\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/device"{}},\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00156}00156\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/workers"{}},\ type=int,\ default=8,\ help=\textcolor{stringliteral}{"{}max\ dataloader\ workers\ (per\ RANK\ in\ DDP\ mode)"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00157}00157\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/verbose"{}},\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=\textcolor{keyword}{True},\ default=\textcolor{keyword}{True},\ help=\textcolor{stringliteral}{"{}verbose\ output"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00158}00158\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/project"{}},\ default=ROOT\ /\ \textcolor{stringliteral}{"{}runs/val-\/cls"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00159}00159\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/name"{}},\ default=\textcolor{stringliteral}{"{}exp"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00160}00160\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/exist-\/ok"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}existing\ project/name\ ok,\ do\ not\ increment"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00161}00161\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/half"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ FP16\ half-\/precision\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00162}00162\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/dnn"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ OpenCV\ DNN\ for\ ONNX\ inference"{}})}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00163}00163\ \ \ \ \ opt\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00164}00164\ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00165}00165\ \ \ \ \ \textcolor{keywordflow}{return}\ opt}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00168}\mbox{\hyperlink{namespaceval_aa85e72f2be85829c1d458402a4ad3196}{00168}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceval_aa85e72f2be85829c1d458402a4ad3196}{main}}(opt):}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00169}00169\ \ \ \ \ check\_requirements(ROOT\ /\ \textcolor{stringliteral}{"{}requirements.txt"{}},\ exclude=(\textcolor{stringliteral}{"{}tensorboard"{}},\ \textcolor{stringliteral}{"{}thop"{}}))}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00170}00170\ \ \ \ \ run(**vars(opt))}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00173}00173\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00174}\mbox{\hyperlink{namespaceval_a1127a298ff36841c4ed64170b810536b}{00174}}\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespaceval_a994b1b7fd23511832a86459479c0a01a}{parse\_opt}}()}
+\DoxyCodeLine{\Hypertarget{classify_2val_8py_source_l00175}00175\ \ \ \ \ \mbox{\hyperlink{namespaceval_aa85e72f2be85829c1d458402a4ad3196}{main}}(opt)}
+
+\end{DoxyCode}

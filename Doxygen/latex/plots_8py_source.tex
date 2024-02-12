@@ -1,0 +1,478 @@
+\doxysection{plots.\+py}
+\hypertarget{plots_8py_source}{}\label{plots_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/plots.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/plots.py}}
+\mbox{\hyperlink{plots_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1plots}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}Plotting\ utils."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00004}00004\ \textcolor{keyword}{import}\ contextlib}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00005}00005\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00006}00006\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00007}00007\ \textcolor{keyword}{from}\ copy\ \textcolor{keyword}{import}\ copy}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00008}00008\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00010}00010\ \textcolor{keyword}{import}\ cv2}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00011}00011\ \textcolor{keyword}{import}\ matplotlib}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00012}00012\ \textcolor{keyword}{import}\ matplotlib.pyplot\ \textcolor{keyword}{as}\ plt}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00013}00013\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00014}00014\ \textcolor{keyword}{import}\ pandas\ \textcolor{keyword}{as}\ pd}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00015}00015\ \textcolor{keyword}{import}\ seaborn\ \textcolor{keyword}{as}\ sn}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00016}00016\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00017}00017\ \textcolor{keyword}{from}\ PIL\ \textcolor{keyword}{import}\ Image,\ ImageDraw}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00018}00018\ \textcolor{keyword}{from}\ scipy.ndimage.filters\ \textcolor{keyword}{import}\ gaussian\_filter1d}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00019}00019\ \textcolor{keyword}{from}\ ultralytics.utils.plotting\ \textcolor{keyword}{import}\ Annotator}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00021}00021\ \textcolor{keyword}{from}\ utils\ \textcolor{keyword}{import}\ TryExcept,\ threaded}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00022}00022\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER,\ clip\_boxes,\ increment\_path,\ xywh2xyxy,\ xyxy2xywh}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00023}00023\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1metrics}{utils.metrics}}\ \textcolor{keyword}{import}\ fitness}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00025}00025\ \textcolor{comment}{\#\ Settings}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00026}\mbox{\hyperlink{namespaceutils_1_1plots_a6855ba0cd6e922a4c546035c11d145d3}{00026}}\ RANK\ =\ int(os.getenv(\textcolor{stringliteral}{"{}RANK"{}},\ -\/1))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00027}00027\ matplotlib.rc(\textcolor{stringliteral}{"{}font"{}},\ **\{\textcolor{stringliteral}{"{}size"{}}:\ 11\})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00028}00028\ matplotlib.use(\textcolor{stringliteral}{"{}Agg"{}})\ \ \textcolor{comment}{\#\ for\ writing\ to\ files\ only}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00031}\mbox{\hyperlink{classutils_1_1plots_1_1_colors}{00031}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classutils_1_1plots_1_1_colors}{Colors}}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00032}00032\ \ \ \ \ \textcolor{comment}{\#\ Ultralytics\ color\ palette\ https://ultralytics.com/}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00033}\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a56fb1a0f90caf71196b25ddd9abb49ef}{00033}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a56fb1a0f90caf71196b25ddd9abb49ef}{\_\_init\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ hex\ =\ matplotlib.colors.TABLEAU\_COLORS.values()}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ hexs\ =\ (}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FF3838"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FF9D97"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FF701F"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FFB21D"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CFD231"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}48F90A"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}92CC17"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}3DDB86"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}1A9334"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}00D4BB"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}2C99A8"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}00C2FF"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}344593"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}6473FF"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}0018EC"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}8438FF"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}520085"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CB38FF"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FF95C8"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}FF37C7"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00057}\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a296bd19f9f04dec328086d143eeeea1d}{00057}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a296bd19f9f04dec328086d143eeeea1d}{palette}}\ =\ [self.\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a9f0bcf300d0d9778ef7fffbb19a754d3}{hex2rgb}}(f\textcolor{stringliteral}{"{}\#\{c\}"{}})\ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ hexs]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00058}\mbox{\hyperlink{classutils_1_1plots_1_1_colors_aa58503fbe54abce1070192cee8cb381e}{00058}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classutils_1_1plots_1_1_colors_aa58503fbe54abce1070192cee8cb381e}{n}}\ =\ len(self.\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a296bd19f9f04dec328086d143eeeea1d}{palette}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00060}\mbox{\hyperlink{classutils_1_1plots_1_1_colors_ae4c1d98b9444fe2e329f9604056fa95d}{00060}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1plots_1_1_colors_ae4c1d98b9444fe2e329f9604056fa95d}{\_\_call\_\_}}(self,\ i,\ bgr=False):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ c\ =\ self.\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a296bd19f9f04dec328086d143eeeea1d}{palette}}[int(i)\ \%\ self.\mbox{\hyperlink{classutils_1_1plots_1_1_colors_aa58503fbe54abce1070192cee8cb381e}{n}}]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (c[2],\ c[1],\ c[0])\ \textcolor{keywordflow}{if}\ bgr\ \textcolor{keywordflow}{else}\ c}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00064}00064\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00065}\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a9f0bcf300d0d9778ef7fffbb19a754d3}{00065}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classutils_1_1plots_1_1_colors_a9f0bcf300d0d9778ef7fffbb19a754d3}{hex2rgb}}(h):\ \ \textcolor{comment}{\#\ rgb\ order\ (PIL)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tuple(int(h[1\ +\ i\ :\ 1\ +\ i\ +\ 2],\ 16)\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ (0,\ 2,\ 4))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00069}\mbox{\hyperlink{namespaceutils_1_1plots_a720ba7aa2a257eb569bd7b104d747ac7}{00069}}\ colors\ =\ \mbox{\hyperlink{classutils_1_1plots_1_1_colors}{Colors}}()\ \ \textcolor{comment}{\#\ create\ instance\ for\ 'from\ utils.plots\ import\ colors'}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00072}\mbox{\hyperlink{namespaceutils_1_1plots_a70cf0fc6b6ac2e0bbdc0c01d1205b2e9}{00072}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a70cf0fc6b6ac2e0bbdc0c01d1205b2e9}{feature\_visualization}}(x,\ module\_type,\ stage,\ n=32,\ save\_dir=Path(\textcolor{stringliteral}{"{}runs/detect/exp"{}})):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00073}00073\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00074}00074\ \textcolor{stringliteral}{\ \ \ \ x:\ \ \ \ \ \ \ \ \ \ \ \ \ \ Features\ to\ be\ visualized}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ module\_type:\ \ \ \ Module\ type}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ stage:\ \ \ \ \ \ \ \ \ \ Module\ stage\ within\ model}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ n:\ \ \ \ \ \ \ \ \ \ \ \ \ \ Maximum\ number\ of\ feature\ maps\ to\ plot}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ save\_dir:\ \ \ \ \ \ \ Directory\ to\ save\ results}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00080}00080\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{stringliteral}{"{}Detect"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ module\_type)\ \textcolor{keywordflow}{and}\ (}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Segment"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ module\_type}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00082}00082\ \ \ \ \ ):\ \ \textcolor{comment}{\#\ 'Detect'\ for\ Object\ Detect\ task,'Segment'\ for\ Segment\ task}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ batch,\ channels,\ height,\ width\ =\ x.shape\ \ \textcolor{comment}{\#\ batch,\ channels,\ height,\ width}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ height\ >\ 1\ \textcolor{keywordflow}{and}\ width\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ f\ =\ save\_dir\ /\ f\textcolor{stringliteral}{"{}stage\{stage\}\_\{module\_type.split('.')[-\/1]\}\_features.png"{}}\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ blocks\ =\ torch.chunk(x[0].cpu(),\ channels,\ dim=0)\ \ \textcolor{comment}{\#\ select\ batch\ index\ 0,\ block\ by\ channels}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ n\ =\ min(n,\ channels)\ \ \textcolor{comment}{\#\ number\ of\ plots}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ fig,\ ax\ =\ plt.subplots(math.ceil(n\ /\ 8),\ 8,\ tight\_layout=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ 8\ rows\ x\ n/8\ cols}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ ax\ =\ ax.ravel()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ plt.subplots\_adjust(wspace=0.05,\ hspace=0.05)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(n):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].imshow(blocks[i].squeeze())\ \ \textcolor{comment}{\#\ cmap='gray'}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].axis(\textcolor{stringliteral}{"{}off"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Saving\ \{f\}...\ (\{n\}/\{channels\})"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ plt.savefig(f,\ dpi=300,\ bbox\_inches=\textcolor{stringliteral}{"{}tight"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ np.save(str(f.with\_suffix(\textcolor{stringliteral}{"{}.npy"{}})),\ x[0].cpu().numpy())\ \ \textcolor{comment}{\#\ npy\ save}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00102}\mbox{\hyperlink{namespaceutils_1_1plots_a8a757ca5fc2397be9f714c91e164b28e}{00102}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a8a757ca5fc2397be9f714c91e164b28e}{hist2d}}(x,\ y,\ n=100):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00103}00103\ \ \ \ \ \textcolor{comment}{\#\ 2d\ histogram\ used\ in\ labels.png\ and\ evolve.png}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00104}00104\ \ \ \ \ xedges,\ yedges\ =\ np.linspace(x.min(),\ x.max(),\ n),\ np.linspace(y.min(),\ y.max(),\ n)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00105}00105\ \ \ \ \ hist,\ xedges,\ yedges\ =\ np.histogram2d(x,\ y,\ (xedges,\ yedges))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00106}00106\ \ \ \ \ xidx\ =\ np.clip(np.digitize(x,\ xedges)\ -\/\ 1,\ 0,\ hist.shape[0]\ -\/\ 1)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00107}00107\ \ \ \ \ yidx\ =\ np.clip(np.digitize(y,\ yedges)\ -\/\ 1,\ 0,\ hist.shape[1]\ -\/\ 1)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{return}\ np.log(hist[xidx,\ yidx])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00111}\mbox{\hyperlink{namespaceutils_1_1plots_a28f45084c74be640b4d2609cb9e43d75}{00111}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a28f45084c74be640b4d2609cb9e43d75}{butter\_lowpass\_filtfilt}}(data,\ cutoff=1500,\ fs=50000,\ order=5):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00112}00112\ \ \ \ \ \textcolor{keyword}{from}\ scipy.signal\ \textcolor{keyword}{import}\ butter,\ filtfilt}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00114}00114\ \ \ \ \ \textcolor{comment}{\#\ https://stackoverflow.com/questions/28536191/how-\/to-\/filter-\/smooth-\/with-\/scipy-\/numpy}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00115}00115\ \ \ \ \ \textcolor{keyword}{def\ }butter\_lowpass(cutoff,\ fs,\ order):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ nyq\ =\ 0.5\ *\ fs}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ normal\_cutoff\ =\ cutoff\ /\ nyq}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ butter(order,\ normal\_cutoff,\ btype=\textcolor{stringliteral}{"{}low"{}},\ analog=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00120}00120\ \ \ \ \ b,\ a\ =\ butter\_lowpass(cutoff,\ fs,\ order=order)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{return}\ filtfilt(b,\ a,\ data)\ \ \textcolor{comment}{\#\ forward-\/backward\ filter}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00124}\mbox{\hyperlink{namespaceutils_1_1plots_a77c9e731fd70cd4d04a39f27c7f49ad0}{00124}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a77c9e731fd70cd4d04a39f27c7f49ad0}{output\_to\_target}}(output,\ max\_det=300):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00125}00125\ \ \ \ \ \textcolor{comment}{\#\ Convert\ model\ output\ to\ target\ format\ [batch\_id,\ class\_id,\ x,\ y,\ w,\ h,\ conf]\ for\ plotting}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00126}00126\ \ \ \ \ targets\ =\ []}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00127}00127\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ o\ \textcolor{keywordflow}{in}\ enumerate(output):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ box,\ conf,\ cls\ =\ o[:max\_det,\ :6].cpu().split((4,\ 1,\ 1),\ 1)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ j\ =\ torch.full((conf.shape[0],\ 1),\ i)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ targets.append(torch.cat((j,\ cls,\ xyxy2xywh(box),\ conf),\ 1))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00131}00131\ \ \ \ \ \textcolor{keywordflow}{return}\ torch.cat(targets,\ 0).numpy()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00134}00134\ \textcolor{preprocessor}{@threaded}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00135}\mbox{\hyperlink{namespaceutils_1_1plots_acf6fa9be13d937952bf004588fd6073e}{00135}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_acf6fa9be13d937952bf004588fd6073e}{plot\_images}}(images,\ targets,\ paths=None,\ fname="{}images.jpg"{},\ names=None):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00136}00136\ \ \ \ \ \textcolor{comment}{\#\ Plot\ image\ grid\ with\ labels}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00137}00137\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(images,\ torch.Tensor):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ images\ =\ images.cpu().float().numpy()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00139}00139\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(targets,\ torch.Tensor):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ targets\ =\ targets.cpu().numpy()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00142}00142\ \ \ \ \ max\_size\ =\ 1920\ \ \textcolor{comment}{\#\ max\ image\ size}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00143}00143\ \ \ \ \ max\_subplots\ =\ 16\ \ \textcolor{comment}{\#\ max\ image\ subplots,\ i.e.\ 4x4}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00144}00144\ \ \ \ \ bs,\ \_,\ h,\ w\ =\ images.shape\ \ \textcolor{comment}{\#\ batch\ size,\ \_,\ height,\ width}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00145}00145\ \ \ \ \ bs\ =\ min(bs,\ max\_subplots)\ \ \textcolor{comment}{\#\ limit\ plot\ images}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00146}00146\ \ \ \ \ ns\ =\ np.ceil(bs**0.5)\ \ \textcolor{comment}{\#\ number\ of\ subplots\ (square)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00147}00147\ \ \ \ \ \textcolor{keywordflow}{if}\ np.max(images[0])\ <=\ 1:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ images\ *=\ 255\ \ \textcolor{comment}{\#\ de-\/normalise\ (optional)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00150}00150\ \ \ \ \ \textcolor{comment}{\#\ Build\ Image}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00151}00151\ \ \ \ \ mosaic\ =\ np.full((int(ns\ *\ h),\ int(ns\ *\ w),\ 3),\ 255,\ dtype=np.uint8)\ \ \textcolor{comment}{\#\ init}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00152}00152\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ im\ \textcolor{keywordflow}{in}\ enumerate(images):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ ==\ max\_subplots:\ \ \textcolor{comment}{\#\ if\ last\ batch\ has\ fewer\ images\ than\ we\ expect}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ x,\ y\ =\ int(w\ *\ (i\ //\ ns)),\ int(h\ *\ (i\ \%\ ns))\ \ \textcolor{comment}{\#\ block\ origin}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ im\ =\ im.transpose(1,\ 2,\ 0)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ mosaic[y\ :\ y\ +\ h,\ x\ :\ x\ +\ w,\ :]\ =\ im}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00159}00159\ \ \ \ \ \textcolor{comment}{\#\ Resize\ (optional)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00160}00160\ \ \ \ \ scale\ =\ max\_size\ /\ ns\ /\ max(h,\ w)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{if}\ scale\ <\ 1:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ h\ =\ math.ceil(scale\ *\ h)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ w\ =\ math.ceil(scale\ *\ w)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ mosaic\ =\ cv2.resize(mosaic,\ tuple(int(x\ *\ ns)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (w,\ h)))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00166}00166\ \ \ \ \ \textcolor{comment}{\#\ Annotate}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00167}00167\ \ \ \ \ fs\ =\ int((h\ +\ w)\ *\ ns\ *\ 0.01)\ \ \textcolor{comment}{\#\ font\ size}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00168}00168\ \ \ \ \ annotator\ =\ Annotator(mosaic,\ line\_width=round(fs\ /\ 10),\ font\_size=fs,\ pil=\textcolor{keyword}{True},\ example=names)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00169}00169\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(i\ +\ 1):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ x,\ y\ =\ int(w\ *\ (i\ //\ ns)),\ int(h\ *\ (i\ \%\ ns))\ \ \textcolor{comment}{\#\ block\ origin}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ annotator.rectangle([x,\ y,\ x\ +\ w,\ y\ +\ h],\ \textcolor{keywordtype}{None},\ (255,\ 255,\ 255),\ width=2)\ \ \textcolor{comment}{\#\ borders}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ paths:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ annotator.text([x\ +\ 5,\ y\ +\ 5],\ text=Path(paths[i]).name[:40],\ txt\_color=(220,\ 220,\ 220))\ \ \textcolor{comment}{\#\ filenames}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(targets)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ ti\ =\ targets[targets[:,\ 0]\ ==\ i]\ \ \textcolor{comment}{\#\ image\ targets}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ boxes\ =\ xywh2xyxy(ti[:,\ 2:6]).T}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ classes\ =\ ti[:,\ 1].astype(\textcolor{stringliteral}{"{}int"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ labels\ =\ ti.shape[1]\ ==\ 6\ \ \textcolor{comment}{\#\ labels\ if\ no\ conf\ column}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ conf\ =\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{else}\ ti[:,\ 6]\ \ \textcolor{comment}{\#\ check\ for\ confidence\ presence\ (label\ vs\ pred)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ boxes.shape[1]:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ boxes.max()\ <=\ 1.01:\ \ \textcolor{comment}{\#\ if\ normalized\ with\ tolerance\ 0.01}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[0,\ 2]]\ *=\ w\ \ \textcolor{comment}{\#\ scale\ to\ pixels}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[1,\ 3]]\ *=\ h}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ scale\ <\ 1:\ \ \textcolor{comment}{\#\ absolute\ coords\ need\ scale\ if\ image\ scales}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ boxes\ *=\ scale}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[0,\ 2]]\ +=\ x}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ boxes[[1,\ 3]]\ +=\ y}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j,\ box\ \textcolor{keywordflow}{in}\ enumerate(boxes.T.tolist()):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cls\ =\ classes[j]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color\ =\ colors(cls)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cls\ =\ names[cls]\ \textcolor{keywordflow}{if}\ names\ \textcolor{keywordflow}{else}\ cls}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{or}\ conf[j]\ >\ 0.25:\ \ \textcolor{comment}{\#\ 0.25\ conf\ thresh}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ label\ =\ f\textcolor{stringliteral}{"{}\{cls\}"{}}\ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}\{cls\}\ \{conf[j]:.1f\}"{}}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ annotator.box\_label(box,\ label,\ color=color)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00196}00196\ \ \ \ \ annotator.im.save(fname)\ \ \textcolor{comment}{\#\ save}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00199}\mbox{\hyperlink{namespaceutils_1_1plots_ad56896934ebe53cc1cccbc88ea9528d9}{00199}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_ad56896934ebe53cc1cccbc88ea9528d9}{plot\_lr\_scheduler}}(optimizer,\ scheduler,\ epochs=300,\ save\_dir="{}"{}):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00200}00200\ \ \ \ \ \textcolor{comment}{\#\ Plot\ LR\ simulating\ training\ for\ full\ epochs}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00201}00201\ \ \ \ \ optimizer,\ scheduler\ =\ copy(optimizer),\ copy(scheduler)\ \ \textcolor{comment}{\#\ do\ not\ modify\ originals}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00202}00202\ \ \ \ \ y\ =\ []}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00203}00203\ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(epochs):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ scheduler.step()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ y.append(optimizer.param\_groups[0][\textcolor{stringliteral}{"{}lr"{}}])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00206}00206\ \ \ \ \ plt.plot(y,\ \textcolor{stringliteral}{"{}.-\/"{}},\ label=\textcolor{stringliteral}{"{}LR"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00207}00207\ \ \ \ \ plt.xlabel(\textcolor{stringliteral}{"{}epoch"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00208}00208\ \ \ \ \ plt.ylabel(\textcolor{stringliteral}{"{}LR"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00209}00209\ \ \ \ \ plt.grid()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00210}00210\ \ \ \ \ plt.xlim(0,\ epochs)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00211}00211\ \ \ \ \ plt.ylim(0)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00212}00212\ \ \ \ \ plt.savefig(Path(save\_dir)\ /\ \textcolor{stringliteral}{"{}LR.png"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00213}00213\ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00216}\mbox{\hyperlink{namespaceutils_1_1plots_af045dbdf8ae1dd3cc592f46e44eacf5e}{00216}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_af045dbdf8ae1dd3cc592f46e44eacf5e}{plot\_val\_txt}}():\ \ \textcolor{comment}{\#\ from\ utils.plots\ import\ *;\ plot\_val()}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00217}00217\ \ \ \ \ \textcolor{comment}{\#\ Plot\ val.txt\ histograms}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00218}00218\ \ \ \ \ x\ =\ np.loadtxt(\textcolor{stringliteral}{"{}val.txt"{}},\ dtype=np.float32)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00219}00219\ \ \ \ \ box\ =\ xyxy2xywh(x[:,\ :4])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00220}00220\ \ \ \ \ cx,\ cy\ =\ box[:,\ 0],\ box[:,\ 1]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00222}00222\ \ \ \ \ fig,\ ax\ =\ plt.subplots(1,\ 1,\ figsize=(6,\ 6),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00223}00223\ \ \ \ \ ax.hist2d(cx,\ cy,\ bins=600,\ cmax=10,\ cmin=0)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00224}00224\ \ \ \ \ ax.set\_aspect(\textcolor{stringliteral}{"{}equal"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00225}00225\ \ \ \ \ plt.savefig(\textcolor{stringliteral}{"{}hist2d.png"{}},\ dpi=300)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00227}00227\ \ \ \ \ fig,\ ax\ =\ plt.subplots(1,\ 2,\ figsize=(12,\ 6),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00228}00228\ \ \ \ \ ax[0].hist(cx,\ bins=600)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00229}00229\ \ \ \ \ ax[1].hist(cy,\ bins=600)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00230}00230\ \ \ \ \ plt.savefig(\textcolor{stringliteral}{"{}hist1d.png"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00233}\mbox{\hyperlink{namespaceutils_1_1plots_ab8d0eea5d82c28e1f8d8d53d327b7ce5}{00233}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_ab8d0eea5d82c28e1f8d8d53d327b7ce5}{plot\_targets\_txt}}():\ \ \textcolor{comment}{\#\ from\ utils.plots\ import\ *;\ plot\_targets\_txt()}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00234}00234\ \ \ \ \ \textcolor{comment}{\#\ Plot\ targets.txt\ histograms}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00235}00235\ \ \ \ \ x\ =\ np.loadtxt(\textcolor{stringliteral}{"{}targets.txt"{}},\ dtype=np.float32).T}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00236}00236\ \ \ \ \ s\ =\ [\textcolor{stringliteral}{"{}x\ targets"{}},\ \textcolor{stringliteral}{"{}y\ targets"{}},\ \textcolor{stringliteral}{"{}width\ targets"{}},\ \textcolor{stringliteral}{"{}height\ targets"{}}]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00237}00237\ \ \ \ \ fig,\ ax\ =\ plt.subplots(2,\ 2,\ figsize=(8,\ 8),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00238}00238\ \ \ \ \ ax\ =\ ax.ravel()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00239}00239\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(4):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ ax[i].hist(x[i],\ bins=100,\ label=f\textcolor{stringliteral}{"{}\{x[i].mean():.3g\}\ +/-\/\ \{x[i].std():.3g\}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ ax[i].legend()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ ax[i].set\_title(s[i])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00243}00243\ \ \ \ \ plt.savefig(\textcolor{stringliteral}{"{}targets.jpg"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00246}\mbox{\hyperlink{namespaceutils_1_1plots_a768f640da05e3b1f0a86c8cffdbba9b9}{00246}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a768f640da05e3b1f0a86c8cffdbba9b9}{plot\_val\_study}}(file="{}"{},\ dir="{}"{},\ x=None):\ \ \textcolor{comment}{\#\ from\ utils.plots\ import\ *;\ plot\_val\_study()}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00247}00247\ \ \ \ \ \textcolor{comment}{\#\ Plot\ file=study.txt\ generated\ by\ val.py\ (or\ plot\ all\ study*.txt\ in\ dir)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00248}00248\ \ \ \ \ save\_dir\ =\ Path(file).parent\ \textcolor{keywordflow}{if}\ file\ \textcolor{keywordflow}{else}\ Path(dir)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00249}00249\ \ \ \ \ plot2\ =\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ plot\ additional\ results}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00250}00250\ \ \ \ \ \textcolor{keywordflow}{if}\ plot2:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ ax\ =\ plt.subplots(2,\ 4,\ figsize=(10,\ 6),\ tight\_layout=\textcolor{keyword}{True})[1].ravel()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00253}00253\ \ \ \ \ fig2,\ ax2\ =\ plt.subplots(1,\ 1,\ figsize=(8,\ 4),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00254}00254\ \ \ \ \ \textcolor{comment}{\#\ for\ f\ in\ [save\_dir\ /\ f'study\_coco\_\{x\}.txt'\ for\ x\ in\ ['yolov5n6',\ 'yolov5s6',\ 'yolov5m6',\ 'yolov5l6',\ 'yolov5x6']]:}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00255}00255\ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ sorted(save\_dir.glob(\textcolor{stringliteral}{"{}study*.txt"{}})):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ y\ =\ np.loadtxt(f,\ dtype=np.float32,\ usecols=[0,\ 1,\ 2,\ 3,\ 7,\ 8,\ 9],\ ndmin=2).T}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ x\ =\ np.arange(y.shape[1])\ \textcolor{keywordflow}{if}\ x\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{else}\ np.array(x)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plot2:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ [\textcolor{stringliteral}{"{}P"{}},\ \textcolor{stringliteral}{"{}R"{}},\ \textcolor{stringliteral}{"{}mAP@.5"{}},\ \textcolor{stringliteral}{"{}mAP@.5:.95"{}},\ \textcolor{stringliteral}{"{}t\_preprocess\ (ms/img)"{}},\ \textcolor{stringliteral}{"{}t\_inference\ (ms/img)"{}},\ \textcolor{stringliteral}{"{}t\_NMS\ (ms/img)"{}}]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(7):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].plot(x,\ y[i],\ \textcolor{stringliteral}{"{}.-\/"{}},\ linewidth=2,\ markersize=8)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].set\_title(s[i])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ j\ =\ y[3].argmax()\ +\ 1}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ ax2.plot(}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ y[5,\ 1:j],}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ y[3,\ 1:j]\ *\ 1e2,}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}.-\/"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ linewidth=2,}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ markersize=8,}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ label=f.stem.replace(\textcolor{stringliteral}{"{}study\_coco\_"{}},\ \textcolor{stringliteral}{"{}"{}}).replace(\textcolor{stringliteral}{"{}yolo"{}},\ \textcolor{stringliteral}{"{}YOLO"{}}),}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00274}00274\ \ \ \ \ ax2.plot(}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ 1e3\ /\ np.array([209,\ 140,\ 97,\ 58,\ 35,\ 18]),}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ [34.6,\ 40.5,\ 43.0,\ 47.5,\ 49.7,\ 51.5],}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}k.-\/"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ linewidth=2,}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ markersize=8,}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ alpha=0.25,}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ label=\textcolor{stringliteral}{"{}EfficientDet"{}},}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00282}00282\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00284}00284\ \ \ \ \ ax2.grid(alpha=0.2)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00285}00285\ \ \ \ \ ax2.set\_yticks(np.arange(20,\ 60,\ 5))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00286}00286\ \ \ \ \ ax2.set\_xlim(0,\ 57)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00287}00287\ \ \ \ \ ax2.set\_ylim(25,\ 55)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00288}00288\ \ \ \ \ ax2.set\_xlabel(\textcolor{stringliteral}{"{}GPU\ Speed\ (ms/img)"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00289}00289\ \ \ \ \ ax2.set\_ylabel(\textcolor{stringliteral}{"{}COCO\ AP\ val"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00290}00290\ \ \ \ \ ax2.legend(loc=\textcolor{stringliteral}{"{}lower\ right"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00291}00291\ \ \ \ \ f\ =\ save\_dir\ /\ \textcolor{stringliteral}{"{}study.png"{}}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00292}00292\ \ \ \ \ print(f\textcolor{stringliteral}{"{}Saving\ \{f\}..."{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00293}00293\ \ \ \ \ plt.savefig(f,\ dpi=300)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00296}00296\ \textcolor{preprocessor}{@TryExcept()}\ \ \textcolor{comment}{\#\ known\ issue\ https://github.com/ultralytics/yolov5/issues/5395}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00297}\mbox{\hyperlink{namespaceutils_1_1plots_a4ed6029b2623edb45085aec52a628545}{00297}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a4ed6029b2623edb45085aec52a628545}{plot\_labels}}(labels,\ names=(),\ save\_dir=Path(\textcolor{stringliteral}{"{}"{}})):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00298}00298\ \ \ \ \ \textcolor{comment}{\#\ plot\ dataset\ labels}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00299}00299\ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Plotting\ labels\ to\ \{save\_dir\ /\ 'labels.jpg'\}...\ "{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00300}00300\ \ \ \ \ c,\ b\ =\ labels[:,\ 0],\ labels[:,\ 1:].transpose()\ \ \textcolor{comment}{\#\ classes,\ boxes}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00301}00301\ \ \ \ \ nc\ =\ int(c.max()\ +\ 1)\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00302}00302\ \ \ \ \ x\ =\ pd.DataFrame(b.transpose(),\ columns=[\textcolor{stringliteral}{"{}x"{}},\ \textcolor{stringliteral}{"{}y"{}},\ \textcolor{stringliteral}{"{}width"{}},\ \textcolor{stringliteral}{"{}height"{}}])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00304}00304\ \ \ \ \ \textcolor{comment}{\#\ seaborn\ correlogram}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00305}00305\ \ \ \ \ sn.pairplot(x,\ corner=\textcolor{keyword}{True},\ diag\_kind=\textcolor{stringliteral}{"{}auto"{}},\ kind=\textcolor{stringliteral}{"{}hist"{}},\ diag\_kws=dict(bins=50),\ plot\_kws=dict(pmax=0.9))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00306}00306\ \ \ \ \ plt.savefig(save\_dir\ /\ \textcolor{stringliteral}{"{}labels\_correlogram.jpg"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00307}00307\ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00308}00308\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00309}00309\ \ \ \ \ \textcolor{comment}{\#\ matplotlib\ labels}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00310}00310\ \ \ \ \ matplotlib.use(\textcolor{stringliteral}{"{}svg"{}})\ \ \textcolor{comment}{\#\ faster}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00311}00311\ \ \ \ \ ax\ =\ plt.subplots(2,\ 2,\ figsize=(8,\ 8),\ tight\_layout=\textcolor{keyword}{True})[1].ravel()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00312}00312\ \ \ \ \ y\ =\ ax[0].hist(c,\ bins=np.linspace(0,\ nc,\ nc\ +\ 1)\ -\/\ 0.5,\ rwidth=0.8)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00313}00313\ \ \ \ \ \textcolor{keyword}{with}\ contextlib.suppress(Exception):\ \ \textcolor{comment}{\#\ color\ histogram\ bars\ by\ class}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ [y[2].patches[i].set\_color([x\ /\ 255\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ colors(i)])\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(nc)]\ \ \textcolor{comment}{\#\ known\ issue\ \#3195}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00315}00315\ \ \ \ \ ax[0].set\_ylabel(\textcolor{stringliteral}{"{}instances"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00316}00316\ \ \ \ \ \textcolor{keywordflow}{if}\ 0\ <\ len(names)\ <\ 30:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ ax[0].set\_xticks(range(len(names)))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ ax[0].set\_xticklabels(list(names.values()),\ rotation=90,\ fontsize=10)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00319}00319\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ ax[0].set\_xlabel(\textcolor{stringliteral}{"{}classes"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00321}00321\ \ \ \ \ sn.histplot(x,\ x=\textcolor{stringliteral}{"{}x"{}},\ y=\textcolor{stringliteral}{"{}y"{}},\ ax=ax[2],\ bins=50,\ pmax=0.9)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00322}00322\ \ \ \ \ sn.histplot(x,\ x=\textcolor{stringliteral}{"{}width"{}},\ y=\textcolor{stringliteral}{"{}height"{}},\ ax=ax[3],\ bins=50,\ pmax=0.9)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00324}00324\ \ \ \ \ \textcolor{comment}{\#\ rectangles}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00325}00325\ \ \ \ \ labels[:,\ 1:3]\ =\ 0.5\ \ \textcolor{comment}{\#\ center}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00326}00326\ \ \ \ \ labels[:,\ 1:]\ =\ xywh2xyxy(labels[:,\ 1:])\ *\ 2000}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00327}00327\ \ \ \ \ img\ =\ Image.fromarray(np.ones((2000,\ 2000,\ 3),\ dtype=np.uint8)\ *\ 255)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00328}00328\ \ \ \ \ \textcolor{keywordflow}{for}\ cls,\ *box\ \textcolor{keywordflow}{in}\ labels[:1000]:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ ImageDraw.Draw(img).rectangle(box,\ width=1,\ outline=colors(cls))\ \ \textcolor{comment}{\#\ plot}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00330}00330\ \ \ \ \ ax[1].imshow(img)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00331}00331\ \ \ \ \ ax[1].axis(\textcolor{stringliteral}{"{}off"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ [0,\ 1,\ 2,\ 3]:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ s\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}top"{}},\ \textcolor{stringliteral}{"{}right"{}},\ \textcolor{stringliteral}{"{}left"{}},\ \textcolor{stringliteral}{"{}bottom"{}}]:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ ax[a].spines[s].set\_visible(\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00337}00337\ \ \ \ \ plt.savefig(save\_dir\ /\ \textcolor{stringliteral}{"{}labels.jpg"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00338}00338\ \ \ \ \ matplotlib.use(\textcolor{stringliteral}{"{}Agg"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00339}00339\ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00342}\mbox{\hyperlink{namespaceutils_1_1plots_abc1594d2ded6e892253fa50fb8cb2c36}{00342}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_abc1594d2ded6e892253fa50fb8cb2c36}{imshow\_cls}}(im,\ labels=None,\ pred=None,\ names=None,\ nmax=25,\ verbose=False,\ f=Path(\textcolor{stringliteral}{"{}images.jpg"{}})):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00343}00343\ \ \ \ \ \textcolor{comment}{\#\ Show\ classification\ image\ grid\ with\ labels\ (optional)\ and\ predictions\ (optional)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00344}00344\ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1augmentations}{utils.augmentations}}\ \textcolor{keyword}{import}\ denormalize}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00346}00346\ \ \ \ \ names\ =\ names\ \textcolor{keywordflow}{or}\ [f\textcolor{stringliteral}{"{}class\{i\}"{}}\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(1000)]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00347}00347\ \ \ \ \ blocks\ =\ torch.chunk(}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ denormalize(im.clone()).cpu().float(),\ len(im),\ dim=0}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00349}00349\ \ \ \ \ )\ \ \textcolor{comment}{\#\ select\ batch\ index\ 0,\ block\ by\ channels}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00350}00350\ \ \ \ \ n\ =\ min(len(blocks),\ nmax)\ \ \textcolor{comment}{\#\ number\ of\ plots}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00351}00351\ \ \ \ \ m\ =\ min(8,\ round(n**0.5))\ \ \textcolor{comment}{\#\ 8\ x\ 8\ default}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00352}00352\ \ \ \ \ fig,\ ax\ =\ plt.subplots(math.ceil(n\ /\ m),\ m)\ \ \textcolor{comment}{\#\ 8\ rows\ x\ n/8\ cols}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00353}00353\ \ \ \ \ ax\ =\ ax.ravel()\ \textcolor{keywordflow}{if}\ m\ >\ 1\ \textcolor{keywordflow}{else}\ [ax]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00354}00354\ \ \ \ \ \textcolor{comment}{\#\ plt.subplots\_adjust(wspace=0.05,\ hspace=0.05)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00355}00355\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(n):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ ax[i].imshow(blocks[i].squeeze().permute((1,\ 2,\ 0)).numpy().clip(0.0,\ 1.0))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ ax[i].axis(\textcolor{stringliteral}{"{}off"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ names[labels[i]]\ +\ (f\textcolor{stringliteral}{"{}—\{names[pred[i]]\}"{}}\ \textcolor{keywordflow}{if}\ pred\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].set\_title(s,\ fontsize=8,\ verticalalignment=\textcolor{stringliteral}{"{}top"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00361}00361\ \ \ \ \ plt.savefig(f,\ dpi=300,\ bbox\_inches=\textcolor{stringliteral}{"{}tight"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00362}00362\ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00363}00363\ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Saving\ \{f\}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ labels\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(\textcolor{stringliteral}{"{}True:\ \ \ \ \ "{}}\ +\ \textcolor{stringliteral}{"{}\ "{}}.join(f\textcolor{stringliteral}{"{}\{names[i]:3s\}"{}}\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ labels[:nmax]))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pred\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(\textcolor{stringliteral}{"{}Predicted:"{}}\ +\ \textcolor{stringliteral}{"{}\ "{}}.join(f\textcolor{stringliteral}{"{}\{names[i]:3s\}"{}}\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ pred[:nmax]))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00369}00369\ \ \ \ \ \textcolor{keywordflow}{return}\ f}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00372}\mbox{\hyperlink{namespaceutils_1_1plots_a3b16e031ed19fd310e22e7c9ec49afc0}{00372}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a3b16e031ed19fd310e22e7c9ec49afc0}{plot\_evolve}}(evolve\_csv="{}path/to/evolve.csv"{}):\ \ \textcolor{comment}{\#\ from\ utils.plots\ import\ *;\ plot\_evolve()}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00373}00373\ \ \ \ \ \textcolor{comment}{\#\ Plot\ evolve.csv\ hyp\ evolution\ results}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00374}00374\ \ \ \ \ evolve\_csv\ =\ Path(evolve\_csv)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00375}00375\ \ \ \ \ data\ =\ pd.read\_csv(evolve\_csv)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00376}00376\ \ \ \ \ keys\ =\ [x.strip()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ data.columns]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00377}00377\ \ \ \ \ x\ =\ data.values}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00378}00378\ \ \ \ \ f\ =\ fitness(x)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00379}00379\ \ \ \ \ j\ =\ np.argmax(f)\ \ \textcolor{comment}{\#\ max\ fitness\ index}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00380}00380\ \ \ \ \ plt.figure(figsize=(10,\ 12),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00381}00381\ \ \ \ \ matplotlib.rc(\textcolor{stringliteral}{"{}font"{}},\ **\{\textcolor{stringliteral}{"{}size"{}}:\ 8\})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00382}00382\ \ \ \ \ print(f\textcolor{stringliteral}{"{}Best\ results\ from\ row\ \{j\}\ of\ \{evolve\_csv\}:"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00383}00383\ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ k\ \textcolor{keywordflow}{in}\ enumerate(keys[7:]):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ v\ =\ x[:,\ 7\ +\ i]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ mu\ =\ v[j]\ \ \textcolor{comment}{\#\ best\ single\ result}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ plt.subplot(6,\ 5,\ i\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ plt.scatter(v,\ f,\ c=\mbox{\hyperlink{namespaceutils_1_1plots_a8a757ca5fc2397be9f714c91e164b28e}{hist2d}}(v,\ f,\ 20),\ cmap=\textcolor{stringliteral}{"{}viridis"{}},\ alpha=0.8,\ edgecolors=\textcolor{stringliteral}{"{}none"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ plt.plot(mu,\ f.max(),\ \textcolor{stringliteral}{"{}k+"{}},\ markersize=15)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ plt.title(f\textcolor{stringliteral}{"{}\{k\}\ =\ \{mu:.3g\}"{}},\ fontdict=\{\textcolor{stringliteral}{"{}size"{}}:\ 9\})\ \ \textcolor{comment}{\#\ limit\ to\ 40\ characters}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ \%\ 5\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ plt.yticks([])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{k:>15\}:\ \{mu:.3g\}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00393}00393\ \ \ \ \ f\ =\ evolve\_csv.with\_suffix(\textcolor{stringliteral}{"{}.png"{}})\ \ \textcolor{comment}{\#\ filename}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00394}00394\ \ \ \ \ plt.savefig(f,\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00395}00395\ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00396}00396\ \ \ \ \ print(f\textcolor{stringliteral}{"{}Saved\ \{f\}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00398}00398\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00399}\mbox{\hyperlink{namespaceutils_1_1plots_ae74e3f73c7a6500fabbf181bf16ce6bc}{00399}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_ae74e3f73c7a6500fabbf181bf16ce6bc}{plot\_results}}(file="{}path/to/results.csv"{},\ dir="{}"{}):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00400}00400\ \ \ \ \ \textcolor{comment}{\#\ Plot\ training\ results.csv.\ Usage:\ from\ utils.plots\ import\ *;\ plot\_results('path/to/results.csv')}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00401}00401\ \ \ \ \ save\_dir\ =\ Path(file).parent\ \textcolor{keywordflow}{if}\ file\ \textcolor{keywordflow}{else}\ Path(dir)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00402}00402\ \ \ \ \ fig,\ ax\ =\ plt.subplots(2,\ 5,\ figsize=(12,\ 6),\ tight\_layout=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00403}00403\ \ \ \ \ ax\ =\ ax.ravel()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00404}00404\ \ \ \ \ files\ =\ list(save\_dir.glob(\textcolor{stringliteral}{"{}results*.csv"{}}))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00405}00405\ \ \ \ \ \textcolor{keyword}{assert}\ len(files),\ f\textcolor{stringliteral}{"{}No\ results.csv\ files\ found\ in\ \{save\_dir.resolve()\},\ nothing\ to\ plot."{}}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00406}00406\ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ files:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ data\ =\ pd.read\_csv(f)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ [x.strip()\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ data.columns]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ data.values[:,\ 0]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ j\ \textcolor{keywordflow}{in}\ enumerate([1,\ 2,\ 3,\ 4,\ 5,\ 8,\ 9,\ 10,\ 6,\ 7]):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ data.values[:,\ j].astype(\textcolor{stringliteral}{"{}float"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ y[y\ ==\ 0]\ =\ np.nan\ \ \#\ don't\ show\ zero\ values}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].plot(x,\ y,\ marker=\textcolor{stringliteral}{"{}."{}},\ label=f.stem,\ linewidth=2,\ markersize=8)\ \ \textcolor{comment}{\#\ actual\ results}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].plot(x,\ gaussian\_filter1d(y,\ sigma=3),\ \textcolor{stringliteral}{"{}:"{}},\ label=\textcolor{stringliteral}{"{}smooth"{}},\ linewidth=2)\ \ \textcolor{comment}{\#\ smoothing\ line}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ax[i].set\_title(s[j],\ fontsize=12)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ j\ in\ [8,\ 9,\ 10]:\ \ \#\ share\ train\ and\ val\ loss\ y\ axes}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ ax[i].get\_shared\_y\_axes().join(ax[i],\ ax[i\ -\/\ 5])}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Warning:\ Plotting\ error\ for\ \{f\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00421}00421\ \ \ \ \ ax[1].legend()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00422}00422\ \ \ \ \ fig.savefig(save\_dir\ /\ \textcolor{stringliteral}{"{}results.png"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00423}00423\ \ \ \ \ plt.close()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00425}00425\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00426}\mbox{\hyperlink{namespaceutils_1_1plots_a4bf0337ff2602e1e4364d0ca74c2c792}{00426}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_a4bf0337ff2602e1e4364d0ca74c2c792}{profile\_idetection}}(start=0,\ stop=0,\ labels=(),\ save\_dir=\textcolor{stringliteral}{"{}"{}}):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00427}00427\ \ \ \ \ \textcolor{comment}{\#\ Plot\ iDetection\ '*.txt'\ per-\/image\ logs.\ from\ utils.plots\ import\ *;\ profile\_idetection()}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00428}00428\ \ \ \ \ ax\ =\ plt.subplots(2,\ 4,\ figsize=(12,\ 6),\ tight\_layout=\textcolor{keyword}{True})[1].ravel()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00429}00429\ \ \ \ \ s\ =\ [\textcolor{stringliteral}{"{}Images"{}},\ \textcolor{stringliteral}{"{}Free\ Storage\ (GB)"{}},\ \textcolor{stringliteral}{"{}RAM\ Usage\ (GB)"{}},\ \textcolor{stringliteral}{"{}Battery"{}},\ \textcolor{stringliteral}{"{}dt\_raw\ (ms)"{}},\ \textcolor{stringliteral}{"{}dt\_smooth\ (ms)"{}},\ \textcolor{stringliteral}{"{}real-\/world\ FPS"{}}]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00430}00430\ \ \ \ \ files\ =\ list(Path(save\_dir).glob(\textcolor{stringliteral}{"{}frames*.txt"{}}))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00431}00431\ \ \ \ \ \textcolor{keywordflow}{for}\ fi,\ f\ \textcolor{keywordflow}{in}\ enumerate(files):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ np.loadtxt(f,\ ndmin=2).T[:,\ 90:-\/30]\ \ \textcolor{comment}{\#\ clip\ first\ and\ last\ rows}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ n\ =\ results.shape[1]\ \ \textcolor{comment}{\#\ number\ of\ rows}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ np.arange(start,\ min(stop,\ n)\ \textcolor{keywordflow}{if}\ stop\ \textcolor{keywordflow}{else}\ n)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ results[:,\ x]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ results[0]\ -\/\ results[0].min()\ \ \textcolor{comment}{\#\ set\ t0=0s}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ results[0]\ =\ x}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ a\ \textcolor{keywordflow}{in}\ enumerate(ax):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ <\ len(results):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ label\ =\ labels[fi]\ \textcolor{keywordflow}{if}\ len(labels)\ \textcolor{keywordflow}{else}\ f.stem.replace(\textcolor{stringliteral}{"{}frames\_"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a.plot(t,\ results[i],\ marker=\textcolor{stringliteral}{"{}."{}},\ label=label,\ linewidth=1,\ markersize=5)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a.set\_title(s[i])}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a.set\_xlabel(\textcolor{stringliteral}{"{}time\ (s)"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ fi\ ==\ len(files)\ -\/\ 1:}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ a.set\_ylim(bottom=0)}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ side\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}top"{}},\ \textcolor{stringliteral}{"{}right"{}}]:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a.spines[side].set\_visible(\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a.remove()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Warning:\ Plotting\ error\ for\ \{f\};\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00453}00453\ \ \ \ \ ax[1].legend()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00454}00454\ \ \ \ \ plt.savefig(Path(save\_dir)\ /\ \textcolor{stringliteral}{"{}idetection\_profile.png"{}},\ dpi=200)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00455}00455\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00457}\mbox{\hyperlink{namespaceutils_1_1plots_ac0dedbb9cdc272e4fbe339bc1def8131}{00457}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1plots_ac0dedbb9cdc272e4fbe339bc1def8131}{save\_one\_box}}(xyxy,\ im,\ file=Path(\textcolor{stringliteral}{"{}im.jpg"{}}),\ gain=1.02,\ pad=10,\ square=\textcolor{keyword}{False},\ BGR=\textcolor{keyword}{False},\ save=\textcolor{keyword}{True}):}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00458}00458\ \ \ \ \ \textcolor{comment}{\#\ Save\ image\ crop\ as\ \{file\}\ with\ crop\ size\ multiple\ \{gain\}\ and\ \{pad\}\ pixels.\ Save\ and/or\ return\ crop}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00459}00459\ \ \ \ \ xyxy\ =\ torch.tensor(xyxy).view(-\/1,\ 4)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00460}00460\ \ \ \ \ b\ =\ xyxy2xywh(xyxy)\ \ \textcolor{comment}{\#\ boxes}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00461}00461\ \ \ \ \ \textcolor{keywordflow}{if}\ square:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ b[:,\ 2:]\ =\ b[:,\ 2:].max(1)[0].unsqueeze(1)\ \ \textcolor{comment}{\#\ attempt\ rectangle\ to\ square}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00463}00463\ \ \ \ \ b[:,\ 2:]\ =\ b[:,\ 2:]\ *\ gain\ +\ pad\ \ \textcolor{comment}{\#\ box\ wh\ *\ gain\ +\ pad}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00464}00464\ \ \ \ \ xyxy\ =\ xywh2xyxy(b).long()}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00465}00465\ \ \ \ \ clip\_boxes(xyxy,\ im.shape)}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00466}00466\ \ \ \ \ crop\ =\ im[int(xyxy[0,\ 1])\ :\ int(xyxy[0,\ 3]),\ int(xyxy[0,\ 0])\ :\ int(xyxy[0,\ 2]),\ ::\ (1\ \textcolor{keywordflow}{if}\ BGR\ \textcolor{keywordflow}{else}\ -\/1)]}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00467}00467\ \ \ \ \ \textcolor{keywordflow}{if}\ save:}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ file.parent.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ directory}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ f\ =\ str(increment\_path(file).with\_suffix(\textcolor{stringliteral}{"{}.jpg"{}}))}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ cv2.imwrite(f,\ crop)\ \ \#\ save\ BGR,\ https://github.com/ultralytics/yolov5/issues/7007\ chroma\ subsampling\ issue}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ Image.fromarray(crop[...,\ ::-\/1]).save(f,\ quality=95,\ subsampling=0)\ \ \textcolor{comment}{\#\ save\ RGB}}
+\DoxyCodeLine{\Hypertarget{plots_8py_source_l00472}00472\ \ \ \ \ \textcolor{keywordflow}{return}\ crop}
+
+\end{DoxyCode}

@@ -1,0 +1,205 @@
+\doxysection{utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks Class Reference}
+\hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks}{}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks}\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+
+
+Inheritance diagram for utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks\+:
+% FIG 0
+
+
+Collaboration diagram for utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a39f91fdf4f38f6952e883559e018a2be}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a17f2bcd33b25fbd941e29c83e58ff0c5}{path}}, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aaf2b9425db6c2fd723025393e181d3e3}{img\+\_\+size}}=640, batch\+\_\+size=16, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_afe3013a59e9113d4007d92d3927c8235}{augment}}=False, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}=None, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8ee5d25bf251c3f9876adb21db5c04d0}{rect}}=False, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a0976f6fc92e7d00617036e125f2baeb8}{image\+\_\+weights}}=False, cache\+\_\+images=False, single\+\_\+cls=False, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8f72cc72fe46ce9bbb7f326e40525347}{stride}}=32, pad=0, min\+\_\+items=0, prefix="{}"{}, \mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\+\_\+ratio}}=1, \mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}{overlap}}=False, rank=-\/1, seed=0)
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a47da079cbeeecf41ecd48763b7749584}{\+\_\+\+\_\+getitem\+\_\+\+\_\+}} (self, index)
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642}{load\+\_\+mosaic}} (self, index)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8125e04131e6f2508907618d42610f94}{check\+\_\+cache\+\_\+ram}} (self, safety\+\_\+margin=0.\+1, prefix="{}"{})
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ae10e1aed6b82eb11604e6c1f39d23909}{cache\+\_\+labels}} (self, \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a17f2bcd33b25fbd941e29c83e58ff0c5}{path}}=Path("{}./labels.\+cache"{}), prefix="{}"{})
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ae8545167bde95c851a4539c5a7f0a8ed}{\+\_\+\+\_\+len\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ad7355c09718eacd1e94296447e55ea8a}{load\+\_\+image}} (self, i)
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aaea3ac121e523ee3c57b9f97f00ad68b}{cache\+\_\+images\+\_\+to\+\_\+disk}} (self, i)
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a156fbc1a6ccab1ee4c998e7a4f7cf8d0}{load\+\_\+mosaic9}} (self, index)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a27849f73b79c9ff1c03bdb0dfb21daa1}{collate\+\_\+fn}} (\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ac094011a6d5fbbd57684856d17ba8fa3}{batch}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a6b068bc507b0ca94fff2b619d58fb30f}{collate\+\_\+fn4}} (\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ac094011a6d5fbbd57684856d17ba8fa3}{batch}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}{downsample\+\_\+ratio}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}{overlap}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aaf2b9425db6c2fd723025393e181d3e3}{img\+\_\+size}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_afe3013a59e9113d4007d92d3927c8235}{augment}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a623dff973188744bac4bd52ef483c0f1}{hyp}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a0976f6fc92e7d00617036e125f2baeb8}{image\+\_\+weights}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8ee5d25bf251c3f9876adb21db5c04d0}{rect}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aecad2b4b731326aa073b5cdaaaa42c87}{mosaic}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a2ae5dfa3541d182ab5a3b5d559ec2f5b}{mosaic\+\_\+border}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8f72cc72fe46ce9bbb7f326e40525347}{stride}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a17f2bcd33b25fbd941e29c83e58ff0c5}{path}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a14b38a3ab35f3ae18690d1e26c8019a6}{albumentations}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_adac320e6aa8d3e54823489f6826433d3}{im\+\_\+files}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a0ce6bcf4b6bd14d2f86872e94247cacd}{label\+\_\+files}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a26a6a58e1558930199cd96b5dc4adfb8}{segments}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a843c4c56e009b9d10da92c54324d5888}{labels}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ac78ada45fce0dc8766c438edc4da8fb3}{shapes}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ac094011a6d5fbbd57684856d17ba8fa3}{batch}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a18d2380cd9dbbfb97b9144fa61f0257f}{n}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a47a24fb55010b45e7e863834344ff809}{indices}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a63a772948a9add3d46a2a15d087b3c3d}{batch\+\_\+shapes}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aa5ed0e8e4bbdb2939d09261978c917cb}{ims}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_aecf870b5dadeb708567c7740087c57e7}{npy\+\_\+files}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a216bfcd914c8fc83e50a223891057108}{im\+\_\+hw0}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8e7b8806a960bd7b4d66a53e2441f85e}{im\+\_\+hw}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_af231f2f5a372a07e61d40f60c45267b5}{cache\+\_\+version}} = 0.\+6
+\item 
+list \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a8de2f804c0b468be7d5f06e299ba70ce}{rand\+\_\+interp\+\_\+methods}} = \mbox{[}cv2.\+INTER\+\_\+\+NEAREST, cv2.\+INTER\+\_\+\+LINEAR, cv2.\+INTER\+\_\+\+CUBIC, cv2.\+INTER\+\_\+\+AREA, cv2.\+INTER\+\_\+\+LANCZOS4\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00084}{84}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a39f91fdf4f38f6952e883559e018a2be}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a39f91fdf4f38f6952e883559e018a2be} 
+\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{path,  }\item[{}]{img\+\_\+size = {\ttfamily 640},  }\item[{}]{batch\+\_\+size = {\ttfamily 16},  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{hyp = {\ttfamily None},  }\item[{}]{rect = {\ttfamily False},  }\item[{}]{image\+\_\+weights = {\ttfamily False},  }\item[{}]{cache\+\_\+images = {\ttfamily False},  }\item[{}]{single\+\_\+cls = {\ttfamily False},  }\item[{}]{stride = {\ttfamily 32},  }\item[{}]{pad = {\ttfamily 0},  }\item[{}]{min\+\_\+items = {\ttfamily 0},  }\item[{}]{prefix = {\ttfamily "{}"{}},  }\item[{}]{downsample\+\_\+ratio = {\ttfamily 1},  }\item[{}]{overlap = {\ttfamily False},  }\item[{}]{rank = {\ttfamily -\/1},  }\item[{}]{seed = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a60cf35e515c904b464e3e441be21d792}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}.
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00085}{85}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a47da079cbeeecf41ecd48763b7749584}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a47da079cbeeecf41ecd48763b7749584} 
+\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}!\_\_getitem\_\_@{\_\_getitem\_\_}}
+\index{\_\_getitem\_\_@{\_\_getitem\_\_}!utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+\doxysubsubsection{\texorpdfstring{\_\_getitem\_\_()}{\_\_getitem\_\_()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks.\+\_\+\+\_\+getitem\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{index }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_ab9a607c69c53e268e55684a8f9a65f63}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}.
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00125}{125}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a27849f73b79c9ff1c03bdb0dfb21daa1}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a27849f73b79c9ff1c03bdb0dfb21daa1} 
+\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}!collate\_fn@{collate\_fn}}
+\index{collate\_fn@{collate\_fn}!utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+\doxysubsubsection{\texorpdfstring{collate\_fn()}{collate\_fn()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks.\+collate\+\_\+fn (\begin{DoxyParamCaption}\item[{}]{batch }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_abcd8303e7d83e384045cbf93af669074}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}.
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00293}{293}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a7ca226729be42b51475e2449a1f5d642} 
+\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}!load\_mosaic@{load\_mosaic}}
+\index{load\_mosaic@{load\_mosaic}!utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+\doxysubsubsection{\texorpdfstring{load\_mosaic()}{load\_mosaic()}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks.\+load\+\_\+mosaic (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{index }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classutils_1_1dataloaders_1_1_load_images_and_labels_a6610f7b878a6088e3c476b9dde13c85d}{utils.\+dataloaders.\+Load\+Images\+And\+Labels}}.
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00232}{232}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a3b694bc313d58538bfa905774b995bad} 
+\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}!downsample\_ratio@{downsample\_ratio}}
+\index{downsample\_ratio@{downsample\_ratio}!utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+\doxysubsubsection{\texorpdfstring{downsample\_ratio}{downsample\_ratio}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks.\+downsample\+\_\+ratio}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00122}{122}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875}\label{classutils_1_1segment_1_1dataloaders_1_1_load_images_and_labels_and_masks_a6333ca58ce3c343155418fcc360e3875} 
+\index{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}!overlap@{overlap}}
+\index{overlap@{overlap}!utils.segment.dataloaders.LoadImagesAndLabelsAndMasks@{utils.segment.dataloaders.LoadImagesAndLabelsAndMasks}}
+\doxysubsubsection{\texorpdfstring{overlap}{overlap}}
+{\footnotesize\ttfamily utils.\+segment.\+dataloaders.\+Load\+Images\+And\+Labels\+And\+Masks.\+overlap}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2dataloaders_8py_source_l00123}{123}} of file \mbox{\hyperlink{segment_2dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/segment/\mbox{\hyperlink{segment_2dataloaders_8py}{dataloaders.\+py}}\end{DoxyCompactItemize}

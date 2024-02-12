@@ -1,0 +1,281 @@
+\doxysection{utils.\+segment.\+loss.\+Compute\+Loss Class Reference}
+\hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss}{}\label{classutils_1_1segment_1_1loss_1_1_compute_loss}\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_ab8b16652396f3b38a69775ca209c9018}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, model, \mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_aa8062d2dea15b1f59533b928f3ed07f3}{autobalance}}=False, \mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_af2d15195365705f81a93488113b5f1e9}{overlap}}=False)
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_abae6883836463af6cfb8f07170e76850}{\+\_\+\+\_\+call\+\_\+\+\_\+}} (self, preds, targets, masks)
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a86a683c354e655994272279e241c05af}{single\+\_\+mask\+\_\+loss}} (self, gt\+\_\+mask, pred, proto, xyxy, area)
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a2aab9fe4f78013dc4ad5d66500fe5323}{build\+\_\+targets}} (self, p, targets)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a7e60c8b0d92e307a6c996bca7004faf7}{sort\+\_\+obj\+\_\+iou}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_af2d15195365705f81a93488113b5f1e9}{overlap}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a28dd23e26f53782238ede39740e7710e}{cp}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a978fb4e43c941b811cdaeff369221361}{cn}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_abd323fd956e090288f3da96473d3ea36}{balance}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_ac5193f5907aad7157c32eaf6192e60ac}{ssi}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a9368f61042ab8a7ad754d6eb036c9cc3}{BCEcls}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a25365af5248fab5a0dd2c11073b4ee2b}{BCEobj}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a1740756c78f77b5bb5f58e7e46d0a542}{gr}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_aca9b1cc04d83e0c7bd0c184524962f63}{hyp}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_aa8062d2dea15b1f59533b928f3ed07f3}{autobalance}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a8b828aa7493402936bb5c4edd37ff5d2}{na}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a3d60eebd27de52f8777bba6a649d92fe}{nc}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a22f4eaff9587f89b91b5a1f9ed8e849b}{nl}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a5104023fd8a9e4e84f429f19863b617a}{nm}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_aab94119746fc2f1456a56c1b28e0003f}{anchors}}
+\item 
+\mbox{\hyperlink{classutils_1_1segment_1_1loss_1_1_compute_loss_a5a48ac520a54100c616825dcb0d4e637}{device}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00012}{12}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_ab8b16652396f3b38a69775ca209c9018}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_ab8b16652396f3b38a69775ca209c9018} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{autobalance = {\ttfamily False},  }\item[{}]{overlap = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00014}{14}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_abae6883836463af6cfb8f07170e76850}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_abae6883836463af6cfb8f07170e76850} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!\_\_call\_\_@{\_\_call\_\_}}
+\index{\_\_call\_\_@{\_\_call\_\_}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{\_\_call\_\_()}{\_\_call\_\_()}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+\_\+\+\_\+call\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{preds,  }\item[{}]{targets,  }\item[{}]{masks }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00043}{43}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a2aab9fe4f78013dc4ad5d66500fe5323}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a2aab9fe4f78013dc4ad5d66500fe5323} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!build\_targets@{build\_targets}}
+\index{build\_targets@{build\_targets}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{build\_targets()}{build\_targets()}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+build\+\_\+targets (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{p,  }\item[{}]{targets }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00117}{117}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a86a683c354e655994272279e241c05af}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a86a683c354e655994272279e241c05af} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!single\_mask\_loss@{single\_mask\_loss}}
+\index{single\_mask\_loss@{single\_mask\_loss}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{single\_mask\_loss()}{single\_mask\_loss()}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+single\+\_\+mask\+\_\+loss (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{gt\+\_\+mask,  }\item[{}]{pred,  }\item[{}]{proto,  }\item[{}]{xyxy,  }\item[{}]{area }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00111}{111}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_aab94119746fc2f1456a56c1b28e0003f}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_aab94119746fc2f1456a56c1b28e0003f} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!anchors@{anchors}}
+\index{anchors@{anchors}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{anchors}{anchors}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+anchors}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00040}{40}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_aa8062d2dea15b1f59533b928f3ed07f3}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_aa8062d2dea15b1f59533b928f3ed07f3} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!autobalance@{autobalance}}
+\index{autobalance@{autobalance}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{autobalance}{autobalance}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+autobalance}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00035}{35}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_abd323fd956e090288f3da96473d3ea36}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_abd323fd956e090288f3da96473d3ea36} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!balance@{balance}}
+\index{balance@{balance}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{balance}{balance}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+balance}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00033}{33}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a9368f61042ab8a7ad754d6eb036c9cc3}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a9368f61042ab8a7ad754d6eb036c9cc3} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!BCEcls@{BCEcls}}
+\index{BCEcls@{BCEcls}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{BCEcls}{BCEcls}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+BCEcls}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00035}{35}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a25365af5248fab5a0dd2c11073b4ee2b}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a25365af5248fab5a0dd2c11073b4ee2b} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!BCEobj@{BCEobj}}
+\index{BCEobj@{BCEobj}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{BCEobj}{BCEobj}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+BCEobj}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00035}{35}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a978fb4e43c941b811cdaeff369221361}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a978fb4e43c941b811cdaeff369221361} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!cn@{cn}}
+\index{cn@{cn}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{cn}{cn}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+cn}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00025}{25}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a28dd23e26f53782238ede39740e7710e}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a28dd23e26f53782238ede39740e7710e} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!cp@{cp}}
+\index{cp@{cp}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{cp}{cp}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+cp}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00025}{25}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a5a48ac520a54100c616825dcb0d4e637}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a5a48ac520a54100c616825dcb0d4e637} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!device@{device}}
+\index{device@{device}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{device}{device}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+device}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00041}{41}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a1740756c78f77b5bb5f58e7e46d0a542}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a1740756c78f77b5bb5f58e7e46d0a542} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!gr@{gr}}
+\index{gr@{gr}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{gr}{gr}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+gr}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00035}{35}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_aca9b1cc04d83e0c7bd0c184524962f63}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_aca9b1cc04d83e0c7bd0c184524962f63} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!hyp@{hyp}}
+\index{hyp@{hyp}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{hyp}{hyp}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+hyp}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00035}{35}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a8b828aa7493402936bb5c4edd37ff5d2}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a8b828aa7493402936bb5c4edd37ff5d2} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!na@{na}}
+\index{na@{na}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{na}{na}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+na}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00036}{36}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a3d60eebd27de52f8777bba6a649d92fe}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a3d60eebd27de52f8777bba6a649d92fe} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!nc@{nc}}
+\index{nc@{nc}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{nc}{nc}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+nc}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00037}{37}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a22f4eaff9587f89b91b5a1f9ed8e849b}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a22f4eaff9587f89b91b5a1f9ed8e849b} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!nl@{nl}}
+\index{nl@{nl}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{nl}{nl}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+nl}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00038}{38}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a5104023fd8a9e4e84f429f19863b617a}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a5104023fd8a9e4e84f429f19863b617a} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!nm@{nm}}
+\index{nm@{nm}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{nm}{nm}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+nm}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00039}{39}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_af2d15195365705f81a93488113b5f1e9}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_af2d15195365705f81a93488113b5f1e9} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!overlap@{overlap}}
+\index{overlap@{overlap}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{overlap}{overlap}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+overlap}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00016}{16}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_a7e60c8b0d92e307a6c996bca7004faf7}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_a7e60c8b0d92e307a6c996bca7004faf7} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!sort\_obj\_iou@{sort\_obj\_iou}}
+\index{sort\_obj\_iou@{sort\_obj\_iou}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{sort\_obj\_iou}{sort\_obj\_iou}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+sort\+\_\+obj\+\_\+iou}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00015}{15}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+\Hypertarget{classutils_1_1segment_1_1loss_1_1_compute_loss_ac5193f5907aad7157c32eaf6192e60ac}\label{classutils_1_1segment_1_1loss_1_1_compute_loss_ac5193f5907aad7157c32eaf6192e60ac} 
+\index{utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}!ssi@{ssi}}
+\index{ssi@{ssi}!utils.segment.loss.ComputeLoss@{utils.segment.loss.ComputeLoss}}
+\doxysubsubsection{\texorpdfstring{ssi}{ssi}}
+{\footnotesize\ttfamily utils.\+segment.\+loss.\+Compute\+Loss.\+ssi}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2loss_8py_source_l00034}{34}} of file \mbox{\hyperlink{segment_2loss_8py_source}{loss.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/segment/\mbox{\hyperlink{segment_2loss_8py}{loss.\+py}}\end{DoxyCompactItemize}

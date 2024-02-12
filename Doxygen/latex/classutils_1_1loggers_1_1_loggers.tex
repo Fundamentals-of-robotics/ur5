@@ -1,0 +1,401 @@
+\doxysection{utils.\+loggers.\+Loggers Class Reference}
+\hypertarget{classutils_1_1loggers_1_1_loggers}{}\label{classutils_1_1loggers_1_1_loggers}\index{utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a221f819500ca68d520970cd370f119d3}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_afd74fd73682454e499ec89810069320d}{save\+\_\+dir}}=None, \mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a5b470bfe7a408e73855977fdcec87c48}{weights}}=None, \mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a303ddee5506ee2d20521518ba96307e6}{opt}}=None, \mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a6fe498c82088d9f851679236cc91f315}{hyp}}=None, \mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_ac2ddc58314f52965964b16ea58fa749b}{logger}}=None, \mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_af6546926733158824e278fb4f2834476}{include}}=\mbox{\hyperlink{namespaceutils_1_1loggers_aa0e1d33484981f790ef2dc5cc6009381}{LOGGERS}})
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_abb484c235b7c235e53ee6b1bec502270}{remote\+\_\+dataset}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_ac24f1ca0095ea72bc008ca076c80a5df}{on\+\_\+train\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_aedaf3df391e8c48e5eca313638130c56}{on\+\_\+pretrain\+\_\+routine\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a5d6d326d1c1084e2419e7475e0d8b66c}{on\+\_\+pretrain\+\_\+routine\+\_\+end}} (self, labels, names)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_ac3bd17e269b9c923a98e9ad88d9e1463}{on\+\_\+train\+\_\+batch\+\_\+end}} (self, model, ni, imgs, targets, paths, vals)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a34268bb1511e559073276e73c01b0491}{on\+\_\+train\+\_\+epoch\+\_\+end}} (self, epoch)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a99f88f90f0419c24515fb0878cefef51}{on\+\_\+val\+\_\+start}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a5e24fd8d5297c75c9426f7abd9c2cafa}{on\+\_\+val\+\_\+image\+\_\+end}} (self, pred, predn, path, names, im)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a4eb42f853a41df8bb06c1e0d68a576a1}{on\+\_\+val\+\_\+batch\+\_\+end}} (self, batch\+\_\+i, im, targets, paths, shapes, out)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a74ca31fb55ecfd851f7414acfbd1b1d0}{on\+\_\+val\+\_\+end}} (self, nt, tp, fp, p, r, f1, ap, ap50, ap\+\_\+class, confusion\+\_\+matrix)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a177eb2fa42a59db6cae7a7eb0ea50e65}{on\+\_\+fit\+\_\+epoch\+\_\+end}} (self, vals, epoch, best\+\_\+fitness, fi)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_aeb3a963bf458e01aad1860401f63ce04}{on\+\_\+model\+\_\+save}} (self, last, epoch, final\+\_\+epoch, best\+\_\+fitness, fi)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a2ce8c9a7520184309a381b8a42d71d7f}{on\+\_\+train\+\_\+end}} (self, last, best, epoch, results)
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_ad6fef0ad51bb82d274d78912eab32775}{on\+\_\+params\+\_\+update}} (self, dict params)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_afd74fd73682454e499ec89810069320d}{save\+\_\+dir}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a5b470bfe7a408e73855977fdcec87c48}{weights}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a303ddee5506ee2d20521518ba96307e6}{opt}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a6fe498c82088d9f851679236cc91f315}{hyp}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a0adb08913caf8c5d37271b69e548832f}{plots}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_ac2ddc58314f52965964b16ea58fa749b}{logger}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_af6546926733158824e278fb4f2834476}{include}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_ae3ca67eba946f471d8b0bb04d33c4dfb}{keys}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a57a731b2de169c5acf7329a44d3df7a8}{best\+\_\+keys}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a06a305dc568b37ee66a424129c4bfbdc}{csv}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_aa69465c144c7fed52eaf9a2d4d792ecd}{ndjson\+\_\+console}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a54519e5a58c87573dbc6c9d10d4af673}{ndjson\+\_\+file}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a98669091f358dec911adccce346d1f32}{tb}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a536bdf6d4f6a56f639e5747c8532bb18}{wandb}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a23481b4bd4705f9fda488726f96aa0b9}{clearml}}
+\item 
+\mbox{\hyperlink{classutils_1_1loggers_1_1_loggers_a8c71fe8914a69e882db037cb35fb3fef}{comet\+\_\+logger}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00073}{73}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a221f819500ca68d520970cd370f119d3}\label{classutils_1_1loggers_1_1_loggers_a221f819500ca68d520970cd370f119d3} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{save\+\_\+dir = {\ttfamily None},  }\item[{}]{weights = {\ttfamily None},  }\item[{}]{opt = {\ttfamily None},  }\item[{}]{hyp = {\ttfamily None},  }\item[{}]{logger = {\ttfamily None},  }\item[{}]{include = {\ttfamily \mbox{\hyperlink{namespaceutils_1_1loggers_aa0e1d33484981f790ef2dc5cc6009381}{LOGGERS}}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00075}{75}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a177eb2fa42a59db6cae7a7eb0ea50e65}\label{classutils_1_1loggers_1_1_loggers_a177eb2fa42a59db6cae7a7eb0ea50e65} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_fit\_epoch\_end@{on\_fit\_epoch\_end}}
+\index{on\_fit\_epoch\_end@{on\_fit\_epoch\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_fit\_epoch\_end()}{on\_fit\_epoch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+fit\+\_\+epoch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{vals,  }\item[{}]{epoch,  }\item[{}]{best\+\_\+fitness,  }\item[{}]{fi }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00240}{240}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_aeb3a963bf458e01aad1860401f63ce04}\label{classutils_1_1loggers_1_1_loggers_aeb3a963bf458e01aad1860401f63ce04} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_model\_save@{on\_model\_save}}
+\index{on\_model\_save@{on\_model\_save}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_model\_save()}{on\_model\_save()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+model\+\_\+save (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{last,  }\item[{}]{epoch,  }\item[{}]{final\+\_\+epoch,  }\item[{}]{best\+\_\+fitness,  }\item[{}]{fi }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00279}{279}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_ad6fef0ad51bb82d274d78912eab32775}\label{classutils_1_1loggers_1_1_loggers_ad6fef0ad51bb82d274d78912eab32775} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_params\_update@{on\_params\_update}}
+\index{on\_params\_update@{on\_params\_update}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_params\_update()}{on\_params\_update()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+params\+\_\+update (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{dict}]{params }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00328}{328}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a5d6d326d1c1084e2419e7475e0d8b66c}\label{classutils_1_1loggers_1_1_loggers_a5d6d326d1c1084e2419e7475e0d8b66c} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_pretrain\_routine\_end@{on\_pretrain\_routine\_end}}
+\index{on\_pretrain\_routine\_end@{on\_pretrain\_routine\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_pretrain\_routine\_end()}{on\_pretrain\_routine\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+pretrain\+\_\+routine\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{labels,  }\item[{}]{names }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00172}{172}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_aedaf3df391e8c48e5eca313638130c56}\label{classutils_1_1loggers_1_1_loggers_aedaf3df391e8c48e5eca313638130c56} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_pretrain\_routine\_start@{on\_pretrain\_routine\_start}}
+\index{on\_pretrain\_routine\_start@{on\_pretrain\_routine\_start}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_pretrain\_routine\_start()}{on\_pretrain\_routine\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+pretrain\+\_\+routine\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00168}{168}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_ac3bd17e269b9c923a98e9ad88d9e1463}\label{classutils_1_1loggers_1_1_loggers_ac3bd17e269b9c923a98e9ad88d9e1463} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_train\_batch\_end@{on\_train\_batch\_end}}
+\index{on\_train\_batch\_end@{on\_train\_batch\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_train\_batch\_end()}{on\_train\_batch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+train\+\_\+batch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{ni,  }\item[{}]{imgs,  }\item[{}]{targets,  }\item[{}]{paths,  }\item[{}]{vals }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00185}{185}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a2ce8c9a7520184309a381b8a42d71d7f}\label{classutils_1_1loggers_1_1_loggers_a2ce8c9a7520184309a381b8a42d71d7f} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_train\_end@{on\_train\_end}}
+\index{on\_train\_end@{on\_train\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_train\_end()}{on\_train\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+train\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{last,  }\item[{}]{best,  }\item[{}]{epoch,  }\item[{}]{results }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00292}{292}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a34268bb1511e559073276e73c01b0491}\label{classutils_1_1loggers_1_1_loggers_a34268bb1511e559073276e73c01b0491} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_train\_epoch\_end@{on\_train\_epoch\_end}}
+\index{on\_train\_epoch\_end@{on\_train\_epoch\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_train\_epoch\_end()}{on\_train\_epoch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+train\+\_\+epoch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{epoch }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00205}{205}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_ac24f1ca0095ea72bc008ca076c80a5df}\label{classutils_1_1loggers_1_1_loggers_ac24f1ca0095ea72bc008ca076c80a5df} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_train\_start@{on\_train\_start}}
+\index{on\_train\_start@{on\_train\_start}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_train\_start()}{on\_train\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+train\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00164}{164}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a4eb42f853a41df8bb06c1e0d68a576a1}\label{classutils_1_1loggers_1_1_loggers_a4eb42f853a41df8bb06c1e0d68a576a1} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_val\_batch\_end@{on\_val\_batch\_end}}
+\index{on\_val\_batch\_end@{on\_val\_batch\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_val\_batch\_end()}{on\_val\_batch\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+val\+\_\+batch\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{batch\+\_\+i,  }\item[{}]{im,  }\item[{}]{targets,  }\item[{}]{paths,  }\item[{}]{shapes,  }\item[{}]{out }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00224}{224}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a74ca31fb55ecfd851f7414acfbd1b1d0}\label{classutils_1_1loggers_1_1_loggers_a74ca31fb55ecfd851f7414acfbd1b1d0} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_val\_end@{on\_val\_end}}
+\index{on\_val\_end@{on\_val\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_val\_end()}{on\_val\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+val\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{nt,  }\item[{}]{tp,  }\item[{}]{fp,  }\item[{}]{p,  }\item[{}]{r,  }\item[{}]{f1,  }\item[{}]{ap,  }\item[{}]{ap50,  }\item[{}]{ap\+\_\+class,  }\item[{}]{confusion\+\_\+matrix }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00228}{228}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a5e24fd8d5297c75c9426f7abd9c2cafa}\label{classutils_1_1loggers_1_1_loggers_a5e24fd8d5297c75c9426f7abd9c2cafa} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_val\_image\_end@{on\_val\_image\_end}}
+\index{on\_val\_image\_end@{on\_val\_image\_end}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_val\_image\_end()}{on\_val\_image\_end()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+val\+\_\+image\+\_\+end (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{pred,  }\item[{}]{predn,  }\item[{}]{path,  }\item[{}]{names,  }\item[{}]{im }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00217}{217}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a99f88f90f0419c24515fb0878cefef51}\label{classutils_1_1loggers_1_1_loggers_a99f88f90f0419c24515fb0878cefef51} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!on\_val\_start@{on\_val\_start}}
+\index{on\_val\_start@{on\_val\_start}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{on\_val\_start()}{on\_val\_start()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+on\+\_\+val\+\_\+start (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00213}{213}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_abb484c235b7c235e53ee6b1bec502270}\label{classutils_1_1loggers_1_1_loggers_abb484c235b7c235e53ee6b1bec502270} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!remote\_dataset@{remote\_dataset}}
+\index{remote\_dataset@{remote\_dataset}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{remote\_dataset()}{remote\_dataset()}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+remote\+\_\+dataset (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00152}{152}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a57a731b2de169c5acf7329a44d3df7a8}\label{classutils_1_1loggers_1_1_loggers_a57a731b2de169c5acf7329a44d3df7a8} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!best\_keys@{best\_keys}}
+\index{best\_keys@{best\_keys}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{best\_keys}{best\_keys}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+best\+\_\+keys}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00098}{98}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a23481b4bd4705f9fda488726f96aa0b9}\label{classutils_1_1loggers_1_1_loggers_a23481b4bd4705f9fda488726f96aa0b9} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!clearml@{clearml}}
+\index{clearml@{clearml}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{clearml}{clearml}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+clearml}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00127}{127}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a8c71fe8914a69e882db037cb35fb3fef}\label{classutils_1_1loggers_1_1_loggers_a8c71fe8914a69e882db037cb35fb3fef} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!comet\_logger@{comet\_logger}}
+\index{comet\_logger@{comet\_logger}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{comet\_logger}{comet\_logger}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+comet\+\_\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00143}{143}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a06a305dc568b37ee66a424129c4bfbdc}\label{classutils_1_1loggers_1_1_loggers_a06a305dc568b37ee66a424129c4bfbdc} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!csv@{csv}}
+\index{csv@{csv}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{csv}{csv}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+csv}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00101}{101}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a6fe498c82088d9f851679236cc91f315}\label{classutils_1_1loggers_1_1_loggers_a6fe498c82088d9f851679236cc91f315} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!hyp@{hyp}}
+\index{hyp@{hyp}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{hyp}{hyp}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+hyp}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00079}{79}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_af6546926733158824e278fb4f2834476}\label{classutils_1_1loggers_1_1_loggers_af6546926733158824e278fb4f2834476} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!include@{include}}
+\index{include@{include}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{include}{include}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+include}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00082}{82}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_ae3ca67eba946f471d8b0bb04d33c4dfb}\label{classutils_1_1loggers_1_1_loggers_ae3ca67eba946f471d8b0bb04d33c4dfb} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!keys@{keys}}
+\index{keys@{keys}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{keys}{keys}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+keys}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00083}{83}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_ac2ddc58314f52965964b16ea58fa749b}\label{classutils_1_1loggers_1_1_loggers_ac2ddc58314f52965964b16ea58fa749b} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!logger@{logger}}
+\index{logger@{logger}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00081}{81}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_aa69465c144c7fed52eaf9a2d4d792ecd}\label{classutils_1_1loggers_1_1_loggers_aa69465c144c7fed52eaf9a2d4d792ecd} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!ndjson\_console@{ndjson\_console}}
+\index{ndjson\_console@{ndjson\_console}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{ndjson\_console}{ndjson\_console}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+ndjson\+\_\+console}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00102}{102}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a54519e5a58c87573dbc6c9d10d4af673}\label{classutils_1_1loggers_1_1_loggers_a54519e5a58c87573dbc6c9d10d4af673} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!ndjson\_file@{ndjson\_file}}
+\index{ndjson\_file@{ndjson\_file}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{ndjson\_file}{ndjson\_file}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+ndjson\+\_\+file}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00103}{103}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a303ddee5506ee2d20521518ba96307e6}\label{classutils_1_1loggers_1_1_loggers_a303ddee5506ee2d20521518ba96307e6} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!opt@{opt}}
+\index{opt@{opt}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{opt}{opt}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+opt}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00078}{78}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a0adb08913caf8c5d37271b69e548832f}\label{classutils_1_1loggers_1_1_loggers_a0adb08913caf8c5d37271b69e548832f} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!plots@{plots}}
+\index{plots@{plots}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{plots}{plots}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+plots}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00080}{80}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_afd74fd73682454e499ec89810069320d}\label{classutils_1_1loggers_1_1_loggers_afd74fd73682454e499ec89810069320d} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!save\_dir@{save\_dir}}
+\index{save\_dir@{save\_dir}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{save\_dir}{save\_dir}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+save\+\_\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00076}{76}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a98669091f358dec911adccce346d1f32}\label{classutils_1_1loggers_1_1_loggers_a98669091f358dec911adccce346d1f32} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!tb@{tb}}
+\index{tb@{tb}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{tb}{tb}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+tb}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00115}{115}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a536bdf6d4f6a56f639e5747c8532bb18}\label{classutils_1_1loggers_1_1_loggers_a536bdf6d4f6a56f639e5747c8532bb18} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!wandb@{wandb}}
+\index{wandb@{wandb}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{wandb}{wandb}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+wandb}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00120}{120}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+\Hypertarget{classutils_1_1loggers_1_1_loggers_a5b470bfe7a408e73855977fdcec87c48}\label{classutils_1_1loggers_1_1_loggers_a5b470bfe7a408e73855977fdcec87c48} 
+\index{utils.loggers.Loggers@{utils.loggers.Loggers}!weights@{weights}}
+\index{weights@{weights}!utils.loggers.Loggers@{utils.loggers.Loggers}}
+\doxysubsubsection{\texorpdfstring{weights}{weights}}
+{\footnotesize\ttfamily utils.\+loggers.\+Loggers.\+weights}
+
+
+
+Definition at line \mbox{\hyperlink{utils_2loggers_2____init_____8py_source_l00077}{77}} of file \mbox{\hyperlink{utils_2loggers_2____init_____8py_source}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/loggers/\mbox{\hyperlink{utils_2loggers_2____init_____8py}{\+\_\+\+\_\+init\+\_\+\+\_\+.\+py}}\end{DoxyCompactItemize}

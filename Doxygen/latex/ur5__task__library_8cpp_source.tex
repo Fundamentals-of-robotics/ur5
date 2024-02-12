@@ -1,456 +1,622 @@
 \doxysection{ur5\+\_\+task\+\_\+library.\+cpp}
-\hypertarget{ur5__task__library_8cpp_source}{}\label{ur5__task__library_8cpp_source}\index{src/ur5\_task\_library.cpp@{src/ur5\_task\_library.cpp}}
+\hypertarget{ur5__task__library_8cpp_source}{}\label{ur5__task__library_8cpp_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/src/ur5\_task\_library.cpp@{C:/Users/dorij/OneDrive/Desktop/ur5/src/ur5\_task\_library.cpp}}
 \mbox{\hyperlink{ur5__task__library_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00001}00001\ }
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ur5__task__library_8h}{ur5/ur5\_task\_library.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00007}\mbox{\hyperlink{ur5__task__library_8h_a27322d3e02e036a55a58ff0a38785621}{00007}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ur5__task__library_8cpp_a27322d3e02e036a55a58ff0a38785621}{gestisciStato}}(\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}}\ \&\mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}},ros::NodeHandle\ n)\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00008}00008\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc}{start}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00007}\mbox{\hyperlink{ur5__task__library_8h_a314d65e5c6b186779332124fa865880a}{00007}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ur5__task__library_8cpp_a314d65e5c6b186779332124fa865880a}{stateHandler}}(\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}}\ \&\mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}},ros::NodeHandle\ n)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00008}00008\ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc}{start}}:\{}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ask\ the\ 3d\ cam\ for\ the\ blocks'\ position}}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//at\ the\ moment,\ as\ there\ is\ no\ vision\ node,\ we\ manually}}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//initialize\ the\ pose\ of\ each\ block}}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00013}00013\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z1}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}}[0]<<\ 0.85,\ 0.7,\ 0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}}[0]<<\ 0,\ 0,\ 0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z2-\/TWINFILLET}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}}[1]<<\ 0.7,\ 0.7,\ 0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}}[1]<<\ 0,\ 0,\ -\/0.785398;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y3-\/Z2-\/FILLET}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}}[2]<<\ 0.85,\ 0.5,\ 0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}}[2]<<\ 0,\ 0,\ 0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z1}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}}[3]<<\ 0.7,\ 0.5,\ 0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}}[3]<<\ 0,\ 0,\ -\/1.57;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z2}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}}[4]<<\ 0.9,\ 0.3,\ 0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}}[4]<<\ 0,\ 0,\ -\/1.57;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//set\ the\ class\ for\ each\ block\ between\ 1\ and\ 5\ (6\ for\ no\ possible\ grasping)}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\_of\_block}}[0]=1;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\_of\_block}}[1]=2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\_of\_block}}[2]=3;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\_of\_block}}[3]=4;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\_of\_block}}[4]=5;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00042}00042\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//requesting\ pose/class\ of\ a\ block}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//get\ "{}k"{}\ block\ values}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<3;i++)\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[i]=\mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}](i);}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[i]=\mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}](i);}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00051}00051\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//basing\ on\ class\ block,\ get\ the\ known\ final\ position}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}])\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z1}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.32,0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z2-\/TWINFILLET}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.40,0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y3-\/Z2-\/FILLET}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.48,0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z1}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.56,0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 5:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z2}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.64,0.87;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00086}00086\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 6:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X2-\/Y2-\/Z2}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//not\ used\ because\ of\ bad\ meshes}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.72,0.87;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00094}00094\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service2\ =\ n.serviceClient<service\_test::VisionService>(\textcolor{stringliteral}{"{}Vision"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ service\_test::VisionService\ srv2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ srv2.request.start=\textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service2.call(srv2)\ \&\&\ ros::ok());\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<srv2.response.n\_blocks;i++)\{\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8cpp_a7ce87af21aae2b76f8cab5b9a81f8e8e}{blockSet}}(srv2.response.block\_position[i].x,srv2.response.block\_position[i].y,srv2.response.block\_position[i].z);\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//convert\ coordinates\ from\ world\ to\ robot\ frame}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<\mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}};i++)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}{worldToRobotFrame}}(\mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[i],\mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[i]);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<\mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}};i++)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout<<\textcolor{stringliteral}{"{}pos2\ "{}}<<\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[i]<<\textcolor{stringliteral}{"{}:\ \ "{}}<<\ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[i](0)<<\textcolor{stringliteral}{"{}\ "{}}<<\ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[i](1)<<\textcolor{stringliteral}{"{}\ "{}}<<\ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[i](2)<<endl;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cout<<\textcolor{stringliteral}{"{}phi2\ "{}}<<\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[i]<<\textcolor{stringliteral}{"{}:\ \ "{}}<<\ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[i](0)<<\textcolor{stringliteral}{"{}\ "{}}<<\ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[i](1)<<\textcolor{stringliteral}{"{}\ "{}}<<\ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[i](2)<<endl<<endl;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//requesting\ pose/class\ of\ a\ block}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//get\ "{}k"{}\ block\ values}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<3;i++)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[i]=\mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}](i);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[i]=\mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}](i);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//basing\ on\ class\ block,\ get\ the\ known\ final\ position}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}]==\textcolor{stringliteral}{"{}X1-\/Y2-\/Z1"{}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z1}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}}=-\/0.064;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}}=0.3;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}}=1.021;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.32,\mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}]==\textcolor{stringliteral}{"{}X1-\/Y2-\/Z2-\/TWINFILLET"{}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z2-\/TWINFILLET}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}}=-\/0.0641;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}}=0.3;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}}=1.021;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.40,\mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}]==\textcolor{stringliteral}{"{}X1-\/Y3-\/Z2-\/FILLET"{}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y3-\/Z2-\/FILLET}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}}=-\/0.0639;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}}=0.3;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}}=1.021;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.64,\mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}]==\textcolor{stringliteral}{"{}X1-\/Y4-\/Z1"{}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z1}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}}=-\/0.0665;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}}=0.3;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}}=1.021;}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00098}00098\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}==0)\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//still\ blocks}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_block\_take"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26}{high\_block\_take}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//block\ finished\ to\ move}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}no\_more\_blocks"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00111}00111\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26}{high\_block\_take}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4}{GRIPPER\_CLOSURE}};\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//xef[2]=SAFE\_Z\_MOTION;}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]+=0.3;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00116}00116\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//request\ to\ motion\ service}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00120}00120\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.72,\mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}]==\textcolor{stringliteral}{"{}X1-\/Y4-\/Z2"{}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z2}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}}=-\/0.0665;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}}=0.35;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}}=1.021;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.48,\mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}]==\textcolor{stringliteral}{"{}X2-\/Y2-\/Z2"{}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//X2-\/Y2-\/Z2}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}}=0.264;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}}=0.75;\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}}=1.05;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}<<0,0,M\_PI/2;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}<<0.1,0.56,\mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00124}00124\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\textcolor{comment}{//wait\ until\ response\ }}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00135}00135\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_take"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82}{block\_take}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}motion\_error"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82}{block\_take}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00155}00155\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00158}00158\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00161}00161\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82}{block\_take}}:\{\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_a5fc29c7b4b95d7eca8b66069599a227a}{GRIPPER\_OPEN}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_acac020f932f1543dc657904ff69a623c}{GRASPING\_HEIGHT}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00165}00165\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00168}00168\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00172}00172\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00183}00183\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_block\_release"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968}{high\_block\_release}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}motion\_error"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968}{high\_block\_release}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00203}00203\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00206}00206\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968}{high\_block\_release}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4}{GRIPPER\_CLOSURE}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//xef[2]=SAFE\_Z\_MOTION;}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]+=0.3;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00214}00214\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00217}00217\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00221}00221\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00232}00232\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_class\_release"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7}{high\_class\_release}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7}{high\_class\_release}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}motion\_error"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00252}00252\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00255}00255\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00257}00257\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00259}00259\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7}{high\_class\_release}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//set\ block\ final\ pose\ as\ destination}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<3;i++)\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[i]=\mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}(i);}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[i]=\mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}(i);}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00267}00267\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4}{GRIPPER\_CLOSURE}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//xef[2]=SAFE\_Z\_MOTION;}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]+=0.3;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00271}00271\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00274}00274\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00278}00278\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00289}00289\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}class\_release"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded}{class\_release}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded}{class\_release}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}motion\_error"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//convert\ from\ world\ to\ robot\ frame}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}{worldToRobotFrame}}(\mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}},\mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}==0)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//still\ blocks}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_block\_take"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26}{high\_block\_take}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//block\ finished\ to\ move}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}no\_more\_blocks"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26}{high\_block\_take}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}};\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}{SAFE\_Z\_MOTION}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00148}00148\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//request\ to\ motion\ service}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\textcolor{comment}{//wait\ until\ response\ }}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_take"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82}{block\_take}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ROS\_INFO("{}motion\_error"{});}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//next\_state=block\_take;}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26}{high\_block\_take}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82}{block\_take}}:\{\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_a31199c37d026000a5030df9198976b74}{WORLD\_TO\_ROBOT\_Z}}\ -\/\ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_block\_release"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968}{high\_block\_release}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ROS\_INFO("{}motion\_error"{});}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//next\_state=high\_block\_release;}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82}{block\_take}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968}{high\_block\_release}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}{SAFE\_Z\_MOTION}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_class\_release"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7}{high\_class\_release}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ROS\_INFO("{}motion\_error"{});}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//next\_state=high\_class\_release;}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968}{high\_block\_release}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7}{high\_class\_release}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//set\ block\ final\ pose\ as\ destination}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i=0;i<3;i++)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[i]=\mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}{phief\_class}}(i);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[i]=\mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\_class}}(i);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}{SAFE\_Z\_MOTION}};}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00309}00309\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00312}00312\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00314}00314\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00315}00315\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00316}00316\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded}{class\_release}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4}{GRIPPER\_CLOSURE}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_acac020f932f1543dc657904ff69a623c}{GRASPING\_HEIGHT}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00320}00320\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00323}00323\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00327}00327\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00338}00338\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_class\_take"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7}{high\_class\_take}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7}{high\_class\_take}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}motion\_error"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00358}00358\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00361}00361\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00364}00364\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7}{high\_class\_take}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_a5fc29c7b4b95d7eca8b66069599a227a}{GRIPPER\_OPEN}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//xef[2]=SAFE\_Z\_MOTION;}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]+=0.3;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00369}00369\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//check\ if\ this\ block\ is\ the\ last\ to\ be\ moved}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}++\ ==\ \mbox{\hyperlink{ur5__task__library_8h_aa43f798d01b3737cb995df3d06d6245c}{n\_classes}}-\/1)\ \mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}=1;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00372}00372\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00375}00375\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00379}00379\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00390}00390\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}!=1)\{ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});\ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};\}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{ROS\_INFO(\textcolor{stringliteral}{"{}no\_more\_blocks"{}});\ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};\}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}!=1)\{ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});\ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};\}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{ROS\_INFO(\textcolor{stringliteral}{"{}no\_more\_blocks"{}});\ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};\}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}class\_release"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded}{class\_release}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ROS\_INFO("{}motion\_error"{});}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//next\_state=class\_release;}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7}{high\_class\_release}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded}{class\_release}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\_CLOSE}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_a31199c37d026000a5030df9198976b74}{WORLD\_TO\_ROBOT\_Z}}\ -\/\ \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\_HEIGHT}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00363}00363\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00367}00367\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}high\_class\_take"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7}{high\_class\_take}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ROS\_INFO("{}motion\_error"{});}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//next\_state=high\_class\_take;}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded}{class\_release}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7}{high\_class\_take}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}=\mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\_OPEN}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2]=\mbox{\hyperlink{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}{SAFE\_Z\_MOTION}};}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00410}00410\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//check\ if\ this\ block\ is\ the\ last\ to\ be\ moved}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}}++\ ==\ \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}}-\/1)\ \mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}=1;}
 \DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00413}00413\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}}:\{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//go\ through\ safe\ point\ in\ case\ of\ motion\ errors}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00424}00424\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=0.38;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00431}00431\ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}==2)exit\ (1);}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}=\mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\_state}};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}}:}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//this\ is\ the\ last\ state,\ terminate\ the\ node}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=1;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ service.call(srv);}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}All\ blocks\ moved"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00452}00452\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00453}00453\ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00430}00430\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}})\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}Motion\ planning\ executed\ correctly!\(\backslash\)n\(\backslash\)n"{}});\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}!=1)\{ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});\ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};\}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{ROS\_INFO(\textcolor{stringliteral}{"{}no\_more\_blocks"{}});\ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};\}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}UNREACHABLE\ POSITION:\ move\ on\ to\ the\ next\ block\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//++k;}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}ERROR\ IN\ MOTION:\ move\ on\ to\ a\ different\ planning\ (passing\ through\ an\ intermediate\ safe\ point)\(\backslash\)n\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}}!=1)\{ROS\_INFO(\textcolor{stringliteral}{"{}block\_request"{}});\ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\_request}};\}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{ROS\_INFO(\textcolor{stringliteral}{"{}no\_more\_blocks"{}});\ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};\}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00453}00453\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00457}00457\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00458}00458\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\_error}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//go\ through\ safe\ point\ in\ case\ of\ motion\ errors}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[0];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[1];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=-\/0.44;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}[2];}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=\mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=\mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\_end}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00472}00472\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(!service.call(srv));\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}=srv.response.error;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{error}}\ ==\ 2)\ exit(1);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}=\mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}going\ to\ next\_state"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00480}00480\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00481}00481\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}}:\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//this\ is\ the\ last\ state,\ terminate\ the\ node}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//move\ the\ manipulator\ to\ a\ safe\ final\ position}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ ros::ServiceClient\ service\ =\ n.serviceClient<ur5::ServiceMessage>(\textcolor{stringliteral}{"{}tp\_mp\_communication"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ ur5::ServiceMessage\ srv;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ Vector3d\ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}},\ \mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}\ <<\ 0.5,\ 0.7,\ 1.3;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}\ <<\ 0,\ 0,\ 0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00491}00491\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//convert\ from\ world\ to\ robot\ frame}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}{worldToRobotFrame}}(\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}},\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00494}00494\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief1=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}(0);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief2=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}(1);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.phief3=\mbox{\hyperlink{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}{phief}}(2);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef1=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}(0);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef2=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}(1);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.xef3=\mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}}(2);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.gripper=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.end=1;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ srv.request.ack=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ service.call(srv);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ ROS\_INFO(\textcolor{stringliteral}{"{}All\ blocks\ moved"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\_state}}\ =\ \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\_more\_blocks}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00514}00514\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00515}00515\ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00516}00516\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00517}\mbox{\hyperlink{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}{00517}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ur5__task__library_8cpp_adacc08781a15907bbb0ecdac388a91bc}{worldToRobotFrame}}(Vector3d\&\ coords,\ Vector3d\&\ euler)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00518}00518\ \ \ \ \ Vector4d\ position;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00519}00519\ \ \ \ \ position\ <<\ coords[0],\ coords[1],\ coords[2],\ 1;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00520}00520\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00521}00521\ \ \ \ \ coords\ =\ (\mbox{\hyperlink{ur5__task__library_8h_a746c3d4c60c58fb15b07a917b8fd72b3}{WORLD\_TO\_ROBOT}}*position).block(0,0,3,1);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00522}00522\ \ \ \ \ coords*=\mbox{\hyperlink{ur5__task__library_8h_af5e1855c9ca0ed1e7379c13bacc9e56d}{SCALAR\_FACTOR}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00523}00523\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00524}00524\ \ \ \ \ euler(1)\ =\ -\/euler(1);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00525}00525\ \ \ \ \ euler(2)\ =\ -\/euler(2);}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00526}00526\ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00527}00527\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00528}\mbox{\hyperlink{ur5__task__library_8h_a7ce87af21aae2b76f8cab5b9a81f8e8e}{00528}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ur5__task__library_8cpp_a7ce87af21aae2b76f8cab5b9a81f8e8e}{blockSet}}(\textcolor{keywordtype}{double}\ x,\textcolor{keywordtype}{double}\ y,\textcolor{keywordtype}{double}\ z)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00529}00529\ \ \ \ \ Vector3d\ position=\{-\/1,-\/1,-\/1\};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00531}00531\ \ \ \ \ \textcolor{keywordflow}{if}(abs(x-\/0.82)<0.099\ \&\&\ abs(y-\/0.7)<0.099\ \&\&\ \ abs(z-\/0.87)<0.099)\{\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y2-\/Z2-\/TWINFILLET\ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[0]==0)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[0]=\textcolor{stringliteral}{"{}X1-\/Y2-\/Z2-\/TWINFILLET"{}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[0](0)=0.82;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[0](1)=0.7;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[0](2)=0.87;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[0](0)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[0](1)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[0](2)=0.785398;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[0]++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}}++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00544}00544\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00545}00545\ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00548}00548\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00549}00549\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(abs(x-\/0.9)<0.099\ \&\&\ abs(y-\/0.5)<0.099\ \&\&\ \ abs(z-\/0.87)<0.099)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00550}00550\ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y3-\/Z2-\/FILLET}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00551}00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[1]==0)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[1]=\textcolor{stringliteral}{"{}X1-\/Y3-\/Z2-\/FILLET"{}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[1](0)=0.9;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[1](1)=0.5;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[1](2)=0.87;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[1](0)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[1](1)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[1](2)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[1]++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}}++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00563}00563\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00564}00564\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00565}00565\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(abs(x-\/0.3)<0.099\ \&\&\ abs(y-\/0.7)<0.099\ \&\&\ \ abs(z-\/0.87)<0.099)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00566}00566\ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z1}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00567}00567\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[2]==0)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[2]=\textcolor{stringliteral}{"{}X1-\/Y4-\/Z1"{}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[2](0)=0.3;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[2](1)=0.7;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[2](2)=0.87;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00572}00572\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[2](0)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[2](1)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[2](2)=0.785398;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[2]++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}}++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00578}00578\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00579}00579\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00580}00580\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00581}00581\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00582}00582\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(abs(x-\/0.85)<0.099\ \&\&\ abs(y-\/0.3)<0.099\ \&\&\ \ abs(z-\/0.87)<0.099)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00583}00583\ \ \ \ \ \ \ \ \ \textcolor{comment}{//X1-\/Y4-\/Z2}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00584}00584\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[3]==0)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[3]=\textcolor{stringliteral}{"{}X1-\/Y4-\/Z2"{}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[3](0)=0.85;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[3](1)=0.3;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[3](2)=0.87;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[3](0)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[3](1)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[3](2)=1.57;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00593}00593\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[3]++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}}++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00596}00596\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00597}00597\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00598}00598\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00599}00599\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(abs(x-\/0.25)<0.099\ \&\&\ abs(y-\/0.3)<0.099\ \&\&\ \ abs(z-\/0.87)<0.099)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00600}00600\ \ \ \ \ \ \ \ \ \textcolor{comment}{//X2-\/Y2-\/Z2}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00601}00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[4]==0)\{}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\_of\_block}}[4]=\textcolor{stringliteral}{"{}X2-\/Y2-\/Z2"{}};}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[4](0)=0.25;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[4](1)=0.3;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}}[4](2)=0.87;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00606}00606\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00607}00607\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[4](0)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00608}00608\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[4](1)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00609}00609\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}[4](2)=0;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}}[4]++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\_blocks}}++;}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00612}00612\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00613}00613\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00614}00614\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00615}00615\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00616}00616\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00617}00617\ }
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00618}00618\ \}}
+\DoxyCodeLine{\Hypertarget{ur5__task__library_8cpp_source_l00619}00619\ }
 
 \end{DoxyCode}

@@ -1,58 +1,69 @@
-\doxysection{include/ur5/ur5\+\_\+task\+\_\+library.h File Reference}
-\hypertarget{ur5__task__library_8h}{}\label{ur5__task__library_8h}\index{include/ur5/ur5\_task\_library.h@{include/ur5/ur5\_task\_library.h}}
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/include/ur5/ur5\+\_\+task\+\_\+library.h File Reference}
+\hypertarget{ur5__task__library_8h}{}\label{ur5__task__library_8h}\index{C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5\_task\_library.h@{C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5\_task\_library.h}}
 {\ttfamily \#include "{}ros/ros.\+h"{}}\newline
 {\ttfamily \#include $<$Eigen/\+Core$>$}\newline
 {\ttfamily \#include $<$Eigen/\+Dense$>$}\newline
 {\ttfamily \#include $<$Eigen/\+Geometry$>$}\newline
 {\ttfamily \#include "{}ur5/\+Service\+Message.\+h"{}}\newline
+{\ttfamily \#include "{}service\+\_\+test/\+Vision\+Service.\+h"{}}\newline
+{\ttfamily \#include "{}geometry\+\_\+msgs/\+Point.\+h"{}}\newline
+{\ttfamily \#include "{}geometry\+\_\+msgs/\+Vector3.\+h"{}}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$math.\+h$>$}\newline
 {\ttfamily \#include $<$algorithm$>$}\newline
 {\ttfamily \#include $<$sstream$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$list$>$}\newline
+Include dependency graph for ur5\+\_\+task\+\_\+library.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \{ \newline
-\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc}{start}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82}{block\+\_\+take}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26}{high\+\_\+block\+\_\+take}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968}{high\+\_\+block\+\_\+release}}
+enum \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \{ \newline
+\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc}{start}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82}{block\+\_\+take}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26}{high\+\_\+block\+\_\+take}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968}{high\+\_\+block\+\_\+release}}
 , \newline
-\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7}{high\+\_\+class\+\_\+take}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7}{high\+\_\+class\+\_\+release}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded}{class\+\_\+release}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}{motion\+\_\+error}}
+\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7}{high\+\_\+class\+\_\+take}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7}{high\+\_\+class\+\_\+release}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded}{class\+\_\+release}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}{motion\+\_\+error}}
 , \newline
-\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}{block\+\_\+request}}
-, \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}{no\+\_\+more\+\_\+blocks}}
+\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}{block\+\_\+request}}
+, \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}{no\+\_\+more\+\_\+blocks}}
  \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{ur5__task__library_8h_a27322d3e02e036a55a58ff0a38785621}{gestisci\+Stato}} (\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \&\mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}, ros\+::\+Node\+Handle n)
+void \mbox{\hyperlink{ur5__task__library_8h_a314d65e5c6b186779332124fa865880a}{state\+Handler}} (\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \&\mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}, ros\+::\+Node\+Handle n)
+\item 
+void \mbox{\hyperlink{ur5__task__library_8h_a7ce87af21aae2b76f8cab5b9a81f8e8e}{block\+Set}} (double x, double y, double z)
+\item 
+void \mbox{\hyperlink{ur5__task__library_8h_ac39bbcc8e833973995ae031a60a5923e}{world\+To\+Robot\+Frame}} (Eigen\+::\+Vector3d \&coords, Eigen\+::\+Vector3d \&euler)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-const double \mbox{\hyperlink{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4}{GRIPPER\+\_\+\+CLOSURE}} =-\/0.\+0639
+double \mbox{\hyperlink{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}{GRIPPER\+\_\+\+CLOSE}}
 \begin{DoxyCompactList}\small\item\em value of closed gripper \end{DoxyCompactList}\item 
-const double \mbox{\hyperlink{ur5__task__library_8h_a5fc29c7b4b95d7eca8b66069599a227a}{GRIPPER\+\_\+\+OPEN}} = 0.\+3
-\begin{DoxyCompactList}\small\item\em value of open gripper \end{DoxyCompactList}\item 
-const double \mbox{\hyperlink{ur5__task__library_8h_acac020f932f1543dc657904ff69a623c}{GRASPING\+\_\+\+HEIGHT}} =1.\+02
+double \mbox{\hyperlink{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}{GRIPPER\+\_\+\+OPEN}}
+\item 
+double \mbox{\hyperlink{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}{GRASPING\+\_\+\+HEIGHT}}
 \begin{DoxyCompactList}\small\item\em safe height to take the block \end{DoxyCompactList}\item 
-const double \mbox{\hyperlink{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}{SAFE\+\_\+\+Z\+\_\+\+MOTION}} = 1.\+35
+const double \mbox{\hyperlink{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}{SAFE\+\_\+\+Z\+\_\+\+MOTION}} = 0.\+55
 \begin{DoxyCompactList}\small\item\em used for the intermediate movement between initial and final position \end{DoxyCompactList}\item 
-Vector3d \mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}}
+const double \mbox{\hyperlink{ur5__task__library_8h_af5e1855c9ca0ed1e7379c13bacc9e56d}{SCALAR\+\_\+\+FACTOR}} = 1.\+0
 \item 
-Vector3d \mbox{\hyperlink{ur5__task__library_8h_a55e78da50a013252924928eaa2720258}{position}}
+Vector3d \mbox{\hyperlink{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}{pos}} \mbox{[}6\mbox{]}
 \item 
-Vector3d \mbox{\hyperlink{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}{pos}} \mbox{[}5\mbox{]}
+Vector3d \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}} \mbox{[}6\mbox{]}
 \item 
-Vector3d \mbox{\hyperlink{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}{phi}} \mbox{[}5\mbox{]}
-\item 
+double \mbox{\hyperlink{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}{blocks}} \mbox{[}6\mbox{]} =\{0,0,0,0,0,0\}
+\begin{DoxyCompactList}\small\item\em array used for the calibration function \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}{xef}} \mbox{[}3\mbox{]}
 \begin{DoxyCompactList}\small\item\em position end effector to give to the motion \end{DoxyCompactList}\item 
 Vector3d \mbox{\hyperlink{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}{xef\+\_\+class}}
@@ -63,9 +74,9 @@ Vector3d \mbox{\hyperlink{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9
 \begin{DoxyCompactList}\small\item\em phi vector used for the class \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}{gripper}}
 \begin{DoxyCompactList}\small\item\em actual value of the gripper \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{ur5__task__library_8h_aa43f798d01b3737cb995df3d06d6245c}{n\+\_\+classes}}
+int \mbox{\hyperlink{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}{n\+\_\+blocks}} =0
 \begin{DoxyCompactList}\small\item\em number of blocks to grab \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}{class\+\_\+of\+\_\+block}} \mbox{[}5\mbox{]}
+string \mbox{\hyperlink{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}{class\+\_\+of\+\_\+block}} \mbox{[}6\mbox{]}
 \item 
 int \mbox{\hyperlink{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}{k}} =0
 \item 
@@ -73,81 +84,104 @@ int \mbox{\hyperlink{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}{er
 \begin{DoxyCompactList}\small\item\em 0\+:successfull motion -- 1\+:unreachable block -- 2\+:error in motion \end{DoxyCompactList}\item 
 const int \mbox{\hyperlink{ur5__task__library_8h_a3921f14b7cbdefd359cafd58fe292434}{ack}} =0
 \item 
-int \mbox{\hyperlink{ur5__task__library_8h_a9d322e936096e92e82370aaa60ad4b5c}{actual\+\_\+ack}} =0
-\item 
-int \mbox{\hyperlink{ur5__task__library_8h_aa6371382c6b4224e577e14ea610ab9a9}{iteration}}
-\item 
-int \mbox{\hyperlink{ur5__task__library_8h_a52bb2966f0988211ed5cef6ed0d16196}{actual\+\_\+iteration}}
-\item 
-\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \mbox{\hyperlink{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}{state}}
+\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \mbox{\hyperlink{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}{state}}
 \begin{DoxyCompactList}\small\item\em current state \end{DoxyCompactList}\item 
-\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \mbox{\hyperlink{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}{next\+\_\+state}}
+\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \mbox{\hyperlink{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}{next\+\_\+state}}
 \begin{DoxyCompactList}\small\item\em next state used if some problems arrises \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}{final\+\_\+end}} =0
-\end{DoxyCompactItemize}
+\item 
+const double \mbox{\hyperlink{ur5__task__library_8h_a8579272c1629ca4ab59827303c42f2f7}{WORLD\+\_\+\+TO\+\_\+\+ROBOT\+\_\+X}} = -\/0.\+5
+\item 
+const double \mbox{\hyperlink{ur5__task__library_8h_af7372396aaf2993e0c39b0f6350c4a9f}{WORLD\+\_\+\+TO\+\_\+\+ROBOT\+\_\+Y}} = 0.\+35
+\item 
+const double \mbox{\hyperlink{ur5__task__library_8h_a31199c37d026000a5030df9198976b74}{WORLD\+\_\+\+TO\+\_\+\+ROBOT\+\_\+Z}} = 1.\+75
+\item 
+Matrix4d \mbox{\hyperlink{ur5__task__library_8h_a746c3d4c60c58fb15b07a917b8fd72b3}{WORLD\+\_\+\+TO\+\_\+\+ROBOT}}
+\begin{DoxyCompactList}\small\item\em rotation matrix to convert the coordinates of the world frame into robot frame \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Enumeration Type Documentation}
-\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!stato@{stato}}
-\index{stato@{stato}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{stato}{stato}}
-{\footnotesize\ttfamily enum \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}}}
+\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!State@{State}}
+\index{State@{State}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}}}
 
 define all the possible states in which the robot can be \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{start@{start}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!start@{start}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa0e97c69c73117f6c0109b2d7d1d9cedc} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{start@{start}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!start@{start}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a0e97c69c73117f6c0109b2d7d1d9cedc} 
 start&ask vision node to scan for blocks \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{block\_take@{block\_take}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!block\_take@{block\_take}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fad30e967fced2703a7d4fdfc76eb29b82} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{block\_take@{block\_take}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!block\_take@{block\_take}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8ad30e967fced2703a7d4fdfc76eb29b82} 
 block\+\_\+take&get a block \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_block\_take@{high\_block\_take}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_block\_take@{high\_block\_take}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faba258b12840a198268ad75f1c62c7b26} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_block\_take@{high\_block\_take}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_block\_take@{high\_block\_take}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aba258b12840a198268ad75f1c62c7b26} 
 high\+\_\+block\+\_\+take&going to take the block in elevated z \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_block\_release@{high\_block\_release}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_block\_release@{high\_block\_release}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa6674e0b0f92ffc148db734974235968} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_block\_release@{high\_block\_release}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_block\_release@{high\_block\_release}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa6674e0b0f92ffc148db734974235968} 
 high\+\_\+block\+\_\+release&block released and moving away on z \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_class\_take@{high\_class\_take}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_class\_take@{high\_class\_take}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa415a7402b07db1a4f05a5d89fab1dba7} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_class\_take@{high\_class\_take}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_class\_take@{high\_class\_take}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a415a7402b07db1a4f05a5d89fab1dba7} 
 high\+\_\+class\+\_\+take&block took and moving away on z \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_class\_release@{high\_class\_release}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_class\_release@{high\_class\_release}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa8235bae4512d5a542e89e4028a06c0f7} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{high\_class\_release@{high\_class\_release}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!high\_class\_release@{high\_class\_release}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a8235bae4512d5a542e89e4028a06c0f7} 
 high\+\_\+class\+\_\+release&going to release point but on higher z \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{class\_release@{class\_release}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!class\_release@{class\_release}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa7e2408b3724a77a7e749194d76467ded} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{class\_release@{class\_release}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!class\_release@{class\_release}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a7e2408b3724a77a7e749194d76467ded} 
 class\+\_\+release&point of release of the block \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{motion\_error@{motion\_error}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!motion\_error@{motion\_error}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa2c2a00aff82e4e8a9132c53aa7609f53} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{motion\_error@{motion\_error}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!motion\_error@{motion\_error}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a2c2a00aff82e4e8a9132c53aa7609f53} 
 motion\+\_\+error&in case of error, use a intermediate safe point \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{block\_request@{block\_request}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!block\_request@{block\_request}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2fa53787f0cfe76d6dfca090e1b47148f4a} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{block\_request@{block\_request}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!block\_request@{block\_request}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8a53787f0cfe76d6dfca090e1b47148f4a} 
 block\+\_\+request&ask next block \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{no\_more\_blocks@{no\_more\_blocks}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!no\_more\_blocks@{no\_more\_blocks}}}\Hypertarget{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae}\label{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2faa047566f2ed649c2a2530b4b7ae5ccae} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{no\_more\_blocks@{no\_more\_blocks}!ur5\_task\_library.h@{ur5\_task\_library.h}}\index{ur5\_task\_library.h@{ur5\_task\_library.h}!no\_more\_blocks@{no\_more\_blocks}}}\Hypertarget{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae}\label{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8aa047566f2ed649c2a2530b4b7ae5ccae} 
 no\+\_\+more\+\_\+blocks&no more blocks, terminate \\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00027}{27}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00030}{30}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{ur5__task__library_8h_a27322d3e02e036a55a58ff0a38785621}\label{ur5__task__library_8h_a27322d3e02e036a55a58ff0a38785621} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!gestisciStato@{gestisciStato}}
-\index{gestisciStato@{gestisciStato}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{gestisciStato()}{gestisciStato()}}
-{\footnotesize\ttfamily void gestisci\+Stato (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} \&}]{state,  }\item[{ros\+::\+Node\+Handle}]{n }\end{DoxyParamCaption})}
+\Hypertarget{ur5__task__library_8h_a7ce87af21aae2b76f8cab5b9a81f8e8e}\label{ur5__task__library_8h_a7ce87af21aae2b76f8cab5b9a81f8e8e} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!blockSet@{blockSet}}
+\index{blockSet@{blockSet}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{blockSet()}{blockSet()}}
+{\footnotesize\ttfamily void block\+Set (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y,  }\item[{double}]{z }\end{DoxyParamCaption})}
+
+the function implements a calibration of the values received by the vision node. We need this function for the precision required by the motion planner
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & x position received by the vision node \\
+\hline
+{\em y} & y position received by the vision node \\
+\hline
+{\em z} & z position received by the vision node \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8cpp_source_l00528}{528}} of file \mbox{\hyperlink{ur5__task__library_8cpp_source}{ur5\+\_\+task\+\_\+library.\+cpp}}.
+
+\Hypertarget{ur5__task__library_8h_a314d65e5c6b186779332124fa865880a}\label{ur5__task__library_8h_a314d65e5c6b186779332124fa865880a} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!stateHandler@{stateHandler}}
+\index{stateHandler@{stateHandler}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{stateHandler()}{stateHandler()}}
+{\footnotesize\ttfamily void state\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} \&}]{state,  }\item[{ros\+::\+Node\+Handle}]{n }\end{DoxyParamCaption})}
 
 the function implements a state machine where we get the pose of a block and make requests to the motion in order to grab and move the block in another known position
 
@@ -162,6 +196,25 @@ the file contains the implementation of all functions defined in the ur5\+\_\+ta
 
 Definition at line \mbox{\hyperlink{ur5__task__library_8cpp_source_l00007}{7}} of file \mbox{\hyperlink{ur5__task__library_8cpp_source}{ur5\+\_\+task\+\_\+library.\+cpp}}.
 
+\Hypertarget{ur5__task__library_8h_ac39bbcc8e833973995ae031a60a5923e}\label{ur5__task__library_8h_ac39bbcc8e833973995ae031a60a5923e} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!worldToRobotFrame@{worldToRobotFrame}}
+\index{worldToRobotFrame@{worldToRobotFrame}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{worldToRobotFrame()}{worldToRobotFrame()}}
+{\footnotesize\ttfamily void world\+To\+Robot\+Frame (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d \&}]{coords,  }\item[{Eigen\+::\+Vector3d \&}]{euler }\end{DoxyParamCaption})}
+
+given the pose of a block in the world frame, return the pose of the same block in the robot frame.
+
+The coordinates and orientation has the same unit of gazebo (in meters and radiants)
+
+Useful when specifing the block pose w.\+r.\+t world frame
+
+
+\begin{DoxyParams}{Parameters}
+{\em coords} & vector containing the xyz coordinates \\
+\hline
+{\em euler} & vector containing the xyz orientation values \\
+\hline
+\end{DoxyParams}
 
 
 \doxysubsection{Variable Documentation}
@@ -173,37 +226,31 @@ Definition at line \mbox{\hyperlink{ur5__task__library_8cpp_source_l00007}{7}} o
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00059}{59}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00064}{64}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_a9d322e936096e92e82370aaa60ad4b5c}\label{ur5__task__library_8h_a9d322e936096e92e82370aaa60ad4b5c} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!actual\_ack@{actual\_ack}}
-\index{actual\_ack@{actual\_ack}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{actual\_ack}{actual\_ack}}
-{\footnotesize\ttfamily int actual\+\_\+ack =0}
+\Hypertarget{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc}\label{ur5__task__library_8h_af65a0b3650763093124953b0f9b70cfc} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!blocks@{blocks}}
+\index{blocks@{blocks}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{blocks}{blocks}}
+{\footnotesize\ttfamily double blocks\mbox{[}6\mbox{]} =\{0,0,0,0,0,0\}}
+
+
+
+array used for the calibration function 
+
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00052}{52}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+
+\Hypertarget{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc}\label{ur5__task__library_8h_ab51f0f999782855047c0275e1e2420cc} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!class\_of\_block@{class\_of\_block}}
+\index{class\_of\_block@{class\_of\_block}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{class\_of\_block}{class\_of\_block}}
+{\footnotesize\ttfamily string class\+\_\+of\+\_\+block\mbox{[}6\mbox{]}}
 
 
 
 Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00060}{60}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
-
-\Hypertarget{ur5__task__library_8h_a52bb2966f0988211ed5cef6ed0d16196}\label{ur5__task__library_8h_a52bb2966f0988211ed5cef6ed0d16196} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!actual\_iteration@{actual\_iteration}}
-\index{actual\_iteration@{actual\_iteration}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{actual\_iteration}{actual\_iteration}}
-{\footnotesize\ttfamily int actual\+\_\+iteration}
-
-
-
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00062}{62}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
-
-\Hypertarget{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1}\label{ur5__task__library_8h_a0d47d9729682e869b1de1959de9330d1} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!class\_of\_block@{class\_of\_block}}
-\index{class\_of\_block@{class\_of\_block}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{class\_of\_block}{class\_of\_block}}
-{\footnotesize\ttfamily int class\+\_\+of\+\_\+block\mbox{[}5\mbox{]}}
-
-
-
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00055}{55}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572}\label{ur5__task__library_8h_a11614f44ef4d939bdd984953346a7572} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!error@{error}}
@@ -217,17 +264,7 @@ Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00055}{55}} of
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00057}{57}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
-
-\Hypertarget{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}\label{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!euler@{euler}}
-\index{euler@{euler}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{euler}{euler}}
-{\footnotesize\ttfamily Vector3d euler}
-
-
-
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00045}{45}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00062}{62}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3}\label{ur5__task__library_8h_aeae4d406288c2fdf02069967071d8ca3} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!final\_end@{final\_end}}
@@ -237,13 +274,13 @@ Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00045}{45}} of
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00066}{66}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00070}{70}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_acac020f932f1543dc657904ff69a623c}\label{ur5__task__library_8h_acac020f932f1543dc657904ff69a623c} 
+\Hypertarget{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba}\label{ur5__task__library_8h_a7f78089287f45156a052f26ad11bafba} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!GRASPING\_HEIGHT@{GRASPING\_HEIGHT}}
 \index{GRASPING\_HEIGHT@{GRASPING\_HEIGHT}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{GRASPING\_HEIGHT}{GRASPING\_HEIGHT}}
-{\footnotesize\ttfamily const double GRASPING\+\_\+\+HEIGHT =1.\+02}
+{\footnotesize\ttfamily double GRASPING\+\_\+\+HEIGHT}
 
 
 
@@ -251,7 +288,7 @@ safe height to take the block
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00042}{42}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00045}{45}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9}\label{ur5__task__library_8h_a13a2b9a30eb24814999f0625b4c05dd9} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!gripper@{gripper}}
@@ -265,13 +302,13 @@ actual value of the gripper
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00052}{52}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00057}{57}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4}\label{ur5__task__library_8h_ab5203a40998207ae1afdf91b3a325cf4} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!GRIPPER\_CLOSURE@{GRIPPER\_CLOSURE}}
-\index{GRIPPER\_CLOSURE@{GRIPPER\_CLOSURE}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{GRIPPER\_CLOSURE}{GRIPPER\_CLOSURE}}
-{\footnotesize\ttfamily const double GRIPPER\+\_\+\+CLOSURE =-\/0.\+0639}
+\Hypertarget{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59}\label{ur5__task__library_8h_a5cae29ae105be209054f4bb0df7ccb59} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!GRIPPER\_CLOSE@{GRIPPER\_CLOSE}}
+\index{GRIPPER\_CLOSE@{GRIPPER\_CLOSE}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{GRIPPER\_CLOSE}{GRIPPER\_CLOSE}}
+{\footnotesize\ttfamily double GRIPPER\+\_\+\+CLOSE}
 
 
 
@@ -279,31 +316,17 @@ value of closed gripper
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00040}{40}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00043}{43}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_a5fc29c7b4b95d7eca8b66069599a227a}\label{ur5__task__library_8h_a5fc29c7b4b95d7eca8b66069599a227a} 
+\Hypertarget{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03}\label{ur5__task__library_8h_af052e24256f82da2f8258aac7680dd03} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!GRIPPER\_OPEN@{GRIPPER\_OPEN}}
 \index{GRIPPER\_OPEN@{GRIPPER\_OPEN}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{GRIPPER\_OPEN}{GRIPPER\_OPEN}}
-{\footnotesize\ttfamily const double GRIPPER\+\_\+\+OPEN = 0.\+3}
+{\footnotesize\ttfamily double GRIPPER\+\_\+\+OPEN}
 
 
 
-value of open gripper 
-
-
-
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00041}{41}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
-
-\Hypertarget{ur5__task__library_8h_aa6371382c6b4224e577e14ea610ab9a9}\label{ur5__task__library_8h_aa6371382c6b4224e577e14ea610ab9a9} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!iteration@{iteration}}
-\index{iteration@{iteration}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{iteration}{iteration}}
-{\footnotesize\ttfamily int iteration}
-
-
-
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00061}{61}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00044}{44}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9}\label{ur5__task__library_8h_ab66ed8e0098c0a86b458672a55a9cca9} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!k@{k}}
@@ -313,13 +336,13 @@ Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00061}{61}} of
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00056}{56}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00061}{61}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_aa43f798d01b3737cb995df3d06d6245c}\label{ur5__task__library_8h_aa43f798d01b3737cb995df3d06d6245c} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!n\_classes@{n\_classes}}
-\index{n\_classes@{n\_classes}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{n\_classes}{n\_classes}}
-{\footnotesize\ttfamily int n\+\_\+classes}
+\Hypertarget{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea}\label{ur5__task__library_8h_a9a58bedf8cfbb7823aae3d9d767b82ea} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!n\_blocks@{n\_blocks}}
+\index{n\_blocks@{n\_blocks}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{n\_blocks}{n\_blocks}}
+{\footnotesize\ttfamily int n\+\_\+blocks =0}
 
 
 
@@ -327,13 +350,13 @@ number of blocks to grab
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00054}{54}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00059}{59}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10}\label{ur5__task__library_8h_add295c51b5d0d8b27caa8b017e22aa10} 
+\Hypertarget{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63}\label{ur5__task__library_8h_adbe9d5f03e7dcbf80e7f559bb46b8b63} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!next\_state@{next\_state}}
 \index{next\_state@{next\_state}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{next\_state}{next\_state}}
-{\footnotesize\ttfamily \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} next\+\_\+state}
+{\footnotesize\ttfamily \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} next\+\_\+state}
 
 
 
@@ -341,17 +364,17 @@ next state used if some problems arrises
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00065}{65}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00069}{69}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0}\label{ur5__task__library_8h_a80ff9c74d8dc57a434fa155bae2cd1f0} 
+\Hypertarget{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}\label{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!phi@{phi}}
 \index{phi@{phi}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{phi}{phi}}
-{\footnotesize\ttfamily Vector3d phi\mbox{[}5\mbox{]}}
+{\footnotesize\ttfamily Vector3d phi\mbox{[}6\mbox{]}}
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00047}{47}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00051}{51}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5}\label{ur5__task__library_8h_a4d3f24a2ce64d2dc4013bb8b874465c5} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!phief@{phief}}
@@ -365,7 +388,7 @@ phi end effector to give to the motion
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00050}{50}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00055}{55}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e}\label{ur5__task__library_8h_adfbc490eac011167bb269a2e50213b9e} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!phief\_class@{phief\_class}}
@@ -379,33 +402,23 @@ phi vector used for the class
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00051}{51}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00056}{56}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617}\label{ur5__task__library_8h_aa5da4436e7c4e6be3d8e1f430f7e3617} 
+\Hypertarget{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db}\label{ur5__task__library_8h_a6bc66a5e7720438561fb81f6d83833db} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!pos@{pos}}
 \index{pos@{pos}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{pos}{pos}}
-{\footnotesize\ttfamily Vector3d pos\mbox{[}5\mbox{]}}
+{\footnotesize\ttfamily Vector3d pos\mbox{[}6\mbox{]}}
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00046}{46}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
-
-\Hypertarget{ur5__task__library_8h_a55e78da50a013252924928eaa2720258}\label{ur5__task__library_8h_a55e78da50a013252924928eaa2720258} 
-\index{ur5\_task\_library.h@{ur5\_task\_library.h}!position@{position}}
-\index{position@{position}!ur5\_task\_library.h@{ur5\_task\_library.h}}
-\doxysubsubsection{\texorpdfstring{position}{position}}
-{\footnotesize\ttfamily Vector3d position}
-
-
-
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00045}{45}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00050}{50}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54}\label{ur5__task__library_8h_a7fae586b9258ff311bd869779579dd54} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!SAFE\_Z\_MOTION@{SAFE\_Z\_MOTION}}
 \index{SAFE\_Z\_MOTION@{SAFE\_Z\_MOTION}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{SAFE\_Z\_MOTION}{SAFE\_Z\_MOTION}}
-{\footnotesize\ttfamily const double SAFE\+\_\+\+Z\+\_\+\+MOTION = 1.\+35}
+{\footnotesize\ttfamily const double SAFE\+\_\+\+Z\+\_\+\+MOTION = 0.\+55}
 
 
 
@@ -413,13 +426,23 @@ used for the intermediate movement between initial and final position
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00043}{43}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00046}{46}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
-\Hypertarget{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a}\label{ur5__task__library_8h_aa82f6310c6e199f26af6e40639da040a} 
+\Hypertarget{ur5__task__library_8h_af5e1855c9ca0ed1e7379c13bacc9e56d}\label{ur5__task__library_8h_af5e1855c9ca0ed1e7379c13bacc9e56d} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!SCALAR\_FACTOR@{SCALAR\_FACTOR}}
+\index{SCALAR\_FACTOR@{SCALAR\_FACTOR}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{SCALAR\_FACTOR}{SCALAR\_FACTOR}}
+{\footnotesize\ttfamily const double SCALAR\+\_\+\+FACTOR = 1.\+0}
+
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00047}{47}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+
+\Hypertarget{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79}\label{ur5__task__library_8h_a876b486d3a5241a126bd5751c5f70f79} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!state@{state}}
 \index{state@{state}!ur5\_task\_library.h@{ur5\_task\_library.h}}
 \doxysubsubsection{\texorpdfstring{state}{state}}
-{\footnotesize\ttfamily \mbox{\hyperlink{ur5__task__library_8h_adf0495c10459753cfa2d2238827ecb2f}{stato}} state}
+{\footnotesize\ttfamily \mbox{\hyperlink{ur5__task__library_8h_a5d74787dedbc4e11c1ab15bf487e61f8}{State}} state}
 
 
 
@@ -427,7 +450,51 @@ current state
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00064}{64}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00068}{68}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+
+\Hypertarget{ur5__task__library_8h_a746c3d4c60c58fb15b07a917b8fd72b3}\label{ur5__task__library_8h_a746c3d4c60c58fb15b07a917b8fd72b3} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!WORLD\_TO\_ROBOT@{WORLD\_TO\_ROBOT}}
+\index{WORLD\_TO\_ROBOT@{WORLD\_TO\_ROBOT}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{WORLD\_TO\_ROBOT}{WORLD\_TO\_ROBOT}}
+{\footnotesize\ttfamily Matrix4d WORLD\+\_\+\+TO\+\_\+\+ROBOT}
+
+
+
+rotation matrix to convert the coordinates of the world frame into robot frame 
+
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00078}{78}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+
+\Hypertarget{ur5__task__library_8h_a8579272c1629ca4ab59827303c42f2f7}\label{ur5__task__library_8h_a8579272c1629ca4ab59827303c42f2f7} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!WORLD\_TO\_ROBOT\_X@{WORLD\_TO\_ROBOT\_X}}
+\index{WORLD\_TO\_ROBOT\_X@{WORLD\_TO\_ROBOT\_X}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{WORLD\_TO\_ROBOT\_X}{WORLD\_TO\_ROBOT\_X}}
+{\footnotesize\ttfamily const double WORLD\+\_\+\+TO\+\_\+\+ROBOT\+\_\+X = -\/0.\+5}
+
+transformation from world to robot frame 
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00075}{75}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+
+\Hypertarget{ur5__task__library_8h_af7372396aaf2993e0c39b0f6350c4a9f}\label{ur5__task__library_8h_af7372396aaf2993e0c39b0f6350c4a9f} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!WORLD\_TO\_ROBOT\_Y@{WORLD\_TO\_ROBOT\_Y}}
+\index{WORLD\_TO\_ROBOT\_Y@{WORLD\_TO\_ROBOT\_Y}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{WORLD\_TO\_ROBOT\_Y}{WORLD\_TO\_ROBOT\_Y}}
+{\footnotesize\ttfamily const double WORLD\+\_\+\+TO\+\_\+\+ROBOT\+\_\+Y = 0.\+35}
+
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00076}{76}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+
+\Hypertarget{ur5__task__library_8h_a31199c37d026000a5030df9198976b74}\label{ur5__task__library_8h_a31199c37d026000a5030df9198976b74} 
+\index{ur5\_task\_library.h@{ur5\_task\_library.h}!WORLD\_TO\_ROBOT\_Z@{WORLD\_TO\_ROBOT\_Z}}
+\index{WORLD\_TO\_ROBOT\_Z@{WORLD\_TO\_ROBOT\_Z}!ur5\_task\_library.h@{ur5\_task\_library.h}}
+\doxysubsubsection{\texorpdfstring{WORLD\_TO\_ROBOT\_Z}{WORLD\_TO\_ROBOT\_Z}}
+{\footnotesize\ttfamily const double WORLD\+\_\+\+TO\+\_\+\+ROBOT\+\_\+Z = 1.\+75}
+
+
+
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00077}{77}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5}\label{ur5__task__library_8h_a8a52964f20392bf3350d7cd2211935f5} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!xef@{xef}}
@@ -441,7 +508,7 @@ position end effector to give to the motion
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00048}{48}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00053}{53}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 
 \Hypertarget{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f}\label{ur5__task__library_8h_ac7a7258776ae8a4fd9736630cd9c056f} 
 \index{ur5\_task\_library.h@{ur5\_task\_library.h}!xef\_class@{xef\_class}}
@@ -455,5 +522,5 @@ position vector used for the class
 
 
 
-Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00049}{49}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
+Definition at line \mbox{\hyperlink{ur5__task__library_8h_source_l00054}{54}} of file \mbox{\hyperlink{ur5__task__library_8h_source}{ur5\+\_\+task\+\_\+library.\+h}}.
 

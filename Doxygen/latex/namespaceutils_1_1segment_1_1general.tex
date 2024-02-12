@@ -1,0 +1,150 @@
+\doxysection{utils.\+segment.\+general Namespace Reference}
+\hypertarget{namespaceutils_1_1segment_1_1general}{}\label{namespaceutils_1_1segment_1_1general}\index{utils.segment.general@{utils.segment.general}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a2076fee54b559476cf81e531d4c3aeac}{crop\+\_\+mask}} (masks, boxes)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a2c79ba504c78d8c8855824c5702a4bc9}{process\+\_\+mask\+\_\+upsample}} (protos, masks\+\_\+in, bboxes, shape)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_aa6bb34bfe462de4d93709359edbca405}{process\+\_\+mask}} (protos, masks\+\_\+in, bboxes, shape, upsample=False)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_aca980d3c68b6a528ad692407cc82ab56}{process\+\_\+mask\+\_\+native}} (protos, masks\+\_\+in, bboxes, shape)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a9cea086ff62fd89e25c3aa10bdaa5c6b}{scale\+\_\+image}} (im1\+\_\+shape, masks, im0\+\_\+shape, ratio\+\_\+pad=None)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a4c8983298bbd3c43f4139b648f9e3f02}{mask\+\_\+iou}} (mask1, mask2, eps=1e-\/7)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a39ac6da032a29f505adb5f07f6e51e68}{masks\+\_\+iou}} (mask1, mask2, eps=1e-\/7)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1general_a3050e59ee358ae2303d4999e8486e61c}{masks2segments}} (masks, strategy="{}largest"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1segment_1_1general_a2076fee54b559476cf81e531d4c3aeac}\label{namespaceutils_1_1segment_1_1general_a2076fee54b559476cf81e531d4c3aeac} 
+\index{utils.segment.general@{utils.segment.general}!crop\_mask@{crop\_mask}}
+\index{crop\_mask@{crop\_mask}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{crop\_mask()}{crop\_mask()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+crop\+\_\+mask (\begin{DoxyParamCaption}\item[{}]{masks,  }\item[{}]{boxes }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}"Crop" predicted masks by zeroing out everything not in the predicted bbox. Vectorized by Chong (thanks Chong).
+
+Args:
+    - masks should be a size [n, h, w] tensor of masks
+    - boxes should be a size [n, 4] tensor of bbox coords in relative point form
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00007}{7}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_a4c8983298bbd3c43f4139b648f9e3f02}\label{namespaceutils_1_1segment_1_1general_a4c8983298bbd3c43f4139b648f9e3f02} 
+\index{utils.segment.general@{utils.segment.general}!mask\_iou@{mask\_iou}}
+\index{mask\_iou@{mask\_iou}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{mask\_iou()}{mask\_iou()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+mask\+\_\+iou (\begin{DoxyParamCaption}\item[{}]{mask1,  }\item[{}]{mask2,  }\item[{}]{eps = {\ttfamily 1e-\/7} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}mask1: [N, n] m1 means number of predicted objects
+mask2: [M, n] m2 means number of gt objects
+Note: n means image_w x image_h
+
+return: masks iou, [N, M]
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00120}{120}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_a3050e59ee358ae2303d4999e8486e61c}\label{namespaceutils_1_1segment_1_1general_a3050e59ee358ae2303d4999e8486e61c} 
+\index{utils.segment.general@{utils.segment.general}!masks2segments@{masks2segments}}
+\index{masks2segments@{masks2segments}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{masks2segments()}{masks2segments()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+masks2segments (\begin{DoxyParamCaption}\item[{}]{masks,  }\item[{}]{strategy = {\ttfamily "{}largest"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00146}{146}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_a39ac6da032a29f505adb5f07f6e51e68}\label{namespaceutils_1_1segment_1_1general_a39ac6da032a29f505adb5f07f6e51e68} 
+\index{utils.segment.general@{utils.segment.general}!masks\_iou@{masks\_iou}}
+\index{masks\_iou@{masks\_iou}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{masks\_iou()}{masks\_iou()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+masks\+\_\+iou (\begin{DoxyParamCaption}\item[{}]{mask1,  }\item[{}]{mask2,  }\item[{}]{eps = {\ttfamily 1e-\/7} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}mask1: [N, n] m1 means number of predicted objects
+mask2: [N, n] m2 means number of gt objects
+Note: n means image_w x image_h
+
+return: masks iou, (N, )
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00133}{133}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_aa6bb34bfe462de4d93709359edbca405}\label{namespaceutils_1_1segment_1_1general_aa6bb34bfe462de4d93709359edbca405} 
+\index{utils.segment.general@{utils.segment.general}!process\_mask@{process\_mask}}
+\index{process\_mask@{process\_mask}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{process\_mask()}{process\_mask()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+process\+\_\+mask (\begin{DoxyParamCaption}\item[{}]{protos,  }\item[{}]{masks\+\_\+in,  }\item[{}]{bboxes,  }\item[{}]{shape,  }\item[{}]{upsample = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Crop before upsample.
+proto_out: [mask_dim, mask_h, mask_w]
+out_masks: [n, mask_dim], n is number of masks after nms
+bboxes: [n, 4], n is number of masks after nms
+shape:input_image_size, (h, w)
+
+return: h, w, n
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00042}{42}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_aca980d3c68b6a528ad692407cc82ab56}\label{namespaceutils_1_1segment_1_1general_aca980d3c68b6a528ad692407cc82ab56} 
+\index{utils.segment.general@{utils.segment.general}!process\_mask\_native@{process\_mask\_native}}
+\index{process\_mask\_native@{process\_mask\_native}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{process\_mask\_native()}{process\_mask\_native()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+process\+\_\+mask\+\_\+native (\begin{DoxyParamCaption}\item[{}]{protos,  }\item[{}]{masks\+\_\+in,  }\item[{}]{bboxes,  }\item[{}]{shape }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Crop after upsample.
+protos: [mask_dim, mask_h, mask_w]
+masks_in: [n, mask_dim], n is number of masks after nms
+bboxes: [n, 4], n is number of masks after nms
+shape: input_image_size, (h, w)
+
+return: h, w, n
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00069}{69}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_a2c79ba504c78d8c8855824c5702a4bc9}\label{namespaceutils_1_1segment_1_1general_a2c79ba504c78d8c8855824c5702a4bc9} 
+\index{utils.segment.general@{utils.segment.general}!process\_mask\_upsample@{process\_mask\_upsample}}
+\index{process\_mask\_upsample@{process\_mask\_upsample}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{process\_mask\_upsample()}{process\_mask\_upsample()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+process\+\_\+mask\+\_\+upsample (\begin{DoxyParamCaption}\item[{}]{protos,  }\item[{}]{masks\+\_\+in,  }\item[{}]{bboxes,  }\item[{}]{shape }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Crop after upsample.
+protos: [mask_dim, mask_h, mask_w]
+masks_in: [n, mask_dim], n is number of masks after nms
+bboxes: [n, 4], n is number of masks after nms
+shape: input_image_size, (h, w)
+
+return: h, w, n
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00024}{24}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1general_a9cea086ff62fd89e25c3aa10bdaa5c6b}\label{namespaceutils_1_1segment_1_1general_a9cea086ff62fd89e25c3aa10bdaa5c6b} 
+\index{utils.segment.general@{utils.segment.general}!scale\_image@{scale\_image}}
+\index{scale\_image@{scale\_image}!utils.segment.general@{utils.segment.general}}
+\doxysubsubsection{\texorpdfstring{scale\_image()}{scale\_image()}}
+{\footnotesize\ttfamily utils.\+segment.\+general.\+scale\+\_\+image (\begin{DoxyParamCaption}\item[{}]{im1\+\_\+shape,  }\item[{}]{masks,  }\item[{}]{im0\+\_\+shape,  }\item[{}]{ratio\+\_\+pad = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}img1_shape: model input shape, [h, w]
+img0_shape: origin pic shape, [h, w, 3]
+masks: [h, w, num]
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2general_8py_source_l00092}{92}} of file \mbox{\hyperlink{segment_2general_8py_source}{general.\+py}}.
+

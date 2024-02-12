@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stato_0',['stato',['../ur5__task__library_8h.html#adf0495c10459753cfa2d2238827ecb2f',1,'ur5_task_library.h']]]
+  ['state_0',['State',['../ur5__task__library_8h.html#a5d74787dedbc4e11c1ab15bf487e61f8',1,'ur5_task_library.h']]]
 ];

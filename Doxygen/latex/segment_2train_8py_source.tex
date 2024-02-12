@@ -1,0 +1,752 @@
+\doxysection{train.\+py}
+\hypertarget{segment_2train_8py_source}{}\label{segment_2train_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/segment/train.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/segment/train.py}}
+\mbox{\hyperlink{segment_2train_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00001}00001\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00003}00003\ \textcolor{stringliteral}{Train\ a\ YOLOv5\ segment\ model\ on\ a\ segment\ dataset\ Models\ and\ datasets\ download\ automatically\ from\ the\ latest\ YOLOv5}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00004}00004\ \textcolor{stringliteral}{release.}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00005}00005\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00006}00006\ \textcolor{stringliteral}{Usage\ -\/\ Single-\/GPU\ training:}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ segment/train.py\ -\/-\/data\ coco128-\/seg.yaml\ -\/-\/weights\ yolov5s-\/seg.pt\ -\/-\/img\ 640\ \ \#\ from\ pretrained\ (recommended)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00008}00008\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ segment/train.py\ -\/-\/data\ coco128-\/seg.yaml\ -\/-\/weights\ ''\ -\/-\/cfg\ yolov5s-\/seg.yaml\ -\/-\/img\ 640\ \ \#\ from\ scratch}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00009}00009\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00010}00010\ \textcolor{stringliteral}{Usage\ -\/\ Multi-\/GPU\ DDP\ training:}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ \$\ python\ -\/m\ torch.distributed.run\ -\/-\/nproc\_per\_node\ 4\ -\/-\/master\_port\ 1\ segment/train.py\ -\/-\/data\ coco128-\/seg.yaml\ -\/-\/weights\ yolov5s-\/seg.pt\ -\/-\/img\ 640\ -\/-\/device\ 0,1,2,3}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00012}00012\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00013}00013\ \textcolor{stringliteral}{Models:\ \ \ \ \ https://github.com/ultralytics/yolov5/tree/master/models}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00014}00014\ \textcolor{stringliteral}{Datasets:\ \ \ https://github.com/ultralytics/yolov5/tree/master/data}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00015}00015\ \textcolor{stringliteral}{Tutorial:\ \ \ https://docs.ultralytics.com/yolov5/tutorials/train\_custom\_data}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00016}00016\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00018}00018\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00019}00019\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00020}00020\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00021}00021\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00022}00022\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00023}00023\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00024}00024\ \textcolor{keyword}{import}\ time}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00025}00025\ \textcolor{keyword}{from}\ copy\ \textcolor{keyword}{import}\ deepcopy}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00026}00026\ \textcolor{keyword}{from}\ datetime\ \textcolor{keyword}{import}\ datetime}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00027}00027\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00029}00029\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00030}00030\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00031}00031\ \textcolor{keyword}{import}\ torch.distributed\ \textcolor{keyword}{as}\ dist}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00032}00032\ \textcolor{keyword}{import}\ \mbox{\hyperlink{namespacetorch_1_1nn}{torch.nn}}\ \textcolor{keyword}{as}\ nn}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00033}00033\ \textcolor{keyword}{import}\ yaml}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00034}00034\ \textcolor{keyword}{from}\ torch.optim\ \textcolor{keyword}{import}\ lr\_scheduler}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00035}00035\ \textcolor{keyword}{from}\ tqdm\ \textcolor{keyword}{import}\ tqdm}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00037}00037\ FILE\ =\ Path(\_\_file\_\_).resolve()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00038}00038\ ROOT\ =\ FILE.parents[1]\ \ \textcolor{comment}{\#\ YOLOv5\ root\ directory}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00039}00039\ \textcolor{keywordflow}{if}\ str(ROOT)\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ sys.path:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00040}00040\ \ \ \ \ sys.path.append(str(ROOT))\ \ \textcolor{comment}{\#\ add\ ROOT\ to\ PATH}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00041}00041\ ROOT\ =\ Path(os.path.relpath(ROOT,\ Path.cwd()))\ \ \textcolor{comment}{\#\ relative}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00043}00043\ \textcolor{keyword}{import}\ segment.val\ \textcolor{keyword}{as}\ validate\ \ \textcolor{comment}{\#\ for\ end-\/of-\/epoch\ mAP}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00044}00044\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1experimental}{models.experimental}}\ \textcolor{keyword}{import}\ attempt\_load}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00045}00045\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacemodels_1_1yolo}{models.yolo}}\ \textcolor{keyword}{import}\ SegmentationModel}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00046}00046\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1autoanchor}{utils.autoanchor}}\ \textcolor{keyword}{import}\ check\_anchors}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00047}00047\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1autobatch}{utils.autobatch}}\ \textcolor{keyword}{import}\ check\_train\_batch\_size}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00048}00048\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1callbacks}{utils.callbacks}}\ \textcolor{keyword}{import}\ Callbacks}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00049}00049\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1downloads}{utils.downloads}}\ \textcolor{keyword}{import}\ attempt\_download,\ is\_url}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00050}00050\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00051}00051\ \ \ \ \ LOGGER,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00052}00052\ \ \ \ \ TQDM\_BAR\_FORMAT,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00053}00053\ \ \ \ \ check\_amp,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00054}00054\ \ \ \ \ check\_dataset,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00055}00055\ \ \ \ \ check\_file,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00056}00056\ \ \ \ \ check\_git\_info,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00057}00057\ \ \ \ \ check\_git\_status,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00058}00058\ \ \ \ \ check\_img\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00059}00059\ \ \ \ \ check\_requirements,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00060}00060\ \ \ \ \ check\_suffix,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00061}00061\ \ \ \ \ check\_yaml,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00062}00062\ \ \ \ \ colorstr,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00063}00063\ \ \ \ \ get\_latest\_run,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00064}00064\ \ \ \ \ increment\_path,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00065}00065\ \ \ \ \ init\_seeds,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00066}00066\ \ \ \ \ intersect\_dicts,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00067}00067\ \ \ \ \ labels\_to\_class\_weights,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00068}00068\ \ \ \ \ labels\_to\_image\_weights,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00069}00069\ \ \ \ \ one\_cycle,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00070}00070\ \ \ \ \ print\_args,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00071}00071\ \ \ \ \ print\_mutation,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00072}00072\ \ \ \ \ strip\_optimizer,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00073}00073\ \ \ \ \ yaml\_save,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00074}00074\ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00075}00075\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1loggers}{utils.loggers}}\ \textcolor{keyword}{import}\ GenericLogger}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00076}00076\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1plots}{utils.plots}}\ \textcolor{keyword}{import}\ plot\_evolve,\ plot\_labels}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00077}00077\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1dataloaders}{utils.segment.dataloaders}}\ \textcolor{keyword}{import}\ create\_dataloader}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00078}00078\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1loss}{utils.segment.loss}}\ \textcolor{keyword}{import}\ ComputeLoss}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00079}00079\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics}{utils.segment.metrics}}\ \textcolor{keyword}{import}\ KEYS,\ fitness}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00080}00080\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1segment_1_1plots}{utils.segment.plots}}\ \textcolor{keyword}{import}\ plot\_images\_and\_masks,\ plot\_results\_with\_masks}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00081}00081\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1torch__utils}{utils.torch\_utils}}\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00082}00082\ \ \ \ \ EarlyStopping,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00083}00083\ \ \ \ \ ModelEMA,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00084}00084\ \ \ \ \ de\_parallel,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00085}00085\ \ \ \ \ select\_device,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00086}00086\ \ \ \ \ smart\_DDP,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00087}00087\ \ \ \ \ smart\_optimizer,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00088}00088\ \ \ \ \ smart\_resume,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00089}00089\ \ \ \ \ torch\_distributed\_zero\_first,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00090}00090\ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00092}00092\ LOCAL\_RANK\ =\ int(os.getenv(\textcolor{stringliteral}{"{}LOCAL\_RANK"{}},\ -\/1))\ \ \textcolor{comment}{\#\ https://pytorch.org/docs/stable/elastic/run.html}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00093}00093\ RANK\ =\ int(os.getenv(\textcolor{stringliteral}{"{}RANK"{}},\ -\/1))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00094}00094\ WORLD\_SIZE\ =\ int(os.getenv(\textcolor{stringliteral}{"{}WORLD\_SIZE"{}},\ 1))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00095}00095\ GIT\_INFO\ =\ check\_git\_info()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00098}\mbox{\hyperlink{namespacetrain_a165c8db7d0d098f2da9f04f83eb4a443}{00098}}\ \textcolor{keyword}{def\ }train(hyp,\ opt,\ device,\ callbacks):\ \ \textcolor{comment}{\#\ hyp\ is\ path/to/hyp.yaml\ or\ hyp\ dictionary}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00099}00099\ \ \ \ \ (}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ save\_dir,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ epochs,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ weights,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ evolve,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ data,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ cfg,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ resume,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ noval,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ nosave,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ workers,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ freeze,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ mask\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00114}00114\ \ \ \ \ )\ =\ (}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ Path(opt.save\_dir),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ opt.epochs,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ opt.batch\_size,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ opt.weights,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ opt.single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ opt.evolve,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ opt.data,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ opt.cfg,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ opt.resume,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ opt.noval,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ opt.nosave,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ opt.workers,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ opt.freeze,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ opt.mask\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00129}00129\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00130}00130\ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_pretrain\_routine\_start')}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00132}00132\ \ \ \ \ \textcolor{comment}{\#\ Directories}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00133}00133\ \ \ \ \ w\ =\ save\_dir\ /\ \textcolor{stringliteral}{"{}weights"{}}\ \ \textcolor{comment}{\#\ weights\ dir}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00134}00134\ \ \ \ \ (w.parent\ \textcolor{keywordflow}{if}\ evolve\ \textcolor{keywordflow}{else}\ w).mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})\ \ \textcolor{comment}{\#\ make\ dir}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00135}00135\ \ \ \ \ last,\ best\ =\ w\ /\ \textcolor{stringliteral}{"{}last.pt"{}},\ w\ /\ \textcolor{stringliteral}{"{}best.pt"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00137}00137\ \ \ \ \ \textcolor{comment}{\#\ Hyperparameters}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(hyp,\ str):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(hyp,\ errors=\textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ hyp\ =\ yaml.safe\_load(f)\ \ \textcolor{comment}{\#\ load\ hyps\ dict}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00141}00141\ \ \ \ \ LOGGER.info(colorstr(\textcolor{stringliteral}{"{}hyperparameters:\ "{}})\ +\ \textcolor{stringliteral}{"{},\ "{}}.join(f\textcolor{stringliteral}{"{}\{k\}=\{v\}"{}}\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ hyp.items()))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00142}00142\ \ \ \ \ opt.hyp\ =\ hyp.copy()\ \ \textcolor{comment}{\#\ for\ saving\ hyps\ to\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00144}00144\ \ \ \ \ \textcolor{comment}{\#\ Save\ run\ settings}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00145}00145\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ evolve:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ yaml\_save(save\_dir\ /\ \textcolor{stringliteral}{"{}hyp.yaml"{}},\ hyp)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ yaml\_save(save\_dir\ /\ \textcolor{stringliteral}{"{}opt.yaml"{}},\ vars(opt))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00149}00149\ \ \ \ \ \textcolor{comment}{\#\ Loggers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00150}00150\ \ \ \ \ data\_dict\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ logger\ =\ \mbox{\hyperlink{classutils_1_1loggers_1_1_generic_logger}{GenericLogger}}(opt=opt,\ console\_logger=LOGGER)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00154}00154\ \ \ \ \ \textcolor{comment}{\#\ Config}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00155}00155\ \ \ \ \ plots\ =\ \textcolor{keywordflow}{not}\ evolve\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ opt.noplots\ \ \textcolor{comment}{\#\ create\ plots}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00156}00156\ \ \ \ \ overlap\ =\ \textcolor{keywordflow}{not}\ opt.no\_overlap}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00157}00157\ \ \ \ \ cuda\ =\ device.type\ !=\ \textcolor{stringliteral}{"{}cpu"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00158}00158\ \ \ \ \ init\_seeds(opt.seed\ +\ 1\ +\ RANK,\ deterministic=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00159}00159\ \ \ \ \ \textcolor{keyword}{with}\ torch\_distributed\_zero\_first(LOCAL\_RANK):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ data\_dict\ =\ data\_dict\ \textcolor{keywordflow}{or}\ check\_dataset(data)\ \ \textcolor{comment}{\#\ check\ if\ None}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00161}00161\ \ \ \ \ train\_path,\ val\_path\ =\ data\_dict[\textcolor{stringliteral}{"{}train"{}}],\ data\_dict[\textcolor{stringliteral}{"{}val"{}}]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00162}00162\ \ \ \ \ nc\ =\ 1\ \textcolor{keywordflow}{if}\ single\_cls\ \textcolor{keywordflow}{else}\ int(data\_dict[\textcolor{stringliteral}{"{}nc"{}}])\ \ \textcolor{comment}{\#\ number\ of\ classes}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00163}00163\ \ \ \ \ names\ =\ \{0:\ \textcolor{stringliteral}{"{}item"{}}\}\ \textcolor{keywordflow}{if}\ single\_cls\ \textcolor{keywordflow}{and}\ len(data\_dict[\textcolor{stringliteral}{"{}names"{}}])\ !=\ 1\ \textcolor{keywordflow}{else}\ data\_dict[\textcolor{stringliteral}{"{}names"{}}]\ \ \textcolor{comment}{\#\ class\ names}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00164}00164\ \ \ \ \ is\_coco\ =\ isinstance(val\_path,\ str)\ \textcolor{keywordflow}{and}\ val\_path.endswith(\textcolor{stringliteral}{"{}coco/val2017.txt"{}})\ \ \textcolor{comment}{\#\ COCO\ dataset}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00166}00166\ \ \ \ \ \textcolor{comment}{\#\ Model}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00167}00167\ \ \ \ \ check\_suffix(weights,\ \textcolor{stringliteral}{"{}.pt"{}})\ \ \textcolor{comment}{\#\ check\ weights}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00168}00168\ \ \ \ \ pretrained\ =\ weights.endswith(\textcolor{stringliteral}{"{}.pt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00169}00169\ \ \ \ \ \textcolor{keywordflow}{if}\ pretrained:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ torch\_distributed\_zero\_first(LOCAL\_RANK):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ weights\ =\ attempt\_download(weights)\ \ \textcolor{comment}{\#\ download\ if\ not\ found\ locally}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ ckpt\ =\ torch.load(weights,\ map\_location=\textcolor{stringliteral}{"{}cpu"{}})\ \ \textcolor{comment}{\#\ load\ checkpoint\ to\ CPU\ to\ avoid\ CUDA\ memory\ leak}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ model\ =\ \mbox{\hyperlink{classmodels_1_1yolo_1_1_segmentation_model}{SegmentationModel}}(cfg\ \textcolor{keywordflow}{or}\ ckpt[\textcolor{stringliteral}{"{}model"{}}].yaml,\ ch=3,\ nc=nc,\ anchors=hyp.get(\textcolor{stringliteral}{"{}anchors"{}})).to(device)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ exclude\ =\ [\textcolor{stringliteral}{"{}anchor"{}}]\ \textcolor{keywordflow}{if}\ (cfg\ \textcolor{keywordflow}{or}\ hyp.get(\textcolor{stringliteral}{"{}anchors"{}}))\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ resume\ \textcolor{keywordflow}{else}\ []\ \ \textcolor{comment}{\#\ exclude\ keys}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ csd\ =\ ckpt[\textcolor{stringliteral}{"{}model"{}}].float().state\_dict()\ \ \textcolor{comment}{\#\ checkpoint\ state\_dict\ as\ FP32}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ csd\ =\ intersect\_dicts(csd,\ model.state\_dict(),\ exclude=exclude)\ \ \textcolor{comment}{\#\ intersect}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ model.load\_state\_dict(csd,\ strict=\textcolor{keyword}{False})\ \ \textcolor{comment}{\#\ load}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Transferred\ \{len(csd)\}/\{len(model.state\_dict())\}\ items\ from\ \{weights\}"{}})\ \ \textcolor{comment}{\#\ report}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ model\ =\ \mbox{\hyperlink{classmodels_1_1yolo_1_1_segmentation_model}{SegmentationModel}}(cfg,\ ch=3,\ nc=nc,\ anchors=hyp.get(\textcolor{stringliteral}{"{}anchors"{}})).to(device)\ \ \textcolor{comment}{\#\ create}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00181}00181\ \ \ \ \ amp\ =\ check\_amp(model)\ \ \textcolor{comment}{\#\ check\ AMP}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00183}00183\ \ \ \ \ \textcolor{comment}{\#\ Freeze}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00184}00184\ \ \ \ \ freeze\ =\ [f\textcolor{stringliteral}{"{}model.\{x\}."{}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (freeze\ \textcolor{keywordflow}{if}\ len(freeze)\ >\ 1\ \textcolor{keywordflow}{else}\ range(freeze[0]))]\ \ \textcolor{comment}{\#\ layers\ to\ freeze}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ model.named\_parameters():}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ v.requires\_grad\ =\ \textcolor{keyword}{True}\ \ \textcolor{comment}{\#\ train\ all\ layers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ v.register\_hook(lambda\ x:\ torch.nan\_to\_num(x))\ \ \#\ NaN\ to\ 0\ (commented\ for\ erratic\ training\ results)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ any(x\ \textcolor{keywordflow}{in}\ k\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ freeze):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}freezing\ \{k\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ v.requires\_grad\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00192}00192\ \ \ \ \ \textcolor{comment}{\#\ Image\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00193}00193\ \ \ \ \ gs\ =\ max(int(model.stride.max()),\ 32)\ \ \textcolor{comment}{\#\ grid\ size\ (max\ stride)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00194}00194\ \ \ \ \ imgsz\ =\ check\_img\_size(opt.imgsz,\ gs,\ floor=gs\ *\ 2)\ \ \textcolor{comment}{\#\ verify\ imgsz\ is\ gs-\/multiple}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00196}00196\ \ \ \ \ \textcolor{comment}{\#\ Batch\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ ==\ -\/1\ \textcolor{keywordflow}{and}\ batch\_size\ ==\ -\/1:\ \ \textcolor{comment}{\#\ single-\/GPU\ only,\ estimate\ best\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ batch\_size\ =\ check\_train\_batch\_size(model,\ imgsz,\ amp)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ logger.update\_params(\{\textcolor{stringliteral}{"{}batch\_size"{}}:\ batch\_size\})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ loggers.on\_params\_update(\{"{}batch\_size"{}:\ batch\_size\})}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00202}00202\ \ \ \ \ \textcolor{comment}{\#\ Optimizer}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00203}00203\ \ \ \ \ nbs\ =\ 64\ \ \textcolor{comment}{\#\ nominal\ batch\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00204}00204\ \ \ \ \ accumulate\ =\ max(round(nbs\ /\ batch\_size),\ 1)\ \ \textcolor{comment}{\#\ accumulate\ loss\ before\ optimizing}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00205}00205\ \ \ \ \ hyp[\textcolor{stringliteral}{"{}weight\_decay"{}}]\ *=\ batch\_size\ *\ accumulate\ /\ nbs\ \ \textcolor{comment}{\#\ scale\ weight\_decay}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00206}00206\ \ \ \ \ optimizer\ =\ smart\_optimizer(model,\ opt.optimizer,\ hyp[\textcolor{stringliteral}{"{}lr0"{}}],\ hyp[\textcolor{stringliteral}{"{}momentum"{}}],\ hyp[\textcolor{stringliteral}{"{}weight\_decay"{}}])}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00208}00208\ \ \ \ \ \textcolor{comment}{\#\ Scheduler}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00209}00209\ \ \ \ \ \textcolor{keywordflow}{if}\ opt.cos\_lr:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ lf\ =\ one\_cycle(1,\ hyp[\textcolor{stringliteral}{"{}lrf"{}}],\ epochs)\ \ \textcolor{comment}{\#\ cosine\ 1-\/>hyp['lrf']}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00211}00211\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ lf\ =\ \textcolor{keyword}{lambda}\ x:\ (1\ -\/\ x\ /\ epochs)\ *\ (1.0\ -\/\ hyp[\textcolor{stringliteral}{"{}lrf"{}}])\ +\ hyp[\textcolor{stringliteral}{"{}lrf"{}}]\ \ \textcolor{comment}{\#\ linear}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00213}00213\ \ \ \ \ scheduler\ =\ lr\_scheduler.LambdaLR(optimizer,\ lr\_lambda=lf)\ \ \textcolor{comment}{\#\ plot\_lr\_scheduler(optimizer,\ scheduler,\ epochs)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00215}00215\ \ \ \ \ \textcolor{comment}{\#\ EMA}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00216}00216\ \ \ \ \ ema\ =\ \mbox{\hyperlink{classutils_1_1torch__utils_1_1_model_e_m_a}{ModelEMA}}(model)\ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00218}00218\ \ \ \ \ \textcolor{comment}{\#\ Resume}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00219}00219\ \ \ \ \ best\_fitness,\ start\_epoch\ =\ 0.0,\ 0}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00220}00220\ \ \ \ \ \textcolor{keywordflow}{if}\ pretrained:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ resume:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ best\_fitness,\ start\_epoch,\ epochs\ =\ smart\_resume(ckpt,\ optimizer,\ ema,\ weights,\ epochs,\ resume)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ del\ ckpt,\ csd}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00225}00225\ \ \ \ \ \textcolor{comment}{\#\ DP\ mode}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00226}00226\ \ \ \ \ \textcolor{keywordflow}{if}\ cuda\ \textcolor{keywordflow}{and}\ RANK\ ==\ -\/1\ \textcolor{keywordflow}{and}\ torch.cuda.device\_count()\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ LOGGER.warning(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WARNING\ ⚠️\ DP\ not\ recommended,\ use\ torch.distributed.run\ for\ best\ DDP\ Multi-\/GPU\ results.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}See\ Multi-\/GPU\ Tutorial\ at\ https://docs.ultralytics.com/yolov5/tutorials/multi\_gpu\_training\ to\ get\ started."{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ model\ =\ torch.nn.DataParallel(model)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00233}00233\ \ \ \ \ \textcolor{comment}{\#\ SyncBatchNorm}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{if}\ opt.sync\_bn\ \textcolor{keywordflow}{and}\ cuda\ \textcolor{keywordflow}{and}\ RANK\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ model\ =\ torch.nn.SyncBatchNorm.convert\_sync\_batchnorm(model).to(device)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ LOGGER.info(\textcolor{stringliteral}{"{}Using\ SyncBatchNorm()"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00238}00238\ \ \ \ \ \textcolor{comment}{\#\ Trainloader}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00239}00239\ \ \ \ \ train\_loader,\ dataset\ =\ create\_dataloader(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ train\_path,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ batch\_size\ //\ WORLD\_SIZE,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ gs,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ hyp=hyp,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ augment=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ cache=\textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ opt.cache\ ==\ \textcolor{stringliteral}{"{}val"{}}\ \textcolor{keywordflow}{else}\ opt.cache,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ rect=opt.rect,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ rank=LOCAL\_RANK,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ workers=workers,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ image\_weights=opt.image\_weights,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ quad=opt.quad,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ prefix=colorstr(\textcolor{stringliteral}{"{}train:\ "{}}),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ shuffle=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ mask\_downsample\_ratio=mask\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ overlap\_mask=overlap,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00257}00257\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00258}00258\ \ \ \ \ labels\ =\ np.concatenate(dataset.labels,\ 0)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00259}00259\ \ \ \ \ mlc\ =\ int(labels[:,\ 0].max())\ \ \textcolor{comment}{\#\ max\ label\ class}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00260}00260\ \ \ \ \ \textcolor{keyword}{assert}\ mlc\ <\ nc,\ f\textcolor{stringliteral}{"{}Label\ class\ \{mlc\}\ exceeds\ nc=\{nc\}\ in\ \{data\}.\ Possible\ class\ labels\ are\ 0-\/\{nc\ -\/\ 1\}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00262}00262\ \ \ \ \ \textcolor{comment}{\#\ Process\ 0}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ val\_loader\ =\ create\_dataloader(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ val\_path,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ //\ WORLD\_SIZE\ *\ 2,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ gs,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ hyp=hyp,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ cache=\textcolor{keywordtype}{None}\ \textcolor{keywordflow}{if}\ noval\ \textcolor{keywordflow}{else}\ opt.cache,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ rect=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ rank=-\/1,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ workers=workers\ *\ 2,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ pad=0.5,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ mask\_downsample\_ratio=mask\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ overlap\_mask=overlap,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ prefix=colorstr(\textcolor{stringliteral}{"{}val:\ "{}}),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ )[0]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ resume:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ opt.noautoanchor:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ check\_anchors(dataset,\ model=model,\ thr=hyp[\textcolor{stringliteral}{"{}anchor\_t"{}}],\ imgsz=imgsz)\ \ \textcolor{comment}{\#\ run\ AutoAnchor}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ model.half().float()\ \ \textcolor{comment}{\#\ pre-\/reduce\ anchor\ precision}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plot\_labels(labels,\ names,\ save\_dir)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_pretrain\_routine\_end',\ labels,\ names)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00290}00290\ \ \ \ \ \textcolor{comment}{\#\ DDP\ mode}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00291}00291\ \ \ \ \ \textcolor{keywordflow}{if}\ cuda\ \textcolor{keywordflow}{and}\ RANK\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ model\ =\ smart\_DDP(model)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00294}00294\ \ \ \ \ \textcolor{comment}{\#\ Model\ attributes}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00295}00295\ \ \ \ \ nl\ =\ de\_parallel(model).model[-\/1].nl\ \ \textcolor{comment}{\#\ number\ of\ detection\ layers\ (to\ scale\ hyps)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00296}00296\ \ \ \ \ hyp[\textcolor{stringliteral}{"{}box"{}}]\ *=\ 3\ /\ nl\ \ \textcolor{comment}{\#\ scale\ to\ layers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00297}00297\ \ \ \ \ hyp[\textcolor{stringliteral}{"{}cls"{}}]\ *=\ nc\ /\ 80\ *\ 3\ /\ nl\ \ \textcolor{comment}{\#\ scale\ to\ classes\ and\ layers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00298}00298\ \ \ \ \ hyp[\textcolor{stringliteral}{"{}obj"{}}]\ *=\ (imgsz\ /\ 640)\ **\ 2\ *\ 3\ /\ nl\ \ \textcolor{comment}{\#\ scale\ to\ image\ size\ and\ layers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00299}00299\ \ \ \ \ hyp[\textcolor{stringliteral}{"{}label\_smoothing"{}}]\ =\ opt.label\_smoothing}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00300}00300\ \ \ \ \ model.nc\ =\ nc\ \ \textcolor{comment}{\#\ attach\ number\ of\ classes\ to\ model}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00301}00301\ \ \ \ \ model.hyp\ =\ hyp\ \ \textcolor{comment}{\#\ attach\ hyperparameters\ to\ model}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00302}00302\ \ \ \ \ model.class\_weights\ =\ labels\_to\_class\_weights(dataset.labels,\ nc).to(device)\ *\ nc\ \ \textcolor{comment}{\#\ attach\ class\ weights}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00303}00303\ \ \ \ \ model.names\ =\ names}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00305}00305\ \ \ \ \ \textcolor{comment}{\#\ Start\ training}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00306}00306\ \ \ \ \ t0\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00307}00307\ \ \ \ \ nb\ =\ len(train\_loader)\ \ \textcolor{comment}{\#\ number\ of\ batches}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00308}00308\ \ \ \ \ nw\ =\ max(round(hyp[\textcolor{stringliteral}{"{}warmup\_epochs"{}}]\ *\ nb),\ 100)\ \ \textcolor{comment}{\#\ number\ of\ warmup\ iterations,\ max(3\ epochs,\ 100\ iterations)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00309}00309\ \ \ \ \ \textcolor{comment}{\#\ nw\ =\ min(nw,\ (epochs\ -\/\ start\_epoch)\ /\ 2\ *\ nb)\ \ \#\ limit\ warmup\ to\ <\ 1/2\ of\ training}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00310}00310\ \ \ \ \ last\_opt\_step\ =\ -\/1}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00311}00311\ \ \ \ \ maps\ =\ np.zeros(nc)\ \ \textcolor{comment}{\#\ mAP\ per\ class}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00312}00312\ \ \ \ \ results\ =\ (0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0)\ \ \textcolor{comment}{\#\ P,\ R,\ mAP@.5,\ mAP@.5-\/.95,\ val\_loss(box,\ obj,\ cls)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00313}00313\ \ \ \ \ scheduler.last\_epoch\ =\ start\_epoch\ -\/\ 1\ \ \textcolor{comment}{\#\ do\ not\ move}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00314}00314\ \ \ \ \ scaler\ =\ torch.cuda.amp.GradScaler(enabled=amp)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00315}00315\ \ \ \ \ stopper,\ stop\ =\ \mbox{\hyperlink{classutils_1_1torch__utils_1_1_early_stopping}{EarlyStopping}}(patience=opt.patience),\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00316}00316\ \ \ \ \ compute\_loss\ =\ \mbox{\hyperlink{classutils_1_1loss_1_1_compute_loss}{ComputeLoss}}(model,\ overlap=overlap)\ \ \textcolor{comment}{\#\ init\ loss\ class}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00317}00317\ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_train\_start')}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00318}00318\ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'Image\ sizes\ \{imgsz\}\ train,\ \{imgsz\}\ val\(\backslash\)n'}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'Using\ \{train\_loader.num\_workers\ *\ WORLD\_SIZE\}\ dataloader\ workers\(\backslash\)n'}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Logging\ results\ to\ \{colorstr('bold',\ save\_dir)\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'Starting\ training\ for\ \{epochs\}\ epochs...'}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00323}00323\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00324}00324\ \ \ \ \ \textcolor{keywordflow}{for}\ epoch\ \textcolor{keywordflow}{in}\ range(start\_epoch,\ epochs):\ \ \textcolor{comment}{\#\ epoch\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_train\_epoch\_start')}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ model.train()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ image\ weights\ (optional,\ single-\/GPU\ only)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.image\_weights:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ cw\ =\ model.class\_weights.cpu().numpy()\ *\ (1\ -\/\ maps)\ **\ 2\ /\ nc\ \ \textcolor{comment}{\#\ class\ weights}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ iw\ =\ labels\_to\_image\_weights(dataset.labels,\ nc=nc,\ class\_weights=cw)\ \ \textcolor{comment}{\#\ image\ weights}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ dataset.indices\ =\ random.choices(range(dataset.n),\ weights=iw,\ k=dataset.n)\ \ \textcolor{comment}{\#\ rand\ weighted\ idx}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ mosaic\ border\ (optional)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ b\ =\ int(random.uniform(0.25\ *\ imgsz,\ 0.75\ *\ imgsz\ +\ gs)\ //\ gs\ *\ gs)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ dataset.mosaic\_border\ =\ [b\ -\/\ imgsz,\ -\/b]\ \ \#\ height,\ width\ borders}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ mloss\ =\ torch.zeros(4,\ device=device)\ \ \textcolor{comment}{\#\ mean\ losses}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ train\_loader.sampler.set\_epoch(epoch)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ pbar\ =\ enumerate(train\_loader)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ +\ \textcolor{stringliteral}{"{}\%11s"{}}\ *\ 8)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \%\ (\textcolor{stringliteral}{"{}Epoch"{}},\ \textcolor{stringliteral}{"{}GPU\_mem"{}},\ \textcolor{stringliteral}{"{}box\_loss"{}},\ \textcolor{stringliteral}{"{}seg\_loss"{}},\ \textcolor{stringliteral}{"{}obj\_loss"{}},\ \textcolor{stringliteral}{"{}cls\_loss"{}},\ \textcolor{stringliteral}{"{}Instances"{}},\ \textcolor{stringliteral}{"{}Size"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ pbar\ =\ tqdm(pbar,\ total=nb,\ bar\_format=TQDM\_BAR\_FORMAT)\ \ \textcolor{comment}{\#\ progress\ bar}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ optimizer.zero\_grad()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ (imgs,\ targets,\ paths,\ \_,\ masks)\ \textcolor{keywordflow}{in}\ pbar:\ \ \textcolor{comment}{\#\ batch\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_train\_batch\_start')}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ ni\ =\ i\ +\ nb\ *\ epoch\ \ \textcolor{comment}{\#\ number\ integrated\ batches\ (since\ train\ start)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ imgs\ =\ imgs.to(device,\ non\_blocking=\textcolor{keyword}{True}).float()\ /\ 255\ \ \textcolor{comment}{\#\ uint8\ to\ float32,\ 0-\/255\ to\ 0.0-\/1.0}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00353}00353\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Warmup}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ni\ <=\ nw:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xi\ =\ [0,\ nw]\ \ \textcolor{comment}{\#\ x\ interp}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ compute\_loss.gr\ =\ np.interp(ni,\ xi,\ [0.0,\ 1.0])\ \ \#\ iou\ loss\ ratio\ (obj\_loss\ =\ 1.0\ or\ iou)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ accumulate\ =\ max(1,\ np.interp(ni,\ xi,\ [1,\ nbs\ /\ batch\_size]).round())}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j,\ x\ \textcolor{keywordflow}{in}\ enumerate(optimizer.param\_groups):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ bias\ lr\ falls\ from\ 0.1\ to\ lr0,\ all\ other\ lrs\ rise\ from\ 0.0\ to\ lr0}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x[\textcolor{stringliteral}{"{}lr"{}}]\ =\ np.interp(ni,\ xi,\ [hyp[\textcolor{stringliteral}{"{}warmup\_bias\_lr"{}}]\ \textcolor{keywordflow}{if}\ j\ ==\ 0\ \textcolor{keywordflow}{else}\ 0.0,\ x[\textcolor{stringliteral}{"{}initial\_lr"{}}]\ *\ lf(epoch)])}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}momentum"{}}\ \textcolor{keywordflow}{in}\ x:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x[\textcolor{stringliteral}{"{}momentum"{}}]\ =\ np.interp(ni,\ xi,\ [hyp[\textcolor{stringliteral}{"{}warmup\_momentum"{}}],\ hyp[\textcolor{stringliteral}{"{}momentum"{}}]])}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Multi-\/scale}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.multi\_scale:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sz\ =\ random.randrange(int(imgsz\ *\ 0.5),\ int(imgsz\ *\ 1.5)\ +\ gs)\ //\ gs\ *\ gs\ \ \textcolor{comment}{\#\ size}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sf\ =\ sz\ /\ max(imgs.shape[2:])\ \ \textcolor{comment}{\#\ scale\ factor}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ sf\ !=\ 1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ns\ =\ [math.ceil(x\ *\ sf\ /\ gs)\ *\ gs\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ imgs.shape[2:]]\ \ \textcolor{comment}{\#\ new\ shape\ (stretched\ to\ gs-\/multiple)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ imgs\ =\ nn.functional.interpolate(imgs,\ size=ns,\ mode=\textcolor{stringliteral}{"{}bilinear"{}},\ align\_corners=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Forward}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ torch.cuda.amp.autocast(amp):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pred\ =\ model(imgs)\ \ \textcolor{comment}{\#\ forward}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loss,\ loss\_items\ =\ compute\_loss(pred,\ targets.to(device),\ masks=masks.to(device).float())}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loss\ *=\ WORLD\_SIZE\ \ \textcolor{comment}{\#\ gradient\ averaged\ between\ devices\ in\ DDP\ mode}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.quad:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loss\ *=\ 4.0}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Backward}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ scaler.scale(loss).backward()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00384}00384\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Optimize\ -\/\ https://pytorch.org/docs/master/notes/amp\_examples.html}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ni\ -\/\ last\_opt\_step\ >=\ accumulate:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scaler.unscale\_(optimizer)\ \ \textcolor{comment}{\#\ unscale\ gradients}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ torch.nn.utils.clip\_grad\_norm\_(model.parameters(),\ max\_norm=10.0)\ \ \textcolor{comment}{\#\ clip\ gradients}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scaler.step(optimizer)\ \ \textcolor{comment}{\#\ optimizer.step}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scaler.update()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ optimizer.zero\_grad()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ema:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ema.update(model)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_opt\_step\ =\ ni}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mloss\ =\ (mloss\ *\ i\ +\ loss\_items)\ /\ (i\ +\ 1)\ \ \textcolor{comment}{\#\ update\ mean\ losses}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mem\ =\ f\textcolor{stringliteral}{"{}\{torch.cuda.memory\_reserved()\ /\ 1E9\ if\ torch.cuda.is\_available()\ else\ 0:.3g\}G"{}}\ \ \textcolor{comment}{\#\ (GB)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pbar.set\_description(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}\%11s"{}}\ *\ 2\ +\ \textcolor{stringliteral}{"{}\%11.4g"{}}\ *\ 6)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \%\ (f\textcolor{stringliteral}{"{}\{epoch\}/\{epochs\ -\/\ 1\}"{}},\ mem,\ *mloss,\ targets.shape[0],\ imgs.shape[-\/1])}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_train\_batch\_end',\ model,\ ni,\ imgs,\ targets,\ paths)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ callbacks.stop\_training:}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ return}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00407}00407\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Mosaic\ plots}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ni\ <\ 3:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plot\_images\_and\_masks(imgs,\ targets,\ masks,\ paths,\ save\_dir\ /\ f\textcolor{stringliteral}{"{}train\_batch\{ni\}.jpg"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ni\ ==\ 10:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ files\ =\ sorted(save\_dir.glob(\textcolor{stringliteral}{"{}train*.jpg"{}}))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_images(files,\ \textcolor{stringliteral}{"{}Mosaics"{}},\ epoch)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ end\ batch\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Scheduler}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ lr\ =\ [x[\textcolor{stringliteral}{"{}lr"{}}]\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ optimizer.param\_groups]\ \ \textcolor{comment}{\#\ for\ loggers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ scheduler.step()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ mAP}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_train\_epoch\_end',\ epoch=epoch)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ ema.update\_attr(model,\ include=[\textcolor{stringliteral}{"{}yaml"{}},\ \textcolor{stringliteral}{"{}nc"{}},\ \textcolor{stringliteral}{"{}hyp"{}},\ \textcolor{stringliteral}{"{}names"{}},\ \textcolor{stringliteral}{"{}stride"{}},\ \textcolor{stringliteral}{"{}class\_weights"{}}])}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ final\_epoch\ =\ (epoch\ +\ 1\ ==\ epochs)\ \textcolor{keywordflow}{or}\ stopper.possible\_stop}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ noval\ \textcolor{keywordflow}{or}\ final\_epoch:\ \ \textcolor{comment}{\#\ Calculate\ mAP}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ results,\ maps,\ \_\ =\ validate.run(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data\_dict,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size=batch\_size\ //\ WORLD\_SIZE\ *\ 2,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ imgsz=imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ half=amp,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model=ema.ema,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ single\_cls=single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataloader=val\_loader,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ save\_dir=save\_dir,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plots=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ callbacks=callbacks,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ compute\_loss=compute\_loss,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\_downsample\_ratio=mask\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ overlap=overlap,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ best\ mAP}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ fi\ =\ fitness(np.array(results).reshape(1,\ -\/1))\ \ \textcolor{comment}{\#\ weighted\ combination\ of\ [P,\ R,\ mAP@.5,\ mAP@.5-\/.95]}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ stop\ =\ stopper(epoch=epoch,\ fitness=fi)\ \ \textcolor{comment}{\#\ early\ stop\ check}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ fi\ >\ best\_fitness:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_fitness\ =\ fi}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ log\_vals\ =\ list(mloss)\ +\ list(results)\ +\ lr}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_fit\_epoch\_end',\ log\_vals,\ epoch,\ best\_fitness,\ fi)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ val\ metrics\ and\ media}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ metrics\_dict\ =\ dict(zip(KEYS,\ log\_vals))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_metrics(metrics\_dict,\ epoch)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ model}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordflow}{not}\ nosave)\ \textcolor{keywordflow}{or}\ (final\_epoch\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ evolve):\ \ \textcolor{comment}{\#\ if\ save}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ckpt\ =\ \{}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}epoch"{}}:\ epoch,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}best\_fitness"{}}:\ best\_fitness,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model"{}}:\ deepcopy(de\_parallel(model)).half(),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ema"{}}:\ deepcopy(ema.ema).half(),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}updates"{}}:\ ema.updates,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}optimizer"{}}:\ optimizer.state\_dict(),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}opt"{}}:\ vars(opt),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}git"{}}:\ GIT\_INFO,\ \ \textcolor{comment}{\#\ \{remote,\ branch,\ commit\}\ if\ a\ git\ repo}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}date"{}}:\ datetime.now().isoformat(),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00467}00467\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ last,\ best\ and\ delete}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ torch.save(ckpt,\ last)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best\_fitness\ ==\ fi:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ torch.save(ckpt,\ best)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.save\_period\ >\ 0\ \textcolor{keywordflow}{and}\ epoch\ \%\ opt.save\_period\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ torch.save(ckpt,\ w\ /\ f\textcolor{stringliteral}{"{}epoch\{epoch\}.pt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_model(w\ /\ f\textcolor{stringliteral}{"{}epoch\{epoch\}.pt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ del\ ckpt}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_model\_save',\ last,\ epoch,\ final\_epoch,\ best\_fitness,\ fi)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00477}00477\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ EarlyStopping}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ !=\ -\/1:\ \ \textcolor{comment}{\#\ if\ DDP\ training}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ broadcast\_list\ =\ [stop\ \textcolor{keywordflow}{if}\ RANK\ ==\ 0\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ dist.broadcast\_object\_list(broadcast\_list,\ 0)\ \ \textcolor{comment}{\#\ broadcast\ 'stop'\ to\ all\ ranks}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stop\ =\ broadcast\_list[0]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ stop:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}\ \ \textcolor{comment}{\#\ must\ break\ all\ DDP\ ranks}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ end\ epoch\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00488}00488\ \ \ \ \ \textcolor{comment}{\#\ end\ training\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00489}00489\ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00490}00490\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)n\{epoch\ -\/\ start\_epoch\ +\ 1\}\ epochs\ completed\ in\ \{(time.time()\ -\/\ t0)\ /\ 3600:.3f\}\ hours."{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ last,\ best:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ f.exists():}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strip\_optimizer(f)\ \ \textcolor{comment}{\#\ strip\ optimizers}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ f\ \textcolor{keywordflow}{is}\ best:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\(\backslash\)nValidating\ \{f\}..."{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ results,\ \_,\ \_\ =\ validate.run(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data\_dict,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size=batch\_size\ //\ WORLD\_SIZE\ *\ 2,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ imgsz=imgsz,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model=attempt\_load(f,\ device).half(),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iou\_thres=0.65\ \textcolor{keywordflow}{if}\ is\_coco\ \textcolor{keywordflow}{else}\ 0.60,\ \ \textcolor{comment}{\#\ best\ pycocotools\ at\ iou\ 0.65}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ single\_cls=single\_cls,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataloader=val\_loader,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ save\_dir=save\_dir,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ save\_json=is\_coco,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ verbose=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plots=plots,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ callbacks=callbacks,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ compute\_loss=compute\_loss,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mask\_downsample\_ratio=mask\_ratio,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ overlap=overlap,}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ val\ best\ model\ with\ plots}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ is\_coco:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_fit\_epoch\_end',\ list(mloss)\ +\ list(results)\ +\ lr,\ epoch,\ best\_fitness,\ fi)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics\_dict\ =\ dict(zip(KEYS,\ list(mloss)\ +\ list(results)\ +\ lr))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_metrics(metrics\_dict,\ epoch)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00517}00517\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ callbacks.run('on\_train\_end',\ last,\ best,\ epoch,\ results)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ on\ train\ end\ callback\ using\ genericLogger}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ logger.log\_metrics(dict(zip(KEYS[4:16],\ results)),\ epochs)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ opt.evolve:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_model(best,\ epoch)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plots:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ plot\_results\_with\_masks(file=save\_dir\ /\ \textcolor{stringliteral}{"{}results.csv"{}})\ \ \textcolor{comment}{\#\ save\ results.png}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ files\ =\ [\textcolor{stringliteral}{"{}results.png"{}},\ \textcolor{stringliteral}{"{}confusion\_matrix.png"{}},\ *(f\textcolor{stringliteral}{"{}\{x\}\_curve.png"{}}\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (\textcolor{stringliteral}{"{}F1"{}},\ \textcolor{stringliteral}{"{}PR"{}},\ \textcolor{stringliteral}{"{}P"{}},\ \textcolor{stringliteral}{"{}R"{}}))]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ files\ =\ [(save\_dir\ /\ f)\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ files\ \textcolor{keywordflow}{if}\ (save\_dir\ /\ f).exists()]\ \ \textcolor{comment}{\#\ filter}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}Results\ saved\ to\ \{colorstr('bold',\ save\_dir)\}"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_images(files,\ \textcolor{stringliteral}{"{}Results"{}},\ epoch\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ logger.log\_images(sorted(save\_dir.glob(\textcolor{stringliteral}{"{}val*.jpg"{}})),\ \textcolor{stringliteral}{"{}Validation"{}},\ epoch\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00530}00530\ \ \ \ \ torch.cuda.empty\_cache()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00531}00531\ \ \ \ \ \textcolor{keywordflow}{return}\ results}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00533}00533\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00534}00534\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}{parse\_opt}}(known=False):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00535}00535\ \ \ \ \ parser\ =\ argparse.ArgumentParser()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00536}00536\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/weights"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}yolov5s-\/seg.pt"{}},\ help=\textcolor{stringliteral}{"{}initial\ weights\ path"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00537}00537\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/cfg"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}model.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00538}00538\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/data"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/coco128-\/seg.yaml"{}},\ help=\textcolor{stringliteral}{"{}dataset.yaml\ path"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00539}00539\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/hyp"{}},\ type=str,\ default=ROOT\ /\ \textcolor{stringliteral}{"{}data/hyps/hyp.scratch-\/low.yaml"{}},\ help=\textcolor{stringliteral}{"{}hyperparameters\ path"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00540}00540\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/epochs"{}},\ type=int,\ default=100,\ help=\textcolor{stringliteral}{"{}total\ training\ epochs"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00541}00541\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/batch-\/size"{}},\ type=int,\ default=16,\ help=\textcolor{stringliteral}{"{}total\ batch\ size\ for\ all\ GPUs,\ -\/1\ for\ autobatch"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00542}00542\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/imgsz"{}},\ \textcolor{stringliteral}{"{}-\/-\/img"{}},\ \textcolor{stringliteral}{"{}-\/-\/img-\/size"{}},\ type=int,\ default=640,\ help=\textcolor{stringliteral}{"{}train,\ val\ image\ size\ (pixels)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00543}00543\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/rect"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}rectangular\ training"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00544}00544\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/resume"{}},\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=\textcolor{keyword}{True},\ default=\textcolor{keyword}{False},\ help=\textcolor{stringliteral}{"{}resume\ most\ recent\ training"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00545}00545\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/nosave"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}only\ save\ final\ checkpoint"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00546}00546\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/noval"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}only\ validate\ final\ epoch"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00547}00547\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/noautoanchor"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}disable\ AutoAnchor"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00548}00548\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/noplots"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}save\ no\ plot\ files"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00549}00549\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/evolve"{}},\ type=int,\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=300,\ help=\textcolor{stringliteral}{"{}evolve\ hyperparameters\ for\ x\ generations"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00550}00550\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/bucket"{}},\ type=str,\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}gsutil\ bucket"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00551}00551\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/cache"{}},\ type=str,\ nargs=\textcolor{stringliteral}{"{}?"{}},\ const=\textcolor{stringliteral}{"{}ram"{}},\ help=\textcolor{stringliteral}{"{}image\ -\/-\/cache\ ram/disk"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00552}00552\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/image-\/weights"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ weighted\ image\ selection\ for\ training"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00553}00553\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/device"{}},\ default=\textcolor{stringliteral}{"{}"{}},\ help=\textcolor{stringliteral}{"{}cuda\ device,\ i.e.\ 0\ or\ 0,1,2,3\ or\ cpu"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00554}00554\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/multi-\/scale"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}vary\ img-\/size\ +/-\/\ 50\%\%"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00555}00555\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/single-\/cls"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}train\ multi-\/class\ data\ as\ single-\/class"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00556}00556\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/optimizer"{}},\ type=str,\ choices=[\textcolor{stringliteral}{"{}SGD"{}},\ \textcolor{stringliteral}{"{}Adam"{}},\ \textcolor{stringliteral}{"{}AdamW"{}}],\ default=\textcolor{stringliteral}{"{}SGD"{}},\ help=\textcolor{stringliteral}{"{}optimizer"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00557}00557\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/sync-\/bn"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}use\ SyncBatchNorm,\ only\ available\ in\ DDP\ mode"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00558}00558\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/workers"{}},\ type=int,\ default=8,\ help=\textcolor{stringliteral}{"{}max\ dataloader\ workers\ (per\ RANK\ in\ DDP\ mode)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00559}00559\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/project"{}},\ default=ROOT\ /\ \textcolor{stringliteral}{"{}runs/train-\/seg"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00560}00560\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/name"{}},\ default=\textcolor{stringliteral}{"{}exp"{}},\ help=\textcolor{stringliteral}{"{}save\ to\ project/name"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00561}00561\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/exist-\/ok"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}existing\ project/name\ ok,\ do\ not\ increment"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00562}00562\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/quad"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}quad\ dataloader"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00563}00563\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/cos-\/lr"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}cosine\ LR\ scheduler"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00564}00564\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/label-\/smoothing"{}},\ type=float,\ default=0.0,\ help=\textcolor{stringliteral}{"{}Label\ smoothing\ epsilon"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00565}00565\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/patience"{}},\ type=int,\ default=100,\ help=\textcolor{stringliteral}{"{}EarlyStopping\ patience\ (epochs\ without\ improvement)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00566}00566\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/freeze"{}},\ nargs=\textcolor{stringliteral}{"{}+"{}},\ type=int,\ default=[0],\ help=\textcolor{stringliteral}{"{}Freeze\ layers:\ backbone=10,\ first3=0\ 1\ 2"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00567}00567\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/save-\/period"{}},\ type=int,\ default=-\/1,\ help=\textcolor{stringliteral}{"{}Save\ checkpoint\ every\ x\ epochs\ (disabled\ if\ <\ 1)"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00568}00568\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/seed"{}},\ type=int,\ default=0,\ help=\textcolor{stringliteral}{"{}Global\ training\ seed"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00569}00569\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/local\_rank"{}},\ type=int,\ default=-\/1,\ help=\textcolor{stringliteral}{"{}Automatic\ DDP\ Multi-\/GPU\ argument,\ do\ not\ modify"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00570}00570\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00571}00571\ \ \ \ \ \textcolor{comment}{\#\ Instance\ Segmentation\ Args}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00572}00572\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/mask-\/ratio"{}},\ type=int,\ default=4,\ help=\textcolor{stringliteral}{"{}Downsample\ the\ truth\ masks\ to\ saving\ memory"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00573}00573\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{"{}-\/-\/no-\/overlap"{}},\ action=\textcolor{stringliteral}{"{}store\_true"{}},\ help=\textcolor{stringliteral}{"{}Overlap\ masks\ train\ faster\ at\ slightly\ less\ mAP"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00574}00574\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00575}00575\ \ \ \ \ \textcolor{keywordflow}{return}\ parser.parse\_known\_args()[0]\ \textcolor{keywordflow}{if}\ known\ \textcolor{keywordflow}{else}\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00576}00576\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00577}00577\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00578}\mbox{\hyperlink{namespacetrain_acd078656d0187c4782aa687a0c407edd}{00578}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetrain_aa55a3dab9fbcc2dcafe0fddce9cb144a}{main}}(opt,\ callbacks=Callbacks()):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00579}00579\ \ \ \ \ \textcolor{comment}{\#\ Checks}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00580}00580\ \ \ \ \ \textcolor{keywordflow}{if}\ RANK\ \textcolor{keywordflow}{in}\ \{-\/1,\ 0\}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ print\_args(vars(opt))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ check\_git\_status()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ check\_requirements(ROOT\ /\ \textcolor{stringliteral}{"{}requirements.txt"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00584}00584\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00585}00585\ \ \ \ \ \textcolor{comment}{\#\ Resume}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00586}00586\ \ \ \ \ \textcolor{keywordflow}{if}\ opt.resume\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ opt.evolve:\ \ \textcolor{comment}{\#\ resume\ from\ specified\ or\ most\ recent\ last.pt}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ last\ =\ Path(check\_file(opt.resume)\ \textcolor{keywordflow}{if}\ isinstance(opt.resume,\ str)\ \textcolor{keywordflow}{else}\ get\_latest\_run())}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ opt\_yaml\ =\ last.parent.parent\ /\ \textcolor{stringliteral}{"{}opt.yaml"{}}\ \ \textcolor{comment}{\#\ train\ options\ yaml}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ opt\_data\ =\ opt.data\ \ \textcolor{comment}{\#\ original\ dataset}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00590}00590\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt\_yaml.is\_file():}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(opt\_yaml,\ errors=\textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ d\ =\ yaml.safe\_load(f)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00593}00593\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ d\ =\ torch.load(last,\ map\_location=\textcolor{stringliteral}{"{}cpu"{}})[\textcolor{stringliteral}{"{}opt"{}}]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00595}00595\ \ \ \ \ \ \ \ \ opt\ =\ argparse.Namespace(**d)\ \ \textcolor{comment}{\#\ replace}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ opt.cfg,\ opt.weights,\ opt.resume\ =\ \textcolor{stringliteral}{"{}"{}},\ str(last),\ \textcolor{keyword}{True}\ \ \textcolor{comment}{\#\ reinstate}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ is\_url(opt\_data):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ opt.data\ =\ check\_file(opt\_data)\ \ \textcolor{comment}{\#\ avoid\ HUB\ resume\ auth\ timeout}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00599}00599\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ opt.data,\ opt.cfg,\ opt.hyp,\ opt.weights,\ opt.project\ =\ (}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ check\_file(opt.data),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ check\_yaml(opt.cfg),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ check\_yaml(opt.hyp),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ str(opt.weights),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ str(opt.project),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ checks}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00607}00607\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ len(opt.cfg)\ \textcolor{keywordflow}{or}\ len(opt.weights),\ \textcolor{stringliteral}{"{}either\ -\/-\/cfg\ or\ -\/-\/weights\ must\ be\ specified"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00608}00608\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.evolve:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.project\ ==\ str(ROOT\ /\ \textcolor{stringliteral}{"{}runs/train-\/seg"{}}):\ \ \textcolor{comment}{\#\ if\ default\ project\ name,\ rename\ to\ runs/evolve-\/seg}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opt.project\ =\ str(ROOT\ /\ \textcolor{stringliteral}{"{}runs/evolve-\/seg"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ opt.exist\_ok,\ opt.resume\ =\ opt.resume,\ \textcolor{keyword}{False}\ \ \textcolor{comment}{\#\ pass\ resume\ to\ exist\_ok\ and\ disable\ resume}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00612}00612\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.name\ ==\ \textcolor{stringliteral}{"{}cfg"{}}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ opt.name\ =\ Path(opt.cfg).stem\ \ \textcolor{comment}{\#\ use\ model.yaml\ as\ name}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00614}00614\ \ \ \ \ \ \ \ \ opt.save\_dir\ =\ str(increment\_path(Path(opt.project)\ /\ opt.name,\ exist\_ok=opt.exist\_ok))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00615}00615\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00616}00616\ \ \ \ \ \textcolor{comment}{\#\ DDP\ mode}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00617}00617\ \ \ \ \ device\ =\ select\_device(opt.device,\ batch\_size=opt.batch\_size)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00618}00618\ \ \ \ \ \textcolor{keywordflow}{if}\ LOCAL\_RANK\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ msg\ =\ \textcolor{stringliteral}{"{}is\ not\ compatible\ with\ YOLOv5\ Multi-\/GPU\ DDP\ training"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00620}00620\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ opt.image\_weights,\ f\textcolor{stringliteral}{"{}-\/-\/image-\/weights\ \{msg\}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ \textcolor{keywordflow}{not}\ opt.evolve,\ f\textcolor{stringliteral}{"{}-\/-\/evolve\ \{msg\}"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ opt.batch\_size\ !=\ -\/1,\ f\textcolor{stringliteral}{"{}AutoBatch\ with\ -\/-\/batch-\/size\ -\/1\ \{msg\},\ please\ pass\ a\ valid\ -\/-\/batch-\/size"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00623}00623\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ opt.batch\_size\ \%\ WORLD\_SIZE\ ==\ 0,\ f\textcolor{stringliteral}{"{}-\/-\/batch-\/size\ \{opt.batch\_size\}\ must\ be\ multiple\ of\ WORLD\_SIZE"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ torch.cuda.device\_count()\ >\ LOCAL\_RANK,\ \textcolor{stringliteral}{"{}insufficient\ CUDA\ devices\ for\ DDP\ command"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00625}00625\ \ \ \ \ \ \ \ \ torch.cuda.set\_device(LOCAL\_RANK)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00626}00626\ \ \ \ \ \ \ \ \ device\ =\ torch.device(\textcolor{stringliteral}{"{}cuda"{}},\ LOCAL\_RANK)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00627}00627\ \ \ \ \ \ \ \ \ dist.init\_process\_group(backend=\textcolor{stringliteral}{"{}nccl"{}}\ \textcolor{keywordflow}{if}\ dist.is\_nccl\_available()\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}gloo"{}})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00628}00628\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00629}00629\ \ \ \ \ \textcolor{comment}{\#\ Train}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00630}00630\ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ opt.evolve:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ train(opt.hyp,\ opt,\ device,\ callbacks)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00632}00632\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00633}00633\ \ \ \ \ \textcolor{comment}{\#\ Evolve\ hyperparameters\ (optional)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00634}00634\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00635}00635\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Hyperparameter\ evolution\ metadata\ (mutation\ scale\ 0-\/1,\ lower\_limit,\ upper\_limit)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00636}00636\ \ \ \ \ \ \ \ \ meta\ =\ \{}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00637}00637\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lr0"{}}:\ (1,\ 1e-\/5,\ 1e-\/1),\ \ \textcolor{comment}{\#\ initial\ learning\ rate\ (SGD=1E-\/2,\ Adam=1E-\/3)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lrf"{}}:\ (1,\ 0.01,\ 1.0),\ \ \textcolor{comment}{\#\ final\ OneCycleLR\ learning\ rate\ (lr0\ *\ lrf)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00639}00639\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}momentum"{}}:\ (0.3,\ 0.6,\ 0.98),\ \ \textcolor{comment}{\#\ SGD\ momentum/Adam\ beta1}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00640}00640\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}weight\_decay"{}}:\ (1,\ 0.0,\ 0.001),\ \ \textcolor{comment}{\#\ optimizer\ weight\ decay}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00641}00641\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}warmup\_epochs"{}}:\ (1,\ 0.0,\ 5.0),\ \ \textcolor{comment}{\#\ warmup\ epochs\ (fractions\ ok)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00642}00642\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}warmup\_momentum"{}}:\ (1,\ 0.0,\ 0.95),\ \ \textcolor{comment}{\#\ warmup\ initial\ momentum}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}warmup\_bias\_lr"{}}:\ (1,\ 0.0,\ 0.2),\ \ \textcolor{comment}{\#\ warmup\ initial\ bias\ lr}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00644}00644\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}box"{}}:\ (1,\ 0.02,\ 0.2),\ \ \textcolor{comment}{\#\ box\ loss\ gain}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00645}00645\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cls"{}}:\ (1,\ 0.2,\ 4.0),\ \ \textcolor{comment}{\#\ cls\ loss\ gain}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00646}00646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cls\_pw"{}}:\ (1,\ 0.5,\ 2.0),\ \ \textcolor{comment}{\#\ cls\ BCELoss\ positive\_weight}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00647}00647\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}obj"{}}:\ (1,\ 0.2,\ 4.0),\ \ \textcolor{comment}{\#\ obj\ loss\ gain\ (scale\ with\ pixels)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}obj\_pw"{}}:\ (1,\ 0.5,\ 2.0),\ \ \textcolor{comment}{\#\ obj\ BCELoss\ positive\_weight}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}iou\_t"{}}:\ (0,\ 0.1,\ 0.7),\ \ \textcolor{comment}{\#\ IoU\ training\ threshold}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}anchor\_t"{}}:\ (1,\ 2.0,\ 8.0),\ \ \textcolor{comment}{\#\ anchor-\/multiple\ threshold}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00651}00651\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}anchors"{}}:\ (2,\ 2.0,\ 10.0),\ \ \textcolor{comment}{\#\ anchors\ per\ output\ grid\ (0\ to\ ignore)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00652}00652\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fl\_gamma"{}}:\ (0,\ 0.0,\ 2.0),\ \ \textcolor{comment}{\#\ focal\ loss\ gamma\ (efficientDet\ default\ gamma=1.5)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00653}00653\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}hsv\_h"{}}:\ (1,\ 0.0,\ 0.1),\ \ \textcolor{comment}{\#\ image\ HSV-\/Hue\ augmentation\ (fraction)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00654}00654\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}hsv\_s"{}}:\ (1,\ 0.0,\ 0.9),\ \ \textcolor{comment}{\#\ image\ HSV-\/Saturation\ augmentation\ (fraction)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00655}00655\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}hsv\_v"{}}:\ (1,\ 0.0,\ 0.9),\ \ \textcolor{comment}{\#\ image\ HSV-\/Value\ augmentation\ (fraction)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00656}00656\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}degrees"{}}:\ (1,\ 0.0,\ 45.0),\ \ \textcolor{comment}{\#\ image\ rotation\ (+/-\/\ deg)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00657}00657\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}translate"{}}:\ (1,\ 0.0,\ 0.9),\ \ \textcolor{comment}{\#\ image\ translation\ (+/-\/\ fraction)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00658}00658\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}scale"{}}:\ (1,\ 0.0,\ 0.9),\ \ \textcolor{comment}{\#\ image\ scale\ (+/-\/\ gain)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00659}00659\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}shear"{}}:\ (1,\ 0.0,\ 10.0),\ \ \textcolor{comment}{\#\ image\ shear\ (+/-\/\ deg)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00660}00660\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}perspective"{}}:\ (0,\ 0.0,\ 0.001),\ \ \textcolor{comment}{\#\ image\ perspective\ (+/-\/\ fraction),\ range\ 0-\/0.001}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00661}00661\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}flipud"{}}:\ (1,\ 0.0,\ 1.0),\ \ \textcolor{comment}{\#\ image\ flip\ up-\/down\ (probability)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00662}00662\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fliplr"{}}:\ (0,\ 0.0,\ 1.0),\ \ \textcolor{comment}{\#\ image\ flip\ left-\/right\ (probability)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00663}00663\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mosaic"{}}:\ (1,\ 0.0,\ 1.0),\ \ \textcolor{comment}{\#\ image\ mixup\ (probability)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00664}00664\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mixup"{}}:\ (1,\ 0.0,\ 1.0),\ \ \textcolor{comment}{\#\ image\ mixup\ (probability)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}copy\_paste"{}}:\ (1,\ 0.0,\ 1.0),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00666}00666\ \ \ \ \ \ \ \ \ \}\ \ \textcolor{comment}{\#\ segment\ copy-\/paste\ (probability)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00667}00667\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00668}00668\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(opt.hyp,\ errors=\textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00669}00669\ \ \ \ \ \ \ \ \ \ \ \ \ hyp\ =\ yaml.safe\_load(f)\ \ \textcolor{comment}{\#\ load\ hyps\ dict}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00670}00670\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}anchors"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ hyp:\ \ \textcolor{comment}{\#\ anchors\ commented\ in\ hyp.yaml}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00671}00671\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hyp[\textcolor{stringliteral}{"{}anchors"{}}]\ =\ 3}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.noautoanchor:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00673}00673\ \ \ \ \ \ \ \ \ \ \ \ \ del\ hyp[\textcolor{stringliteral}{"{}anchors"{}}],\ meta[\textcolor{stringliteral}{"{}anchors"{}}]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00674}00674\ \ \ \ \ \ \ \ \ opt.noval,\ opt.nosave,\ save\_dir\ =\ \textcolor{keyword}{True},\ \textcolor{keyword}{True},\ Path(opt.save\_dir)\ \ \textcolor{comment}{\#\ only\ val/save\ final\ epoch}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00675}00675\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ei\ =\ [isinstance(x,\ (int,\ float))\ for\ x\ in\ hyp.values()]\ \ \#\ evolvable\ indices}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00676}00676\ \ \ \ \ \ \ \ \ evolve\_yaml,\ evolve\_csv\ =\ save\_dir\ /\ \textcolor{stringliteral}{"{}hyp\_evolve.yaml"{}},\ save\_dir\ /\ \textcolor{stringliteral}{"{}evolve.csv"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00677}00677\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ opt.bucket:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ download\ evolve.csv\ if\ exists}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00679}00679\ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00681}00681\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gsutil"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cp"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}gs://\{opt.bucket\}/evolve.csv"{}},}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str(evolve\_csv),}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00687}00687\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00688}00688\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(opt.evolve):\ \ \textcolor{comment}{\#\ generations\ to\ evolve}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00689}00689\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ evolve\_csv.exists():\ \ \textcolor{comment}{\#\ if\ evolve.csv\ exists:\ select\ best\ hyps\ and\ mutate}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Select\ parent(s)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parent\ =\ \textcolor{stringliteral}{"{}single"{}}\ \ \textcolor{comment}{\#\ parent\ selection\ method:\ 'single'\ or\ 'weighted'}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ np.loadtxt(evolve\_csv,\ ndmin=2,\ delimiter=\textcolor{stringliteral}{"{},"{}},\ skiprows=1)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n\ =\ min(5,\ len(x))\ \ \textcolor{comment}{\#\ number\ of\ previous\ results\ to\ consider}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00694}00694\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ x[np.argsort(-\/fitness(x))][:n]\ \ \textcolor{comment}{\#\ top\ n\ mutations}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ w\ =\ fitness(x)\ -\/\ fitness(x).min()\ +\ 1e-\/6\ \ \textcolor{comment}{\#\ weights\ (sum\ >\ 0)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ parent\ ==\ \textcolor{stringliteral}{"{}single"{}}\ \textcolor{keywordflow}{or}\ len(x)\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ x\ =\ x[random.randint(0,\ n\ -\/\ 1)]\ \ \#\ random\ selection}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00698}00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ x[random.choices(range(n),\ weights=w)[0]]\ \ \textcolor{comment}{\#\ weighted\ selection}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00699}00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ parent\ ==\ \textcolor{stringliteral}{"{}weighted"{}}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ (x\ *\ w.reshape(n,\ 1)).sum(0)\ /\ w.sum()\ \ \textcolor{comment}{\#\ weighted\ combination}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00701}00701\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00702}00702\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Mutate}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00703}00703\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mp,\ s\ =\ 0.8,\ 0.2\ \ \textcolor{comment}{\#\ mutation\ probability,\ sigma}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00704}00704\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ npr\ =\ np.random}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00705}00705\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ npr.seed(int(time.time()))}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00706}00706\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ g\ =\ np.array([meta[k][0]\ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ hyp.keys()])\ \ \textcolor{comment}{\#\ gains\ 0-\/1}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00707}00707\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ng\ =\ len(meta)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00708}00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ =\ np.ones(ng)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00709}00709\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ all(v\ ==\ 1):\ \ \textcolor{comment}{\#\ mutate\ until\ a\ change\ occurs\ (prevent\ duplicates)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00710}00710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ v\ =\ (g\ *\ (npr.random(ng)\ <\ mp)\ *\ npr.randn(ng)\ *\ npr.random()\ *\ s\ +\ 1).clip(0.3,\ 3.0)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00711}00711\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ k\ \textcolor{keywordflow}{in}\ enumerate(hyp.keys()):\ \ \textcolor{comment}{\#\ plt.hist(v.ravel(),\ 300)}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00712}00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hyp[k]\ =\ float(x[i\ +\ 12]\ *\ v[i])\ \ \textcolor{comment}{\#\ mutate}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00713}00713\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00714}00714\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Constrain\ to\ limits}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00715}00715\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ meta.items():}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00716}00716\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hyp[k]\ =\ max(hyp[k],\ v[1])\ \ \textcolor{comment}{\#\ lower\ limit}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00717}00717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hyp[k]\ =\ min(hyp[k],\ v[2])\ \ \textcolor{comment}{\#\ upper\ limit}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00718}00718\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hyp[k]\ =\ round(hyp[k],\ 5)\ \ \textcolor{comment}{\#\ significant\ digits}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00719}00719\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00720}00720\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Train\ mutation}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00721}00721\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ train(hyp.copy(),\ opt,\ device,\ callbacks)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00722}00722\ \ \ \ \ \ \ \ \ \ \ \ \ callbacks\ =\ \mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks}{Callbacks}}()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00723}00723\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Write\ mutation\ results}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00724}00724\ \ \ \ \ \ \ \ \ \ \ \ \ print\_mutation(KEYS[4:16],\ results,\ hyp.copy(),\ save\_dir,\ opt.bucket)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00725}00725\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00726}00726\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Plot\ results}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00727}00727\ \ \ \ \ \ \ \ \ plot\_evolve(evolve\_csv)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00728}00728\ \ \ \ \ \ \ \ \ LOGGER.info(}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00729}00729\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'Hyperparameter\ evolution\ finished\ \{opt.evolve\}\ generations\(\backslash\)n'}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00730}00730\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Results\ saved\ to\ \{colorstr('bold',\ save\_dir)\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00731}00731\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'Usage\ example:\ \$\ python\ train.py\ -\/-\/hyp\ \{evolve\_yaml\}'}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00732}00732\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00733}00733\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00734}00734\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00735}00735\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetrain_a27ed4e0214d7d7f01146614c1c063542}{run}}(**kwargs):}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00736}00736\ \ \ \ \ \textcolor{comment}{\#\ Usage:\ import\ train;\ train.run(data='coco128.yaml',\ imgsz=320,\ weights='yolov5m.pt')}}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00737}00737\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}{parse\_opt}}(\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00738}00738\ \ \ \ \ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ kwargs.items():}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00739}00739\ \ \ \ \ \ \ \ \ setattr(opt,\ k,\ v)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00740}00740\ \ \ \ \ \mbox{\hyperlink{namespacetrain_aa55a3dab9fbcc2dcafe0fddce9cb144a}{main}}(opt)}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00741}00741\ \ \ \ \ \textcolor{keywordflow}{return}\ opt}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00742}00742\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00743}00743\ }
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00744}00744\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00745}00745\ \ \ \ \ opt\ =\ \mbox{\hyperlink{namespacetrain_a3c7f10b4f480ab5baa3739aafc54a490}{parse\_opt}}()}
+\DoxyCodeLine{\Hypertarget{segment_2train_8py_source_l00746}00746\ \ \ \ \ \mbox{\hyperlink{namespacetrain_aa55a3dab9fbcc2dcafe0fddce9cb144a}{main}}(opt)}
+
+\end{DoxyCode}

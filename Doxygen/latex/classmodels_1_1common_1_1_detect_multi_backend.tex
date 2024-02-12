@@ -1,0 +1,136 @@
+\doxysection{models.\+common.\+Detect\+Multi\+Backend Class Reference}
+\hypertarget{classmodels_1_1common_1_1_detect_multi_backend}{}\label{classmodels_1_1common_1_1_detect_multi_backend}\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+
+
+Inheritance diagram for models.\+common.\+Detect\+Multi\+Backend\+:
+% FIG 0
+
+
+Collaboration diagram for models.\+common.\+Detect\+Multi\+Backend\+:
+% FIG 1
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a15cee4d4f9de61de68124d728d5c1446}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, weights="{}yolov5s.\+pt"{}, \mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a064f4f675f84aeda2af1e1bfff425e91}{device}}=torch.\+device("{}cpu"{}), dnn=False, data=None, fp16=False, fuse=True)
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a6dc72a2a512ee6c91c50443150da3a0c}{forward}} (self, im, augment=False, visualize=False)
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a58410ee261013bf6669a564e24ad3bdd}{from\+\_\+numpy}} (self, x)
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a7a587e5a1fcc67d08b1295d2e0b380fb}{warmup}} (self, imgsz=(1, 3, 640, 640))
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a033df5e210331fcfa64d74fc55bc2260}{model}}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a064f4f675f84aeda2af1e1bfff425e91}{device}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a44967ccbbf9583ae1d997dbbdfcf2972}{\+\_\+model\+\_\+type}} (p="{}path/to/model.\+pt"{})
+\item 
+\mbox{\hyperlink{classmodels_1_1common_1_1_detect_multi_backend_a43dd9d6acfff7d0e011dbb58750047f1}{\+\_\+load\+\_\+metadata}} (f=Path("{}path/to/meta.\+yaml"{}))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00341}{341}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a15cee4d4f9de61de68124d728d5c1446}\label{classmodels_1_1common_1_1_detect_multi_backend_a15cee4d4f9de61de68124d728d5c1446} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{weights = {\ttfamily "{}yolov5s.pt"{}},  }\item[{}]{device = {\ttfamily torch.device("{}cpu"{})},  }\item[{}]{dnn = {\ttfamily False},  }\item[{}]{data = {\ttfamily None},  }\item[{}]{fp16 = {\ttfamily False},  }\item[{}]{fuse = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00343}{343}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a43dd9d6acfff7d0e011dbb58750047f1}\label{classmodels_1_1common_1_1_detect_multi_backend_a43dd9d6acfff7d0e011dbb58750047f1} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!\_load\_metadata@{\_load\_metadata}}
+\index{\_load\_metadata@{\_load\_metadata}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{\_load\_metadata()}{\_load\_metadata()}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+\_\+load\+\_\+metadata (\begin{DoxyParamCaption}\item[{}]{f = {\ttfamily Path("{}path/to/meta.yaml"{})} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00652}{652}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a44967ccbbf9583ae1d997dbbdfcf2972}\label{classmodels_1_1common_1_1_detect_multi_backend_a44967ccbbf9583ae1d997dbbdfcf2972} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!\_model\_type@{\_model\_type}}
+\index{\_model\_type@{\_model\_type}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{\_model\_type()}{\_model\_type()}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+\_\+model\+\_\+type (\begin{DoxyParamCaption}\item[{}]{p = {\ttfamily "{}path/to/model.pt"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00636}{636}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a6dc72a2a512ee6c91c50443150da3a0c}\label{classmodels_1_1common_1_1_detect_multi_backend_a6dc72a2a512ee6c91c50443150da3a0c} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!forward@{forward}}
+\index{forward@{forward}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+forward (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{im,  }\item[{}]{augment = {\ttfamily False},  }\item[{}]{visualize = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00542}{542}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a58410ee261013bf6669a564e24ad3bdd}\label{classmodels_1_1common_1_1_detect_multi_backend_a58410ee261013bf6669a564e24ad3bdd} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!from\_numpy@{from\_numpy}}
+\index{from\_numpy@{from\_numpy}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{from\_numpy()}{from\_numpy()}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+from\+\_\+numpy (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{x }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00624}{624}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a7a587e5a1fcc67d08b1295d2e0b380fb}\label{classmodels_1_1common_1_1_detect_multi_backend_a7a587e5a1fcc67d08b1295d2e0b380fb} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!warmup@{warmup}}
+\index{warmup@{warmup}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{warmup()}{warmup()}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+warmup (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{imgsz = {\ttfamily (1,~3,~640,~640)} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00627}{627}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a064f4f675f84aeda2af1e1bfff425e91}\label{classmodels_1_1common_1_1_detect_multi_backend_a064f4f675f84aeda2af1e1bfff425e91} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!device@{device}}
+\index{device@{device}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{device}{device}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+device}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00625}{625}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+\Hypertarget{classmodels_1_1common_1_1_detect_multi_backend_a033df5e210331fcfa64d74fc55bc2260}\label{classmodels_1_1common_1_1_detect_multi_backend_a033df5e210331fcfa64d74fc55bc2260} 
+\index{models.common.DetectMultiBackend@{models.common.DetectMultiBackend}!model@{model}}
+\index{model@{model}!models.common.DetectMultiBackend@{models.common.DetectMultiBackend}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily models.\+common.\+Detect\+Multi\+Backend.\+model}
+
+
+
+Definition at line \mbox{\hyperlink{common_8py_source_l00374}{374}} of file \mbox{\hyperlink{common_8py_source}{common.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/models/\mbox{\hyperlink{common_8py}{common.\+py}}\end{DoxyCompactItemize}

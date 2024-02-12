@@ -1,0 +1,116 @@
+\doxysection{models.\+tf.\+TFModel Class Reference}
+\hypertarget{classmodels_1_1tf_1_1_t_f_model}{}\label{classmodels_1_1tf_1_1_t_f_model}\index{models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9258f894708897bee8e00dce24212360}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, cfg="{}yolov5s.\+yaml"{}, ch=3, nc=None, \mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1}{model}}=None, imgsz=(640, 640))
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aa742095b798f22b0b00065a060241ef4}{predict}} (self, inputs, tf\+\_\+nms=False, agnostic\+\_\+nms=False, topk\+\_\+per\+\_\+class=100, topk\+\_\+all=100, iou\+\_\+thres=0.\+45, conf\+\_\+thres=0.\+25)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}{yaml}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_af84f3aff8815e1b87189496e583ba839}{yaml\+\_\+file}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1}{model}}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aabdf191b205917bb9e08347c17ff195d}{savelist}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodels_1_1tf_1_1_t_f_model_aad1d0fe40bea4f8936018eff57ded2c5}{\+\_\+xywh2xyxy}} (xywh)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00481}{481}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_a9258f894708897bee8e00dce24212360}\label{classmodels_1_1tf_1_1_t_f_model_a9258f894708897bee8e00dce24212360} 
+\index{models.tf.TFModel@{models.tf.TFModel}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{cfg = {\ttfamily "{}yolov5s.yaml"{}},  }\item[{}]{ch = {\ttfamily 3},  }\item[{}]{nc = {\ttfamily None},  }\item[{}]{model = {\ttfamily None},  }\item[{}]{imgsz = {\ttfamily (640,~640)} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00483}{483}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_aad1d0fe40bea4f8936018eff57ded2c5}\label{classmodels_1_1tf_1_1_t_f_model_aad1d0fe40bea4f8936018eff57ded2c5} 
+\index{models.tf.TFModel@{models.tf.TFModel}!\_xywh2xyxy@{\_xywh2xyxy}}
+\index{\_xywh2xyxy@{\_xywh2xyxy}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{\_xywh2xyxy()}{\_xywh2xyxy()}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+\_\+xywh2xyxy (\begin{DoxyParamCaption}\item[{}]{xywh }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00541}{541}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_aa742095b798f22b0b00065a060241ef4}\label{classmodels_1_1tf_1_1_t_f_model_aa742095b798f22b0b00065a060241ef4} 
+\index{models.tf.TFModel@{models.tf.TFModel}!predict@{predict}}
+\index{predict@{predict}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{predict()}{predict()}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+predict (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{inputs,  }\item[{}]{tf\+\_\+nms = {\ttfamily False},  }\item[{}]{agnostic\+\_\+nms = {\ttfamily False},  }\item[{}]{topk\+\_\+per\+\_\+class = {\ttfamily 100},  }\item[{}]{topk\+\_\+all = {\ttfamily 100},  }\item[{}]{iou\+\_\+thres = {\ttfamily 0.45},  }\item[{}]{conf\+\_\+thres = {\ttfamily 0.25} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00500}{500}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1}\label{classmodels_1_1tf_1_1_t_f_model_a7ab5a99d75b6be99fee81459b18b3cd1} 
+\index{models.tf.TFModel@{models.tf.TFModel}!model@{model}}
+\index{model@{model}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{model}{model}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+model}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00498}{498}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_aabdf191b205917bb9e08347c17ff195d}\label{classmodels_1_1tf_1_1_t_f_model_aabdf191b205917bb9e08347c17ff195d} 
+\index{models.tf.TFModel@{models.tf.TFModel}!savelist@{savelist}}
+\index{savelist@{savelist}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{savelist}{savelist}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+savelist}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00498}{498}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b}\label{classmodels_1_1tf_1_1_t_f_model_a9ea39db5e189968817332078e6657d7b} 
+\index{models.tf.TFModel@{models.tf.TFModel}!yaml@{yaml}}
+\index{yaml@{yaml}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{yaml}{yaml}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+yaml}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00486}{486}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+\Hypertarget{classmodels_1_1tf_1_1_t_f_model_af84f3aff8815e1b87189496e583ba839}\label{classmodels_1_1tf_1_1_t_f_model_af84f3aff8815e1b87189496e583ba839} 
+\index{models.tf.TFModel@{models.tf.TFModel}!yaml\_file@{yaml\_file}}
+\index{yaml\_file@{yaml\_file}!models.tf.TFModel@{models.tf.TFModel}}
+\doxysubsubsection{\texorpdfstring{yaml\_file}{yaml\_file}}
+{\footnotesize\ttfamily models.\+tf.\+TFModel.\+yaml\+\_\+file}
+
+
+
+Definition at line \mbox{\hyperlink{tf_8py_source_l00490}{490}} of file \mbox{\hyperlink{tf_8py_source}{tf.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/models/\mbox{\hyperlink{tf_8py}{tf.\+py}}\end{DoxyCompactItemize}

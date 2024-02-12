@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ur5: src/ur5_task_library.cpp File Reference</title>
+<title>ur5: C:/Users/dorij/OneDrive/Desktop/ur5/src/ur5_task_library.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -81,25 +81,71 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="ur5__task__library_8h_source.html">ur5/ur5_task_library.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for ur5_task_library.cpp:</div>
+<div class="dyncontent">
+<div class="center"><img src="ur5__task__library_8cpp__incl.png" border="0" usemap="#a_c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2src_2ur5__task__library_8cpp" alt=""/></div>
+</div>
 </div>
 <p><a href="ur5__task__library_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a27322d3e02e036a55a58ff0a38785621" id="r_a27322d3e02e036a55a58ff0a38785621"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27322d3e02e036a55a58ff0a38785621">gestisciStato</a> (<a class="el" href="ur5__task__library_8h.html#adf0495c10459753cfa2d2238827ecb2f">stato</a> &amp;<a class="el" href="ur5__task__library_8h.html#aa82f6310c6e199f26af6e40639da040a">state</a>, ros::NodeHandle n)</td></tr>
-<tr class="separator:a27322d3e02e036a55a58ff0a38785621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a314d65e5c6b186779332124fa865880a" id="r_a314d65e5c6b186779332124fa865880a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a314d65e5c6b186779332124fa865880a">stateHandler</a> (<a class="el" href="ur5__task__library_8h.html#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> &amp;<a class="el" href="ur5__task__library_8h.html#a876b486d3a5241a126bd5751c5f70f79">state</a>, ros::NodeHandle n)</td></tr>
+<tr class="separator:a314d65e5c6b186779332124fa865880a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adacc08781a15907bbb0ecdac388a91bc" id="r_adacc08781a15907bbb0ecdac388a91bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adacc08781a15907bbb0ecdac388a91bc">worldToRobotFrame</a> (Vector3d &amp;coords, Vector3d &amp;euler)</td></tr>
+<tr class="separator:adacc08781a15907bbb0ecdac388a91bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce87af21aae2b76f8cab5b9a81f8e8e" id="r_a7ce87af21aae2b76f8cab5b9a81f8e8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ce87af21aae2b76f8cab5b9a81f8e8e">blockSet</a> (double x, double y, double z)</td></tr>
+<tr class="separator:a7ce87af21aae2b76f8cab5b9a81f8e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a27322d3e02e036a55a58ff0a38785621" name="a27322d3e02e036a55a58ff0a38785621"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27322d3e02e036a55a58ff0a38785621">&#9670;&#160;</a></span>gestisciStato()</h2>
+<a id="a7ce87af21aae2b76f8cab5b9a81f8e8e" name="a7ce87af21aae2b76f8cab5b9a81f8e8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce87af21aae2b76f8cab5b9a81f8e8e">&#9670;&#160;</a></span>blockSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void gestisciStato </td>
+          <td class="memname">void blockSet </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="ur5__task__library_8h.html#adf0495c10459753cfa2d2238827ecb2f">stato</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>state</em>, </span></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>x</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>y</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>z</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>the function implements a calibration of the values received by the vision node. We need this function for the precision required by the motion planner</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>x position received by the vision node </td></tr>
+    <tr><td class="paramname">y</td><td>y position received by the vision node </td></tr>
+    <tr><td class="paramname">z</td><td>z position received by the vision node </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8cpp_source.html#l00528">528</a> of file <a class="el" href="ur5__task__library_8cpp_source.html">ur5_task_library.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a314d65e5c6b186779332124fa865880a" name="a314d65e5c6b186779332124fa865880a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a314d65e5c6b186779332124fa865880a">&#9670;&#160;</a></span>stateHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stateHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="ur5__task__library_8h.html#a5d74787dedbc4e11c1ab15bf487e61f8">State</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>state</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -111,6 +157,29 @@ Functions</h2></td></tr>
 <p>the file contains the implementation of all functions defined in the ur5_task_planner_library.h file </p>
 
 <p class="definition">Definition at line <a class="el" href="ur5__task__library_8cpp_source.html#l00007">7</a> of file <a class="el" href="ur5__task__library_8cpp_source.html">ur5_task_library.cpp</a>.</p>
+
+</div>
+</div>
+<a id="adacc08781a15907bbb0ecdac388a91bc" name="adacc08781a15907bbb0ecdac388a91bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adacc08781a15907bbb0ecdac388a91bc">&#9670;&#160;</a></span>worldToRobotFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void worldToRobotFrame </td>
+          <td>(</td>
+          <td class="paramtype">Vector3d &amp;</td>          <td class="paramname"><span class="paramname"><em>coords</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vector3d &amp;</td>          <td class="paramname"><span class="paramname"><em>euler</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="ur5__task__library_8cpp_source.html#l00517">517</a> of file <a class="el" href="ur5__task__library_8cpp_source.html">ur5_task_library.cpp</a>.</p>
 
 </div>
 </div>

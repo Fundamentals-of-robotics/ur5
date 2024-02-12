@@ -1,0 +1,242 @@
+\chapter{README}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e}{}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e}\index{README@{README}}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md77}{}\doxysection{\texorpdfstring{YOLOv5 with Comet}{YOLOv5 with Comet}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md77}
+This guide will cover how to use YOLOv5 with \href{https://bit.ly/yolov5-readme-comet2}{\texttt{ Comet}}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md78}{}\doxysection{\texorpdfstring{About Comet}{About Comet}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md78}
+Comet builds tools that help data scientists, engineers, and team leaders accelerate and optimize machine learning and deep learning models.
+
+Track and visualize model metrics in real time, save your hyperparameters, datasets, and model checkpoints, and visualize your model predictions with \href{https://www.comet.com/docs/v2/guides/comet-dashboard/code-panels/about-panels/?utm_source=yolov5&utm_medium=partner&utm_campaign=partner_yolov5_2022&utm_content=github}{\texttt{ Comet Custom Panels}}! Comet makes sure you never lose track of your work and makes it easy to share results and collaborate across teams of all sizes!\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md79}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md79}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md80}{}\doxysubsection{\texorpdfstring{Install Comet}{Install Comet}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md80}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pip\ install\ comet\_ml}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md81}{}\doxysubsection{\texorpdfstring{Configure Comet Credentials}{Configure Comet Credentials}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md81}
+There are two ways to configure Comet with YOLOv5.
+
+You can either set your credentials through environment variables
+
+{\bfseries{Environment Variables}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ COMET\_API\_KEY=<Your\ Comet\ API\ Key>}
+\DoxyCodeLine{export\ COMET\_PROJECT\_NAME=<Your\ Comet\ Project\ Name>\ \#\ This\ will\ default\ to\ 'yolov5'}
+
+\end{DoxyCode}
+
+
+Or create a {\ttfamily .comet.\+config} file in your working directory and set your credentials there.
+
+{\bfseries{Comet Configuration File}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{[comet]}
+\DoxyCodeLine{api\_key=<Your\ Comet\ API\ Key>}
+\DoxyCodeLine{project\_name=<Your\ Comet\ Project\ Name>\ \#\ This\ will\ default\ to\ 'yolov5'}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md82}{}\doxysubsection{\texorpdfstring{Run the Training Script}{Run the Training Script}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md82}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Train\ YOLOv5s\ on\ COCO128\ for\ 5\ epochs}
+\DoxyCodeLine{python\ train.py\ -\/-\/img\ 640\ -\/-\/batch\ 16\ -\/-\/epochs\ 5\ -\/-\/data\ coco128.yaml\ -\/-\/weights\ yolov5s.pt}
+
+\end{DoxyCode}
+
+
+That\textquotesingle{}s it! Comet will automatically log your hyperparameters, command line arguments, training and validation metrics. You can visualize and analyze your runs in the Comet UI
+
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md83}{}\doxysection{\texorpdfstring{Try out an Example!}{Try out an Example!}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md83}
+Check out an example of a \href{https://www.comet.com/examples/comet-example-yolov5/a0e29e0e9b984e4a822db2a62d0cb357?experiment-tab=chart&showOutliers=true&smoothing=0&transformY=smoothing&xAxis=step&utm_source=yolov5&utm_medium=partner&utm_campaign=partner_yolov5_2022&utm_content=github}{\texttt{ completed run here}}
+
+Or better yet, try it out yourself in this Colab Notebook
+
+\href{https://colab.research.google.com/github/comet-ml/comet-examples/blob/master/integrations/model-training/yolov5/notebooks/Comet_and_YOLOv5.ipynb}{\texttt{ }}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md84}{}\doxysection{\texorpdfstring{Log automatically}{Log automatically}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md84}
+By default, Comet will log the following items\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md85}{}\doxysubsection{\texorpdfstring{Metrics}{Metrics}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md85}
+
+\begin{DoxyItemize}
+\item Box Loss, Object Loss, Classification Loss for the training and validation data
+\item m\+AP\+\_\+0.\+5, m\+AP\+\_\+0.\+5\+:0.\+95 metrics for the validation data.
+\item Precision and Recall for the validation data
+\end{DoxyItemize}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md86}{}\doxysubsection{\texorpdfstring{Parameters}{Parameters}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md86}
+
+\begin{DoxyItemize}
+\item Model Hyperparameters
+\item All parameters passed through the command line options
+\end{DoxyItemize}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md87}{}\doxysubsection{\texorpdfstring{Visualizations}{Visualizations}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md87}
+
+\begin{DoxyItemize}
+\item Confusion Matrix of the model predictions on the validation data
+\item Plots for the PR and F1 curves across all classes
+\item Correlogram of the Class Labels
+\end{DoxyItemize}\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md88}{}\doxysection{\texorpdfstring{Configure Comet Logging}{Configure Comet Logging}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md88}
+Comet can be configured to log additional data either through command line flags passed to the training script or through environment variables.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{export\ COMET\_MODE=online\ \#\ Set\ whether\ to\ run\ Comet\ in\ 'online'\ or\ 'offline'\ mode.\ Defaults\ to\ online}
+\DoxyCodeLine{export\ COMET\_MODEL\_NAME=<your\ model\ name>\ \#Set\ the\ name\ for\ the\ saved\ model.\ Defaults\ to\ yolov5}
+\DoxyCodeLine{export\ COMET\_LOG\_CONFUSION\_MATRIX=false\ \#\ Set\ to\ disable\ logging\ a\ Comet\ Confusion\ Matrix.\ Defaults\ to\ true}
+\DoxyCodeLine{export\ COMET\_MAX\_IMAGE\_UPLOADS=<number\ of\ allowed\ images\ to\ upload\ to\ Comet>\ \#\ Controls\ how\ many\ total\ image\ predictions\ to\ log\ to\ Comet.\ Defaults\ to\ 100.}
+\DoxyCodeLine{export\ COMET\_LOG\_PER\_CLASS\_METRICS=true\ \#\ Set\ to\ log\ evaluation\ metrics\ for\ each\ detected\ class\ at\ the\ end\ of\ training.\ Defaults\ to\ false}
+\DoxyCodeLine{export\ COMET\_DEFAULT\_CHECKPOINT\_FILENAME=<your\ checkpoint\ filename>\ \#\ Set\ this\ if\ you\ would\ like\ to\ resume\ training\ from\ a\ different\ checkpoint.\ Defaults\ to\ 'last.pt'}
+\DoxyCodeLine{export\ COMET\_LOG\_BATCH\_LEVEL\_METRICS=true\ \#\ Set\ this\ if\ you\ would\ like\ to\ log\ training\ metrics\ at\ the\ batch\ level.\ Defaults\ to\ false.}
+\DoxyCodeLine{export\ COMET\_LOG\_PREDICTIONS=true\ \#\ Set\ this\ to\ false\ to\ disable\ logging\ model\ predictions}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md89}{}\doxysubsection{\texorpdfstring{Logging Checkpoints with Comet}{Logging Checkpoints with Comet}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md89}
+Logging Models to Comet is disabled by default. To enable it, pass the {\ttfamily save-\/period} argument to the training script. This will save the logged checkpoints to Comet based on the interval value provided by {\ttfamily save-\/period}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/img\ 640\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/batch\ 16\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/epochs\ 5\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/data\ coco128.yaml\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/weights\ yolov5s.pt\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/save-\/period\ 1}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md90}{}\doxysubsection{\texorpdfstring{Logging Model Predictions}{Logging Model Predictions}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md90}
+By default, model predictions (images, ground truth labels and bounding boxes) will be logged to Comet.
+
+You can control the frequency of logged predictions and the associated images by passing the {\ttfamily bbox\+\_\+interval} command line argument. Predictions can be visualized using Comet\textquotesingle{}s Object Detection Custom Panel. This frequency corresponds to every Nth batch of data per epoch. In the example below, we are logging every 2nd batch of data for each epoch.
+
+{\bfseries{Note\+:}} The YOLOv5 validation dataloader will default to a batch size of 32, so you will have to set the logging frequency accordingly.
+
+Here is an \href{https://www.comet.com/examples/comet-example-yolov5?shareable=YcwMiJaZSXfcEXpGOHDD12vA1&utm_source=yolov5&utm_medium=partner&utm_campaign=partner_yolov5_2022&utm_content=github}{\texttt{ example project using the Panel}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/img\ 640\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/batch\ 16\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/epochs\ 5\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/data\ coco128.yaml\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/weights\ yolov5s.pt\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/bbox\_interval\ 2}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md91}{}\doxysubsubsection{\texorpdfstring{Controlling the number of Prediction Images logged to Comet}{Controlling the number of Prediction Images logged to Comet}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md91}
+When logging predictions from YOLOv5, Comet will log the images associated with each set of predictions. By default a maximum of 100 validation images are logged. You can increase or decrease this number using the {\ttfamily COMET\+\_\+\+MAX\+\_\+\+IMAGE\+\_\+\+UPLOADS} environment variable.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{env\ COMET\_MAX\_IMAGE\_UPLOADS=200\ python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/img\ 640\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/batch\ 16\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/epochs\ 5\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/data\ coco128.yaml\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/weights\ yolov5s.pt\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/bbox\_interval\ 1}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md92}{}\doxysubsubsection{\texorpdfstring{Logging Class Level Metrics}{Logging Class Level Metrics}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md92}
+Use the {\ttfamily COMET\+\_\+\+LOG\+\_\+\+PER\+\_\+\+CLASS\+\_\+\+METRICS} environment variable to log m\+AP, precision, recall, f1 for each class.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{env\ COMET\_LOG\_PER\_CLASS\_METRICS=true\ python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/img\ 640\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/batch\ 16\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/epochs\ 5\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/data\ coco128.yaml\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/weights\ yolov5s.pt}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md93}{}\doxysubsection{\texorpdfstring{Uploading a Dataset to Comet Artifacts}{Uploading a Dataset to Comet Artifacts}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md93}
+If you would like to store your data using \href{https://www.comet.com/docs/v2/guides/data-management/using-artifacts/\#learn-more?utm_source=yolov5&utm_medium=partner&utm_campaign=partner_yolov5_2022&utm_content=github}{\texttt{ Comet Artifacts}}, you can do so using the {\ttfamily upload\+\_\+dataset} flag.
+
+The dataset be organized in the way described in the \href{https://docs.ultralytics.com/yolov5/tutorials/train_custom_data/}{\texttt{ YOLOv5 documentation}}. The dataset config {\ttfamily yaml} file must follow the same format as that of the {\ttfamily coco128.\+yaml} file.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/img\ 640\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/batch\ 16\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/epochs\ 5\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/data\ coco128.yaml\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/weights\ yolov5s.pt\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/upload\_dataset}
+
+\end{DoxyCode}
+
+
+You can find the uploaded dataset in the Artifacts tab in your Comet Workspace 
+
+You can preview the data directly in the Comet UI. 
+
+Artifacts are versioned and also support adding metadata about the dataset. Comet will automatically log the metadata from your dataset {\ttfamily yaml} file \hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md94}{}\doxysubsubsection{\texorpdfstring{Using a saved Artifact}{Using a saved Artifact}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md94}
+If you would like to use a dataset from Comet Artifacts, set the {\ttfamily path} variable in your dataset {\ttfamily yaml} file to point to the following Artifact resource URL.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ contents\ of\ artifact.yaml\ file}
+\DoxyCodeLine{path:\ "{}comet://<workspace\ name>/<artifact\ name>:<artifact\ version\ or\ alias>"{}}
+
+\end{DoxyCode}
+
+
+Then pass this file to your training script in the following way
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/img\ 640\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/batch\ 16\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/epochs\ 5\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/data\ artifact.yaml\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/weights\ yolov5s.pt}
+
+\end{DoxyCode}
+
+
+Artifacts also allow you to track the lineage of data as it flows through your Experimentation workflow. Here you can see a graph that shows you all the experiments that have used your uploaded dataset. \hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md95}{}\doxysubsection{\texorpdfstring{Resuming a Training Run}{Resuming a Training Run}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md95}
+If your training run is interrupted for any reason, e.\+g. disrupted internet connection, you can resume the run using the {\ttfamily resume} flag and the Comet Run Path.
+
+The Run Path has the following format {\ttfamily comet\+://\texorpdfstring{$<$}{<}your workspace name\texorpdfstring{$>$}{>}/\texorpdfstring{$<$}{<}your project name\texorpdfstring{$>$}{>}/\texorpdfstring{$<$}{<}experiment id\texorpdfstring{$>$}{>}}.
+
+This will restore the run to its state before the interruption, which includes restoring the model from a checkpoint, restoring all hyperparameters and training arguments and downloading Comet dataset Artifacts if they were used in the original run. The resumed run will continue logging to the existing Experiment in the Comet UI
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ train.py\ \(\backslash\)}
+\DoxyCodeLine{-\/-\/resume\ "{}comet://<your\ run\ path>"{}}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md96}{}\doxysubsection{\texorpdfstring{Hyperparameter Search with the Comet Optimizer}{Hyperparameter Search with the Comet Optimizer}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md96}
+YOLOv5 is also integrated with Comet\textquotesingle{}s Optimizer, making is simple to visualize hyperparameter sweeps in the Comet UI.\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md97}{}\doxysubsubsection{\texorpdfstring{Configuring an Optimizer Sweep}{Configuring an Optimizer Sweep}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md97}
+To configure the Comet Optimizer, you will have to create a JSON file with the information about the sweep. An example file has been provided in {\ttfamily utils/loggers/comet/optimizer\+\_\+config.\+json}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ utils/loggers/comet/hpo.py\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/comet\_optimizer\_config\ "{}utils/loggers/comet/optimizer\_config.json"{}}
+
+\end{DoxyCode}
+
+
+The {\ttfamily hpo.\+py} script accepts the same arguments as {\ttfamily train.\+py}. If you wish to pass additional arguments to your sweep simply add them after the script.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ utils/loggers/comet/hpo.py\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/comet\_optimizer\_config\ "{}utils/loggers/comet/optimizer\_config.json"{}\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/save-\/period\ 1\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/bbox\_interval\ 1}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md98}{}\doxysubsubsection{\texorpdfstring{Running a Sweep in Parallel}{Running a Sweep in Parallel}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md98}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{comet\ optimizer\ -\/j\ <set\ number\ of\ workers>\ utils/loggers/comet/hpo.py\ \(\backslash\)}
+\DoxyCodeLine{\ \ utils/loggers/comet/optimizer\_config.json"{}}
+
+\end{DoxyCode}
+\hypertarget{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md99}{}\doxysubsubsection{\texorpdfstring{Visualizing Results}{Visualizing Results}}\label{md__c_1_2_users_2dorij_2_one_drive_2_desktop_2ur5_2vision_2yolo_2utils_2loggers_2comet_2_r_e_a_d_m_e_autotoc_md99}
+Comet provides a number of ways to visualize the results of your sweep. Take a look at a \href{https://www.comet.com/examples/comet-example-yolov5/view/PrlArHGuuhDTKC1UuBmTtOSXD/panels?utm_source=yolov5&utm_medium=partner&utm_campaign=partner_yolov5_2022&utm_content=github}{\texttt{ project with a completed sweep here}}
+
+ 

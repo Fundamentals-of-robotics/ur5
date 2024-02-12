@@ -1,5 +1,5 @@
 \doxysection{ur5\+\_\+motion\+\_\+library.\+h}
-\hypertarget{ur5__motion__library_8h_source}{}\label{ur5__motion__library_8h_source}\index{include/ur5/ur5\_motion\_library.h@{include/ur5/ur5\_motion\_library.h}}
+\hypertarget{ur5__motion__library_8h_source}{}\label{ur5__motion__library_8h_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5\_motion\_library.h@{C:/Users/dorij/OneDrive/Desktop/ur5/include/ur5/ur5\_motion\_library.h}}
 \mbox{\hyperlink{ur5__motion__library_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00001}00001\ }
@@ -20,128 +20,118 @@
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <math.h>}}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <list>}}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00025}00025\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00026}00026\ \textcolor{keyword}{using\ namespace\ }std;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00027}00027\ \textcolor{keyword}{using\ namespace\ }Eigen;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00028}00028\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00029}\mbox{\hyperlink{class_inverse_differential}{00029}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_inverse_differential}{InverseDifferential}}\ \ \ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00030}00030\ \{}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ Tf=10.0;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ Tb=0;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ deltaT=0.1;\textcolor{comment}{//the\ smaller,\ the\ more\ precise\ but\ more\ computation}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00034}00034\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ TOPIC\ =\ std::string(\textcolor{stringliteral}{"{}/ur5/joint\_group\_pos\_controller/command"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ TOPIC\_SUB\ =\ std::string(\textcolor{stringliteral}{"{}/ur5/joint\_states"{}});}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00037}00037\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00038}00038\ \ \ \ \ \textcolor{keywordtype}{int}\ iteration=0;\textcolor{comment}{//number\ of\ iteration}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00039}00039\ \ \ \ \ \textcolor{keywordtype}{int}\ intermediate\_point\_trajectory=0;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00040}00040\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ JOINT\_NAMES\ =\ 6;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00042}00042\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ SCALAR\_FACTOR\ =\ 1.0;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//used\ in\ the\ damped\ pseudoinverse\ matrix}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//const\ double\ DAMPING\_FACTOR\ =\ pow(10,\ -\/1.15);//determinant\ method}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//TODO:\ diminuire\ valore\ [-\/1.001;\ -\/1]}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ DAMPING\_FACTOR\ =\ pow(10,\ -\/1.001);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ ALMOST\_ZERO\ =\ 1e-\/7;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00048}00048\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ RATE\ =\ 1000;\textcolor{comment}{//set\ to\ 100\ to\ slow\ down}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00049}00049\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00054}00054\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MAX\_X\ =\ 0.5;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MIN\_X\ =\ -\/0.5;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00056}00056\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MAX\_Y\ =\ 0.12;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MIN\_Y\ =\ -\/0.45;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MAX\_Z\ =\ 0.733;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00059}00059\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MIN\_Z\ =\ 0.15;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00060}00060\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ WORLD\_TO\_ROBOT\_X\ =\ -\/0.5;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00065}00065\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ WORLD\_TO\_ROBOT\_Y\ =\ 0.35;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00066}00066\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ WORLD\_TO\_ROBOT\_Z\ =\ 1.75;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00067}00067\ \ \ \ \ Matrix4d\ WORLD\_TO\_ROBOT;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00025}\mbox{\hyperlink{ur5__motion__library_8h_a19785d30eb2be1b111abd9730fbce9f6}{00025}}\ \textcolor{preprocessor}{\#define\ INTERMEDIATE\_POINT\ 1}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00027}00027\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00028}00028\ \textcolor{keyword}{using\ namespace\ }Eigen;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00030}\mbox{\hyperlink{class_inverse_differential}{00030}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_inverse_differential}{InverseDifferential}}\ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ Tf=10.0;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ Tb=0;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ deltaT=0.1;\textcolor{comment}{//the\ smaller,\ the\ more\ precise\ but\ more\ computation}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00035}00035\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ TOPIC\ =\ std::string(\textcolor{stringliteral}{"{}/ur5/joint\_group\_pos\_controller/command"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ TOPIC\_SUB\ =\ std::string(\textcolor{stringliteral}{"{}/ur5/joint\_states"{}});}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00040}00040\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00042}00042\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ JOINT\_NAMES\ =\ 6;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00043}00043\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ SCALAR\_FACTOR\ =\ 1.0;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ DAMPING\_FACTOR\ =\ 0.095;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ ALMOST\_ZERO\ =\ 1e-\/7;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ RATE\ =\ 700;\textcolor{comment}{//set\ to\ 100\ to\ slow\ down}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//global\ values}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00049}00049\ \ \ \ \ Quaterniond\ q0,qf;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00050}00050\ \ \ \ \ Vector3d\ xe0,xef,phie0,phief;\ \textcolor{comment}{//xe\_intermediate,phie\_intermediate;}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00051}00051\ \ \ \ \ Vector2d\ gripper;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00052}00052\ \ \ \ \ VectorXd\ q,\ q\_des;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00053}00053\ \ \ \ \ VectorXd\ A,\ D,\ ALPHA;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00055}00055\ \ \ \ \ ros::Publisher\ joint\_pub;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00056}00056\ \ \ \ \ ros::Subscriber\ sub;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00057}00057\ \ \ \ \ std::string\ joint\_names\ [JOINT\_NAMES];}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00059}00059\ \ \ \ \ \textcolor{keywordtype}{char}\ **argv;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00060}00060\ \ \ \ \ \textcolor{keywordtype}{int}\ argc;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//ack\ is\ used\ to\ syncronize\ the\ service\ }}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00063}00063\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{int}\ ack=1;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{int}\ error=0;\textcolor{comment}{//no\ error\ at\ start}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{int}\ final\_end=0;\textcolor{comment}{//different\ from\ 0\ if\ there\ are\ no\ other\ blocks}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00067}00067\ \ \ \ \ \textcolor{keywordtype}{int}\ counter;}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00068}00068\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//global\ values}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00070}00070\ \ \ \ \ Quaterniond\ q0,qf;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00071}00071\ \ \ \ \ Vector3d\ xe0,xef,phie0,phief,xe\_intermediate,phie\_intermediate;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00072}00072\ \ \ \ \ Vector2d\ gripper;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00073}00073\ \ \ \ \ VectorXd\ q,\ q\_des;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00074}00074\ \ \ \ \ VectorXd\ A,\ D,\ ALPHA;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00075}00075\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00076}00076\ \ \ \ \ ros::Publisher\ joint\_pub;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00077}00077\ \ \ \ \ ros::Subscriber\ sub;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00078}00078\ \ \ \ \ std::string\ joint\_names\ [JOINT\_NAMES];}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00073}00073\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MAX\_X\ =\ 0.5;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00074}00074\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MIN\_X\ =\ -\/0.5;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00075}00075\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MAX\_Y\ =\ 0.12;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00076}00076\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MIN\_Y\ =\ -\/0.45;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00077}00077\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MAX\_Z\ =\ 0.733;}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00078}00078\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ MIN\_Z\ =\ 0.15;}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00079}00079\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{char}\ **argv;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{int}\ argc;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00082}00082\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00083}00083\ \ \ \ \ \textcolor{comment}{//ack/ack2\ are\ used\ to\ syncronize\ the\ service\ }}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00084}00084\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ ack=0;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{int}\ ack2=1;}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00086}00086\ \ \ \ \ \textcolor{keywordtype}{int}\ error=0;\textcolor{comment}{//no\ error\ at\ start}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00087}00087\ \ \ \ \ \textcolor{keywordtype}{int}\ final\_end=0;\textcolor{comment}{//dfferent\ from\ 0\ if\ there\ are\ no\ other\ blocks}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00080}00080\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00087}00087\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_inverse_differential_ab2911d33514ce3cd8b3f6495a6519edb}{InverseDifferential}}(\textcolor{keywordtype}{int}\ argc\_,\ \textcolor{keywordtype}{char}**\ argv\_);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00088}00088\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00089}00089\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00096}00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_inverse_differential_ab2911d33514ce3cd8b3f6495a6519edb}{InverseDifferential}}(\textcolor{keywordtype}{int}\ argc\_,\ \textcolor{keywordtype}{char}**\ argv\_);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00097}00097\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ROS\ functions}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00099}00099\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_a0a1560543f7ee702fe14bafa769e290d}{motionPlannerToTaskPlannerServiceResponse}}(ur5::ServiceMessage::Request\ \&req,ur5::ServiceMessage::Response\ \&res);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00110}00110\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a31f22bfe451d12429ebf8485fa2312b1}{send\_des\_jstate}}(ros::Publisher\ joint\_pub,\ Eigen::VectorXd\ q\_des);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00118}00118\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a9a268808314f3240803c82b044248e02}{receive\_jstate}}(\textcolor{keyword}{const}\ sensor\_msgs::JointState::ConstPtr\ \&msg);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00125}00125\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inverse_differential_aa33c717b13ca516b9c8468b6e7870f2d}{talker}}();}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ROS\ functions}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_a0a1560543f7ee702fe14bafa769e290d}{motionPlannerToTaskPlannerServiceResponse}}(ur5::ServiceMessage::Request\ \&req,ur5::ServiceMessage::Response\ \&res);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a31f22bfe451d12429ebf8485fa2312b1}{send\_des\_jstate}}(ros::Publisher\ joint\_pub,\ Eigen::VectorXd\ q\_des);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a9a268808314f3240803c82b044248e02}{receive\_jstate}}(\textcolor{keyword}{const}\ sensor\_msgs::JointState::ConstPtr\ \&msg);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_inverse_differential_aa33c717b13ca516b9c8468b6e7870f2d}{talker}}();}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_ad153653dc080fc172d2c2ce6068d3f1e}{invDiff}}();}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00131}00131\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_ad153653dc080fc172d2c2ce6068d3f1e}{invDiff}}();}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00140}00140\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00141}00141\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Convertion\ functions}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00143}00143\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ Eigen::Matrix3d\ \mbox{\hyperlink{class_inverse_differential_ab5efe5a6e5f615e1c95924e9a072811d}{eulerAnglesToRotationMatrix}}(\textcolor{keyword}{const}\ Eigen::Vector3d\ \&\mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}});}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00133}00133\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Convertion\ functions}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00143}00143\ \ \ \ \ \ \ \ \ Eigen::Matrix3d\ \mbox{\hyperlink{class_inverse_differential_ab5efe5a6e5f615e1c95924e9a072811d}{eulerAnglesToRotationMatrix}}(\textcolor{keyword}{const}\ Eigen::Vector3d\ \&euler);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ Eigen::Vector3d\ \mbox{\hyperlink{class_inverse_differential_a58f3cfe96b6b5f6cba41668446bcbe16}{rotationMatrixToEulerAngles}}(\textcolor{keyword}{const}\ Eigen::Matrix3d\ \&rotationMatrix);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00153}00153\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00161}00161\ \ \ \ \ \ \ \ \ Eigen::Vector3d\ \mbox{\hyperlink{class_inverse_differential_a58f3cfe96b6b5f6cba41668446bcbe16}{rotationMatrixToEulerAngles}}(\textcolor{keyword}{const}\ Eigen::Matrix3d\ \&rotationMatrix);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00161}00161\ \ \ \ \ \ \ \ \ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_af43d4eb4919d4e723b5da2336f6f5458}{eulerAnglesToQuaternion}}(\textcolor{keyword}{const}\ Eigen::Vector3d\ \&euler);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00162}00162\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00170}00170\ \ \ \ \ \ \ \ \ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_af43d4eb4919d4e723b5da2336f6f5458}{eulerAnglesToQuaternion}}(\textcolor{keyword}{const}\ Eigen::Vector3d\ \&\mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}});}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00170}00170\ \ \ \ \ \ \ \ \ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_a5ba13246ca8c9f3ebcd8e1a7d9ca836c}{rotationMatrixToQuaternion}}(\textcolor{keyword}{const}\ Eigen::Matrix3d\ \&rotationMatrix);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00171}00171\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00179}00179\ \ \ \ \ \ \ \ \ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_a5ba13246ca8c9f3ebcd8e1a7d9ca836c}{rotationMatrixToQuaternion}}(\textcolor{keyword}{const}\ Eigen::Matrix3d\ \&rotationMatrix);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00180}00180\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a7531bfd8ea80634111d35ed51e54416e}{worldToRobotFrame}}(Eigen::Vector3d\ \&coords,\ Eigen::Vector3d\ \&\mbox{\hyperlink{ur5__task__library_8h_a902ea9d67d166f593a8b3631fc1d4b8f}{euler}});}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00193}00193\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00194}00194\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Inverse\ differential\ functions}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00196}00196\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_aa22074a716b2eb75b0c215feb94ba856}{ur5Direct}}(Eigen::Vector3d\ \&xe,\ Eigen::Matrix3d\ \&Re,\ \textcolor{keyword}{const}\ Eigen::VectorXd\ q\_des);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00207}00207\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00213}00213\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{class_inverse_differential_acf950624c6fb514c2a444c857fdac632}{ur5Jac}}(Eigen::VectorXd\ v);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00214}00214\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00225}00225\ \ \ \ \ \ \ \ \ list<Eigen::VectorXd>\ \mbox{\hyperlink{class_inverse_differential_a32083436e32012e392ddc1d9286e409a}{invDiffKinematicControlSimCompleteQuaternion}}(Eigen::VectorXd\ TH0,Eigen::VectorXd\ T,Eigen::Matrix3d\ Kp,Eigen::Matrix3d\ Kphi);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00226}00226\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00243}00243\ \ \ \ \ \ \ \ \ Eigen::VectorXd\ \mbox{\hyperlink{class_inverse_differential_ae3f7f21de2aef187ebb68eefb6250a16}{invDiffKinematicControlCompleteQuaternion}}(Eigen::VectorXd\ qk,\ Eigen::Vector3d\ xe,\ Eigen::Vector3d\ \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}},\ Eigen::Vector3d\ vd,\ Eigen::Vector3d\ omegad,\ Eigen::Quaterniond\ qe,\ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_a7634212e1417ba684130c575d9433808}{qd}},\ Eigen::Matrix3d\ Kp,\ Eigen::Matrix3d\ Kphi);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00244}00244\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00252}00252\ \ \ \ \ \ \ \ \ Eigen::Vector3d\ \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}}(\textcolor{keywordtype}{double}\ ti);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00253}00253\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_a7634212e1417ba684130c575d9433808}{qd}}(\textcolor{keywordtype}{double}\ ti);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Inverse\ differential\ functions}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_aa22074a716b2eb75b0c215feb94ba856}{ur5Direct}}(Eigen::Vector3d\ \&xe,\ Eigen::Matrix3d\ \&Re,\ \textcolor{keyword}{const}\ Eigen::VectorXd\ q\_des);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00191}00191\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{class_inverse_differential_acf950624c6fb514c2a444c857fdac632}{ur5Jac}}(Eigen::VectorXd\ v);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00203}00203\ \ \ \ \ \ \ \ \ list<Eigen::VectorXd>\ \mbox{\hyperlink{class_inverse_differential_a84b7a182e074703a75ac273c67d4e3c8}{invDiffKinematic}}(Eigen::VectorXd\ TH0,Eigen::VectorXd\ T,Eigen::Matrix3d\ Kp,Eigen::Matrix3d\ Kphi);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00221}00221\ \ \ \ \ \ \ \ \ Eigen::VectorXd\ \mbox{\hyperlink{class_inverse_differential_a29bbefec4031d634cfedf95bd4f0873f}{invDiffKinematicControl}}(Eigen::VectorXd\ qk,\ Eigen::Vector3d\ xe,\ Eigen::Vector3d\ \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}},\ Eigen::Vector3d\ vd,\ Eigen::Vector3d\ omegad,\ Eigen::Quaterniond\ qe,\ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_a7634212e1417ba684130c575d9433808}{qd}},\ Eigen::Matrix3d\ Kp,\ Eigen::Matrix3d\ Kphi);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00230}00230\ \ \ \ \ \ \ \ \ Eigen::Vector3d\ \mbox{\hyperlink{class_inverse_differential_a782ccc9a19761e4c733b8d92b81c7d75}{xd}}(\textcolor{keywordtype}{double}\ ti);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ Eigen::Quaterniond\ \mbox{\hyperlink{class_inverse_differential_a7634212e1417ba684130c575d9433808}{qd}}(\textcolor{keywordtype}{double}\ ti);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{class_inverse_differential_a577d0f75335d43dd3685e08f58ad8de8}{ur5Inverse}}(Eigen::Vector3d\ \&p60,\ Eigen::Matrix3d\ \&Re);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ Eigen::Matrix4d\ \mbox{\hyperlink{class_inverse_differential_ad6abd5dfc09b9cb6dea39b42e26ed8a6}{getRotationMatrix}}(\textcolor{keywordtype}{double}\ th,\ \textcolor{keywordtype}{double}\ alpha,\ \textcolor{keywordtype}{double}\ d,\ \textcolor{keywordtype}{double}\ a);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00262}00262\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00271}00271\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{class_inverse_differential_a577d0f75335d43dd3685e08f58ad8de8}{ur5Inverse}}(Eigen::Vector3d\ \&p60,\ Eigen::Matrix3d\ \&Re);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00271}00271\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{class_inverse_differential_aa640d318bae523fe5c58630bb8601f82}{purgeNanColumn}}(Eigen::MatrixXd\ matrix);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00272}00272\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00283}00283\ \ \ \ \ \ \ \ \ Eigen::Matrix4d\ \mbox{\hyperlink{class_inverse_differential_ad6abd5dfc09b9cb6dea39b42e26ed8a6}{getRotationMatrix}}(\textcolor{keywordtype}{double}\ th,\ \textcolor{keywordtype}{double}\ alpha,\ \textcolor{keywordtype}{double}\ d,\ \textcolor{keywordtype}{double}\ a);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Other\ functions}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00283}\mbox{\hyperlink{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}{00283}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}{checkWorkArea}}(\textcolor{keyword}{const}\ Eigen::Vector3d\ \&position);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00284}00284\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00293}00293\ \ \ \ \ \ \ \ \ Eigen::MatrixXd\ \mbox{\hyperlink{class_inverse_differential_aa640d318bae523fe5c58630bb8601f82}{purgeNanColumn}}(Eigen::MatrixXd\ matrix);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00293}\mbox{\hyperlink{class_inverse_differential_a298083be41bb82377e2a62458f4167ba}{00293}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_a298083be41bb82377e2a62458f4167ba}{checkWorkArea}}(\textcolor{keyword}{const}\ Eigen::VectorXd\ \&joints);}
 \DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00294}00294\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00295}00295\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Other\ functions}}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00297}00297\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00305}\mbox{\hyperlink{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}{00305}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_adf0094a89d54885e7d6e01bbd8f66e1c}{checkWorkArea}}(\textcolor{keyword}{const}\ Eigen::Vector3d\ \&\mbox{\hyperlink{ur5__task__library_8h_a55e78da50a013252924928eaa2720258}{position}});}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00306}00306\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00315}\mbox{\hyperlink{class_inverse_differential_a298083be41bb82377e2a62458f4167ba}{00315}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_a298083be41bb82377e2a62458f4167ba}{checkWorkArea}}(\textcolor{keyword}{const}\ Eigen::VectorXd\ \&joints);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00316}00316\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_abf7528f33f238e5684332080d8b4584d}{printVector}}(Eigen::VectorXd\ v);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00323}00323\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_abcd806150e519b6df7f1c4f86f6ba646}{almostZero}}(\textcolor{keywordtype}{double}\ value);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00332}00332\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a74bfa9fd20aa08b67528eefcf48558bf}{angleCorrection}}(\textcolor{keywordtype}{double}\ \&angle);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00340}00340\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a06d4b12c200f5be7b2ad98ac9fd8eef4}{fixWirstJointLimits}}(Eigen::VectorXd\ \&joints);}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00348}00348\ \};}
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00349}00349\ }
-\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00350}00350\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_inverse_differential_abcd806150e519b6df7f1c4f86f6ba646}{almostZero}}(\textcolor{keywordtype}{double}\ value);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a74bfa9fd20aa08b67528eefcf48558bf}{angleCorrection}}(\textcolor{keywordtype}{double}\ \&angle);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_inverse_differential_a06d4b12c200f5be7b2ad98ac9fd8eef4}{fixWirstJointLimits}}(Eigen::VectorXd\ \&joints);}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00319}00319\ \};}
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{ur5__motion__library_8h_source_l00321}00321\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

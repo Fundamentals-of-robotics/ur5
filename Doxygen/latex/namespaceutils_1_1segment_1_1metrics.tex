@@ -1,0 +1,118 @@
+\doxysection{utils.\+segment.\+metrics Namespace Reference}
+\hypertarget{namespaceutils_1_1segment_1_1metrics}{}\label{namespaceutils_1_1segment_1_1metrics}\index{utils.segment.metrics@{utils.segment.metrics}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metric}{Metric}}
+\item 
+class \mbox{\hyperlink{classutils_1_1segment_1_1metrics_1_1_metrics}{Metrics}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_a3cc896cd35cb40bb837f33c579ab9f85}{fitness}} (x)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_adc8d0d518e8657f9514f22e0b631b701}{ap\+\_\+per\+\_\+class\+\_\+box\+\_\+and\+\_\+mask}} (tp\+\_\+m, tp\+\_\+b, conf, pred\+\_\+cls, target\+\_\+cls, plot=False, save\+\_\+dir="{}."{}, names=())
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_ab137220ad62e77f9a9d16f6dc31e6d0c}{KEYS}}
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1segment_1_1metrics_ab0995b3bec89c17be93c758a22a88067}{BEST\+\_\+\+KEYS}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Model validation metrics.\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1segment_1_1metrics_adc8d0d518e8657f9514f22e0b631b701}\label{namespaceutils_1_1segment_1_1metrics_adc8d0d518e8657f9514f22e0b631b701} 
+\index{utils.segment.metrics@{utils.segment.metrics}!ap\_per\_class\_box\_and\_mask@{ap\_per\_class\_box\_and\_mask}}
+\index{ap\_per\_class\_box\_and\_mask@{ap\_per\_class\_box\_and\_mask}!utils.segment.metrics@{utils.segment.metrics}}
+\doxysubsubsection{\texorpdfstring{ap\_per\_class\_box\_and\_mask()}{ap\_per\_class\_box\_and\_mask()}}
+{\footnotesize\ttfamily utils.\+segment.\+metrics.\+ap\+\_\+per\+\_\+class\+\_\+box\+\_\+and\+\_\+mask (\begin{DoxyParamCaption}\item[{}]{tp\+\_\+m,  }\item[{}]{tp\+\_\+b,  }\item[{}]{conf,  }\item[{}]{pred\+\_\+cls,  }\item[{}]{target\+\_\+cls,  }\item[{}]{plot = {\ttfamily False},  }\item[{}]{save\+\_\+dir = {\ttfamily "{}."{}},  }\item[{}]{names = {\ttfamily ()} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Args:
+    tp_b: tp of boxes.
+    tp_m: tp of masks.
+    other arguments see `func: ap_per_class`.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{segment_2metrics_8py_source_l00015}{15}} of file \mbox{\hyperlink{segment_2metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1metrics_a3cc896cd35cb40bb837f33c579ab9f85}\label{namespaceutils_1_1segment_1_1metrics_a3cc896cd35cb40bb837f33c579ab9f85} 
+\index{utils.segment.metrics@{utils.segment.metrics}!fitness@{fitness}}
+\index{fitness@{fitness}!utils.segment.metrics@{utils.segment.metrics}}
+\doxysubsubsection{\texorpdfstring{fitness()}{fitness()}}
+{\footnotesize\ttfamily utils.\+segment.\+metrics.\+fitness (\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{segment_2metrics_8py_source_l00009}{9}} of file \mbox{\hyperlink{segment_2metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1segment_1_1metrics_ab0995b3bec89c17be93c758a22a88067}\label{namespaceutils_1_1segment_1_1metrics_ab0995b3bec89c17be93c758a22a88067} 
+\index{utils.segment.metrics@{utils.segment.metrics}!BEST\_KEYS@{BEST\_KEYS}}
+\index{BEST\_KEYS@{BEST\_KEYS}!utils.segment.metrics@{utils.segment.metrics}}
+\doxysubsubsection{\texorpdfstring{BEST\_KEYS}{BEST\_KEYS}}
+{\footnotesize\ttfamily list utils.\+segment.\+metrics.\+BEST\+\_\+\+KEYS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ [}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}best/epoch"{}},}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}best/precision(B)"{}},}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}best/recall(B)"{}},}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5(B)"{}},}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5:0.95(B)"{}},}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{stringliteral}{"{}best/precision(M)"{}},}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{"{}best/recall(M)"{}},}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5(M)"{}},}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{stringliteral}{"{}best/mAP\_0.5:0.95(M)"{}},}
+\DoxyCodeLine{00011\ ]}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{segment_2metrics_8py_source_l00201}{201}} of file \mbox{\hyperlink{segment_2metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{namespaceutils_1_1segment_1_1metrics_ab137220ad62e77f9a9d16f6dc31e6d0c}\label{namespaceutils_1_1segment_1_1metrics_ab137220ad62e77f9a9d16f6dc31e6d0c} 
+\index{utils.segment.metrics@{utils.segment.metrics}!KEYS@{KEYS}}
+\index{KEYS@{KEYS}!utils.segment.metrics@{utils.segment.metrics}}
+\doxysubsubsection{\texorpdfstring{KEYS}{KEYS}}
+{\footnotesize\ttfamily list utils.\+segment.\+metrics.\+KEYS}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ [}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}train/box\_loss"{}},}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}train/seg\_loss"{}},\ \ \textcolor{comment}{\#\ train\ loss}}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}train/obj\_loss"{}},}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}train/cls\_loss"{}},}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/precision(B)"{}},}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/recall(B)"{}},}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5(B)"{}},}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5:0.95(B)"{}},\ \ \textcolor{comment}{\#\ metrics}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/precision(M)"{}},}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/recall(M)"{}},}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5(M)"{}},}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{stringliteral}{"{}metrics/mAP\_0.5:0.95(M)"{}},\ \ \textcolor{comment}{\#\ metrics}}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{stringliteral}{"{}val/box\_loss"{}},}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{stringliteral}{"{}val/seg\_loss"{}},\ \ \textcolor{comment}{\#\ val\ loss}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{stringliteral}{"{}val/obj\_loss"{}},}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{stringliteral}{"{}val/cls\_loss"{}},}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{stringliteral}{"{}x/lr0"{}},}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{stringliteral}{"{}x/lr1"{}},}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{stringliteral}{"{}x/lr2"{}},}
+\DoxyCodeLine{00021\ ]}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{segment_2metrics_8py_source_l00179}{179}} of file \mbox{\hyperlink{segment_2metrics_8py_source}{metrics.\+py}}.
+

@@ -1,0 +1,177 @@
+\doxysection{autoanchor.\+py}
+\hypertarget{autoanchor_8py_source}{}\label{autoanchor_8py_source}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/autoanchor.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/autoanchor.py}}
+\mbox{\hyperlink{autoanchor_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00001}\mbox{\hyperlink{namespaceutils_1_1autoanchor}{00001}}\ \textcolor{comment}{\#\ YOLOv5\ 🚀\ by\ Ultralytics,\ AGPL-\/3.0\ license}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}AutoAnchor\ utils."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00004}00004\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00006}00006\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00007}00007\ \textcolor{keyword}{import}\ torch}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00008}00008\ \textcolor{keyword}{import}\ yaml}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00009}00009\ \textcolor{keyword}{from}\ tqdm\ \textcolor{keyword}{import}\ tqdm}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00011}00011\ \textcolor{keyword}{from}\ utils\ \textcolor{keyword}{import}\ TryExcept}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00012}00012\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1general}{utils.general}}\ \textcolor{keyword}{import}\ LOGGER,\ TQDM\_BAR\_FORMAT,\ colorstr}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00014}\mbox{\hyperlink{namespaceutils_1_1autoanchor_af4513d531cc030ada9324d8fe83c7b14}{00014}}\ PREFIX\ =\ colorstr(\textcolor{stringliteral}{"{}AutoAnchor:\ "{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00017}\mbox{\hyperlink{namespaceutils_1_1autoanchor_adc3c6faa5e2066ac87ec1088b86967cd}{00017}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1autoanchor_adc3c6faa5e2066ac87ec1088b86967cd}{check\_anchor\_order}}(m):}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00018}00018\ \ \ \ \ \textcolor{comment}{\#\ Check\ anchor\ order\ against\ stride\ order\ for\ YOLOv5\ Detect()\ module\ m,\ and\ correct\ if\ necessary}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00019}00019\ \ \ \ \ a\ =\ m.anchors.prod(-\/1).mean(-\/1).view(-\/1)\ \ \textcolor{comment}{\#\ mean\ anchor\ area\ per\ output\ layer}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00020}00020\ \ \ \ \ da\ =\ a[-\/1]\ -\/\ a[0]\ \ \textcolor{comment}{\#\ delta\ a}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00021}00021\ \ \ \ \ ds\ =\ m.stride[-\/1]\ -\/\ m.stride[0]\ \ \textcolor{comment}{\#\ delta\ s}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{if}\ da\ \textcolor{keywordflow}{and}\ (da.sign()\ !=\ ds.sign()):\ \ \textcolor{comment}{\#\ same\ order}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{PREFIX\}Reversing\ anchor\ order"{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ m.anchors[:]\ =\ m.anchors.flip(0)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00027}00027\ \textcolor{preprocessor}{@TryExcept(f"{}\{PREFIX\}ERROR"{})}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00028}\mbox{\hyperlink{namespaceutils_1_1autoanchor_a3c7e1fb16c9813b90f0ccad9f3bf4dac}{00028}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1autoanchor_a3c7e1fb16c9813b90f0ccad9f3bf4dac}{check\_anchors}}(dataset,\ model,\ thr=4.0,\ imgsz=640):}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00029}00029\ \ \ \ \ \textcolor{comment}{\#\ Check\ anchor\ fit\ to\ data,\ recompute\ if\ necessary}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00030}00030\ \ \ \ \ m\ =\ model.module.model[-\/1]\ \textcolor{keywordflow}{if}\ hasattr(model,\ \textcolor{stringliteral}{"{}module"{}})\ \textcolor{keywordflow}{else}\ model.model[-\/1]\ \ \textcolor{comment}{\#\ Detect()}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00031}00031\ \ \ \ \ shapes\ =\ imgsz\ *\ dataset.shapes\ /\ dataset.shapes.max(1,\ keepdims=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00032}00032\ \ \ \ \ scale\ =\ np.random.uniform(0.9,\ 1.1,\ size=(shapes.shape[0],\ 1))\ \ \textcolor{comment}{\#\ augment\ scale}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00033}00033\ \ \ \ \ wh\ =\ torch.tensor(np.concatenate([l[:,\ 3:5]\ *\ s\ \textcolor{keywordflow}{for}\ s,\ l\ \textcolor{keywordflow}{in}\ zip(shapes\ *\ scale,\ dataset.labels)])).float()\ \ \textcolor{comment}{\#\ wh}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{def\ }metric(k):\ \ \textcolor{comment}{\#\ compute\ metric}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ r\ =\ wh[:,\ \textcolor{keywordtype}{None}]\ /\ k[\textcolor{keywordtype}{None}]}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ x\ =\ torch.min(r,\ 1\ /\ r).min(2)[0]\ \ \textcolor{comment}{\#\ ratio\ metric}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ best\ =\ x.max(1)[0]\ \ \textcolor{comment}{\#\ best\_x}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ aat\ =\ (x\ >\ 1\ /\ thr).float().sum(1).mean()\ \ \textcolor{comment}{\#\ anchors\ above\ threshold}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ bpr\ =\ (best\ >\ 1\ /\ thr).float().mean()\ \ \textcolor{comment}{\#\ best\ possible\ recall}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bpr,\ aat}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00043}00043\ \ \ \ \ stride\ =\ m.stride.to(m.anchors.device).view(-\/1,\ 1,\ 1)\ \ \textcolor{comment}{\#\ model\ strides}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00044}00044\ \ \ \ \ anchors\ =\ m.anchors.clone()\ *\ stride\ \ \textcolor{comment}{\#\ current\ anchors}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00045}00045\ \ \ \ \ bpr,\ aat\ =\ metric(anchors.cpu().view(-\/1,\ 2))}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00046}00046\ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}\(\backslash\)n\{PREFIX\}\{aat:.2f\}\ anchors/target,\ \{bpr:.3f\}\ Best\ Possible\ Recall\ (BPR).\ "{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00047}00047\ \ \ \ \ \textcolor{keywordflow}{if}\ bpr\ >\ 0.98:\ \ \textcolor{comment}{\#\ threshold\ to\ recompute}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{s\}Current\ anchors\ are\ a\ good\ fit\ to\ dataset\ ✅"{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{s\}Anchors\ are\ a\ poor\ fit\ to\ dataset\ ⚠️,\ attempting\ to\ improve..."{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ na\ =\ m.anchors.numel()\ //\ 2\ \ \textcolor{comment}{\#\ number\ of\ anchors}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ anchors\ =\ \mbox{\hyperlink{namespaceutils_1_1autoanchor_a227f6f66f6ac0a3b824f0dfe944456c7}{kmean\_anchors}}(dataset,\ n=na,\ img\_size=imgsz,\ thr=thr,\ gen=1000,\ verbose=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ new\_bpr\ =\ metric(anchors)[0]}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ new\_bpr\ >\ bpr:\ \ \textcolor{comment}{\#\ replace\ anchors}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ anchors\ =\ torch.tensor(anchors,\ device=m.anchors.device).type\_as(m.anchors)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ m.anchors[:]\ =\ anchors.clone().view\_as(m.anchors)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ check\_anchor\_order(m)\ \ \textcolor{comment}{\#\ must\ be\ in\ pixel-\/space\ (not\ grid-\/space)}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ m.anchors\ /=\ stride}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}\{PREFIX\}Done\ ✅\ (optional:\ update\ model\ *.yaml\ to\ use\ these\ anchors\ in\ the\ future)"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ f\textcolor{stringliteral}{"{}\{PREFIX\}Done\ ⚠️\ (original\ anchors\ better\ than\ new\ anchors,\ proceeding\ with\ original\ anchors)"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ LOGGER.info(s)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00065}\mbox{\hyperlink{namespaceutils_1_1autoanchor_a227f6f66f6ac0a3b824f0dfe944456c7}{00065}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespaceutils_1_1autoanchor_a227f6f66f6ac0a3b824f0dfe944456c7}{kmean\_anchors}}(dataset="{}./data/coco128.yaml"{},\ n=9,\ img\_size=640,\ thr=4.0,\ gen=1000,\ verbose=True):}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00066}00066\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ Creates\ kmeans-\/evolved\ anchors\ from\ training\ dataset.}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00068}00068\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ Arguments:}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ dataset:\ path\ to\ data.yaml,\ or\ a\ loaded\ dataset}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ n:\ number\ of\ anchors}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00072}00072\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ img\_size:\ image\ size\ used\ for\ training}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ thr:\ anchor-\/label\ wh\ ratio\ threshold\ hyperparameter\ hyp['anchor\_t']\ used\ for\ training,\ default=4.0}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00074}00074\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ gen:\ generations\ to\ evolve\ anchors\ using\ genetic\ algorithm}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ verbose:\ print\ all\ results}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00076}00076\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ Return:}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ k:\ kmeans\ evolved\ anchors}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00079}00079\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ Usage:}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ from\ utils.autoanchor\ import\ *;\ \_\ =\ kmean\_anchors()}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00083}00083\ \ \ \ \ \textcolor{keyword}{from}\ scipy.cluster.vq\ \textcolor{keyword}{import}\ kmeans}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00085}00085\ \ \ \ \ npr\ =\ np.random}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00086}00086\ \ \ \ \ thr\ =\ 1\ /\ thr}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00088}00088\ \ \ \ \ \textcolor{keyword}{def\ }metric(k,\ wh):\ \ \textcolor{comment}{\#\ compute\ metrics}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ r\ =\ wh[:,\ \textcolor{keywordtype}{None}]\ /\ k[\textcolor{keywordtype}{None}]}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ x\ =\ torch.min(r,\ 1\ /\ r).min(2)[0]\ \ \textcolor{comment}{\#\ ratio\ metric}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ x\ =\ wh\_iou(wh,\ torch.tensor(k))\ \ \#\ iou\ metric}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ x,\ x.max(1)[0]\ \ \textcolor{comment}{\#\ x,\ best\_x}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00094}00094\ \ \ \ \ \textcolor{keyword}{def\ }anchor\_fitness(k):\ \ \textcolor{comment}{\#\ mutation\ fitness}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \_,\ best\ =\ metric(torch.tensor(k,\ dtype=torch.float32),\ wh)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (best\ *\ (best\ >\ thr).float()).mean()\ \ \textcolor{comment}{\#\ fitness}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00098}00098\ \ \ \ \ \textcolor{keyword}{def\ }print\_results(k,\ verbose=True):}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ k\ =\ k[np.argsort(k.prod(1))]\ \ \textcolor{comment}{\#\ sort\ small\ to\ large}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ x,\ best\ =\ metric(k,\ wh0)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ bpr,\ aat\ =\ (best\ >\ thr).float().mean(),\ (x\ >\ thr).float().mean()\ *\ n\ \ \textcolor{comment}{\#\ best\ possible\ recall,\ anch\ >\ thr}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ s\ =\ (}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{PREFIX\}thr=\{thr:.2f\}:\ \{bpr:.4f\}\ best\ possible\ recall,\ \{aat:.2f\}\ anchors\ past\ thr\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{PREFIX\}n=\{n\},\ img\_size=\{img\_size\},\ metric\_all=\{x.mean():.3f\}/\{best.mean():.3f\}-\/mean/best,\ "{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}past\_thr=\{x[x\ >\ thr].mean():.3f\}-\/mean:\ "{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ k:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ s\ +=\ \textcolor{stringliteral}{"{}\%i,\%i,\ "{}}\ \%\ (round(x[0]),\ round(x[1]))}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ LOGGER.info(s[:-\/2])}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ k}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(dataset,\ str):\ \ \textcolor{comment}{\#\ *.yaml\ file}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(dataset,\ errors=\textcolor{stringliteral}{"{}ignore"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ data\_dict\ =\ yaml.safe\_load(f)\ \ \textcolor{comment}{\#\ model\ dict}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespaceutils_1_1dataloaders}{utils.dataloaders}}\ \textcolor{keyword}{import}\ LoadImagesAndLabels}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ dataset\ =\ LoadImagesAndLabels(data\_dict[\textcolor{stringliteral}{"{}train"{}}],\ augment=\textcolor{keyword}{True},\ rect=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00120}00120\ \ \ \ \ \textcolor{comment}{\#\ Get\ label\ wh}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00121}00121\ \ \ \ \ shapes\ =\ img\_size\ *\ dataset.shapes\ /\ dataset.shapes.max(1,\ keepdims=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00122}00122\ \ \ \ \ wh0\ =\ np.concatenate([l[:,\ 3:5]\ *\ s\ \textcolor{keywordflow}{for}\ s,\ l\ \textcolor{keywordflow}{in}\ zip(shapes,\ dataset.labels)])\ \ \textcolor{comment}{\#\ wh}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00124}00124\ \ \ \ \ \textcolor{comment}{\#\ Filter}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00125}00125\ \ \ \ \ i\ =\ (wh0\ <\ 3.0).any(1).sum()}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{if}\ i:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{PREFIX\}WARNING\ ⚠️\ Extremely\ small\ objects\ found:\ \{i\}\ of\ \{len(wh0)\}\ labels\ are\ <3\ pixels\ in\ size"{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00128}00128\ \ \ \ \ wh\ =\ wh0[(wh0\ >=\ 2.0).any(1)].astype(np.float32)\ \ \textcolor{comment}{\#\ filter\ >\ 2\ pixels}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00129}00129\ \ \ \ \ \textcolor{comment}{\#\ wh\ =\ wh\ *\ (npr.rand(wh.shape[0],\ 1)\ *\ 0.9\ +\ 0.1)\ \ \#\ multiply\ by\ random\ scale\ 0-\/1}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00131}00131\ \ \ \ \ \textcolor{comment}{\#\ Kmeans\ init}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ LOGGER.info(f\textcolor{stringliteral}{"{}\{PREFIX\}Running\ kmeans\ for\ \{n\}\ anchors\ on\ \{len(wh)\}\ points..."{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ n\ <=\ len(wh)\ \ \textcolor{comment}{\#\ apply\ overdetermined\ constraint}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ s\ =\ wh.std(0)\ \ \textcolor{comment}{\#\ sigmas\ for\ whitening}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ k\ =\ kmeans(wh\ /\ s,\ n,\ iter=30)[0]\ *\ s\ \ \textcolor{comment}{\#\ points}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ n\ ==\ len(k)\ \ \textcolor{comment}{\#\ kmeans\ may\ return\ fewer\ points\ than\ requested\ if\ wh\ is\ insufficient\ or\ too\ similar}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{except}\ Exception:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ LOGGER.warning(f\textcolor{stringliteral}{"{}\{PREFIX\}WARNING\ ⚠️\ switching\ strategies\ from\ kmeans\ to\ random\ init"{}})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ k\ =\ np.sort(npr.rand(n\ *\ 2)).reshape(n,\ 2)\ *\ img\_size\ \ \textcolor{comment}{\#\ random\ init}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00141}00141\ \ \ \ \ wh,\ wh0\ =\ (torch.tensor(x,\ dtype=torch.float32)\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ (wh,\ wh0))}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00142}00142\ \ \ \ \ k\ =\ print\_results(k,\ verbose=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00144}00144\ \ \ \ \ \textcolor{comment}{\#\ Plot}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00145}00145\ \ \ \ \ \textcolor{comment}{\#\ k,\ d\ =\ [None]\ *\ 20,\ [None]\ *\ 20}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00146}00146\ \ \ \ \ \textcolor{comment}{\#\ for\ i\ in\ tqdm(range(1,\ 21)):}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00147}00147\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ k[i-\/1],\ d[i-\/1]\ =\ kmeans(wh\ /\ s,\ i)\ \ \#\ points,\ mean\ distance}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00148}00148\ \ \ \ \ \textcolor{comment}{\#\ fig,\ ax\ =\ plt.subplots(1,\ 2,\ figsize=(14,\ 7),\ tight\_layout=True)}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00149}00149\ \ \ \ \ \textcolor{comment}{\#\ ax\ =\ ax.ravel()}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00150}00150\ \ \ \ \ \textcolor{comment}{\#\ ax[0].plot(np.arange(1,\ 21),\ np.array(d)\ **\ 2,\ marker='.')}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00151}00151\ \ \ \ \ \textcolor{comment}{\#\ fig,\ ax\ =\ plt.subplots(1,\ 2,\ figsize=(14,\ 7))\ \ \#\ plot\ wh}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00152}00152\ \ \ \ \ \textcolor{comment}{\#\ ax[0].hist(wh[wh[:,\ 0]<100,\ 0],400)}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00153}00153\ \ \ \ \ \textcolor{comment}{\#\ ax[1].hist(wh[wh[:,\ 1]<100,\ 1],400)}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00154}00154\ \ \ \ \ \textcolor{comment}{\#\ fig.savefig('wh.png',\ dpi=200)}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00156}00156\ \ \ \ \ \textcolor{comment}{\#\ Evolve}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00157}00157\ \ \ \ \ f,\ sh,\ mp,\ s\ =\ anchor\_fitness(k),\ k.shape,\ 0.9,\ 0.1\ \ \textcolor{comment}{\#\ fitness,\ generations,\ mutation\ prob,\ sigma}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00158}00158\ \ \ \ \ pbar\ =\ tqdm(range(gen),\ bar\_format=TQDM\_BAR\_FORMAT)\ \ \textcolor{comment}{\#\ progress\ bar}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00159}00159\ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ pbar:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ v\ =\ np.ones(sh)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (v\ ==\ 1).all():\ \ \textcolor{comment}{\#\ mutate\ until\ a\ change\ occurs\ (prevent\ duplicates)}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ v\ =\ ((npr.random(sh)\ <\ mp)\ *\ random.random()\ *\ npr.randn(*sh)\ *\ s\ +\ 1).clip(0.3,\ 3.0)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ kg\ =\ (k.copy()\ *\ v).clip(min=2.0)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ fg\ =\ anchor\_fitness(kg)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ fg\ >\ f:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ f,\ k\ =\ fg,\ kg.copy()}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ pbar.desc\ =\ f\textcolor{stringliteral}{"{}\{PREFIX\}Evolving\ anchors\ with\ Genetic\ Algorithm:\ fitness\ =\ \{f:.4f\}"{}}}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose:}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print\_results(k,\ verbose)}
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{autoanchor_8py_source_l00171}00171\ \ \ \ \ \textcolor{keywordflow}{return}\ print\_results(k).astype(np.float32)}
+
+\end{DoxyCode}

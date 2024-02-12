@@ -1,0 +1,104 @@
+\doxysection{utils.\+loggers.\+wandb.\+wandb\+\_\+utils Namespace Reference}
+\hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils}{}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils}\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1loggers_1_1wandb_1_1wandb__utils_1_1_wandb_logger}{Wandb\+Logger}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406}{all\+\_\+logging\+\_\+disabled}} (highest\+\_\+level=logging.\+CRITICAL)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_ab4cad09933fbfcf905799f1b89e2a3a8}{FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a7442e579ddcc0b671c4e11dc66b6b852}{ROOT}} = FILE.\+parents\mbox{[}3\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a09e8b9ff2f96924f4cec130c8af75b07}{RANK}} = int(os.\+getenv("{}RANK"{}, -\/1))
+\item 
+tuple \mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a19048ffe6010969d79d124f819437f8a}{DEPRECATION\+\_\+\+WARNING}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_affdbac7a9e5beb4d7385f873f40427ad}{wandb}} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_adc358568880999e043aeb48696fa4406} 
+\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}!all\_logging\_disabled@{all\_logging\_disabled}}
+\index{all\_logging\_disabled@{all\_logging\_disabled}!utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection{\texorpdfstring{all\_logging\_disabled()}{all\_logging\_disabled()}}
+{\footnotesize\ttfamily utils.\+loggers.\+wandb.\+wandb\+\_\+utils.\+all\+\_\+logging\+\_\+disabled (\begin{DoxyParamCaption}\item[{}]{highest\+\_\+level = {\ttfamily logging.CRITICAL} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}source - https://gist.github.com/simon-weber/7853144
+A context manager that will prevent any logging messages triggered during the body from being processed.
+:param highest_level: the maximum logging level in use.
+  This would only need to be changed if a custom level greater than CRITICAL is defined.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{wandb__utils_8py_source_l00198}{198}} of file \mbox{\hyperlink{wandb__utils_8py_source}{wandb\+\_\+utils.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a19048ffe6010969d79d124f819437f8a}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a19048ffe6010969d79d124f819437f8a} 
+\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}!DEPRECATION\_WARNING@{DEPRECATION\_WARNING}}
+\index{DEPRECATION\_WARNING@{DEPRECATION\_WARNING}!utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection{\texorpdfstring{DEPRECATION\_WARNING}{DEPRECATION\_WARNING}}
+{\footnotesize\ttfamily tuple utils.\+loggers.\+wandb.\+wandb\+\_\+utils.\+DEPRECATION\+\_\+\+WARNING}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ (}
+\DoxyCodeLine{00002\ \ \ \ \ f\textcolor{stringliteral}{"{}\{colorstr('wandb')\}:\ WARNING\ ⚠️\ wandb\ is\ deprecated\ and\ will\ be\ removed\ in\ a\ future\ release.\ "{}}}
+\DoxyCodeLine{00003\ \ \ \ \ f\textcolor{stringliteral}{'See\ supported\ integrations\ at\ https://github.com/ultralytics/yolov5\#integrations.'}}
+\DoxyCodeLine{00004\ )}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{wandb__utils_8py_source_l00019}{19}} of file \mbox{\hyperlink{wandb__utils_8py_source}{wandb\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_ab4cad09933fbfcf905799f1b89e2a3a8}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_ab4cad09933fbfcf905799f1b89e2a3a8} 
+\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}!FILE@{FILE}}
+\index{FILE@{FILE}!utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection{\texorpdfstring{FILE}{FILE}}
+{\footnotesize\ttfamily utils.\+loggers.\+wandb.\+wandb\+\_\+utils.\+FILE = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()}
+
+
+
+Definition at line \mbox{\hyperlink{wandb__utils_8py_source_l00014}{14}} of file \mbox{\hyperlink{wandb__utils_8py_source}{wandb\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a09e8b9ff2f96924f4cec130c8af75b07}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a09e8b9ff2f96924f4cec130c8af75b07} 
+\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}!RANK@{RANK}}
+\index{RANK@{RANK}!utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection{\texorpdfstring{RANK}{RANK}}
+{\footnotesize\ttfamily utils.\+loggers.\+wandb.\+wandb\+\_\+utils.\+RANK = int(os.\+getenv("{}RANK"{}, -\/1))}
+
+
+
+Definition at line \mbox{\hyperlink{wandb__utils_8py_source_l00018}{18}} of file \mbox{\hyperlink{wandb__utils_8py_source}{wandb\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a7442e579ddcc0b671c4e11dc66b6b852}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_a7442e579ddcc0b671c4e11dc66b6b852} 
+\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}!ROOT@{ROOT}}
+\index{ROOT@{ROOT}!utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection{\texorpdfstring{ROOT}{ROOT}}
+{\footnotesize\ttfamily utils.\+loggers.\+wandb.\+wandb\+\_\+utils.\+ROOT = FILE.\+parents\mbox{[}3\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{wandb__utils_8py_source_l00015}{15}} of file \mbox{\hyperlink{wandb__utils_8py_source}{wandb\+\_\+utils.\+py}}.
+
+\Hypertarget{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_affdbac7a9e5beb4d7385f873f40427ad}\label{namespaceutils_1_1loggers_1_1wandb_1_1wandb__utils_affdbac7a9e5beb4d7385f873f40427ad} 
+\index{utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}!wandb@{wandb}}
+\index{wandb@{wandb}!utils.loggers.wandb.wandb\_utils@{utils.loggers.wandb.wandb\_utils}}
+\doxysubsubsection{\texorpdfstring{wandb}{wandb}}
+{\footnotesize\ttfamily utils.\+loggers.\+wandb.\+wandb\+\_\+utils.\+wandb = None}
+
+
+
+Definition at line \mbox{\hyperlink{wandb__utils_8py_source_l00030}{30}} of file \mbox{\hyperlink{wandb__utils_8py_source}{wandb\+\_\+utils.\+py}}.
+

@@ -1,0 +1,61 @@
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/loggers/comet/\+\_\+\+\_\+init\+\_\+\+\_\+.py File Reference}
+\hypertarget{utils_2loggers_2comet_2____init_____8py}{}\label{utils_2loggers_2comet_2____init_____8py}\index{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/comet/\_\_init\_\_.py@{C:/Users/dorij/OneDrive/Desktop/ur5/vision/yolo/utils/loggers/comet/\_\_init\_\_.py}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1loggers_1_1comet_1_1_comet_logger}{utils.\+loggers.\+comet.\+Comet\+Logger}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceutils}{utils}}
+\item 
+namespace \mbox{\hyperlink{namespaceutils_1_1loggers}{utils.\+loggers}}
+\item 
+namespace \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet}{utils.\+loggers.\+comet}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_aed3090bd061d0558eb9d3141568babb3}{utils.\+loggers.\+comet.\+logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a0c6590e43054175ff18dfb39d1d62fff}{utils.\+loggers.\+comet.\+FILE}} = Path(\+\_\+\+\_\+file\+\_\+\+\_\+).resolve()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_acaab4111e28bbd77b729bdce773f6434}{utils.\+loggers.\+comet.\+ROOT}} = FILE.\+parents\mbox{[}3\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a7e691fb49a452b2a39066526a6923a73}{utils.\+loggers.\+comet.\+config}} = comet\+\_\+ml.\+config.\+get\+\_\+config()
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a6b26e6492e8d2b0b42480073efd22aef}{utils.\+loggers.\+comet.\+COMET\+\_\+\+PROJECT\+\_\+\+NAME}} = config.\+get\+\_\+string(os.\+getenv("{}COMET\+\_\+\+PROJECT\+\_\+\+NAME"{}), "{}comet.\+project\+\_\+name"{}, default="{}yolov5"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_aef60b830b52dc4af9d178e0baceb9c8d}{utils.\+loggers.\+comet.\+comet\+\_\+ml}} = None
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a71db0eb7b504e556394982f0058423b7}{utils.\+loggers.\+comet.\+COMET\+\_\+\+PREFIX}} = "{}comet\+://"{}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_ac4331f1df883553ec4c77c25f15665c4}{utils.\+loggers.\+comet.\+COMET\+\_\+\+MODE}} = os.\+getenv("{}COMET\+\_\+\+MODE"{}, "{}online"{})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a4caaedf725624d76b44359a96bcbd9ab}{utils.\+loggers.\+comet.\+COMET\+\_\+\+MODEL\+\_\+\+NAME}} = os.\+getenv("{}COMET\+\_\+\+MODEL\+\_\+\+NAME"{}, "{}yolov5"{})
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a0901ae35a3d61d2a6c157ccc18bc2c5c}{utils.\+loggers.\+comet.\+COMET\+\_\+\+UPLOAD\+\_\+\+DATASET}} = "{}true"{}
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a1034be425c6a1ceed83558f503c57af5}{utils.\+loggers.\+comet.\+COMET\+\_\+\+LOG\+\_\+\+CONFUSION\+\_\+\+MATRIX}} = "{}true"{}
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_ab02e66d9d6d8e717e9aabaabbc91fadb}{utils.\+loggers.\+comet.\+COMET\+\_\+\+LOG\+\_\+\+PREDICTIONS}} = "{}true"{}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a193068f4598efa8b73dcbeb83939e683}{utils.\+loggers.\+comet.\+COMET\+\_\+\+MAX\+\_\+\+IMAGE\+\_\+\+UPLOADS}} = int(os.\+getenv("{}COMET\+\_\+\+MAX\+\_\+\+IMAGE\+\_\+\+UPLOADS"{}, 100))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_ab50573cb53c6a0ee4f6c8c0f5b68f5bd}{utils.\+loggers.\+comet.\+CONF\+\_\+\+THRES}} = float(os.\+getenv("{}CONF\+\_\+\+THRES"{}, 0.\+001))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a33409a1cf00ea8e58f278a3bb6c4d6a5}{utils.\+loggers.\+comet.\+IOU\+\_\+\+THRES}} = float(os.\+getenv("{}IOU\+\_\+\+THRES"{}, 0.\+6))
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_afad947038867b0bbfa200b50c2d5fe0b}{utils.\+loggers.\+comet.\+COMET\+\_\+\+LOG\+\_\+\+BATCH\+\_\+\+METRICS}} = "{}true"{}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_add875288ba9a73552c806a2503744edd}{utils.\+loggers.\+comet.\+COMET\+\_\+\+BATCH\+\_\+\+LOGGING\+\_\+\+INTERVAL}} = os.\+getenv("{}COMET\+\_\+\+BATCH\+\_\+\+LOGGING\+\_\+\+INTERVAL"{}, 1)
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a1740b5d533991c93d5709f476fc59146}{utils.\+loggers.\+comet.\+COMET\+\_\+\+PREDICTION\+\_\+\+LOGGING\+\_\+\+INTERVAL}} = os.\+getenv("{}COMET\+\_\+\+PREDICTION\+\_\+\+LOGGING\+\_\+\+INTERVAL"{}, 1)
+\item 
+str \mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a8f57fd05f3be3a21261191bcb5d5dbc2}{utils.\+loggers.\+comet.\+COMET\+\_\+\+LOG\+\_\+\+PER\+\_\+\+CLASS\+\_\+\+METRICS}} = "{}true"{}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a4e2ca557c808a6221762f1783ff888eb}{utils.\+loggers.\+comet.\+RANK}} = int(os.\+getenv("{}RANK"{}, -\/1))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1loggers_1_1comet_a50a3daae7ce19eb3b8f4712b83503e2c}{utils.\+loggers.\+comet.\+to\+\_\+pil}} = T.\+To\+PILImage()
+\end{DoxyCompactItemize}

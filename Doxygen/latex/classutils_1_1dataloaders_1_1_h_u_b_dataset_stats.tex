@@ -1,0 +1,183 @@
+\doxysection{utils.\+dataloaders.\+HUBDataset\+Stats Class Reference}
+\hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats}{}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats}\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a021462d629d374fe8b906d6479c4eb04}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, path="{}coco128.\+yaml"{}, autodownload=False)
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a6b1c9e1417b366a3b7e789675952bc1a}{get\+\_\+json}} (self, save=False, verbose=False)
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ac12b10b40154aa3927450f49df7b7260}{process\+\_\+images}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_acf32c825af98388fb39c0fd7136f6dcf}{hub\+\_\+dir}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ab5646fc12e4fd28391cde8b136c39a2a}{im\+\_\+dir}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a20bce62d18290293eb1f3511421e51e0}{stats}}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ae9f7f5ae568ef863dc434607f3fd17d7}{data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_abc32456ecfaccd849ef86a129ddd9354}{\+\_\+unzip}} (self, path)
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a0b8972bcefb343a8ac5f92a76e2622ca}{\+\_\+hub\+\_\+ops}} (self, f, max\+\_\+dim=1920)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a82509e32475e2dad74714d71dbdcd38e}{\+\_\+find\+\_\+yaml}} (dir)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_aa5bc5284da56d4c98711a368c1234699}{\+\_\+hub\+\_\+ops}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Class for generating HUB dataset JSON and `-hub` dataset directory.
+
+Arguments
+    path:           Path to data.yaml or data.zip (with data.yaml inside data.zip)
+    autodownload:   Attempt to download dataset if not found locally
+
+Usage
+    from utils.dataloaders import HUBDatasetStats
+    stats = HUBDatasetStats('coco128.yaml', autodownload=True)  # usage 1
+    stats = HUBDatasetStats('path/to/coco128.zip')  # usage 2
+    stats.get_json(save=False)
+    stats.process_images()
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01127}{1127}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a021462d629d374fe8b906d6479c4eb04}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a021462d629d374fe8b906d6479c4eb04} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{path = {\ttfamily "{}coco128.yaml"{}},  }\item[{}]{autodownload = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01143}{1143}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a82509e32475e2dad74714d71dbdcd38e}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a82509e32475e2dad74714d71dbdcd38e} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!\_find\_yaml@{\_find\_yaml}}
+\index{\_find\_yaml@{\_find\_yaml}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{\_find\_yaml()}{\_find\_yaml()}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+\_\+find\+\_\+yaml (\begin{DoxyParamCaption}\item[{}]{dir }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01162}{1162}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a0b8972bcefb343a8ac5f92a76e2622ca}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a0b8972bcefb343a8ac5f92a76e2622ca} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!\_hub\_ops@{\_hub\_ops}}
+\index{\_hub\_ops@{\_hub\_ops}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{\_hub\_ops()}{\_hub\_ops()}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+\_\+hub\+\_\+ops (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{f,  }\item[{}]{max\+\_\+dim = {\ttfamily 1920} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01182}{1182}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_abc32456ecfaccd849ef86a129ddd9354}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_abc32456ecfaccd849ef86a129ddd9354} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!\_unzip@{\_unzip}}
+\index{\_unzip@{\_unzip}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{\_unzip()}{\_unzip()}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+\_\+unzip (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01172}{1172}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a6b1c9e1417b366a3b7e789675952bc1a}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a6b1c9e1417b366a3b7e789675952bc1a} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!get\_json@{get\_json}}
+\index{get\_json@{get\_json}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{get\_json()}{get\_json()}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+get\+\_\+json (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{save = {\ttfamily False},  }\item[{}]{verbose = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01200}{1200}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ac12b10b40154aa3927450f49df7b7260}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ac12b10b40154aa3927450f49df7b7260} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!process\_images@{process\_images}}
+\index{process\_images@{process\_images}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{process\_images()}{process\_images()}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+process\+\_\+images (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01237}{1237}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_aa5bc5284da56d4c98711a368c1234699}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_aa5bc5284da56d4c98711a368c1234699} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!\_hub\_ops@{\_hub\_ops}}
+\index{\_hub\_ops@{\_hub\_ops}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{\_hub\_ops}{\_hub\_ops}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+\_\+hub\+\_\+ops\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01244}{1244}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ae9f7f5ae568ef863dc434607f3fd17d7}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ae9f7f5ae568ef863dc434607f3fd17d7} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!data@{data}}
+\index{data@{data}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+data}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01159}{1159}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_acf32c825af98388fb39c0fd7136f6dcf}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_acf32c825af98388fb39c0fd7136f6dcf} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!hub\_dir@{hub\_dir}}
+\index{hub\_dir@{hub\_dir}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{hub\_dir}{hub\_dir}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+hub\+\_\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01155}{1155}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ab5646fc12e4fd28391cde8b136c39a2a}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_ab5646fc12e4fd28391cde8b136c39a2a} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!im\_dir@{im\_dir}}
+\index{im\_dir@{im\_dir}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{im\_dir}{im\_dir}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+im\+\_\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01156}{1156}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+\Hypertarget{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a20bce62d18290293eb1f3511421e51e0}\label{classutils_1_1dataloaders_1_1_h_u_b_dataset_stats_a20bce62d18290293eb1f3511421e51e0} 
+\index{utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}!stats@{stats}}
+\index{stats@{stats}!utils.dataloaders.HUBDatasetStats@{utils.dataloaders.HUBDatasetStats}}
+\doxysubsubsection{\texorpdfstring{stats}{stats}}
+{\footnotesize\ttfamily utils.\+dataloaders.\+HUBDataset\+Stats.\+stats}
+
+
+
+Definition at line \mbox{\hyperlink{dataloaders_8py_source_l01158}{1158}} of file \mbox{\hyperlink{dataloaders_8py_source}{dataloaders.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/\mbox{\hyperlink{dataloaders_8py}{dataloaders.\+py}}\end{DoxyCompactItemize}

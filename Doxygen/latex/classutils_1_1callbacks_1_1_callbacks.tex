@@ -1,0 +1,125 @@
+\doxysection{utils.\+callbacks.\+Callbacks Class Reference}
+\hypertarget{classutils_1_1callbacks_1_1_callbacks}{}\label{classutils_1_1callbacks_1_1_callbacks}\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a9f46d27c2efe1de6bb239d77659813e7}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a3a8b9b4f40c608470620fd43f59fe906}{register\+\_\+action}} (self, hook, name="{}"{}, callback=None)
+\item 
+\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a7fac032248bf1540f5ed9b25ac3cb465}{get\+\_\+registered\+\_\+actions}} (self, hook=None)
+\item 
+\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_a597a6abade1d8547878b431b3be8ca7d}{run}} (self, hook, \texorpdfstring{$\ast$}{*}args, thread=False, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_aa068e3af6f2a405c3933d18d9633b4d0}{stop\+\_\+training}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}{\+\_\+callbacks}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}" Handles all registered callbacks for YOLOv5 Hooks.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00007}{7}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classutils_1_1callbacks_1_1_callbacks_a9f46d27c2efe1de6bb239d77659813e7}\label{classutils_1_1callbacks_1_1_callbacks_a9f46d27c2efe1de6bb239d77659813e7} 
+\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily utils.\+callbacks.\+Callbacks.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00010}{10}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classutils_1_1callbacks_1_1_callbacks_a7fac032248bf1540f5ed9b25ac3cb465}\label{classutils_1_1callbacks_1_1_callbacks_a7fac032248bf1540f5ed9b25ac3cb465} 
+\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}!get\_registered\_actions@{get\_registered\_actions}}
+\index{get\_registered\_actions@{get\_registered\_actions}!utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection{\texorpdfstring{get\_registered\_actions()}{get\_registered\_actions()}}
+{\footnotesize\ttfamily utils.\+callbacks.\+Callbacks.\+get\+\_\+registered\+\_\+actions (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{hook = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}" Returns all the registered actions by callback hook.
+
+Args:
+    hook: The name of the hook to check, defaults to all
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00048}{48}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+\Hypertarget{classutils_1_1callbacks_1_1_callbacks_a3a8b9b4f40c608470620fd43f59fe906}\label{classutils_1_1callbacks_1_1_callbacks_a3a8b9b4f40c608470620fd43f59fe906} 
+\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}!register\_action@{register\_action}}
+\index{register\_action@{register\_action}!utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection{\texorpdfstring{register\_action()}{register\_action()}}
+{\footnotesize\ttfamily utils.\+callbacks.\+Callbacks.\+register\+\_\+action (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{hook,  }\item[{}]{name = {\ttfamily "{}"{}},  }\item[{}]{callback = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Register a new action to a callback hook.
+
+Args:
+    hook: The callback hook name to register the action to
+    name: The name of the action for later reference
+    callback: The callback to fire
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00035}{35}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+\Hypertarget{classutils_1_1callbacks_1_1_callbacks_a597a6abade1d8547878b431b3be8ca7d}\label{classutils_1_1callbacks_1_1_callbacks_a597a6abade1d8547878b431b3be8ca7d} 
+\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}!run@{run}}
+\index{run@{run}!utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily utils.\+callbacks.\+Callbacks.\+run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{hook,  }\item[{\texorpdfstring{$\ast$}{*}}]{args,  }\item[{}]{thread = {\ttfamily False},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Loop through the registered actions and fire all callbacks on main thread.
+
+Args:
+    hook: The name of the hook to check, defaults to all
+    args: Arguments to receive from YOLOv5
+    thread: (boolean) Run callbacks in daemon thread
+    kwargs: Keyword Arguments to receive from YOLOv5
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00057}{57}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69}\label{classutils_1_1callbacks_1_1_callbacks_abb99bb3ff2610d8332499997c0ef9b69} 
+\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}!\_callbacks@{\_callbacks}}
+\index{\_callbacks@{\_callbacks}!utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection{\texorpdfstring{\_callbacks}{\_callbacks}}
+{\footnotesize\ttfamily utils.\+callbacks.\+Callbacks.\+\_\+callbacks\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00012}{12}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+\Hypertarget{classutils_1_1callbacks_1_1_callbacks_aa068e3af6f2a405c3933d18d9633b4d0}\label{classutils_1_1callbacks_1_1_callbacks_aa068e3af6f2a405c3933d18d9633b4d0} 
+\index{utils.callbacks.Callbacks@{utils.callbacks.Callbacks}!stop\_training@{stop\_training}}
+\index{stop\_training@{stop\_training}!utils.callbacks.Callbacks@{utils.callbacks.Callbacks}}
+\doxysubsubsection{\texorpdfstring{stop\_training}{stop\_training}}
+{\footnotesize\ttfamily utils.\+callbacks.\+Callbacks.\+stop\+\_\+training}
+
+
+
+Definition at line \mbox{\hyperlink{callbacks_8py_source_l00033}{33}} of file \mbox{\hyperlink{callbacks_8py_source}{callbacks.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/vision/yolo/utils/\mbox{\hyperlink{callbacks_8py}{callbacks.\+py}}\end{DoxyCompactItemize}

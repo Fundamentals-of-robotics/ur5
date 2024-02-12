@@ -1,0 +1,65 @@
+\doxysection{C\+:/\+Users/dorij/\+One\+Drive/\+Desktop/ur5/src/vision\+\_\+node.py File Reference}
+\hypertarget{vision__node_8py}{}\label{vision__node_8py}\index{C:/Users/dorij/OneDrive/Desktop/ur5/src/vision\_node.py@{C:/Users/dorij/OneDrive/Desktop/ur5/src/vision\_node.py}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacevision__node}{vision\+\_\+node}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacevision__node_a33444234eb8aab24431a1a2b6d0690f3}{vision\+\_\+node.\+get\+\_\+block\+\_\+values}} (name)
+\item 
+\mbox{\hyperlink{namespacevision__node_a6b49aed55ebf2408977a001d0e7d1c94}{vision\+\_\+node.\+get\+\_\+block\+\_\+points}} (\mbox{\hyperlink{namespacevision__node_a1281bdc997309bb53f56defe414e474c}{image}}, block)
+\item 
+\mbox{\hyperlink{namespacevision__node_a575e56582a56a9bf4de991dd68ef162c}{vision\+\_\+node.\+convert\+\_\+2\+D\+\_\+to\+\_\+3D}} (\mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{point\+\_\+cloud2\+\_\+msg}}, zed\+\_\+points)
+\item 
+\mbox{\hyperlink{namespacevision__node_a507cee100077bf84ad28fee5103ab116}{vision\+\_\+node.\+get\+\_\+vertices}} (wf\+\_\+points)
+\item 
+\mbox{\hyperlink{namespacevision__node_a64f85026e26d634c747447b1cd9c1484}{vision\+\_\+node.\+get\+\_\+block\+\_\+pose}} (miny\+\_\+minx, maxy\+\_\+minx, minx)
+\item 
+\mbox{\hyperlink{namespacevision__node_a31cc115b0e47079f9b3f708b1c967a33}{vision\+\_\+node.\+get\+\_\+block\+\_\+center\+\_\+point}} (min\+\_\+x, \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}}, block\+\_\+short\+\_\+side, block\+\_\+long\+\_\+side, block\+\_\+height)
+\item 
+\mbox{\hyperlink{namespacevision__node_a6638683337d1b6ed979be52d0c546f29}{vision\+\_\+node.\+store\+\_\+block\+\_\+data}} (name, x, y, z, \mbox{\hyperlink{ur5__task__library_8h_ae5be4a83d2f17bc8b5f5971d65222090}{phi}})
+\item 
+None \mbox{\hyperlink{namespacevision__node_a90a2fbad4be41dcd7722d549d7792e3d}{vision\+\_\+node.\+object\+\_\+detection}} (Image image\+\_\+msg, Point\+Cloud2 \mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{point\+\_\+cloud2\+\_\+msg}}, \mbox{\hyperlink{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}{model}})
+\item 
+\mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{vision\+\_\+node.\+send\+\_\+blocks\+\_\+info}} (req)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+list \mbox{\hyperlink{namespacevision__node_a4b69f78e85e2fae1da638ad13cbdff90}{vision\+\_\+node.\+blocks\+\_\+data}} = \mbox{[}$\,$\mbox{]}
+\item 
+bool \mbox{\hyperlink{namespacevision__node_a8957192d38e03a80cbc0f8c71ea751de}{vision\+\_\+node.\+start}} = False
+\item 
+float \mbox{\hyperlink{namespacevision__node_a493523e0470ec5889bbf946a37ca314a}{vision\+\_\+node.\+table\+\_\+height}} = 0.\+88
+\item 
+float \mbox{\hyperlink{namespacevision__node_a1d183c0332572a9fd5f5ca581f5babf1}{vision\+\_\+node.\+tolerance\+\_\+error}} = 0.\+001
+\item 
+float \mbox{\hyperlink{namespacevision__node_a2415130221427f6c7b2fe1b96c0937f5}{vision\+\_\+node.\+block\+\_\+error}} = 0.\+001
+\item 
+float \mbox{\hyperlink{namespacevision__node_a2d465472e457ac6e6989208240fe1755}{vision\+\_\+node.\+value\+\_\+error}} = 0.\+001
+\item 
+float \mbox{\hyperlink{namespacevision__node_a08184610e854712aa57975fbd3f709c1}{vision\+\_\+node.\+distance\+\_\+error}} = 0.\+005
+\item 
+dict \mbox{\hyperlink{namespacevision__node_a4ba011c1f1e58442602adc37699abc98}{vision\+\_\+node.\+blocks\+\_\+values}}
+\item 
+dict \mbox{\hyperlink{namespacevision__node_a4028e6c368113544966ce88ac3a60d20}{vision\+\_\+node.\+color\+\_\+ranges}}
+\item 
+\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{vision\+\_\+node.\+home\+\_\+path}} = os.\+path.\+expanduser(\textquotesingle{}\texorpdfstring{$\sim$}{\string~}\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespacevision__node_ab346d0b407e46f95551d3908df945675}{vision\+\_\+node.\+path\+\_\+yolo}} = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}}, "{}ros\+\_\+ws/src/ur5/vision/yolo"{})
+\item 
+\mbox{\hyperlink{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}{vision\+\_\+node.\+path\+\_\+vision}} = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_aae7104a4b79f8fd7807de4ab88193bc3}{home\+\_\+path}}, "{}ros\+\_\+ws/src/ur5/vision"{})
+\item 
+\mbox{\hyperlink{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}{vision\+\_\+node.\+path\+\_\+weigths}} = os.\+path.\+join(\mbox{\hyperlink{namespacevision__node_ad1b149e71a857c7d15154dfd16118533}{path\+\_\+vision}}, \textquotesingle{}best.\+pt\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespacevision__node_a75e03e4d53f555c79c0fb7a2679f61cb}{vision\+\_\+node.\+model}} = torch.\+hub.\+load(\mbox{\hyperlink{namespacevision__node_ab346d0b407e46f95551d3908df945675}{path\+\_\+yolo}}, "{}custom"{}, \mbox{\hyperlink{namespacevision__node_aee14899583e01b5067dfc1d29fb9e7d3}{path\+\_\+weigths}}, source=\textquotesingle{}local\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespacevision__node_a1281bdc997309bb53f56defe414e474c}{vision\+\_\+node.\+image}} = rospy.\+wait\+\_\+for\+\_\+message("{}/ur5/zed\+\_\+node/left\+\_\+raw/image\+\_\+raw\+\_\+color"{}, Image)
+\item 
+\mbox{\hyperlink{namespacevision__node_a3bf45ee03797dc9a0b6a83cfbe67a8c5}{vision\+\_\+node.\+point\+\_\+cloud2\+\_\+msg}} = rospy.\+wait\+\_\+for\+\_\+message("{}/ur5/zed\+\_\+node/point\+\_\+cloud/cloud\+\_\+registered"{}, Point\+Cloud2)
+\item 
+\mbox{\hyperlink{namespacevision__node_a367c375401edcf5ba18fee25a889a3d2}{vision\+\_\+node.\+s}} = rospy.\+Service(\textquotesingle{}Vision\textquotesingle{}, Vision\+Service, \mbox{\hyperlink{namespacevision__node_ad368b64f027d39e3f710aba6f1071040}{send\+\_\+blocks\+\_\+info}})
+\end{DoxyCompactItemize}
