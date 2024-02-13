@@ -14,7 +14,7 @@ warnings.filterwarnings("ignore")
 from sensor_msgs.msg import Image, PointCloud2
 from sensor_msgs import point_cloud2
 from geometry_msgs.msg import Point, Vector3
-from service_test.srv import VisionService, VisionServiceResponse
+from ur5.srv import VisionService, VisionServiceResponse
 
 # Record for blocks data
 blocks_data = []
