@@ -536,6 +536,10 @@ void blockSet(double x,double y,double z){
             pos[0](1)=0.7;
             pos[0](2)=0.87;
 
+            // pos[0](0)=x;
+            // pos[0](1)=y;
+            // pos[0](2)=z;
+
             phi[0](0)=0;
             phi[0](1)=0;
             phi[0](2)=0.785398;
@@ -554,6 +558,12 @@ void blockSet(double x,double y,double z){
             pos[1](1)=0.5;
             pos[1](2)=0.87;
 
+            // pos[1](0)=x;
+            // pos[1](1)=y;
+            // pos[1](2)=z;
+
+
+
             phi[1](0)=0;
             phi[1](1)=0;
             phi[1](2)=0;
@@ -569,6 +579,10 @@ void blockSet(double x,double y,double z){
             pos[2](0)=0.3;
             pos[2](1)=0.7;
             pos[2](2)=0.87;
+
+            // pos[2](0)=x;
+            // pos[2](1)=y;
+            // pos[2](2)=z;
 
             phi[2](0)=0;
             phi[2](1)=0;
@@ -587,6 +601,10 @@ void blockSet(double x,double y,double z){
             pos[3](1)=0.3;
             pos[3](2)=0.87;
 
+            // pos[3](0)=x;
+            // pos[3](1)=y;
+            // pos[3](2)=z;
+
             phi[3](0)=0;
             phi[3](1)=0;
             phi[3](2)=1.57;
@@ -603,6 +621,10 @@ void blockSet(double x,double y,double z){
             pos[4](0)=0.25;
             pos[4](1)=0.3;
             pos[4](2)=0.87;
+
+            // pos[4](0)=x;
+            // pos[4](1)=y;
+            // pos[4](2)=z;
 
             phi[4](0)=0;
             phi[4](1)=0;
