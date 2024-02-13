@@ -13,8 +13,8 @@ void stateHandler(State &state,ros::NodeHandle n){
         
           
 
-            ros::ServiceClient service2 = n.serviceClient<service_test::VisionService>("Vision");
-            service_test::VisionService srv2;
+            ros::ServiceClient service2 = n.serviceClient<ur5::VisionService>("Vision");
+            ur5::VisionService srv2;
 
             srv2.request.start=true;
             

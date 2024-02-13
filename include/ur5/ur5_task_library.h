@@ -11,7 +11,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include "ur5/ServiceMessage.h"
-#include "service_test/VisionService.h"
+#include "ur5/VisionService.h"
 #include "geometry_msgs/Point.h"
 #include "geometry_msgs/Vector3.h"
 #include <string.h>
